@@ -1,0 +1,1934 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mediasoup," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Zhao Q.H.'s Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="learning mediasoup A WebRTC SFU for Node.js">
+<meta name="keywords" content="mediasoup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mediasoup">
+<meta property="og:url" content="http://localhost:4000/mediasoup/2019/09/27/mediasoup/">
+<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:description" content="learning mediasoup A WebRTC SFU for Node.js">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-18T00:00:00+08:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mediasoup">
+<meta name="twitter:description" content="learning mediasoup A WebRTC SFU for Node.js">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>mediasoup | Zhao Q.H.'s Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhao Q.H.'s Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/mediasoup/2019/09/27/mediasoup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Q.H.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhao Q.H.'s Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            mediasoup
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-27T00:00:00+08:00">
+                2019-09-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-10-18">
+                2019-10-18
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/mediasoup" itemprop="url" rel="index">
+                    <span itemprop="name">mediasoup</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <p>learning mediasoup A WebRTC SFU for Node.js</p>
+
+<h2 id="full-mesh">FULL MESH</h2>
+
+<h2 id="mcu-multipoint-control-unit">MCU: MULTIPOINT CONTROL UNIT</h2>
+
+<h2 id="sfu-selective-forwarding-unit">SFU: SELECTIVE FORWARDING UNIT</h2>
+
+<h2 id="mediasoup-client">mediasoup-client</h2>
+
+<h3 id="mediasoup-client安装">mediasoup-client安装</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>npm install mediasoup-client@3 --save
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="浏览器端使用nodejs模块mediasoup-client">浏览器端使用Node.js模块mediasoup-client</h3>
+
+<ul>
+  <li>
+    <p>JavaScript ES6 plus CommonJS</p>
+  </li>
+  <li>
+    <p>browserify 、webpack、gulp</p>
+  </li>
+</ul>
+
+<h2 id="ubunto-安装mediasoupv3">ubunto 安装mediasoupv3</h2>
+
+<ul>
+  <li>新建mediasoupv3-zhaoqhu目录，分别创建app,server目录</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>$ mkdir mediasoupv3-zhaoqhu
+$ mkdir server
+$ mkdir app
+$ cd server
+$ npm init
+$ sudo npm install mediasoup@3 --save --unsafe-perm=true --allow-root
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>检查gcc 版本
+ 如果gcc版本小于 4.9，需要升级gcc到4.9以上，ubunto 14.04 lts 好像最高的gcc 版本是 4.8.5，升级 ubunto 到 16.04 lts</li>
+</ul>
+
+<p>首先添加ppa到库：</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ sudo apt-get 
+$ sudo apt-get install gcc-4.8 g++-4.8
+$ sudo apt-get install gcc-4.9 g++-4.9
+$ sudo apt-get install gcc-5 g++-5
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="mediasoup-serverjs分析">mediasoup server.js分析</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63</pre></td><td class="code"><pre class="highlight"><code>const fs = require('fs');   //文件系统
+   	fs.readFileSync(path[,options]) //方法用于同步读取文件，返回一个字符串。
+	cert : fs.readFileSync(config.https.tls.cert),
+	key  : fs.readFileSync(config.https.tls.key)
+
+--------------------------------------
+const https = require('https');
+
+--------------------------------------
+const url = require('url'); //模块用于生成和解析URL。该模块使用前，必须加载。
+	url.parse(urlString[, parseQueryString[, slashesDenoteHost]]) //The url.parse() method takes a URL string, parses it, and returns a URL object.
+	const u = url.parse(info.request.url, true);
+
+const protoo = require('protoo-server');
+const mediasoup = require('mediasoup');
+----------------------------------------
+const express = require('express'); //Express 是一个简洁而灵活的 node.js Web应用框架, 提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。
+const expressApp = express();
+
+expressApp.use()和app.METHOD()(METHOD包括get(),put(),post(),delete())都是express应用层中间件，处理用户浏览器端发起到服务端的请求，
+但是一般情况下expressApp.use()都写在app.METHOD()前面，然后在use()中间件函数里写一些公共的代码，然后next()到METHOD()中间件函数中。
+
+expressApp.use(bodyParser.json()); //
+expressApp.param([name],callback); //执行Express路由(expressApp.get(),expressApp.post(),expressApp.put(),expressApp.delete()),会触发expressApp.param()这个方法，
+
+expressApp.param(
+'roomId', (req, res, next, roomId) =&gt;
+{
+	// The room must exist for all API requests.
+	if (!rooms.has(roomId))
+	{
+		const error = new Error(`room with id "${roomId}" not found`);
+
+		error.status = 404;
+		throw error;
+	}
+
+	req.room = rooms.get(roomId);
+
+	next();
+});
+----------------------------------------
+const bodyParser = require('body-parser');
+body-parser是express框架常用的一个中间件，作用是对post请求的请求体进行解析。结合express().use()和express().METHOD()的使用方法，
+expressApp.use(bodyParser.json()); 
+expressApp.post(
+'/rooms/:roomId/broadcasters', async (req, res, next) =&gt;
+{
+
+})
+
+
+
+-----------------------------------------
+const AwaitQueue = require('awaitqueue');
+
+这个Node.js组件是Mediasoup的作者编写的，
+
+-----------------------------------------
+const Logger = require('./lib/Logger');
+const Room = require('./lib/Room');
+const interactiveServer = require('./lib/interactiveServer');
+const interactiveClient = require('./lib/interactiveClient');
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>multiparty引入的moudle</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37</pre></td><td class="code"><pre class="highlight"><code>const config = require('./config/config');
+const fs = require('fs');
+const http = require('http');
+-------------------------------
+const spdy = require('spdy');//配置http访问方式
+
+
+-------------------------------
+const express = require('express');
+
+--------------------------------
+const compression = require('compression');
+
+app.user(compression()) //通过 Gzip 压缩，有助于显著降低响应主体的大小，从而提高 Web 应用程序的速度。可使用压缩中间件进行 Express 应用程序中的 gzip 压缩。例如
+--------------------------------
+const mediasoup = require('mediasoup');
+const AwaitQueue = require('awaitqueue');
+const Logger = require('./lib/Logger');
+const Room = require('./lib/Room');
+const utils = require('./util');
+
+----------------------------------------
+const base64 = require('base-64');
+// 加密解密参数
+state : base64.encode(JSON.stringify({
+	roomId : req.query.roomId,
+	peerId : req.query.peerId,
+	code   : utils.random(10)
+}))
+const state = JSON.parse(base64.decode(req.query.state));
+
+----------------------------------------------
+const passport = require('passport');
+-------------------------------------
+
+const { Issuer, Strategy } = require('openid-client');
+const session = require('express-session');
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="mediasoup-client知识点">mediasoup-client知识点</h2>
+
+<ul>
+  <li>new mediasoupClient.Device(); //实例化mediasoupClent</li>
+  <li>await this._mediasoupDevice.load()</li>
+  <li>this._mediasoupDevice.createSendTransport()</li>
+  <li>this._mediasoupDevice.createRecvTransport()</li>
+  <li>this._mediasoupDevice.canProduce();</li>
+</ul>
+
+<h2 id="mediasoup知识点">mediasoup知识点</h2>
+
+<ul>
+  <li>const mediasoupWorker = mediasoup.createWorker()</li>
+  <li>const mediasoupRouter = mediasoupWorker.createRouter({ mediaCodecs });</li>
+  <li>this._mediasoupRouter.canConsume()</li>
+  <li>this._mediasoupRouter.rtpCapabilities;</li>
+  <li>mediasoupWorker.close();</li>
+  <li>const audioLevelObserver = await mediasoupRouter.createAudioLevelObserver();</li>
+  <li>const transport = await this._mediasoupRouter.createWebRtcTransport();</li>
+  <li>transport.setMaxIncomingBitrate(maxIncomingBitrate); }</li>
+  <li>transport.connect({ dtlsParameters });</li>
+  <li>transport.restartIce();</li>
+  <li>await transport.produce({ kind, rtpParameters, appData })</li>
+  <li>await transport.getStats();</li>
+  <li>consumer = await transport.consume();</li>
+</ul>
+
+<h2 id="multiparty-工作流程">multiparty 工作流程</h2>
+
+<ul>
+  <li>
+    <p>app-&gt;src-&gt;index.js</p>
+
+    <p>logger.debug(‘DOM ready’);</p>
+  </li>
+  <li>
+    <p>app-&gt;src-&gt;RoomClient.js</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178<br/>179<br/>180<br/>181<br/>182<br/>183<br/>184<br/>185<br/>186<br/>187<br/>188<br/>189<br/>190<br/>191<br/>192<br/>193<br/>194<br/>195<br/>196<br/>197<br/>198<br/>199<br/>200<br/>201<br/>202<br/>203<br/>204<br/>205<br/>206<br/>207<br/>208<br/>209<br/>210<br/>211<br/>212<br/>213<br/>214<br/>215<br/>216<br/>217<br/>218<br/>219</pre></td><td class="code"><pre class="highlight"><code>export default class RoomClient
+{
+	static init(data){}
+	constructor({ roomId, peerId, device, useSimulcast, produce, consume, forceTcp }){logger.debug('constructor() [roomId: "%s", peerId: "%s", device: "%s", useSimulcast: "%s", produce: "%s", consume: "%s", forceTcp: "%s"]',roomId, peerId, device.flag, useSimulcast, produce, consume, forceTcp);}
+	------------------------------------------
+	close(){logger.debug('close()');}
+	------------------------------------------
+	_startKeyListener(){}
+	_startDevicesListener(){}
+	login(){}
+	logout(){}
+	closeLoginWindow(){}
+	_soundNotification(){logger.error('_soundAlert.play() | failed: %o', error);}
+	notify(text){}
+	timeoutCallback(callback){}
+	sendRequest(method, data){// 发送命令到服务端socket
+return new Promise((resolve, reject) =&gt;
+		{
+			if (!this._signalingSocket)
+			{
+				reject('No socket connection.');
+			}
+			else
+			{
+				this._signalingSocket.emit(
+					'request',
+					{ method, data },
+					this.timeoutCallback((err, response) =&gt;
+					{
+						if (err)
+						{
+							reject(err);
+						}
+						else
+						{
+							resolve(response);
+						}
+					})
+				);
+			}
+		});
+	
+
+
+	}
+
+
+
+
+	async changeDisplayName(displayName){logger.debug('changeDisplayName() [displayName:"%s"]', displayName);}
+	async changeProfilePicture(picture){logger.debug('changeProfilePicture() [picture: "%s"]', picture);}
+	async sendChatMessage(chatMessage){logger.debug('sendChatMessage() [chatMessage:"%s"]', chatMessage);}
+	saveFile(file){}
+	handleDownload(magnetUri){}
+	_handleTorrent(torrent){}
+	async shareFiles(files){}
+	async _sendFile(magnetUri){logger.debug('sendFile() [magnetUri: %o]', magnetUri);}
+	async getServerHistory(){logger.debug('getServerHistory()');}
+	------------------------------------------
+	async muteMic(){logger.debug('muteMic()');}
+	async unmuteMic(){logger.debug('unmuteMic()');}
+	------------------------------------------
+	async updateSpotlights(spotlights){logger.debug('updateSpotlights()');}
+	async changeAudioDevice(deviceId){logger.debug('changeAudioDevice() [deviceId: %s]', deviceId);}
+	async changeVideoResolution(resolution){logger.debug('changeVideoResolution() [resolution: %s]', resolution);}
+	async changeWebcam(deviceId){logger.debug('changeWebcam() [deviceId: %s]', deviceId);}
+	setSelectedPeer(peerId){logger.debug('setSelectedPeer() [peerId:"%s"]', peerId);}
+	async modifyPeerConsumer(peerId, type, mute){logger.debug('modifyPeerConsumer() [peerId:"%s", type:"%s"]',peerId,type);}
+	async _pauseConsumer(consumer){logger.debug('_pauseConsumer() [consumer: %o]', consumer);}
+	async _resumeConsumer(consumer){logger.debug('_resumeConsumer() [consumer: %o]', consumer);}
+	async sendRaiseHandState(state){logger.debug('sendRaiseHandState: ', state);}
+	async join({ joinVideo }){
+		this._signalingSocket = io(this._signalingUrl);
+		logger.debug('signaling Peer "connect" event');
+		this._signalingSocket.on('connect',()=&gt;{logger.debug('signaling Peer "connect" event');});
+		this._signalingSocket.on('disconnect',()=&gt;{logger.warn('signaling Peer "disconnect" event');});
+		this._signalingSocket.on('close',()=&gt;{logger.warn('signaling Peer "close" event');});
+		this._signalingSocket.on('request',async (request, cb)=&gt;{logger.debug(
+				'socket "request" event [method:%s, data:%o]',
+				request.method, request.data);
+				});
+		this._signalingSocket.on('notification', async (notification)=&gt;{
+			switch (notification.method)
+			{
+				case 'roomReady':{}
+				case 'roomLocked':{}
+				case 'lockRoom':{}
+				case 'unlockRoom':{}
+				case 'activeSpeaker':{}
+				case 'changeDisplayName':{}
+				case 'changeProfilePicture':{}
+				case 'auth':{}
+				case 'chatMessage':{}
+				case 'sendFile':{}
+				case 'producerScore':{}
+				case 'newPeer':{}
+				case 'peerClosed':{}
+				case 'consumerClosed':{}
+				case 'consumerPaused':{}
+				case 'consumerResumed':{}
+				case 'consumerLayersChanged':{}
+				case 'consumerScore':{}
+			}
+
+
+
+			});
+		this._signalingSocket.on('connect',()=&gt;{});
+		this._signalingSocket.on('connect',()=&gt;{});
+		this._signalingSocket.on('connect',()=&gt;{});
+		this._signalingSocket.on('connect',()=&gt;{});
+		this._signalingSocket.on('connect',()=&gt;{});
+		this._signalingSocket.on('connect',()=&gt;{});
+
+
+
+	}
+	async _joinRoom({ joinVideo }){
+		logger.debug('_joinRoom()');
+
+		this._mediasoupDevice = new mediasoupClient.Device(); //实例化mediasoupClent
+		const routerRtpCapabilities = await this.sendRequest('getRouterRtpCapabilities') //socket.io发送mediasoup命令
+		await this._mediasoupDevice.load({ routerRtpCapabilities }); //mediasoup-client根据socket.io发送命令返回来的数据load()
+		if(this._produce){
+			//socket.io发送Producer命令
+			const transportInfo = await this.sendRequest( 'createWebRtcTransport',{forceTcp  : this._forceTcp,producing : true,consuming : false});
+			//定义并接收socket.io返回来的值
+			const {id,iceParameters,iceCandidates,dtlsParameters} = transportInfo;
+			//mediasoupClient创建发送通道
+			this._sendTransport = this._mediasoupDevice.createSendTransport({id,iceParameters,iceCandidates,dtlsParameters});
+			this._sendTransport.on('connect',(){})
+			this._sendTransport.on('produce',(){})
+		}
+		if(this._consumer){
+			//socket.io发送consumer创建webRTC通道
+			const transportInfo = await this.sendRequest('createWebRtcTransport',{forceTcp  : this._forceTcp,producing : false,consuming : true});
+			const {id,iceParameters,iceCandidates,dtlsParameters} = transportInfo;
+
+			//mediasoupClient创建接受通道
+			this._recvTransport = this._mediasoupDevice.createRecvTransport(
+			{
+				id,
+				iceParameters,
+				iceCandidates,
+				dtlsParameters
+			});
+		}
+		//socket.io发送join命令
+		const { peers } = await this.sendRequest(
+		'join',{displayName: displayName,picture: picture,device: this._device,
+			rtpCapabilities : this._consume
+				? this._mediasoupDevice.rtpCapabilities
+				: undefined
+		});
+
+
+
+		
+
+	}
+	------------------------------------------
+	async lockRoom(){
+		logger.debug('lockRoom()');
+		//socket.io发送lockRoom命令
+		await this.sendRequest('lockRoom');
+	}
+	async unlockRoom(){
+		logger.debug('unlockRoom()');
+		//socket.io发送unlockRoom命令
+		await this.sendRequest('unlockRoom');
+
+	}
+	------------------------------------------
+	async enableMic(){
+		logger.debug(
+				'enableMic() | new selected audio device [device:%o]',device);
+		logger.debug('enableMic() | calling getUserMedia()');
+		this._micProducer = await this._sendTransport.produce(
+		{
+			track,
+			codecOptions :
+			{
+				opusStereo : 1,
+				opusDtx    : 1
+			},
+			appData : 
+			{ source: 'mic' }
+		});
+
+
+	}
+	async disableMic(){
+		logger.debug('disableMic()');
+		await this.sendRequest(
+				'closeProducer', { producerId: this._micProducer.id });
+	}
+	------------------------------------------
+	async enableScreenSharing(){}
+	async disableScreenSharing(){}
+	------------------------------------------
+	async enableWebcam(){
+		if (!this._mediasoupDevice.canProduce('video')
+		this._sendTransport.producetrack,
+					appData : 
+					{
+						source : 'webcam'
+					}
+				})
+	}
+	async disableWebcam(){
+		logger.debug('disableWebcam()');
+		this._webcamProducer = await this.sendRequest(
+				'closeProducer', { producerId: this._webcamProducer.id });
+	}
+	------------------------------------------
+	async _updateAudioDevices(){logger.debug('_updateAudioDevices()');}
+	async _updateWebcams(){logger.debug('_updateWebcams()');}
+	async _getAudioDeviceId(){logger.debug('_getAudioDeviceId()');}
+	async _getWebcamDeviceId(){logger.debug('_getWebcamDeviceId()');}}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="浏览器端browser和服务端server通信">浏览器端browser和服务端server通信</h2>
+
+<p>服务端地址：const url = <code class="highlighter-rouge">wss://${hostname}:${port}/?peerId=${peerId}&amp;roomId=${roomId}</code>;
+服务端用到的roomId,和peerId是通过浏览器端定义并传递过去的</p>
+
+<h3 id="browser通过初始化socketio-client">browser通过初始化socket.io-client</h3>
+
+<p>初始化socket.io-client默认向服务端socket.io服务发送connection命令，服务端socket.io监听到connection命令后，根据browser端socket.io-client传递过来的roomId参数，执行获取或者创建房间,</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34</pre></td><td class="code"><pre class="highlight"><code>async join(){this._signalingSocket = io(this._signalingUrl)}=============&gt;async function runWebSocketServer(){
+	const io = require('socket.io')(httpsServer);
+	io.on('connection', (socket) =&gt;
+	{
+		const { roomId, peerId } = socket.handshake.query;
+
+		if (!roomId || !peerId)
+		{
+			logger.warn('connection request without roomId and/or peerId');
+
+			socket.disconnect(true);
+
+			return;
+		}
+
+		logger.info(
+			'connection request [roomId:"%s", peerId:"%s"]', roomId, peerId);
+
+		queue.push(async () =&gt;
+		{
+			const room = await getOrCreateRoom({ roomId }); //创建房间
+
+			room.handleConnection({ peerId, socket }); //创建peer
+		})
+		.catch((error) =&gt;
+		{
+			logger.error('room creation or room joining failed:%o', error);
+
+			socket.disconnect(true);
+
+			return;
+		});
+	});
+}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="创建房间方法getorcreateroomroomid">创建房间方法getOrCreateRoom({roomId})</h3>
+
+<p>房间数量受到mediasoupWorkers的限制，mediasoupWorkers的数量是config配置文件里根据cpu的性能限制，在开启服务 node server.js运行时，就执行了runMediasoupWorkers()方法根据配置文件把mediasoupWorkers初始化成数组了，该数组包含了所有可用的mediasoupworker了，创建房间用到的方法是Room.js里面的create()方法，在执行create方法里面又通过传递参数mediasoupworker,创建了mediasoupRouter,创建房间成功后执行room.handleConnection方法,创建房间成功后执行this._notification(socket, ‘roomReady’)，发送命令roomReady给socket.io-client;</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61</pre></td><td class="code"><pre class="highlight"><code>async function getOrCreateRoom({ roomId })
+{
+	let room = rooms.get(roomId);
+
+	// If the Room does not exist create a new one.
+	if (!room)
+	{
+		logger.info('creating a new Room [roomId:%s]', roomId);
+
+		const mediasoupWorker = getMediasoupWorker();
+
+		room = await Room.create({ mediasoupWorker, roomId });
+
+		rooms.set(roomId, room);
+		room.on('close', () =&gt; rooms.delete(roomId));
+	}
+
+	return room;
+}
+async function runMediasoupWorkers()
+{
+	const { numWorkers } = config.mediasoup;
+
+	logger.info('running %d mediasoup Workers...', numWorkers);
+
+	for (let i = 0; i &lt; numWorkers; ++i)
+	{
+		const worker = await mediasoup.createWorker(
+			{
+				logLevel   : config.mediasoup.worker.logLevel,
+				logTags    : config.mediasoup.worker.logTags,
+				rtcMinPort : config.mediasoup.worker.rtcMinPort,
+				rtcMaxPort : config.mediasoup.worker.rtcMaxPort
+			});
+
+		worker.on('died', () =&gt;
+		{
+			logger.error(
+				'mediasoup Worker died, exiting  in 2 seconds... [pid:%d]', worker.pid);
+
+			setTimeout(() =&gt; process.exit(1), 2000);
+		});
+
+		mediasoupWorkers.push(worker);
+	}
+}
+
+/**
+ * Get next mediasoup Worker.
+ */
+function getMediasoupWorker()
+{
+	const worker = mediasoupWorkers[nextMediasoupWorkerIdx];
+
+	if (++nextMediasoupWorkerIdx === mediasoupWorkers.length)
+		nextMediasoupWorkerIdx = 0;
+
+	return worker;
+}
+
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="服务端roomjs创建房间成功后执行roomhandleconnection创建peer">服务端Room.js创建房间成功后,执行room.handleConnection，创建Peer</h3>
+
+<h3 id="peer创建成功后执行peer_handlepeer创建一个peer对象">peer创建成功后执行peer._handlePeer(),创建一个peer对象，</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84</pre></td><td class="code"><pre class="highlight"><code>_handlePeer({ peer, consume })
+	{
+		logger.debug('_handlePeer() [peer:"%s"]', peer.id);
+
+		peer.data = {};
+
+		// Not joined after a custom protoo 'join' request is later received.
+		peer.data.consume = consume;
+		peer.data.joined = false;
+		peer.data.displayName = undefined;
+		peer.data.device = undefined;
+		peer.data.rtpCapabilities = undefined;
+		peer.data.raiseHandState = false;
+
+		// Have mediasoup related maps ready even before the Peer joins since we
+		// allow creating Transports before joining.
+		peer.data.transports = new Map();
+		peer.data.producers = new Map();
+		peer.data.consumers = new Map();
+
+		peer.socket.on('request', (request, cb) =&gt;
+		{
+			logger.debug(
+				'Peer "request" event [method:%s, peerId:%s]',
+				request.method, peer.id);
+
+			this._handleSocketRequest(peer, request, cb)
+				.catch((error) =&gt;
+				{
+					logger.error('request failed:%o', error);
+
+					cb(error);
+				});
+		});
+
+		peer.socket.on('disconnect', () =&gt;
+		{
+			if (this._closed)
+				return;
+
+			logger.debug('Peer "close" event [peerId:%s]', peer.id);
+
+			// If the Peer was joined, notify all Peers.
+			if (peer.data.joined)
+			{
+				this._notification(peer.socket, 'peerClosed', { peerId: peer.id }, true);
+			}
+
+			const index = this._lastN.indexOf(peer.id);
+
+			if (index &gt; -1) // We have this peer in the list, remove
+			{
+				this._lastN.splice(index, 1);
+			}
+
+			// Iterate and close all mediasoup Transport associated to this Peer, so all
+			// its Producers and Consumers will also be closed.
+			for (const transport of peer.data.transports.values())
+			{
+				transport.close();
+			}
+
+			this._peers.delete(peer.id);
+
+			// If this is the latest Peer in the room, close the room after a while.
+			if (this._peers.size === 0)
+			{
+				setTimeout(() =&gt;
+				{
+					if (this._closed)
+						return;
+
+					if (this._peers.size === 0)
+					{
+						logger.info(
+							'last Peer in the room left, closing the room [roomId:%s]',
+							this._roomId);
+
+						this.close();
+					}
+				}, 10000);
+			}
+		});
+	}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="工作流程">工作流程</h2>
+
+<ul>
+  <li>浏览器端通过join方法使用socket.io-client，发送connection命令，</li>
+  <li>服务端通过监听connection命令，创建mediasoupWorker,</li>
+  <li>然后在创建room和mediasoupRouter,</li>
+  <li>然后在创建Peer</li>
+  <li>然后通过socket.io发送给浏览器端roomReady命令</li>
+</ul>
+
+<h2 id="ecmscript6-es6知识点">ecmscript6 es6知识点</h2>
+
+<ul>
+  <li>new Map();</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>
+const rooms = new Map();
+rooms.has(roomId)
+rooms.get(roomId)
+rooms.set(roomId, room);
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>
+    <p>export default class RoomClient{} //在创建JavaScript模块时，export 语句用于从模块中导出函数、对象或原始值，以便其他程序可以通过 import 语句使用它们。</p>
+  </li>
+  <li>
+    <p>static function(){} //静态方法不能用 new 实例调用</p>
+  </li>
+  <li>
+    <p>… Spread syntax展开语法return (…args) =&gt;</p>
+  </li>
+</ul>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/wechat.gif" alt="Zhao Q.H. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/pay.gif" alt="Zhao Q.H. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/mediasoup" rel="tag"># mediasoup</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/jekyll/2019/09/29/jekyll-learning/" rel="next" title="jekyll学习笔记">
+                <i class="fa fa-chevron-left"></i> jekyll学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/videojs/2019/09/26/videojs-play-dash-m3u8-mp4/" rel="prev" title="使用video.js播放dash、m3u8、mp4视频文件。">
+                使用video.js播放dash、m3u8、mp4视频文件。 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Q.H." />
+          <p class="site-author-name" itemprop="name">Zhao Q.H.</p>
+           
+              <p class="site-description motion-element" itemprop="description">Keep It Simple, Stupid</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaoqhu/zhaoqhu.github.io/issues" target="_blank" title="Issues">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  Issues
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#full-mesh"> <span class="nav-number">1</span> <span class="nav-text">FULL MESH</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mcu-multipoint-control-unit"> <span class="nav-number">2</span> <span class="nav-text">MCU: MULTIPOINT CONTROL UNIT</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#sfu-selective-forwarding-unit"> <span class="nav-number">3</span> <span class="nav-text">SFU: SELECTIVE FORWARDING UNIT</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mediasoup-client"> <span class="nav-number">4</span> <span class="nav-text">mediasoup-client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mediasoup-client安装"> <span class="nav-number">4.1</span> <span class="nav-text">mediasoup-client安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#浏览器端使用nodejs模块mediasoup-client"> <span class="nav-number">4.2</span> <span class="nav-text">浏览器端使用Node.js模块mediasoup-client</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ubunto-安装mediasoupv3"> <span class="nav-number">5</span> <span class="nav-text">ubunto 安装mediasoupv3</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mediasoup-serverjs分析"> <span class="nav-number">6</span> <span class="nav-text">mediasoup server.js分析</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mediasoup-client知识点"> <span class="nav-number">7</span> <span class="nav-text">mediasoup-client知识点</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mediasoup知识点"> <span class="nav-number">8</span> <span class="nav-text">mediasoup知识点</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#multiparty-工作流程"> <span class="nav-number">9</span> <span class="nav-text">multiparty 工作流程</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#浏览器端browser和服务端server通信"> <span class="nav-number">10</span> <span class="nav-text">浏览器端browser和服务端server通信</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#browser通过初始化socketio-client"> <span class="nav-number">10.1</span> <span class="nav-text">browser通过初始化socket.io-client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#创建房间方法getorcreateroomroomid"> <span class="nav-number">10.2</span> <span class="nav-text">创建房间方法getOrCreateRoom({roomId})</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#服务端roomjs创建房间成功后执行roomhandleconnection创建peer"> <span class="nav-number">10.3</span> <span class="nav-text">服务端Room.js创建房间成功后,执行room.handleConnection，创建Peer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#peer创建成功后执行peer_handlepeer创建一个peer对象"> <span class="nav-number">10.4</span> <span class="nav-text">peer创建成功后执行peer._handlePeer(),创建一个peer对象，</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#工作流程"> <span class="nav-number">11</span> <span class="nav-text">工作流程</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#ecmscript6-es6知识点"> <span class="nav-number">12</span> <span class="nav-text">ecmscript6 es6知识点</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Q.H.</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '6b408abe365ff10490b9',
+        clientSecret: 'a46aa7a0fda5ead2100ddc767dcb83ffaed15392',
+        repo: 'zhaoqhu.github.io',
+        owner: 'zhaoqhu',
+        admin: ['zhaoqhu'],
+        id: '/mediasoup/2019/09/27/mediasoup/',
+        labels: ['gitalk'],
+        perPage: 50,
+        distractionFreeMode: false
+      });
+      gitalk.render('gitalk-container');
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
