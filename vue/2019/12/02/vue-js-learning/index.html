@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="jekyll安装 使用 ~ $ gem install jekyll ~ $ jekyll new myblog ~ $ cd myblog ~/myblog $ jekyll serve //启动server ~/myblog $ bundle exec jekyll server //windows system start jekyll server # =&amp;gt; Now browse to http://localhost:4000">
+<meta name="description" content="直接在HTML页面 &amp;lt;script&amp;gt;引入的方式">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jekyll学习笔记">
-<meta property="og:url" content="http://localhost:4000/jekyll/2019/09/29/jekyll-learning/">
+<meta property="og:title" content="Vue.js 学习笔记">
+<meta property="og:url" content="http://localhost:4000/vue/2019/12/02/vue-js-learning/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="jekyll安装 使用 ~ $ gem install jekyll ~ $ jekyll new myblog ~ $ cd myblog ~/myblog $ jekyll serve //启动server ~/myblog $ bundle exec jekyll server //windows system start jekyll server # =&amp;gt; Now browse to http://localhost:4000">
+<meta property="og:description" content="直接在HTML页面 &amp;lt;script&amp;gt;引入的方式">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jekyll学习笔记">
-<meta name="twitter:description" content="jekyll安装 使用 ~ $ gem install jekyll ~ $ jekyll new myblog ~ $ cd myblog ~/myblog $ jekyll serve //启动server ~/myblog $ bundle exec jekyll server //windows system start jekyll server # =&amp;gt; Now browse to http://localhost:4000">
+<meta name="twitter:title" content="Vue.js 学习笔记">
+<meta name="twitter:description" content="直接在HTML页面 &amp;lt;script&amp;gt;引入的方式">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>jekyll学习笔记 | Zhao Q.H.'s Notes</title>
+  <title>Vue.js 学习笔记 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/jekyll/2019/09/29/jekyll-learning/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/vue/2019/12/02/vue-js-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -346,7 +346,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            jekyll学习笔记
+            Vue.js 学习笔记
           
         </h1>
         
@@ -360,8 +360,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-29T00:00:00+08:00">
-                2019-09-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T00:00:00+08:00">
+                2019-12-02
               </time>
             
 
@@ -396,8 +396,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/jekyll" itemprop="url" rel="index">
-                    <span itemprop="name">jekyll</span>
+                  <a href="/category/#/vue" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
                   </a>
                 </span>
 
@@ -451,31 +451,351 @@
 
 
 
-  <h2 id="jekyll安装-使用">jekyll安装 使用</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>~ $ gem install jekyll
-~ $ jekyll new myblog
-~ $ cd myblog
-~/myblog $ jekyll serve //启动server
-~/myblog $ bundle exec jekyll server //windows system start jekyll server
-# =&gt; Now browse to http://localhost:4000
+  <p>直接在HTML页面 &lt;script&gt;引入的方式</p>
+
+<h2 id="vuejs-视频学习">vue.js 视频学习</h2>
+
+<ul>
+  <li><a href="https://learning.dcloud.io/#/?vid=0">学习视频网址</a></li>
+</ul>
+
+<h2 id="安装">安装</h2>
+
+<h3 id="直接用-script-引入">直接用 &lt;script&gt; 引入</h3>
+
+<ol>
+  <li><a href="https://cn.vuejs.org/js/vue.js">开发版本</a>包含完整的警告和调试模式</li>
+  <li><a href="https://cn.vuejs.org/js/vue.min.js">生产版本</a>删除了警告，33.30KB min+gzip</li>
+</ol>
+
+<h3 id="npm">NPM</h3>
+
+<h3 id="命令行工具-cli">命令行工具 (CLI)</h3>
+
+<h2 id="vue实例">Vue实例</h2>
+
+<h3 id="创建一个实例">创建一个实例</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>var vm = new Vue({
+  // 选项
+})
 </code></pre></td></tr></tbody></table></div></div>
 
-<h2 id="jekyll代码块转义特殊字符">jekyll代码块转义特殊字符</h2>
+<h3 id="数据与方法">数据与方法</h3>
 
-<h3 id="如何显示呢---具体如下">如何显示呢{{  }} 具体如下：</h3>
+<p>除了数据属性，Vue 实例还暴露了一些有用的实例属性与方法。它们都有前缀 $，以便与用户定义的属性区分开来。例如：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code> 
-{% raw %}
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>var data = { a: 1 }
+var vm = new Vue({
+  el: '#example',
+  data: data
+})
 
-{{ msg }} 
+vm.$data === data // =&gt; true
+vm.$el === document.getElementById('example') // =&gt; true
 
-{% endraw %}  
+// $watch 是一个实例方法
+vm.$watch('a', function (newValue, oldValue) {
+  // 这个回调将在 `vm.a` 改变后调用
+})
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="实例生命周期钩子">实例生命周期钩子</h3>
+
+<p>每个 Vue 实例在被创建时都要经过一系列的初始化过程——例如，需要设置数据监听、编译模板、将实例挂载到 DOM 并在数据变化时更新 DOM 等。同时在这个过程中也会运行一些叫做生命周期钩子的函数，这给了用户在不同阶段添加自己的代码的机会。</p>
+
+<p>比如 created 钩子可以用来在一个实例被创建之后执行代码：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>new Vue({
+  data: {
+    a: 1
+  },
+  created: function () {
+    // `this` 指向 vm 实例
+    console.log('a is: ' + this.a)
+  }
+})
+// =&gt; "a is: 1"``
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="vue自定义实例">Vue自定义实例</h3>
+
+<p>下面的这个Vue实例，包含了</p>
+<ol>
+  <li>数据data</li>
+  <li>自定义的方法click1、click2,</li>
+  <li>实例生命周期的钩子beforeCreate、created、beforeMount等</li>
+  <li>Vue实例的方法$watch</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53</pre></td><td class="code"><pre class="highlight"><code>var vm = new Vue({
+	el: '#app', 
+	data: {
+		msg:'hello Vue',
+		author:{name:'Zhaoqhu'},
+		rawHtml:'&lt;span style='color:red'&gt;;this is a html span &lt;/span&gt;',
+		color:'red',
+		number: 10,
+		ok: false,
+		strArr: 'vue',
+		isShowMe: false,
+		hrefOrg: 'https://cn.vuejs.org/v2/guide/syntax.html#%E5%8F%82%E6%95%B0',
+		clsClickTest: 'div-click-test',
+		isClsRed: true
+	},
+	methods:{
+		click1: function(){
+			console.log('click 1');
+		},
+		click2: function(){
+			console.log('click2');
+		}
+	},
+	beforeCreate: function(){
+		console.log('beforeCreate');
+	},
+	created: function(){
+		console.log('created');
+	},
+	beforeMount: function(){
+		console.log('beforemount');
+	},
+	mounted: function(){
+		console.log('mounted');
+	},
+	beforeUpdate: function(){
+		console.log('beforeupdate');
+	},
+	updated: function(){
+		console.log('updated');
+	}
+	
+});
+data.author.name='zhao Q.H.';
+	console.log(vm);
+	console.log(data);
+	vm.$watch('a',function(newVal,oldVal){
+		console.log(newVal,oldVal);
+	});
+setTimeout(function(){
+	vm.$data.msg = "hello vue223";
+},5000);
+console.log(vm.$data.strArr.split('').reverse().join(''));
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="模版语法">模版语法</h2>
+
+<h3 id="插值">插值</h3>
+
+<h4 id="文本">文本</h4>
+
+<p>数据绑定最常见的形式就是使用“Mustache”语法 (双大括号) 的文本插值：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>
+&lt;div id="app"&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="原始html">原始HTML</h4>
+
+<p>双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>&lt;div id="app"&gt;
+&lt;p id="rawHtmlA" v-html="rawHtml"&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="特性">特性</h4>
+
+<p>Mustache 语法不能作用在 HTML 特性上，HTML特性是指 id、class、href、title等遇到这种情况应该使用 v-bind 指令：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>&lt;div v-bind:class="color"&gt;hello red&lt;/div&gt;
+&lt;a v-bind:href="hrefOrg"&gt;跳转到官网&lt;/a&gt;
+&lt;div class="mar-top-30 font-30" v-bind:class="{fontRed:isClsRed}"&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="使用javascript表达式">使用Javascript表达式</h4>
+
+<p>迄今为止，在我们的模板中，我们一直都只绑定简单的属性键值。但实际上，对于所有的数据绑定，Vue.js 都提供了完全的 JavaScript 表达式支持。</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>
+&lt;p&gt;{{ number+1 }}&lt;/p&gt;
+&lt;p&gt;{{ ok ? 'YES' : 'NO' }}&lt;/p&gt;
+&lt;p&gt;{{ strArr.split('').reverse().join('') }}&lt;/p&gt;
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="指令">指令</h3>
+
+<p>指令 (Directives) 是带有 v- 前缀的特殊特性。指令特性的值预期是单个 JavaScript 表达式 (v-for 是例外情况，稍后我们再讨论)。指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM。回顾我们在介绍中看到的例子：</p>
+
+<h4 id="参数">参数</h4>
+
+<p>一些指令能够接收一个“参数”，在指令名称之后以冒号表示。例如，v-bind 指令可以用于响应式地更新 HTML 特性：</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>&lt;a v-bind:href="hrefOrg"&gt;跳转到官网&lt;/a&gt;
+&lt;div v-bind:class="clsClickTest"&gt;
+</code></pre></td></tr></tbody></table></div></div>
+<h4 id="动态参数">动态参数</h4>
+
+<p>attributeName为动态参数，attributeValue为动态参数值<br />
+eventName为动态参数,eventMethod为动态参数的静态方法<br /></p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>&lt;a v-bind:[attributeName]="attributeValue"&gt;HTML动态属性和属性值&lt;/a&gt;
+&lt;a v-on:[eventName]="eventMethod"&gt;HTML动态事件和动态方法&lt;/a&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h4 id="修饰符">修饰符</h4>
+
+<p>修饰符 (modifier) 是以半角句号 . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定。例如，.prevent 修饰符告诉 v-on 指令对于触发的事件调用 event.preventDefault()</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;div @click="click1" v-bind:class="clsClickTest"&gt;
+	&lt;div v-on:click.stop="click2"&gt;
+	click me
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="缩写">缩写</h3>
+
+<p>v- 前缀作为一种视觉提示，用来识别模板中 Vue 特定的特性。当你在使用 Vue.js 为现有标签添加动态行为 (dynamic behavior) 时，v- 前缀很有帮助，然而，对于一些频繁用到的指令来说，就会感到使用繁琐。同时，在构建由 Vue 管理所有模板的单页面应用程序 (SPA - single page application) 时，v- 前缀也变得没那么重要了。因此，Vue 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写：</p>
+
+<h4 id="v-bind缩写">v-bind缩写</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;!-- 完整语法 --&gt;
+&lt;a v-bind:href="url"&gt;...&lt;/a&gt;
+
+&lt;!-- 缩写 --&gt;
+&lt;a :href="url"&gt;...&lt;/a&gt;
+</code></pre></td></tr></tbody></table></div></div>
+<h4 id="v-on缩写">v-on缩写</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>&lt;!-- 完整语法 --&gt;
+&lt;a v-on:click="doSomething"&gt;...&lt;/a&gt;
+
+&lt;!-- 缩写 --&gt;
+&lt;a @click="doSomething"&gt;...&lt;/a&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="计算属性">计算属性</h2>
+
+<p>模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。在模板中放入太多的逻辑会让模板过重且难以维护。例如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>&lt;div id="example"&gt;
+  {{ message.split('').reverse().join('') }}
+&lt;/div&gt;
+</code></pre></td></tr></tbody></table></div></div>
+<p>在这个地方，模板不再是简单的声明式逻辑。你必须看一段时间才能意识到，这里是想要显示变量 message 的翻转字符串。当你想要在模板中多次引用此处的翻转字符串时，就会更加难以处理。</p>
+
+<p>所以，对于任何复杂逻辑，你都应当使用计算属性。</p>
+
+<h3 id="基础例子">基础例子</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code>&lt;div id="example"&gt;
+  &lt;p&gt;Original message: "{{ message }}"&lt;/p&gt;
+  &lt;p&gt;Computed reversed message: "{{ reversedMessage }}"&lt;/p&gt;
+&lt;/div&gt;
+
+var vm = new Vue({
+  el: '#example',
+  data: {
+    message: 'Hello'
+  },
+  computed: {
+    // 计算属性的 getter
+    reversedMessage: function () {
+      // `this` 指向 vm 实例
+      return this.message.split('').reverse().join('')
+    }
+  }
+})
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="计算属性缓存vs方法">计算属性缓存vs方法</h3>
+
+<h3 id="计算属性vs侦听属性">计算属性vs侦听属性</h3>
+
+<h3 id="计算属性的setter">计算属性的setter</h3>
+
+<h3 id="侦听器">侦听器</h3>
+
+<p>虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。这就是为什么 Vue 通过 watch 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53</pre></td><td class="code"><pre class="highlight"><code>&lt;div id="watch-example"&gt;
+  &lt;p&gt;
+    Ask a yes/no question:
+    &lt;input v-model="question"&gt;
+  &lt;/p&gt;
+  &lt;p&gt;{{ answer }}&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 --&gt;
+&lt;!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+var watchExampleVM = new Vue({
+  el: '#watch-example',
+  data: {
+    question: '',
+    answer: 'I cannot give you an answer until you ask a question!'
+  },
+  watch: {
+    // 如果 `question` 发生改变，这个函数就会运行
+    question: function (newQuestion, oldQuestion) {
+      this.answer = 'Waiting for you to stop typing...'
+      this.debouncedGetAnswer()
+    }
+  },
+  created: function () {
+    // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+    // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+    // 请参考：https://lodash.com/docs#debounce
+    this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+  },
+  methods: {
+    getAnswer: function () {
+      if (this.question.indexOf('?') === -1) {
+        this.answer = 'Questions usually contain a question mark. ;-)'
+        return
+      }
+      this.answer = 'Thinking...'
+      var vm = this
+      axios.get('https://yesno.wtf/api')
+        .then(function (response) {
+          vm.answer = _.capitalize(response.data.answer)
+        })
+        .catch(function (error) {
+          vm.answer = 'Error! Could not reach the API. ' + error
+        })
+    }
+  }
+})
+&lt;/script&gt;
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="练习代码">练习代码</h2>
+
+<h3 id="javascript代码">Javascript代码</h3>
+
+<p>index.js</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="html代码">HTML代码</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>
+
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="参考资料">参考资料</h2>
 
 <ul>
-  <li><a href="https://cloud.tencent.com/developer/article/1368561">jekyll如何转义特殊字符</a></li>
+  <li><a href="https://cloud.tencent.com/developer/article/1368561">jekyll转义特殊字符</a></li>
 </ul>
 
 
@@ -538,8 +858,8 @@
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/node.js/2019/10/08/Browserify-watchify/" rel="next" title="browserify">
-                <i class="fa fa-chevron-left"></i> browserify
+              <a href="/vue/2019/12/09/vue-cli-learning/" rel="next" title="Vue CLI学习笔记">
+                <i class="fa fa-chevron-left"></i> Vue CLI学习笔记
               </a>
             
           </div>
@@ -548,8 +868,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/mediasoup/2019/09/27/mediasoup/" rel="prev" title="mediasoup">
-                mediasoup <i class="fa fa-chevron-right"></i>
+              <a href="/oauth2/2019/11/25/oAuth-2-service-microsoft/" rel="prev" title="OAuth2 service microsoft">
+                OAuth2 service microsoft <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -722,7 +1042,7 @@
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#jekyll安装-使用"> <span class="nav-number">1</span> <span class="nav-text">jekyll安装 使用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#jekyll代码块转义特殊字符"> <span class="nav-number">2</span> <span class="nav-text">jekyll代码块转义特殊字符</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#如何显示呢---具体如下"> <span class="nav-number">2.1</span> <span class="nav-text">如何显示呢{{ }} 具体如下：</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">3</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#vuejs-视频学习"> <span class="nav-number">1</span> <span class="nav-text">vue.js 视频学习</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装"> <span class="nav-number">2</span> <span class="nav-text">安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#直接用-script-引入"> <span class="nav-number">2.1</span> <span class="nav-text">直接用 &lt;script&gt; 引入</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#npm"> <span class="nav-number">2.2</span> <span class="nav-text">NPM</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#命令行工具-cli"> <span class="nav-number">2.3</span> <span class="nav-text">命令行工具 (CLI)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vue实例"> <span class="nav-number">3</span> <span class="nav-text">Vue实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#创建一个实例"> <span class="nav-number">3.1</span> <span class="nav-text">创建一个实例</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#数据与方法"> <span class="nav-number">3.2</span> <span class="nav-text">数据与方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#实例生命周期钩子"> <span class="nav-number">3.3</span> <span class="nav-text">实例生命周期钩子</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#vue自定义实例"> <span class="nav-number">3.4</span> <span class="nav-text">Vue自定义实例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#模版语法"> <span class="nav-number">4</span> <span class="nav-text">模版语法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#插值"> <span class="nav-number">4.1</span> <span class="nav-text">插值</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#文本"> <span class="nav-number">4.1.1</span> <span class="nav-text">文本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#原始html"> <span class="nav-number">4.1.2</span> <span class="nav-text">原始HTML</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#特性"> <span class="nav-number">4.1.3</span> <span class="nav-text">特性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#使用javascript表达式"> <span class="nav-number">4.1.4</span> <span class="nav-text">使用Javascript表达式</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#指令"> <span class="nav-number">4.2</span> <span class="nav-text">指令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#参数"> <span class="nav-number">4.2.1</span> <span class="nav-text">参数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#动态参数"> <span class="nav-number">4.2.2</span> <span class="nav-text">动态参数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#修饰符"> <span class="nav-number">4.2.3</span> <span class="nav-text">修饰符</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#缩写"> <span class="nav-number">4.3</span> <span class="nav-text">缩写</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#v-bind缩写"> <span class="nav-number">4.3.1</span> <span class="nav-text">v-bind缩写</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#v-on缩写"> <span class="nav-number">4.3.2</span> <span class="nav-text">v-on缩写</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#计算属性"> <span class="nav-number">5</span> <span class="nav-text">计算属性</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#基础例子"> <span class="nav-number">5.1</span> <span class="nav-text">基础例子</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#计算属性缓存vs方法"> <span class="nav-number">5.2</span> <span class="nav-text">计算属性缓存vs方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#计算属性vs侦听属性"> <span class="nav-number">5.3</span> <span class="nav-text">计算属性vs侦听属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#计算属性的setter"> <span class="nav-number">5.4</span> <span class="nav-text">计算属性的setter</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#侦听器"> <span class="nav-number">5.5</span> <span class="nav-text">侦听器</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#练习代码"> <span class="nav-number">6</span> <span class="nav-text">练习代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#javascript代码"> <span class="nav-number">6.1</span> <span class="nav-text">Javascript代码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#html代码"> <span class="nav-number">6.2</span> <span class="nav-text">HTML代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">7</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             
@@ -916,7 +1236,7 @@
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/jekyll/2019/09/29/jekyll-learning/',
+        id: '/vue/2019/12/02/vue-js-learning/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false
