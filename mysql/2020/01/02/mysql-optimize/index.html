@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="故障描述">
+<meta name="description" content="参考资料">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu 14.04 lts 升级到 16.04 lts">
-<meta property="og:url" content="http://localhost:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
+<meta property="og:title" content="MySQL优化">
+<meta property="og:url" content="http://localhost:4000/mysql/2020/01/02/mysql-optimize/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="故障描述">
+<meta property="og:description" content="参考资料">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu 14.04 lts 升级到 16.04 lts">
-<meta name="twitter:description" content="故障描述">
+<meta name="twitter:title" content="MySQL优化">
+<meta name="twitter:description" content="参考资料">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Ubuntu 14.04 lts 升级到 16.04 lts | Zhao Q.H.'s Notes</title>
+  <title>MySQL优化 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/mysql/2020/01/02/mysql-optimize/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -346,7 +346,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Ubuntu 14.04 lts 升级到 16.04 lts
+            MySQL优化
           
         </h1>
         
@@ -360,8 +360,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00+08:00">
-                2019-10-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-02T00:00:00+08:00">
+                2020-01-02
               </time>
             
 
@@ -396,8 +396,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/linux" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/category/#/MySQL" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -451,41 +451,11 @@
 
 
 
-  <h2 id="故障描述">故障描述</h2>
+  <h2 id="参考资料">参考资料</h2>
 
-<p>升级到16.04后，只有命令行模式，没有网络，apt-get命令失效，</p>
-
-<h2 id="故障原因">故障原因</h2>
-
-<h2 id="解决方法">解决方法</h2>
-
-<p>重启电脑，同时一直按”Esc”键，进入GRUB界面</p>
-
-<h2 id="apt-get错误">apt-get错误</h2>
-
-<p>apt: relocation error: version GLIBCXX_3.4.21 not defined in file libstdc++.so.6 with link time reference</p>
-
-<p>解决办法：需要网络可以正常访问外网，执行下面的命令</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>$ wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb
-sudo dpkg -i libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb
-
-# I also found this helpful
-$ sudo apt-get -f install
-</code></pre></td></tr></tbody></table></div></div>
-
-<h2 id="命令行模式切换到图形界面模式">命令行模式切换到图形界面模式</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>$ service lightdm start
-
-</code></pre></td></tr></tbody></table></div></div>
-
-<h2 id="参考资料">参考资料</h2>
-
-<ul>
-  <li><a href="https://blog.csdn.net/davidhopper/article/details/79288573">命令行模式切换到图形界面模式</a></li>
-  <li><a href="https://askubuntu.com/questions/777803/apt-relocation-error-version-glibcxx-3-4-21-not-defined-in-file-libstdc-so-6/792471">apt-get报错解决办法</a></li>
-  <li><a href="https://juejin.im/post/5c11b6aee51d4570b57aff07">修复ubuntu16.04，GRUB解决办法</a></li>
-</ul>
+<ol>
+  <li><a href="https://segmentfault.com/a/1190000012155267">项目中常用的19条MySQL优化</a></li>
+</ol>
 
 
       
@@ -547,8 +517,8 @@ $ sudo apt-get -f install
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/oauth2/2019/10/29/oAuth-2-service-google/" rel="next" title="OAuth2 service google">
-                <i class="fa fa-chevron-left"></i> OAuth2 service google
+              <a href="/javscript/2020/01/03/javascript-es6/" rel="next" title="ECMAScript6 学习">
+                <i class="fa fa-chevron-left"></i> ECMAScript6 学习
               </a>
             
           </div>
@@ -557,8 +527,8 @@ $ sudo apt-get -f install
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/09/chatroom/" rel="prev" title="chatroom">
-                chatroom <i class="fa fa-chevron-right"></i>
+              <a href="/electron/2019/12/26/electron/" rel="prev" title="electron学习笔记">
+                electron学习笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -731,7 +701,7 @@ $ sudo apt-get -f install
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#故障描述"> <span class="nav-number">1</span> <span class="nav-text">故障描述</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#故障原因"> <span class="nav-number">2</span> <span class="nav-text">故障原因</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#解决方法"> <span class="nav-number">3</span> <span class="nav-text">解决方法</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#apt-get错误"> <span class="nav-number">4</span> <span class="nav-text">apt-get错误</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#命令行模式切换到图形界面模式"> <span class="nav-number">5</span> <span class="nav-text">命令行模式切换到图形界面模式</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">6</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">1</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             
@@ -925,7 +895,7 @@ $ sudo apt-get -f install
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/',
+        id: '/mysql/2020/01/02/mysql-optimize/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false
