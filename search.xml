@@ -2,6 +2,23 @@
 <search>
   
     <entry>
+      <title><![CDATA[Laravel 安装]]></title>
+      <url>/php/laravel/2021/01/23/laravel-install/</url>
+      <content type="text"><![CDATA[Composer全量镜像配置由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。推荐使用国内阿里云镜像composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装composer config -g --unset repos.packagist #取消配置composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置composer config --unset repos.packagist #单个项目局部取消配置安装最新版本laravelcd /Users/zhaoqhu/www/mkdir laravel_last #创建文件夹composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录php artisan #查看laravel框架的版本，目前的最新版本是8.24.0安装指定版本laravelcd /Users/zhaoqhu/www/mkdir laravel_7_30_4composer create-project   laravel/laravel ./   "7.30.*";php artisan Github下载laravel指定版本压缩包解压安装访问Github上对应的版本https://github.com/laravel/laravel/archive/v7.30.0.zip,然后下载到本地电脑，然后解压，然后进入7.30.0目录unzip v7.30.0 cd laravel-7.30.0composer install #安装php artisan -V #查看版本使用 laravel命令行工具安装查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composercomposer global require laravel/installer #安装laravel命令行工具composer config -l #查看composer配置cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在 ~/.composer/vendor/bin/laravel new example-app; #安装参考教程  larave Composer安装方式   阿里云 Composer 全量镜像  中国全量镜像]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+          <category> Laravel </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[Vue CLI学习笔记]]></title>
       <url>/vue/2019/12/09/vue-cli-learning/</url>
       <content type="text"><![CDATA[Vue CLI、Vue GUI、vue-cli-service、vue-router、vue-loaderVue CLI安装  Node 版本要求Vue CLI 需要 Node.js 8.9 或更高版本 (推荐 8.11.0+)。你可以使用 nvm 或 nvm-windows 在同一台电脑中管理多个 Node 版本。npm install -g @vue/cli# ORyarn global add @vue/cli  检查vue是否安装成功vue --version创建项目vue createvue ui这种是使用图形界面来创建项目，在命令行执行vue ui成功后浏览器会弹出一个http://localhost:8000的图形管理界面GUIVue GUI在命令行中执行vue ui 成功后，用浏览器打开Vue GUI,使用Vue GUI创建项目、管理项目、管理serve、编译项目build等。创建项目管理项目启动开发serve任务=&gt;serve=&gt;启动，等同于在命令行中执行下面的命令npx vue-cli-service serve编译项目任务=&gt;build=&gt;运行，等同于在命令行中执行下面的命令npx vue-cli-service build检查Webpack配置任务=&gt;inspect=&gt;运行Vue CLI配置在package.json文件的同目录下创建vue.config.jsmodule.exports = {	configureWebpack: {		entry: './src/main3223.js'//配置项目入口文件，默认的名称是main.js	}	pages: {		about: {			entry: 'src/pages/about/main.js',			template: 'public/about.html',			filename: 'about.html'		},		index: {			entry: 'src/pages/index/main.js',			template: 'public/index.html',			filename: 'index.html'		}	}}Vue CLI服务在一个 Vue CLI 项目中，@vue/cli-service 安装了一个名为 vue-cli-service 的命令。常用的vue-cliservice的命令有serve、build、inspect。package.json中配置vue-cli-service如下{  "scripts": {    "serve": "vue-cli-service serve",    "build": "vue-cli-service build",    "inspect": "vue-cli-service inspect"  }}使用npm可以执行npm run serve //开启servenpm run build //编译项目npm run inspect //审查webconfig配置文件Vue Router使用Vue GUI安装cli-plugin-router，会在原有的项目目录中生成以下目录和文件  /src/router/index.jsimport Vue from 'vue'import VueRouter from 'vue-router'import Home from '../views/Home.vue'Vue.use(VueRouter)const routes = [  {    path: '/',    name: 'home',    component: Home  },  {    path: '/about',    name: 'about',    // route level code-splitting    // this generates a separate chunk (about.[hash].js) for this route    // which is lazy-loaded when the route is visited.    component: () =&gt; import(/* webpackChunkName: "about" */ '../views/About.vue')  }]const router = new VueRouter({	mode: 'history',  routes})export default router      /src/views/About.view        /src/views/Home.view  Vue LoaderVue CLI插件Vue UI FrameworkVue UI框架  Element UI  Vuetify  Vue MaterialVue使用记录  .vue文件不能使用node.js的fs模块  import 和 export不能出现在代码块中，如果需要在代码块中引入文件，使用require  在App.vue组件中触发子组件中所定义的ref对应的v-on:click(“enterFull”)事件this.$refs.routerView.$children[5].$refs.enterFullScreen.click();  Chrome 浏览器在使用Element.requestFullscreen()方法时，如果不是手动触发点击事件的会报错failed to execute 'requestfullscreen' on 'element': api can only be initiated by a user gesture.参考资料  Vue.js 文档  Vue CLI 文档  vue.config.js配置文档  vue-router文档  vue-loader文档  webpack配置文档]]></content>
