@@ -1,45 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-03T18:46:36+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">ECMAScript6 学习</title><link href="http://localhost:4000/javscript/2020/01/03/javascript-es6/" rel="alternate" type="text/html" title="ECMAScript6 学习" /><published>2020-01-03T00:00:00+08:00</published><updated>2020-01-03T00:00:00+08:00</updated><id>http://localhost:4000/javscript/2020/01/03/javascript-es6</id><content type="html" xml:base="http://localhost:4000/javscript/2020/01/03/javascript-es6/">&lt;h2 id=&quot;module的语法&quot;&gt;Module的语法&lt;/h2&gt;
-
-&lt;p&gt;ES6 模块不是对象，而是通过export命令显式指定输出的代码，再通过import命令输入。
-模块功能主要由两个命令构成：export和import。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。
-一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。&lt;/p&gt;
-
-&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://es6.ruanyifeng.com/&quot;&gt;ECMAScript6入门&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://hacks.mozilla.org/2015/08/es6-in-depth-modules/&quot;&gt;ES6 In Depth: Modules&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Zhao Q.H.</name></author><category term="javscript" /><summary type="html">Module的语法</summary></entry><entry><title type="html">Swoole Framework 学习</title><link href="http://localhost:4000/php/2020/01/03/php-swoole-learning/" rel="alternate" type="text/html" title="Swoole Framework 学习" /><published>2020-01-03T00:00:00+08:00</published><updated>2020-01-03T00:00:00+08:00</updated><id>http://localhost:4000/php/2020/01/03/php-swoole-learning</id><content type="html" xml:base="http://localhost:4000/php/2020/01/03/php-swoole-learning/">&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.swoole.com/&quot;&gt;Swoole官网&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://linkeddestiny.gitbooks.io/easy-swoole/content/&quot;&gt;Swoole入门教程及文档&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">参考资料 Swoole官网 Swoole入门教程及文档</summary></entry><entry><title type="html">MySQL优化</title><link href="http://localhost:4000/mysql/2020/01/02/mysql-optimize/" rel="alternate" type="text/html" title="MySQL优化" /><published>2020-01-02T00:00:00+08:00</published><updated>2020-01-02T00:00:00+08:00</updated><id>http://localhost:4000/mysql/2020/01/02/mysql-optimize</id><content type="html" xml:base="http://localhost:4000/mysql/2020/01/02/mysql-optimize/">&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://segmentfault.com/a/1190000012155267&quot;&gt;项目中常用的19条MySQL优化&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Zhao Q.H.</name></author><category term="MySQL" /><summary type="html">参考资料</summary></entry><entry><title type="html">electron学习笔记</title><link href="http://localhost:4000/electron/2019/12/26/electron/" rel="alternate" type="text/html" title="electron学习笔记" /><published>2019-12-26T00:00:00+08:00</published><updated>2019-12-26T00:00:00+08:00</updated><id>http://localhost:4000/electron/2019/12/26/electron</id><content type="html" xml:base="http://localhost:4000/electron/2019/12/26/electron/">&lt;h2 id=&quot;关于electron&quot;&gt;关于Electron&lt;/h2&gt;
-
-&lt;p&gt;Electron是由Github开发，用HTML，CSS和JavaScript来构建跨平台桌面应用程序的一个开源库。 Electron通过将Chromium和Node.js合并到同一个运行时环境中，并将其打包为Mac，Windows和Linux系统下的应用来实现这一目的。&lt;/p&gt;
-
-&lt;p&gt;Electron于2013年作为构建Github上可编程的文本编辑器Atom的框架而被开发出来。这两个项目在2014春季开源。&lt;/p&gt;
-
-&lt;p&gt;目前它已成为开源开发者、初创企业和老牌公司常用的开发工具。&lt;/p&gt;
-
-&lt;h2 id=&quot;electron&quot;&gt;Electron&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://electronjs.org/releases/stable?page=5&quot;&gt;Electron产品版本发布介绍&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://github.com/electron/electron/releases&quot;&gt;Electron产品版本发布&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;chromiun&quot;&gt;Chromiun&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://chromium.woolyss.com/&quot;&gt;Chromiun版本发布&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;nodejs&quot;&gt;Node.js&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><category term="electron" /><summary type="html">关于Electron</summary></entry><entry><title type="html">Vue CLI学习笔记</title><link href="http://localhost:4000/vue/2019/12/09/vue-cli-learning/" rel="alternate" type="text/html" title="Vue CLI学习笔记" /><published>2019-12-09T00:00:00+08:00</published><updated>2019-12-09T00:00:00+08:00</updated><id>http://localhost:4000/vue/2019/12/09/vue-cli-learning</id><content type="html" xml:base="http://localhost:4000/vue/2019/12/09/vue-cli-learning/">&lt;p&gt;Vue CLI、Vue GUI、vue-cli-service、vue-router、vue-loader&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-22T23:47:14+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Vue CLI学习笔记</title><link href="http://localhost:4000/vue/2019/12/09/vue-cli-learning/" rel="alternate" type="text/html" title="Vue CLI学习笔记" /><published>2019-12-09T00:00:00+08:00</published><updated>2019-12-09T00:00:00+08:00</updated><id>http://localhost:4000/vue/2019/12/09/vue-cli-learning</id><content type="html" xml:base="http://localhost:4000/vue/2019/12/09/vue-cli-learning/">&lt;p&gt;Vue CLI、Vue GUI、vue-cli-service、vue-router、vue-loader&lt;/p&gt;
 
 &lt;h2 id=&quot;vue-cli&quot;&gt;Vue CLI&lt;/h2&gt;
 
@@ -205,6 +164,24 @@ export default router
   &lt;li&gt;&lt;a href=&quot;https://vuetifyjs.com/zh-Hans/&quot;&gt;Vuetify&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://vuematerial.io/components/button&quot;&gt;Vue Material&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h2 id=&quot;vue使用记录&quot;&gt;Vue使用记录&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;.vue文件不能使用node.js的fs模块&lt;/li&gt;
+  &lt;li&gt;import 和 export不能出现在代码块中，如果需要在代码块中引入文件，使用require&lt;/li&gt;
+  &lt;li&gt;在App.vue组件中触发子组件中所定义的ref对应的v-on:click(“enterFull”)事件&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;this.$refs.routerView.$children[5].$refs.enterFullScreen.click();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Chrome 浏览器在使用Element.requestFullscreen()方法时，如果不是手动触发点击事件的会报错&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;failed to execute 'requestfullscreen' on 'element': api can only be initiated by a user gesture.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
 
@@ -878,4 +855,895 @@ $ sudo apt-get -f install
   &lt;li&gt;
     &lt;p&gt;检查某用户是否已在房间&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">登录</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">登录</summary></entry><entry><title type="html">browserify</title><link href="http://localhost:4000/node.js/2019/10/08/Browserify-watchify/" rel="alternate" type="text/html" title="browserify" /><published>2019-10-08T00:00:00+08:00</published><updated>2019-10-08T00:00:00+08:00</updated><id>http://localhost:4000/node.js/2019/10/08/Browserify-watchify</id><content type="html" xml:base="http://localhost:4000/node.js/2019/10/08/Browserify-watchify/">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;Browserify lets you require(‘modules’) in the browser by bundling up all of your dependencies.&lt;/p&gt;
+
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm install -g browserify
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用一&quot;&gt;使用一&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Here is a tutorial on how to use Browserify on the command line to bundle up a simple file called main.js along with all of its dependencies: main.js&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var unique = require('uniq');
+
+var data = [1, 2, 2, 3, 4, 5, 5, 5, 6];
+
+console.log(unique(data));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;Install the uniq module with npm:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm install uniq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now recursively bundle up all the required modules starting at main.js into a single file called bundle.js with the browserify command:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;browserify main.js -o bundle.js
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Browserify parses the AST for require() calls to traverse the entire dependency graph of your project.
+Drop a single &amp;lt;script&amp;gt; tag into your html and you’re done!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script src=&quot;bundle.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用二-browserify-watchify-socketio-client-jquery&quot;&gt;使用二 browserify, watchify, socket.io-client, jquery、&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;安装browserify , socket.io-client, watchify&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm i browserify --save-dev
+
+$ npm install --save socket.io-client
+
+$ npm i watchify --save-dev
+
+$npm i --save jquery
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;package.json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;name&quot;: &quot;app&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;main.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;browserify main.js -o ../server/public/bundle.js&quot;,
+    &quot;watch&quot;: &quot;watchify main.js -o bundle.js&quot;
+  },
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;dependencies&quot;: {
+    &quot;socket.io-client&quot;: &quot;^2.3.0&quot;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;main.js文件使用require引入js模块&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;执行命令，编译和监控文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm run build
+$ npm run watch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://browserify.org/&quot;&gt;http://browserify.org/&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Node.js" /><summary type="html">介绍 Browserify lets you require(‘modules’) in the browser by bundling up all of your dependencies.</summary></entry><entry><title type="html">Node.js学习笔记</title><link href="http://localhost:4000/node.js/2019/10/08/Nodejs-learning/" rel="alternate" type="text/html" title="Node.js学习笔记" /><published>2019-10-08T00:00:00+08:00</published><updated>2019-10-08T00:00:00+08:00</updated><id>http://localhost:4000/node.js/2019/10/08/Nodejs-learning</id><content type="html" xml:base="http://localhost:4000/node.js/2019/10/08/Nodejs-learning/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.runoob.com/nodejs/nodejs-install-setup.html&quot;&gt;参考链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;nodejs升级&quot;&gt;Node.js升级&lt;/h2&gt;
+
+&lt;h3 id=&quot;windows下升级&quot;&gt;windows下升级&lt;/h3&gt;
+&lt;p&gt;windows下升级Nodejs比较简单，直接下载msi文件，安装覆盖原安装路径就可以了。由于众所周知的原因，国内访问Nodejs官网下载Nodejs安装文件时间非常DT的事，此处附上淘宝的国内镜像源，速度非常快。&lt;/p&gt;
+
+&lt;h3 id=&quot;linux下升级&quot;&gt;linux下升级&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;检查Node的当前版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ node -v
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;清除npm cache&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo npm chache clean -f
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;node有一个模块叫n（这名字可够短的。。。），是专门用来管理node.js的版本的。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm install -g n
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;升级到最新稳定版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ n stable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;升级到指定版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ n v4.4.7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;或者&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ n 4.4.7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;npm升级&quot;&gt;npm升级&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查看当前版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm -v
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;升级至最新版本或者指定版本
+ @符号后面可以添加你想更新到的版本号。
+ latest代表是最新版本&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm install npm@latest -g
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装淘宝-npm-镜像&quot;&gt;安装淘宝 NPM 镜像&lt;/h2&gt;
+
+&lt;p&gt;这是一个完整 npmjs.org 镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm install -g cnpm --registry=https://registry.npm.taobao.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;使用cnpm安装模块&quot;&gt;使用cnpm安装模块&lt;/h2&gt;
+
+&lt;p&gt;从 registry.npm.taobao.org 安装所有模块. 当安装的时候发现安装的模块还没有同步过来, 淘宝 NPM 会自动在后台进行同步, 并且会让你从官方 NPM registry.npmjs.org 进行安装. 下次你再安装这个模块的时候, 就会直接从 淘宝 NPM 安装了.&lt;/p&gt;
+
+&lt;h2 id=&quot;其它命令&quot;&gt;其它命令&lt;/h2&gt;
+
+&lt;p&gt;支持 npm 除了 publish 之外的所有命令, 如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cnpm install [name]
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;补充常用npm命令&quot;&gt;补充常用npm命令&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm -v          #显示版本，检查npm 是否正确安装。
+$ npm install express   #安装express模块
+$ npm install -g express  #全局安装express模块
+$ npm install --save express #会把express包安装到该目录下的node_modules目录中,会在package.json的dependencies属性下添加express,之后运行npm install 或者 npm install -production或者著名NODE_ENV变量值为production时，会自动安装express到node_module目录中.
+$ npm install --save-dev express #会把express包安装到该目录下的node_modules目录中,会在package.json的dependencies属性下添加express,之后运行npm install会自动安装express到node_module目录中但是执行npm install -production或者著名NODE_ENV变量值为production时，不会自动安装express到node_module目录中.
+$ npm install -D express # 等于npm install --save-dev express
+$ npm list         #列出已安装模块
+$ npm show express     #显示模块详情
+$ npm update        #升级当前目录下的项目的所有模块 
+$ npm update express    #升级当前目录下的项目的指定模块
+$ npm update -g express  #升级全局安装的express模块
+$ npm uninstall express  #删除指定的模块
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td style=&quot;background-color: #ffdce0 ; border: 1px solid #d73a49;&quot;&gt;注：运行时需要用到的包使用npm install –save express，否则使用npm install –save-dev express。
+。&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://npm.taobao.org/&quot;&gt;淘宝NPM镜像&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tj/n&quot;&gt;https://github.com/tj/n&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.jb51.net/article/52409.htm&quot;&gt;https://www.jb51.net/article/52409.htm&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.npmjs.com/try-the-latest-stable-version-of-npm&quot;&gt;https://docs.npmjs.com/try-the-latest-stable-version-of-npm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Node.js" /><summary type="html">安装</summary></entry><entry><title type="html">jekyll学习笔记</title><link href="http://localhost:4000/jekyll/2019/09/29/jekyll-learning/" rel="alternate" type="text/html" title="jekyll学习笔记" /><published>2019-09-29T00:00:00+08:00</published><updated>2019-09-29T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/2019/09/29/jekyll-learning</id><content type="html" xml:base="http://localhost:4000/jekyll/2019/09/29/jekyll-learning/">&lt;h2 id=&quot;jekyll安装-使用&quot;&gt;jekyll安装 使用&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~ $ gem install jekyll
+~ $ jekyll new myblog
+~ $ cd myblog
+~/myblog $ jekyll serve //启动server
+~/myblog $ bundle exec jekyll server //windows system start jekyll server
+# =&amp;gt; Now browse to http://localhost:4000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;jekyll代码块转义特殊字符&quot;&gt;jekyll代码块转义特殊字符&lt;/h2&gt;
+
+&lt;h3 id=&quot;如何显示呢---具体如下&quot;&gt;如何显示呢{{  }} 具体如下：&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
+{% raw %}
+
+{{ msg }} 
+
+{% endraw %}  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cloud.tencent.com/developer/article/1368561&quot;&gt;jekyll如何转义特殊字符&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="jekyll" /><summary type="html">jekyll安装 使用 ~ $ gem install jekyll ~ $ jekyll new myblog ~ $ cd myblog ~/myblog $ jekyll serve //启动server ~/myblog $ bundle exec jekyll server //windows system start jekyll server # =&amp;gt; Now browse to http://localhost:4000</summary></entry><entry><title type="html">mediasoup</title><link href="http://localhost:4000/mediasoup/2019/09/27/mediasoup/" rel="alternate" type="text/html" title="mediasoup" /><published>2019-09-27T00:00:00+08:00</published><updated>2019-09-27T00:00:00+08:00</updated><id>http://localhost:4000/mediasoup/2019/09/27/mediasoup</id><content type="html" xml:base="http://localhost:4000/mediasoup/2019/09/27/mediasoup/">&lt;p&gt;learning mediasoup A WebRTC SFU for Node.js&lt;/p&gt;
+
+&lt;h2 id=&quot;full-mesh&quot;&gt;FULL MESH&lt;/h2&gt;
+
+&lt;h2 id=&quot;mcu-multipoint-control-unit&quot;&gt;MCU: MULTIPOINT CONTROL UNIT&lt;/h2&gt;
+
+&lt;h2 id=&quot;sfu-selective-forwarding-unit&quot;&gt;SFU: SELECTIVE FORWARDING UNIT&lt;/h2&gt;
+
+&lt;h2 id=&quot;mediasoup-client&quot;&gt;mediasoup-client&lt;/h2&gt;
+
+&lt;h3 id=&quot;mediasoup-client安装&quot;&gt;mediasoup-client安装&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm install mediasoup-client@3 --save
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;浏览器端使用nodejs模块mediasoup-client&quot;&gt;浏览器端使用Node.js模块mediasoup-client&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;JavaScript ES6 plus CommonJS&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;browserify 、webpack、gulp&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;ubunto-安装mediasoupv3&quot;&gt;ubunto 安装mediasoupv3&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新建mediasoupv3-zhaoqhu目录，分别创建app,server目录&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir mediasoupv3-zhaoqhu
+$ mkdir server
+$ mkdir app
+$ cd server
+$ npm init
+$ sudo npm install mediasoup@3 --save --unsafe-perm=true --allow-root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;检查gcc 版本
+ 如果gcc版本小于 4.9，需要升级gcc到4.9以上，ubunto 14.04 lts 好像最高的gcc 版本是 4.8.5，升级 ubunto 到 16.04 lts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;首先添加ppa到库：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ sudo apt-get 
+$ sudo apt-get install gcc-4.8 g++-4.8
+$ sudo apt-get install gcc-4.9 g++-4.9
+$ sudo apt-get install gcc-5 g++-5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;mediasoup-serverjs分析&quot;&gt;mediasoup server.js分析&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const fs = require('fs');   //文件系统
+   	fs.readFileSync(path[,options]) //方法用于同步读取文件，返回一个字符串。
+	cert : fs.readFileSync(config.https.tls.cert),
+	key  : fs.readFileSync(config.https.tls.key)
+
+--------------------------------------
+const https = require('https');
+
+--------------------------------------
+const url = require('url'); //模块用于生成和解析URL。该模块使用前，必须加载。
+	url.parse(urlString[, parseQueryString[, slashesDenoteHost]]) //The url.parse() method takes a URL string, parses it, and returns a URL object.
+	const u = url.parse(info.request.url, true);
+
+const protoo = require('protoo-server');
+const mediasoup = require('mediasoup');
+----------------------------------------
+const express = require('express'); //Express 是一个简洁而灵活的 node.js Web应用框架, 提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。
+const expressApp = express();
+
+expressApp.use()和app.METHOD()(METHOD包括get(),put(),post(),delete())都是express应用层中间件，处理用户浏览器端发起到服务端的请求，
+但是一般情况下expressApp.use()都写在app.METHOD()前面，然后在use()中间件函数里写一些公共的代码，然后next()到METHOD()中间件函数中。
+
+expressApp.use(bodyParser.json()); //
+expressApp.param([name],callback); //执行Express路由(expressApp.get(),expressApp.post(),expressApp.put(),expressApp.delete()),会触发expressApp.param()这个方法，
+
+expressApp.param(
+'roomId', (req, res, next, roomId) =&amp;gt;
+{
+	// The room must exist for all API requests.
+	if (!rooms.has(roomId))
+	{
+		const error = new Error(`room with id &quot;${roomId}&quot; not found`);
+
+		error.status = 404;
+		throw error;
+	}
+
+	req.room = rooms.get(roomId);
+
+	next();
+});
+----------------------------------------
+const bodyParser = require('body-parser');
+body-parser是express框架常用的一个中间件，作用是对post请求的请求体进行解析。结合express().use()和express().METHOD()的使用方法，
+expressApp.use(bodyParser.json()); 
+expressApp.post(
+'/rooms/:roomId/broadcasters', async (req, res, next) =&amp;gt;
+{
+
+})
+
+
+
+-----------------------------------------
+const AwaitQueue = require('awaitqueue');
+
+这个Node.js组件是Mediasoup的作者编写的，
+
+-----------------------------------------
+const Logger = require('./lib/Logger');
+const Room = require('./lib/Room');
+const interactiveServer = require('./lib/interactiveServer');
+const interactiveClient = require('./lib/interactiveClient');
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;multiparty引入的moudle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const config = require('./config/config');
+const fs = require('fs');
+const http = require('http');
+-------------------------------
+const spdy = require('spdy');//配置http访问方式
+
+
+-------------------------------
+const express = require('express');
+
+--------------------------------
+const compression = require('compression');
+
+app.user(compression()) //通过 Gzip 压缩，有助于显著降低响应主体的大小，从而提高 Web 应用程序的速度。可使用压缩中间件进行 Express 应用程序中的 gzip 压缩。例如
+--------------------------------
+const mediasoup = require('mediasoup');
+const AwaitQueue = require('awaitqueue');
+const Logger = require('./lib/Logger');
+const Room = require('./lib/Room');
+const utils = require('./util');
+
+----------------------------------------
+const base64 = require('base-64');
+// 加密解密参数
+state : base64.encode(JSON.stringify({
+	roomId : req.query.roomId,
+	peerId : req.query.peerId,
+	code   : utils.random(10)
+}))
+const state = JSON.parse(base64.decode(req.query.state));
+
+----------------------------------------------
+const passport = require('passport');
+-------------------------------------
+
+const { Issuer, Strategy } = require('openid-client');
+const session = require('express-session');
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;mediasoup-client知识点&quot;&gt;mediasoup-client知识点&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;new mediasoupClient.Device(); //实例化mediasoupClent&lt;/li&gt;
+  &lt;li&gt;await this._mediasoupDevice.load()&lt;/li&gt;
+  &lt;li&gt;this._mediasoupDevice.createSendTransport()&lt;/li&gt;
+  &lt;li&gt;this._mediasoupDevice.createRecvTransport()&lt;/li&gt;
+  &lt;li&gt;this._mediasoupDevice.canProduce();&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;mediasoup知识点&quot;&gt;mediasoup知识点&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;const mediasoupWorker = mediasoup.createWorker()&lt;/li&gt;
+  &lt;li&gt;const mediasoupRouter = mediasoupWorker.createRouter({ mediaCodecs });&lt;/li&gt;
+  &lt;li&gt;this._mediasoupRouter.canConsume()&lt;/li&gt;
+  &lt;li&gt;this._mediasoupRouter.rtpCapabilities;&lt;/li&gt;
+  &lt;li&gt;mediasoupWorker.close();&lt;/li&gt;
+  &lt;li&gt;const audioLevelObserver = await mediasoupRouter.createAudioLevelObserver();&lt;/li&gt;
+  &lt;li&gt;const transport = await this._mediasoupRouter.createWebRtcTransport();&lt;/li&gt;
+  &lt;li&gt;transport.setMaxIncomingBitrate(maxIncomingBitrate); }&lt;/li&gt;
+  &lt;li&gt;transport.connect({ dtlsParameters });&lt;/li&gt;
+  &lt;li&gt;transport.restartIce();&lt;/li&gt;
+  &lt;li&gt;await transport.produce({ kind, rtpParameters, appData })&lt;/li&gt;
+  &lt;li&gt;await transport.getStats();&lt;/li&gt;
+  &lt;li&gt;consumer = await transport.consume();&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;multiparty-工作流程&quot;&gt;multiparty 工作流程&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;app-&amp;gt;src-&amp;gt;index.js&lt;/p&gt;
+
+    &lt;p&gt;logger.debug(‘DOM ready’);&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;app-&amp;gt;src-&amp;gt;RoomClient.js&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export default class RoomClient
+{
+	static init(data){}
+	constructor({ roomId, peerId, device, useSimulcast, produce, consume, forceTcp }){logger.debug('constructor() [roomId: &quot;%s&quot;, peerId: &quot;%s&quot;, device: &quot;%s&quot;, useSimulcast: &quot;%s&quot;, produce: &quot;%s&quot;, consume: &quot;%s&quot;, forceTcp: &quot;%s&quot;]',roomId, peerId, device.flag, useSimulcast, produce, consume, forceTcp);}
+	------------------------------------------
+	close(){logger.debug('close()');}
+	------------------------------------------
+	_startKeyListener(){}
+	_startDevicesListener(){}
+	login(){}
+	logout(){}
+	closeLoginWindow(){}
+	_soundNotification(){logger.error('_soundAlert.play() | failed: %o', error);}
+	notify(text){}
+	timeoutCallback(callback){}
+	sendRequest(method, data){// 发送命令到服务端socket
+return new Promise((resolve, reject) =&amp;gt;
+		{
+			if (!this._signalingSocket)
+			{
+				reject('No socket connection.');
+			}
+			else
+			{
+				this._signalingSocket.emit(
+					'request',
+					{ method, data },
+					this.timeoutCallback((err, response) =&amp;gt;
+					{
+						if (err)
+						{
+							reject(err);
+						}
+						else
+						{
+							resolve(response);
+						}
+					})
+				);
+			}
+		});
+	
+
+
+	}
+
+
+
+
+	async changeDisplayName(displayName){logger.debug('changeDisplayName() [displayName:&quot;%s&quot;]', displayName);}
+	async changeProfilePicture(picture){logger.debug('changeProfilePicture() [picture: &quot;%s&quot;]', picture);}
+	async sendChatMessage(chatMessage){logger.debug('sendChatMessage() [chatMessage:&quot;%s&quot;]', chatMessage);}
+	saveFile(file){}
+	handleDownload(magnetUri){}
+	_handleTorrent(torrent){}
+	async shareFiles(files){}
+	async _sendFile(magnetUri){logger.debug('sendFile() [magnetUri: %o]', magnetUri);}
+	async getServerHistory(){logger.debug('getServerHistory()');}
+	------------------------------------------
+	async muteMic(){logger.debug('muteMic()');}
+	async unmuteMic(){logger.debug('unmuteMic()');}
+	------------------------------------------
+	async updateSpotlights(spotlights){logger.debug('updateSpotlights()');}
+	async changeAudioDevice(deviceId){logger.debug('changeAudioDevice() [deviceId: %s]', deviceId);}
+	async changeVideoResolution(resolution){logger.debug('changeVideoResolution() [resolution: %s]', resolution);}
+	async changeWebcam(deviceId){logger.debug('changeWebcam() [deviceId: %s]', deviceId);}
+	setSelectedPeer(peerId){logger.debug('setSelectedPeer() [peerId:&quot;%s&quot;]', peerId);}
+	async modifyPeerConsumer(peerId, type, mute){logger.debug('modifyPeerConsumer() [peerId:&quot;%s&quot;, type:&quot;%s&quot;]',peerId,type);}
+	async _pauseConsumer(consumer){logger.debug('_pauseConsumer() [consumer: %o]', consumer);}
+	async _resumeConsumer(consumer){logger.debug('_resumeConsumer() [consumer: %o]', consumer);}
+	async sendRaiseHandState(state){logger.debug('sendRaiseHandState: ', state);}
+	async join({ joinVideo }){
+		this._signalingSocket = io(this._signalingUrl);
+		logger.debug('signaling Peer &quot;connect&quot; event');
+		this._signalingSocket.on('connect',()=&amp;gt;{logger.debug('signaling Peer &quot;connect&quot; event');});
+		this._signalingSocket.on('disconnect',()=&amp;gt;{logger.warn('signaling Peer &quot;disconnect&quot; event');});
+		this._signalingSocket.on('close',()=&amp;gt;{logger.warn('signaling Peer &quot;close&quot; event');});
+		this._signalingSocket.on('request',async (request, cb)=&amp;gt;{logger.debug(
+				'socket &quot;request&quot; event [method:%s, data:%o]',
+				request.method, request.data);
+				});
+		this._signalingSocket.on('notification', async (notification)=&amp;gt;{
+			switch (notification.method)
+			{
+				case 'roomReady':{}
+				case 'roomLocked':{}
+				case 'lockRoom':{}
+				case 'unlockRoom':{}
+				case 'activeSpeaker':{}
+				case 'changeDisplayName':{}
+				case 'changeProfilePicture':{}
+				case 'auth':{}
+				case 'chatMessage':{}
+				case 'sendFile':{}
+				case 'producerScore':{}
+				case 'newPeer':{}
+				case 'peerClosed':{}
+				case 'consumerClosed':{}
+				case 'consumerPaused':{}
+				case 'consumerResumed':{}
+				case 'consumerLayersChanged':{}
+				case 'consumerScore':{}
+			}
+
+
+
+			});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+		this._signalingSocket.on('connect',()=&amp;gt;{});
+
+
+
+	}
+	async _joinRoom({ joinVideo }){
+		logger.debug('_joinRoom()');
+
+		this._mediasoupDevice = new mediasoupClient.Device(); //实例化mediasoupClent
+		const routerRtpCapabilities = await this.sendRequest('getRouterRtpCapabilities') //socket.io发送mediasoup命令
+		await this._mediasoupDevice.load({ routerRtpCapabilities }); //mediasoup-client根据socket.io发送命令返回来的数据load()
+		if(this._produce){
+			//socket.io发送Producer命令
+			const transportInfo = await this.sendRequest( 'createWebRtcTransport',{forceTcp  : this._forceTcp,producing : true,consuming : false});
+			//定义并接收socket.io返回来的值
+			const {id,iceParameters,iceCandidates,dtlsParameters} = transportInfo;
+			//mediasoupClient创建发送通道
+			this._sendTransport = this._mediasoupDevice.createSendTransport({id,iceParameters,iceCandidates,dtlsParameters});
+			this._sendTransport.on('connect',(){})
+			this._sendTransport.on('produce',(){})
+		}
+		if(this._consumer){
+			//socket.io发送consumer创建webRTC通道
+			const transportInfo = await this.sendRequest('createWebRtcTransport',{forceTcp  : this._forceTcp,producing : false,consuming : true});
+			const {id,iceParameters,iceCandidates,dtlsParameters} = transportInfo;
+
+			//mediasoupClient创建接受通道
+			this._recvTransport = this._mediasoupDevice.createRecvTransport(
+			{
+				id,
+				iceParameters,
+				iceCandidates,
+				dtlsParameters
+			});
+		}
+		//socket.io发送join命令
+		const { peers } = await this.sendRequest(
+		'join',{displayName: displayName,picture: picture,device: this._device,
+			rtpCapabilities : this._consume
+				? this._mediasoupDevice.rtpCapabilities
+				: undefined
+		});
+
+
+
+		
+
+	}
+	------------------------------------------
+	async lockRoom(){
+		logger.debug('lockRoom()');
+		//socket.io发送lockRoom命令
+		await this.sendRequest('lockRoom');
+	}
+	async unlockRoom(){
+		logger.debug('unlockRoom()');
+		//socket.io发送unlockRoom命令
+		await this.sendRequest('unlockRoom');
+
+	}
+	------------------------------------------
+	async enableMic(){
+		logger.debug(
+				'enableMic() | new selected audio device [device:%o]',device);
+		logger.debug('enableMic() | calling getUserMedia()');
+		this._micProducer = await this._sendTransport.produce(
+		{
+			track,
+			codecOptions :
+			{
+				opusStereo : 1,
+				opusDtx    : 1
+			},
+			appData : 
+			{ source: 'mic' }
+		});
+
+
+	}
+	async disableMic(){
+		logger.debug('disableMic()');
+		await this.sendRequest(
+				'closeProducer', { producerId: this._micProducer.id });
+	}
+	------------------------------------------
+	async enableScreenSharing(){}
+	async disableScreenSharing(){}
+	------------------------------------------
+	async enableWebcam(){
+		if (!this._mediasoupDevice.canProduce('video')
+		this._sendTransport.producetrack,
+					appData : 
+					{
+						source : 'webcam'
+					}
+				})
+	}
+	async disableWebcam(){
+		logger.debug('disableWebcam()');
+		this._webcamProducer = await this.sendRequest(
+				'closeProducer', { producerId: this._webcamProducer.id });
+	}
+	------------------------------------------
+	async _updateAudioDevices(){logger.debug('_updateAudioDevices()');}
+	async _updateWebcams(){logger.debug('_updateWebcams()');}
+	async _getAudioDeviceId(){logger.debug('_getAudioDeviceId()');}
+	async _getWebcamDeviceId(){logger.debug('_getWebcamDeviceId()');}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;浏览器端browser和服务端server通信&quot;&gt;浏览器端browser和服务端server通信&lt;/h2&gt;
+
+&lt;p&gt;服务端地址：const url = &lt;code class=&quot;highlighter-rouge&quot;&gt;wss://${hostname}:${port}/?peerId=${peerId}&amp;amp;roomId=${roomId}&lt;/code&gt;;
+服务端用到的roomId,和peerId是通过浏览器端定义并传递过去的&lt;/p&gt;
+
+&lt;h3 id=&quot;browser通过初始化socketio-client&quot;&gt;browser通过初始化socket.io-client&lt;/h3&gt;
+
+&lt;p&gt;初始化socket.io-client默认向服务端socket.io服务发送connection命令，服务端socket.io监听到connection命令后，根据browser端socket.io-client传递过来的roomId参数，执行获取或者创建房间,&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;async join(){this._signalingSocket = io(this._signalingUrl)}=============&amp;gt;async function runWebSocketServer(){
+	const io = require('socket.io')(httpsServer);
+	io.on('connection', (socket) =&amp;gt;
+	{
+		const { roomId, peerId } = socket.handshake.query;
+
+		if (!roomId || !peerId)
+		{
+			logger.warn('connection request without roomId and/or peerId');
+
+			socket.disconnect(true);
+
+			return;
+		}
+
+		logger.info(
+			'connection request [roomId:&quot;%s&quot;, peerId:&quot;%s&quot;]', roomId, peerId);
+
+		queue.push(async () =&amp;gt;
+		{
+			const room = await getOrCreateRoom({ roomId }); //创建房间
+
+			room.handleConnection({ peerId, socket }); //创建peer
+		})
+		.catch((error) =&amp;gt;
+		{
+			logger.error('room creation or room joining failed:%o', error);
+
+			socket.disconnect(true);
+
+			return;
+		});
+	});
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;创建房间方法getorcreateroomroomid&quot;&gt;创建房间方法getOrCreateRoom({roomId})&lt;/h3&gt;
+
+&lt;p&gt;房间数量受到mediasoupWorkers的限制，mediasoupWorkers的数量是config配置文件里根据cpu的性能限制，在开启服务 node server.js运行时，就执行了runMediasoupWorkers()方法根据配置文件把mediasoupWorkers初始化成数组了，该数组包含了所有可用的mediasoupworker了，创建房间用到的方法是Room.js里面的create()方法，在执行create方法里面又通过传递参数mediasoupworker,创建了mediasoupRouter,创建房间成功后执行room.handleConnection方法,创建房间成功后执行this._notification(socket, ‘roomReady’)，发送命令roomReady给socket.io-client;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;async function getOrCreateRoom({ roomId })
+{
+	let room = rooms.get(roomId);
+
+	// If the Room does not exist create a new one.
+	if (!room)
+	{
+		logger.info('creating a new Room [roomId:%s]', roomId);
+
+		const mediasoupWorker = getMediasoupWorker();
+
+		room = await Room.create({ mediasoupWorker, roomId });
+
+		rooms.set(roomId, room);
+		room.on('close', () =&amp;gt; rooms.delete(roomId));
+	}
+
+	return room;
+}
+async function runMediasoupWorkers()
+{
+	const { numWorkers } = config.mediasoup;
+
+	logger.info('running %d mediasoup Workers...', numWorkers);
+
+	for (let i = 0; i &amp;lt; numWorkers; ++i)
+	{
+		const worker = await mediasoup.createWorker(
+			{
+				logLevel   : config.mediasoup.worker.logLevel,
+				logTags    : config.mediasoup.worker.logTags,
+				rtcMinPort : config.mediasoup.worker.rtcMinPort,
+				rtcMaxPort : config.mediasoup.worker.rtcMaxPort
+			});
+
+		worker.on('died', () =&amp;gt;
+		{
+			logger.error(
+				'mediasoup Worker died, exiting  in 2 seconds... [pid:%d]', worker.pid);
+
+			setTimeout(() =&amp;gt; process.exit(1), 2000);
+		});
+
+		mediasoupWorkers.push(worker);
+	}
+}
+
+/**
+ * Get next mediasoup Worker.
+ */
+function getMediasoupWorker()
+{
+	const worker = mediasoupWorkers[nextMediasoupWorkerIdx];
+
+	if (++nextMediasoupWorkerIdx === mediasoupWorkers.length)
+		nextMediasoupWorkerIdx = 0;
+
+	return worker;
+}
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;服务端roomjs创建房间成功后执行roomhandleconnection创建peer&quot;&gt;服务端Room.js创建房间成功后,执行room.handleConnection，创建Peer&lt;/h3&gt;
+
+&lt;h3 id=&quot;peer创建成功后执行peer_handlepeer创建一个peer对象&quot;&gt;peer创建成功后执行peer._handlePeer(),创建一个peer对象，&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_handlePeer({ peer, consume })
+	{
+		logger.debug('_handlePeer() [peer:&quot;%s&quot;]', peer.id);
+
+		peer.data = {};
+
+		// Not joined after a custom protoo 'join' request is later received.
+		peer.data.consume = consume;
+		peer.data.joined = false;
+		peer.data.displayName = undefined;
+		peer.data.device = undefined;
+		peer.data.rtpCapabilities = undefined;
+		peer.data.raiseHandState = false;
+
+		// Have mediasoup related maps ready even before the Peer joins since we
+		// allow creating Transports before joining.
+		peer.data.transports = new Map();
+		peer.data.producers = new Map();
+		peer.data.consumers = new Map();
+
+		peer.socket.on('request', (request, cb) =&amp;gt;
+		{
+			logger.debug(
+				'Peer &quot;request&quot; event [method:%s, peerId:%s]',
+				request.method, peer.id);
+
+			this._handleSocketRequest(peer, request, cb)
+				.catch((error) =&amp;gt;
+				{
+					logger.error('request failed:%o', error);
+
+					cb(error);
+				});
+		});
+
+		peer.socket.on('disconnect', () =&amp;gt;
+		{
+			if (this._closed)
+				return;
+
+			logger.debug('Peer &quot;close&quot; event [peerId:%s]', peer.id);
+
+			// If the Peer was joined, notify all Peers.
+			if (peer.data.joined)
+			{
+				this._notification(peer.socket, 'peerClosed', { peerId: peer.id }, true);
+			}
+
+			const index = this._lastN.indexOf(peer.id);
+
+			if (index &amp;gt; -1) // We have this peer in the list, remove
+			{
+				this._lastN.splice(index, 1);
+			}
+
+			// Iterate and close all mediasoup Transport associated to this Peer, so all
+			// its Producers and Consumers will also be closed.
+			for (const transport of peer.data.transports.values())
+			{
+				transport.close();
+			}
+
+			this._peers.delete(peer.id);
+
+			// If this is the latest Peer in the room, close the room after a while.
+			if (this._peers.size === 0)
+			{
+				setTimeout(() =&amp;gt;
+				{
+					if (this._closed)
+						return;
+
+					if (this._peers.size === 0)
+					{
+						logger.info(
+							'last Peer in the room left, closing the room [roomId:%s]',
+							this._roomId);
+
+						this.close();
+					}
+				}, 10000);
+			}
+		});
+	}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;工作流程&quot;&gt;工作流程&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;浏览器端通过join方法使用socket.io-client，发送connection命令，&lt;/li&gt;
+  &lt;li&gt;服务端通过监听connection命令，创建mediasoupWorker,&lt;/li&gt;
+  &lt;li&gt;然后在创建room和mediasoupRouter,&lt;/li&gt;
+  &lt;li&gt;然后在创建Peer&lt;/li&gt;
+  &lt;li&gt;然后通过socket.io发送给浏览器端roomReady命令&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;ecmscript6-es6知识点&quot;&gt;ecmscript6 es6知识点&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;new Map();&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+const rooms = new Map();
+rooms.has(roomId)
+rooms.get(roomId)
+rooms.set(roomId, room);
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;export default class RoomClient{} //在创建JavaScript模块时，export 语句用于从模块中导出函数、对象或原始值，以便其他程序可以通过 import 语句使用它们。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;static function(){} //静态方法不能用 new 实例调用&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;… Spread syntax展开语法return (…args) =&amp;gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="mediasoup" /><category term="mediasoup" /><summary type="html">learning mediasoup A WebRTC SFU for Node.js</summary></entry></feed>
