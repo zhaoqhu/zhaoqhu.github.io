@@ -2,6 +2,87 @@
 <search>
   
     <entry>
+      <title><![CDATA[php面试]]></title>
+      <url>/php/2021/02/05/php-ms/</url>
+      <content type="text"><![CDATA[线程和进程的区别简而言之,一个程序至少有一个进程,一个进程至少有一个线程php-fpm是一个主进程master和多个工作进程worker，每个php-fpm进程有一个线程。1、php的哪些语言特性，在合适的场景可以显著减少内存开销？spltraitGeneratortype hint2、对于php的自动加载描述正确的是？Composer的自动加载是通过__autoload函数实现在文件顶部use的时候会载入对应的类自动加载函数只支持按Class/Interface/Trait名加载，不能按function名加载现在大多数类库都遵循psr0规范3、对于Trait描述正确的是可以用来减少重复代码一个类无法同时引入两个包含相同方法的Trait子类中引入的Trait利的方法会覆盖父类的方法在Trait中不可以调用引用类里的方法4、下列对Composer描述正确的是拿到一个Project类型的项目时，需要通过composer update来安装对应的依赖包一般情况下应该把PHPUnit包含在require段composer.json不仅可以指定依赖的PHP类库，还能指定依赖的PHP扩展Library类型的项目，需要把composer.lock文件提交到版本库中5、如果一个包遵循Semantic Version，下列哪些版本升级大概率不会出问题6、按照RESTFul的规范，修改文章的展示隐藏应该使用哪一种路由7、通常使用过滤特殊字符的方式来避免SQL注入8、只要项目中使用了PDO的prepare就能完全避免SQL注入9、CSRF攻击是因为没有对用户输入进行转义导致的14、为了避免XSS攻击，需要在写入数据库前对其转义，从数据库读取后反转义]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Elasticsearch 学习]]></title>
+      <url>/2021/02/04/Elesticsearch/</url>
+      <content type="text"><![CDATA[]]></content>
+      <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[php高级教程-大型电商平台双十一Redis高并发秒杀解决方案]]></title>
+      <url>/php/2021/01/28/php-redis-seckill/</url>
+      <content type="text"><![CDATA[使用场景介绍秒杀红包1、时间短、数量少2、大流量、高并发数据安全1、业务场景、高并发会引发问题2、压力测试工具的使用3、悲观锁、乐观锁、lua脚本4、不同场景的解决方案2.2redis一些相关的原理（10服用、原子性）秒杀场景遇到的问题1、卡顿崩溃2、超卖（库存变为负数）模拟秒杀库存只有3件的商品，如果用压力测试工具进行模拟500人进行秒杀的情况，比如发送了5000次链接，如果不做处理一定会出现商品超卖的情况，实际成功的订单会大于3个，商品库存会变成负数，比如-36，那实际上成功的订单会是39个订单，超卖了36件，这样子就赔钱了。使用压力测试工具模拟高并发场景ab -n 请求数 -c 并发数 url地址ab -n 500 -c 5000 http://127.0.0.1/seckill/buy.php #模拟500个客户端发送5000个请求解决办法数据库悲观锁redis1、redis速度快（单机的读写速度可以达到8万左右）2、数据限制悲观锁：假设当前的数据操作一定会发生冲突的，屏蔽一切（行锁、文件锁）如果用mysql的行锁会导致阻塞、等待状态，会崩溃。性能差，速度慢。乐观锁：假设当前的数据不会发生并发冲突，在真写数据的时候，再去检查，有没有发生冲突。苹果商店排行20的App淘宝客双十一销售额，5亿，每秒并发14w]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> PHP </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Redis nginx memcached]]></title>
+      <url>/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/</url>
+      <content type="text"><![CDATA[]]></content>
+      <categories>
+        
+          <category> Redis </category>
+        
+          <category> nginx </category>
+        
+          <category> memcached </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Redis 学习]]></title>
+      <url>/nosql/redis/2021/01/23/redis-learning/</url>
+      <content type="text"><![CDATA[版本当前最新版本是6.0redis安装下载最新的稳定版，makemake PREFIX=/usr/local/redis installcd /usr/local/redis/bin #进入redis安装后的binary目录ls #查看目录下的命令行工具redis-benhmark  #redis性能测试工具redis-check-aof #检查aof日志的工具redis-check-dump #检查rdb日志的工具redis-cli #链接用的客户端工具redis-server #redis服务进程启动复制redis源码中的配置文件cd /usr/local/rediscp /usr/local/src/redis-2.6.16/redis.conf ./启动redis服务/usr/local/redis/bin/redis-server ./redis.onfredis后台运行服务修改redis.conf中的daemonize改为yes五大ValueString字符串类型的操作set key value [ex 秒数][px 毫秒数]如果 ex 秒数和px 毫秒数，同时使用，则以后面的为准flushdb #清空数据set site www.zixue.itttl site #查看生命周期,默认的生命周期是永久set search www.baidu.com ex 10 px 6567pttl searchflush dbflushdb #清空数据set site www.so.comset site www.baidu.com nx# nx的参数表示如果没有这个key才可以执行get site #返回结果依然是www.so.comset site www.google.com xx #xx的参数表示如果有这个key才可以执行get site #返回值是www.google.comset abc www.google.com xx#xx表示有这个key才可以执行mset a aman b bold c controller d diamondkeys #返回a、b、c、dmget a b c#一次获取多个keyflushdbset word helloget wordsetrange word 2 ??get word #返回结果he??oset word hello setrange word 6 !get world #返回结果hello\x00!append word @@#getrange key start stopset area chinesegetrange area 1 4 字符串数值二进制help @StringList链表lpush charlist arpush charlist brpush charlist blpush charlist 0lrange charlist 1 2lrange charlist 1 3lrange charlist 0 3lrange charlist 0 -1 #查看所有的链表上的值lpop charlist #弹出最左边的值，链表上的值会消失rpop charlist #弹出最右边的值，链表上的值会消失flushdb #清空所有rpush answer a b c a b d alrem answer 1 b#删除链表answer上的一个blrem answer -2 a#从链表answer最后开始删除两个afushdbrpush charlist a b c d e flrange charlist 0 -1ltrim charlist 2 5lindex charlist  0lindex charlist 1lindex charlist 2llen charlist #查看链表的长度lrpush num 1 3 6 8 9 #创建一个num链表linsert num before 3 2 #在链表num值3的前面添加2linsert num after 9 10lrange num 0 -1linsert num after 99 10linsert num after 9 10flushdbrpush task a b c drpoplpush task job #右边弹出task链表的值d存储到链表d左边rpop job brpop job 20 #等待20秒,当收到新值后结束lpush job eblop job位图法统计活跃用户3天连续登录setbit mon 1000000000 0setbit mon 3 1setbit mon 5 1setbit mon 7 1set tues 100000000 0Hashhset user1 name lisihset user1 age 28hset user1 height 175hgetall user1hmset user2 name wang age 10 height 100hgetall user2hget user1 name hget user2 namehmget user1 name heighthgetall user1hdel user1 agehgetall user1hlen uesr1hlen user2hexists user1 agehexists user2 agehincrby user2 age 1hgetall user2hget user2 agehincrbyfloat user2 age 0.5hkeys user2hvals user2Set1、无序性 2、确定性 3、唯一性sadd gender male femalesadd gender yao yaosadd gender yaosmembers gender #查看gender所有的值srem gender yao #删除yaosrem gender x c #删除失败(integer 0)srem gender male x c #成功删除(male)spop key #随机删除sadd gender a b c d e f spop gender #随机删除无序集合gender里的值smembers gendersrandmember gendersismember gender Q #判断某个vlue在某个集合中sismember gender fscard gender #返回集合中元素的个数sadd uuper A B Csadd lower a b csmove upper lower A #移动upper集合中的A到集合lower中smembers uppersmembers lowersadd lisi a b c dsadd wang a b c d e fsadd poly a b c d gsinter lisi wang poly #求交集sunion lisi wang poly#求并集sdiff lisi wangsinter lisi wang polysintersrore result lisi wang poly #求并集存入到resultZSetorder set 有序集合flushdbzadd class 12 lily 13 lucy 18 lilei 6 polyzrange class 0 3#有序的查询出class集合中的前四个人zrangebyscore class 13 18 #查询13岁到18岁的人zrangebyscore class 1 20 limit 1 2zrange class 1 3 withscoreszrangebyscore class 10 20 withscores #查看分数去某个范围内元素。zrange class 0 -1zrank class lilyzrank class polyzrank class lileizrank class zhangfeizrevrank class lileizrange class 0 -1 withscoreszremrangebysore class 10 15zrange class 0 -1 withscoreszadd class 12 lily 13 lucyzremrangebyrank class 0 1#删除poly 和lilyzrange class 0 -1 withscoreszrem class lucyzrange class 0 -1 withscoreszrem class lileizrane class 0 -1 withscoreszadd ty 25 zhangfei 27 guanyu 28 libeizcard ty zadd ty 23 zhaoyunzcard tyzcoun ty 25 30flushdbzadd lisi 3 cat 5 dog 6 horsezadd wang 5 cat 6 dog 8 horse 1 donckeyzinterstore result 2 lisi wangzrange result 0 -1 zinterstore result 2 lisi wang aggregate minzrange result 0 -1zinterstore result 2 lisi wang aggregate maxzinterstore result 2 lisi wang weight 2 1 aggreagate maxzrange result 0 -1 withscoreszinterstore result 2 lisi wang weights 2 1 aggregate sum zrange result 0 -1 withscoresredis 事务redis开启事务后，所有的执行语句先放入到队列中，如果想取消可以执行discard命令，但是如果执行exec后，在队列中的语句已经执行成功了，回滚不回来，不支持回滚fulshdbset wang 200set zhao 700multi #开启事务decrby zhao 100incryby wang 100exec #执行成功multi #开启事务decryby zhao 100sdfaexec 执行错误mget zhao wangmulti #开启事务decryby zhao 100sadd wang pigexec #执行错误multi #开启事务decrby zhao 100incrby wang 100discard #取消 #买票场景当车票只剩一张时，李四正在买票，redis开启事务，已经把修改车票和修改用户钱数的语句放到队列，还未执行exec，正在此时，王五把这张票买走了。flushdbset ticket 1set lisi 300set wang 300#李四买票multidecr ticketdecrby lisi 100#exec尚未执行exec#王五买票成功了。decr ticketget ticket#李四开启watch买票set ticket 1watch ticketmultidecr ticketdecrby lisi 100#exec尚未执行，这时王五又执行了desc ticketget ticketwatch key1 key2 key3#监听多个keyunwatch #取消监听多个key频道发布与消息订阅服务端publish news "today is sunshine"publish news "still sunshine"publish news "away sunshine"publish news "thress"publish newstop "four"客户端1subscribe news客户端2subscribe newspsubscribe new*redis和memcached相比的独特之处1、redis可以用来做存储(storage)，而memcached是用来做缓存(cache)，这个特点主要因为其有持久化的功能2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合]]></content>
+      <categories>
+        
+          <category> NoSql </category>
+        
+          <category> Redis </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[Laravel 安装]]></title>
       <url>/php/laravel/2021/01/23/laravel-install/</url>
       <content type="text"><![CDATA[Composer全量镜像配置由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。推荐使用国内阿里云镜像composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装composer config -g --unset repos.packagist #取消配置composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置composer config --unset repos.packagist #单个项目局部取消配置安装最新版本laravelcd /Users/zhaoqhu/www/mkdir laravel_last #创建文件夹composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录php artisan #查看laravel框架的版本，目前的最新版本是8.24.0安装指定版本laravelcd /Users/zhaoqhu/www/mkdir laravel_7_30_4composer create-project   laravel/laravel ./   "7.30.*";php artisan Github下载laravel指定版本压缩包解压安装访问Github上对应的版本https://github.com/laravel/laravel/archive/v7.30.0.zip,然后下载到本地电脑，然后解压，然后进入7.30.0目录unzip v7.30.0 cd laravel-7.30.0composer install #安装php artisan -V #查看版本使用 laravel命令行工具安装查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composercomposer global require laravel/installer #安装laravel命令行工具composer config -l #查看composer配置cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在 ~/.composer/vendor/bin/laravel new example-app; #安装参考教程  larave Composer安装方式   阿里云 Composer 全量镜像  中国全量镜像]]></content>
@@ -10,6 +91,79 @@
           <category> PHP </category>
         
           <category> Laravel </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[使用docker-compose.yml创建lnmp环境]]></title>
+      <url>/docker/2021/01/23/docker-compose-npm-yml/</url>
+      <content type="text"><![CDATA[创建docker-compose.yml文件version: "3"services:  nginx:    image: nginx:alpine    ports:    - 80:80    volumes:    - ./html:/usr/share/nginx/html    - ./nginx/nginx.conf:/etc/nginx/nginx.conf  php:    image: devilbox/php-fpm:8.0-work-release-0.123    volumes:    - ./html:/var/www/html  mysql:    image: mysql:5.6    environment:    - MYSQL_ROOT_PASSWORD=123456启动docker-compose up -d参考资料https://github.com/bobo132/docker-compose-demo-1]]></content>
+      <categories>
+        
+          <category> Docker </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Docker 学习]]></title>
+      <url>/2021/01/21/docker-learn/</url>
+      <content type="text"><![CDATA[Docker公司简介地址：美国剑桥大街318号加州帕洛阿尔托94306Docker工具简介:Docker是开源应用容器的应用容器引擎，基于Go语言开发实现，属于操作系统层面的虚拟化技术。Docker可以让开发者打包他们的应用以及依赖包到一个轻量级，可移植的容器中，然后发布到任何有Docker的电脑(window和Linux)上。容器是完全使用沙箱机制，相互之间不会有任何接口（类似iphone的app）,更重要的是容器性能开销极低。Docker能做什么Docker 可以解决虚拟机能够虚拟机解决的问题，同时能够解决虚拟机由于电脑资源过高而无法解决的问题。Docker在线工具https://labs.play-with-docker.com/Docker中每个镜像都拥有一个Linux发行版系统，拥有完整的运行环境Docker的主要用法也是创建多个镜像，通过应用编排构成一个完整的应用镜像越多，在同一台服务器中就会有越多的运行环境（发行版系统），它们本身也会造成开销请问在这种多镜像的环境下，Docker是否会因为系统过多，造成极大的额外开销？Docker安装docker远程仓库镜像Image容器ContainerDocker命令docker infodocker versiondocker run hello-worlddocker镜像加速“registry-mirrors”: [    “https://jtjwzjlb.mirror.aliyuncs.com”,    “https://registry.docker-cn.com”  ]下载镜像：从Docker远程镜像仓库获取镜像的命令是docker pull。请命令格式为：docker pull 镜像名字下载技巧从 https://hub.docker.com/上面搜索镜像的安装方式，但是实际上是从阿里云加速镜像上面下载的。例如：docker pull training/webappdocker pull busyboxdocker pull centostraining/webapp #python的appbusybox:是一个集成了三百多个最常用Linux命令工具，简化的Linux系统centos：linux系统容器查看镜像docker image ls或者docker images删除镜像            docker image rm 镜像名字      镜像id      通过镜像创建容器进行容器操作查看正在运行的容器docker ps查看所有容器docker ps -a启动容器基于镜像新建一个容器并启动，启动一个已存在的容器docker run training/webapp提示启动了一个服务，http://0.0.0.0:5000/端口映射            docker run -p 本地端口:容器端口 容器名字      容器id      后台运行语法docker -d run -p 8888:5000 training/webapp在本地电脑浏览器中执行localhost:8888，就可以看到hello world交互运行启动一个bash终端，允许用户进行交互。            docker run -t -i 容器名字      容器id /bin/bash      -t选项让docker分配一个伪终端(pseudo-tty)并绑定到容器的标准输入上。-i则让容器的标准输入保持打开。在交互式模式下，用户可以通过所创建的终端来输入linux命令.例如docker run -it centos /bin/bash创建centos 容器并且进入centos容器中退出容器exit终止容器docker stop 容器id删除容器docker rm 容器id开启容器docker start 容器id重启容器docker restart 容器id查看容器启动产生的数据。docker logs 容器的id进入正在运行的容器里主机和容器之间拷贝文件容器拷贝到主机docker cp 容器id:/opt/webapp/app.py d:/www主机拷贝到容器docker cp d:/www/文件 容器id:/opt/webapp/8、数据卷什么是数据卷数据卷是一个可供一个或多个容器使用的特殊目录，他绕过UFS，可以提供很多有用的特性：1、数据卷可以在容器之间共享和重用2、对数据卷的修改会立马生效3、对数据卷的更新，不会影响镜像4、数据卷默认会一直存在，即使容器被删除使用docker run -d -p 8888:5000 -v d:/wwww/webapp:/opt/webapp 31ff6ac986e0(容器id)***前提需要检查docker配置项中的FILE SHARING中是否包含想要创建的数据卷目录。Docker应用-搭建PHP开发环境9.1下载阿里云的lamp镜像docker pull registry.cn-hangzhou.aliyuncs.com/itsource/centos-lamp:v3docker run -itd  -p 80:80 -p 3306:3306 –name lamp –privileged=true -v /data/wwwroot/www.baidu.com:/data/wwwroot/www.baidu.com  registry.cn-hangzhou.aliyuncs.com/itsource/centos-lamp:v2  /usr/sbin/init-i 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上-t 则让容器的标准输入保持打开。-d 则让容器在后台运行。–name lamp为容器起名为lamp–privileged=true 让container内的root拥有真正的root权限。-v 创建数据卷，将本地主机目录挂着到容器的指定目录中/usr/sbin/init是为了获取root权限制作阿里云镜像  #### 将修改后的容器生成镜像 docker commit -a “itsource” -m “this is my centos” 3ee458166862(容器id) my-centos:v2 *** -a 作者的名字 -m注释都要使用双引号登录到阿里云界面=&gt;镜像列表=&gt;创建镜像仓库地址：华东1命名空间：itsource仓库名称：my-centos2摘要：my-centos2描述信息：my-centos2仓库类型：公开设置代码源：本地仓库根据创建的镜像仓库zhaoqhu_docker_image根据操作指南把本地仓库推送到阿里云上面。]]></content>
+      <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[php xdebug安装和调试]]></title>
+      <url>/php/2021/01/20/php-xdebug/</url>
+      <content type="text"><![CDATA[php安装xdebug先查看php版本，然后在确定下载xdebug的版本。比如php的版本是7.1.5，访问xdebug历史版本下载页https://xdebug.org/download/historical，然后选定并下载和php版本匹配的Linux,macOS Source，Xdebug2.5.5这个版本支持php7.1.5,下载地址是https://xdebug.org/files/xdebug-2.5.5.tgz。使用php7.1.5自带的工具phpize工具进行编译安装比如php7.1.5安装的目录是/usr/local/php7-15，phpize工具所在的目录是/usr/local/php7-15/bin/phpizexdebug-2.5.5.tgz解压tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/cd xdebug-2.5.5/usr/local/php7-15/bin/phpize #执行生成configure文件./configure   --with-php-config=/usr/local/php7-15/bin/php-configmakemake install配置php.ini查看php.ini文件位置/usr/local/php7-15/bin/php --ini打开并修改;xdebug startzend_extension="/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so"xdebug.remote_enable = onxdebug.remote_handler = dbgpxdebug.remote_host = 127.0.0.1xdebug.remote_port=9001;xdebug endsublime text3安装xdebug界面打开首选项=&gt;Package Control=&gt;Install Package快捷键打开打开命令行输入Mac上输入快捷键Command+shift+p，Windows上快捷键Control+shift+pPackage Control: Install Packagexdebug-client配置sublime text3首选项=&gt;Package Settings=&gt;Package Control=&gt;Xdebug=&gt;Settings-User{"port": 9001,}Chrome 安装Xdebug helper 插件安装方法配置Xdebug helperIDE key，选其他，输入sublime.xdebugFirefox安装Xdebug helper插件安装方法打开附加组件=》搜索Xdebug helper=&gt;安装配置IDE key，选其他，输入sublime.xdebug检查是否配置成功创建index.php&lt;?phpvar_dump("hello xdebug"); #设置断点?&gt;开启调试快捷键打开命令行输入工具Command+shif+p,输入:Xdebug: Start Debugging浏览器访问 localhost/index.php检查Xdebug Context控制台如果控制台有内容输出，证明配置成功$_COOKIE = array[1]$_COOKIE['XDEBUG_SESSION'] = (string) sublime.xdebug$_ENV = array[0]$_FILES = array[0]$_GET = array[0]$_POST = array[0]$_REQUEST = array[0]]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[php-fpm优化]]></title>
+      <url>/php/2021/01/16/php-fpm-optimize/</url>
+      <content type="text"><![CDATA[php-fpm进程管理器进程和线程一个进程对应一个线程查看php-fpm进程所占用的内存ps aux | grep php-fpm|awk ‘{mem+=$6}END {print mem}’通过上面的命令可以计算出php-fpm总共使用的内存，例如有一个主php-fpm进程，2个子php-fpm进程，总共使用的内存为45460，平均每个php-fpm进程使用的内存是15兆。在实际使用过程中每个php-fpm进程使用的内存是20兆。五、进程管理器的核心优化1.动态创建子进程pm = dynamic2.最大子进程数:pm.max_children = 100(默认5)#每开启一个php-fpm进程要占用20M左右的内存，假设服务器内存为2G，优化的目的是让php-fpm达到服务器内存的顶配3.初始进程数：pm.start_servers = 40(默认2)4.最小空闲进程数:pm.min_spare_servers = 20(默认1)5.最大空闲进程数:pm.max_spare_servers = 60（默认3）6.最大多少次请求后子进程重生：pm.max_requests = 10240#有效降低内存消耗php5.3.3以后的php-fpm不在支持php-fpm以前具有的/usr/local/php/sbin/php-fpm(start|stop|reload)等命令，所以不要在看这种老掉牙的命令了，需要使用信号控制：master进程可以理解一下信号INT,TERM立刻终止QUIT平滑终止USR1重新打开日志文件USR2平滑重载所有worker进程并重新载入配置额二进制模块六、进程状态监控：1、php配置：pm.status_path = /phpstatus2.nginx设置方法：location /phpstatus {	fastcgi_index index.php;	fastcgi_pass 127.0.0.1:9000;	fastcgi_param SCRIPT_FIFILENAME $document_root$fastcgi_script_name;	include		fastcgi_params;}3.客户端测试：http://192.168.2.1/phpstatus4.进程状态信息：pool: www								#进程池名称process manager: dynamic					#进程池管理方式start time; 22/Jan/2016:15:49:00 +0800		#启动时间start_since: 375							#运行时长accepted conn: 7							#当前进程池接受的请求数listen queue: 0							#请求等待队列，如果不为0，意味着FPM进程不足，需要增加max listen queue: 0						#最大等待数量确定是否换硬件listen_queue_len:1024						#SOCKET等待队列长度ide_processes:							#空闲进程数active_processes:							#活跃进程数total_processes:							#总进程数max active_process: 1						#最大活跃进程数，确定是否换硬件max_children reached: 0					#达到最大进程数的次数，如果不为0，意味着最大进程数不足，需要增加，确定是否换硬件 slow requests: 							#慢请求数量，需要设置 slow log七、生成访问日志：access.log = log/$pool.access.logaccess.format = “%R - %u %t \”%m %r%Q%q\” %s %f %{mili}d %{kilo}M %C%% ”八、开启慢日志request_slowlog_timeout = 5slowlog = log/$pool.log.slow九、增加php-fpm打开文件数的限制rlimit_files = 65535十、每个php-fpm进程的内存限制(php.ini)memory_limit = 128M十一、进程最大执行时间，与php.ini中max_execution_time作用相同(php.ini)max_execution_time=30phpstatus/usr/local/php/sbin/php-fpm -t #测试配置文件是否正确十二、ab压力测试#ab-&gt;nginx-&gt;php-&gt;index.phpApacheBench压力测试ab -n10 -c10ab -n1000 -c1000ab -n10000 -c10000ab -n18000 -c18000]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[mysql 分区学习]]></title>
+      <url>/mysql/2021/01/14/mysql-partition/</url>
+      <content type="text"><![CDATA[MySQL的分区-1什么是分区所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。分区能干什么1：进行逻辑数据分割，分割数据能够有多个不同的物理文件路径 2：可以存储更多的数据，突破系统单个文件最大的限制 3：提升性能，提高每个分区的读写速度，提高分区范围查询的速度 4：可以通过删除相关分区来快速删除数据 5：通过跨多个磁盘来分散数据查询，从而提高磁盘I/O的性能 6：涉及到例如SUM()和COUNT()这样聚合函数的查询，可以很容易地进行并行处理 7：可以备份和恢复独立的分区，这对大数据量很有好处 ## 分区能支持的引擎 MySQL支持大部分的存储引擎创建分区,如MyISAM、InnoDB等；不支持MERGE和CSV等来创建分区。同一个分区表中的所有分区必须是同一个存储引擎。MySQL的分区-2从MySQL5.1开始引入分区功能，可以如下方式查看是否支持1:“老”的版本用: SHOW VARIABLES LIKE ‘%partition%’;2:新的版本用: show plugins;分区类型1：RANGE分区：基于属于一个给定连续区间的列值，把多行分配给分区（最常用的分区）2：LIST分区：类似于按RANGE分区，LIST是列值匹配一个离散值集合中的某个值来进行选择3：HASH分区：基于用户定义的表达式的返回值来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算，这个函数必须产生非负整数值。 4：KEY分区：类似于按HASH分区，由MySQL服务器提供自身的哈希函数但是不论什么类型的分区，都要注意一下问题：1、如果表中存在primary key 或者unique key的一个组成部分，也就是说，分区函数的列只能从pk或者uk这些key中取子集2、如果表中不存在任何的primary key 或者unique key，则可以指定任何一个列作为分区列3、5.5版本的Range、List、Hash分区要求分区键必须是int，MySQL5.5及以上，支持非整形的Range和List分区，即：range columns和 list columns。#MySQL的分区-3分区命名分区的名字基本上遵循其他MySQL标识符应当遵循的原则，例如用于表和数据库命字的标识符。但是应当注意，分区的名字是不区分大小写的。无论使用何种类型的分区，分区总是在创建时就自动的顺序编号，且从0开始记录。创建分区1:Range分区CREATE TABLE tbl_users(	uuid INT NOT NULL,	customerId VARCHAR(20),	pwd VARCHAR(20),	showName VARCHAR(100),	trueName VARCHAR(100),	registerTime VARCHAR(100))PARTITION BY RANGE(uuid) (	PARTITION p0 VALUES LESS THAN (5),	PARTITION p1 VALUES LESS THAN (10),	PARTITION p2 VALUES LESS THAN (15),	PARTITION p3 VALUES LESS THAN MAXVALUE)insert into tbl_users value(1,'id1','a','s1','t1','');insert into tbl_users value(8,'id8','a','s8','t8','');insert into tbl_users value(20,'id20','a','s20','t20','');1-2、RANGE columns固定值格式的字段比如时间CREATE TABLE tbl_users3(	uuid INT NOT NULL,	customerId VARCHAR(20),	pwd VARCHAR(20),	showName VARCHAR(100),	trueName VARCHAR(100),	registerTime VARCHAR(100))PARTITION BY RANGE columns(customerId) (	PARTITION p0 VALUES LESS THAN ('id05'),	PARTITION p1 VALUES LESS THAN ('id10'),	PARTITION p2 VALUES LESS THAN ('id15'))insert into tbl_users value(1,'id1','a','s1','t1','');insert into tbl_users value(8,'id8','a','s8','t8','');insert into tbl_users value(20,'id20','a','s20','t20','');#MySQL的分区-41)到存放数据的地方查看文件，路径配置在/usr/bin/mysql_config里面的ldata。$ nano mysql_configldata=’/var/lib/mysql’$ cd /var/lib/mysql$ cd arch1$ lstbl_users#p0.ibdtbl_users#p1.ibdtbl_users#p2.ibdtbl_users#p3.ibd2)可以通过使用形如：SELECT * FROM information_schema.partitions WHERE table_schema=’arch1’ and table_name = ‘tbl_users’ \G 的语句来查看分区信息3）可以通过形如select * from tbl_users partition(p0)的语句来查看分区上的数据4)可以使用形如EXPLAIN partitions select * from tbl_users where uuid = 80来查看分区2：List分区按类型分区CREATE TABLE tbl_user2(	uuid INT NOT NULL,	customerId VARCHAR(20),	pwd VARCHAR(20),	showName VARCHAR(100),	trueName VARCHAR(100),	registerTime VARCHAR(100))PARTITION BY LIST(uuid){	PARTITION p0 VALUES in(1,2,3,5)	PARTITION p0 VALUES in(7,9,10)	PARTITION p0 VALUES in(11,15)}1）如果试图操作的列值不在分区值列表中时，那么会失败并报错。要注意的是，LIST分区没有类似如“VALUES LESS THAN MAXVALUE”这样的包含其他值在内的定义，将要匹配的任何值都必须在值列表中找到。2）LIST分区除了能和RANGE分区结合起来生成一个复合的子分区，与HASH和KEY分区结合起来生成复合的子分区也是可以的。3：Hash分区HASH分区主要用来确保数据在预先确定数目的分区中平均分布。在RANGE和LIST分区中，必须明确指定一个给定的列值或列值集合以指定应该保存在哪个分区中：而在HASH分区中，MySQL自动完成这些工作，要做的只是基于将要被哈希的列值指定一个表达式，以及指定被分区的表将要被分割成的分区数量，如：应用场景：运动员参赛时，年龄会在固定的区间CREATE TABLE tbl_users4(	uuid INT NOT NULL,	customerId VARCHAR(20),	pwd VARCHAR(20),	showName VARCHAR(100),	trueName VARCHAR(100),	registerTime VARCHAR(100))PARTITION BY hash(uuid)Partitions 3insert into tbl_users value(1,'id1','a','s1','t1','');insert into tbl_users value(8,'id8','a','s8','t8','');insert into tbl_users value(20,'id20','a','s20','t20','');默认是按uuid 除3取余数1）由于每次插入、更新、删除一行，这个表达式都要计算一次：这意味着非常复杂的表达式可能会引起性能问题，尤其是在执行同时影响大量行的运算（例如批量插入）的时候。2）最有效率的哈希函数是只对单个表列进行计算，并且它的值进行一致地增大或减小，因为这考虑了在分区范围上的“修剪”。也就是说，表达式值和她所基于的列的值变化越接近，就能越有效地使用该表达式来进行HASH分区。3.1： 线性Hash4：Key分区CREATE TABLE tbl_users4(	uuid INT NOT NULL,	customerId VARCHAR(20),	pwd VARCHAR(20),	showName VARCHAR(100),	trueName VARCHAR(100),	registerTime VARCHAR(100))PARTITION BY linear key(uuid)Partitions 3insert into tbl_users value(1,'id1','a','s1','t1','');insert into tbl_users value(8,'id8','a','s8','t8','');insert into tbl_users value(20,'id20','a','s20','t20','');5: 子分区子分区是分区表中每个分区的再次分割，适合保存非常大量的数据。MySQL的分区-12其他1：最大分区数目不能超过1024，一般建议对单标的分区数不要超过150个2：如果含有唯一索引或者主键，则分区列必须包含在所有的唯一索引或者主键在内3：不支持外检4：不支持全文索引，对分区表的分区键创建索引，那么这个索引页将被分区5：按日期进行分区很合适，因为很多日期函数可以用。但是对于字符串来说合适的分析函数不太多6：只有RANGE和LIST分区能进行子分区，HASH和KEY分区不能进行子分区7：临时表不能被分区8：分区表对于单条记录的查询没有优势9：要注意选择分区的成本，每插入一行数据都需要按照表达式筛选插入的分区10：分区字段尽量不要可以为null分库分表-1为什么要分库分表先考虑分区，然后考虑分库分表。数据库的复制能解决访问问题，并不能解决大规模的并发写入问题，由于无法进行分布式部署，而一台服务器的资源（CPU、磁盘、内存、IO等）是有限的，最终数据库所能承载的数据量、数据处理能力都将遭遇瓶颈。要解决这个问题就要考虑对数据库进行分库分表了，它有如下好处：1、解决磁盘系统最大文件限制，比如常见的有：FAT16(最大分区2GB，最大文件2GB)FAT32(最大分区32GB，最大容量2TB，最大文件32GB)NTFS（最大分区2TB，最大容量，最大文件2TB）EXT3(最大文件大小：2TB，最大文件极限：仅受文件系统大小限制，最大分区/文件系统大小：4TB，最大文件名长度：255字符)2、减少增量数据写入时的锁对查询的影响，减少长时间查询造成的表锁，影响写入操作等竞争的情况，节省排队的时间开支，增加吞吐量。3、由于表单数据量下降，常见的查询操作由于减少了需要扫描的记录，使得单标单次查询所需要的检索行数变少，减少了磁盘IO，时延变短。MySQL单表500万到1000 万]]></content>
+      <categories>
+        
+          <category> MySQL </category>
         
       </categories>
       <tags>
