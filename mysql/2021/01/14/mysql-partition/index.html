@@ -1,0 +1,1466 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Zhao Q.H.'s Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="MySQL的分区-1 什么是分区 所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。">
+<meta name="keywords" content="Jekyll, NexT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql 分区学习">
+<meta property="og:url" content="http://localhost:4000/mysql/2021/01/14/mysql-partition/">
+<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:description" content="MySQL的分区-1 什么是分区 所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql 分区学习">
+<meta name="twitter:description" content="MySQL的分区-1 什么是分区 所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>mysql 分区学习 | Zhao Q.H.'s Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhao Q.H.'s Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/mysql/2021/01/14/mysql-partition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Q.H.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhao Q.H.'s Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            mysql 分区学习
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-14T00:00:00+08:00">
+                2021-01-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="">
+                
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/MySQL" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="mysql的分区-1">MySQL的分区-1</h1>
+<h2 id="什么是分区">什么是分区</h2>
+<p>所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。</p>
+
+<h2 id="分区能干什么">分区能干什么</h2>
+<p>1：进行逻辑数据分割，分割数据能够有多个不同的物理文件路径
+ 2：可以存储更多的数据，突破系统单个文件最大的限制
+ 3：提升性能，提高每个分区的读写速度，提高分区范围查询的速度
+ 4：可以通过删除相关分区来快速删除数据
+ 5：通过跨多个磁盘来分散数据查询，从而提高磁盘I/O的性能
+ 6：涉及到例如SUM()和COUNT()这样聚合函数的查询，可以很容易地进行并行处理
+ 7：可以备份和恢复独立的分区，这对大数据量很有好处
+ ## 分区能支持的引擎
+ MySQL支持大部分的存储引擎创建分区,如MyISAM、InnoDB等；不支持MERGE和CSV等来创建分区。同一个分区表中的所有分区必须是同一个存储引擎。</p>
+
+<h1 id="mysql的分区-2">MySQL的分区-2</h1>
+
+<p>从MySQL5.1开始引入分区功能，可以如下方式查看是否支持</p>
+
+<p>1:“老”的版本用: SHOW VARIABLES LIKE ‘%partition%’;
+2:新的版本用: show plugins;</p>
+
+<h2 id="分区类型">分区类型</h2>
+<p>1：RANGE分区：基于属于一个给定连续区间的列值，把多行分配给分区（最常用的分区）
+2：LIST分区：类似于按RANGE分区，LIST是列值匹配一个离散值集合中的某个值来进行选择
+3：HASH分区：基于用户定义的表达式的返回值来进行选择的分区，该表达式使用将要插入到表中的这些行的列值进行计算，这个函数必须产生非负整数值。 
+4：KEY分区：类似于按HASH分区，由MySQL服务器提供自身的哈希函数</p>
+<h2 id="但是不论什么类型的分区都要注意一下问题">但是不论什么类型的分区，都要注意一下问题：</h2>
+<p>1、如果表中存在primary key 或者unique key的一个组成部分，也就是说，分区函数的列只能从pk或者uk这些key中取子集
+2、如果表中不存在任何的primary key 或者unique key，则可以指定任何一个列作为分区列
+3、5.5版本的Range、List、Hash分区要求分区键必须是int，MySQL5.5及以上，支持非整形的Range和List分区，即：range columns和 list columns。</p>
+
+<p>#MySQL的分区-3</p>
+
+<h2 id="分区命名">分区命名</h2>
+
+<p>分区的名字基本上遵循其他MySQL标识符应当遵循的原则，例如用于表和数据库命字的标识符。但是应当注意，分区的名字是不区分大小写的。
+无论使用何种类型的分区，分区总是在创建时就自动的顺序编号，且从0开始记录。</p>
+
+<h2 id="创建分区">创建分区</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>1:Range分区
+CREATE TABLE tbl_users(
+	uuid INT NOT NULL,
+	customerId VARCHAR(20),
+	pwd VARCHAR(20),
+	showName VARCHAR(100),
+	trueName VARCHAR(100),
+	registerTime VARCHAR(100)
+)
+PARTITION BY RANGE(uuid) (
+	PARTITION p0 VALUES LESS THAN (5),
+	PARTITION p1 VALUES LESS THAN (10),
+	PARTITION p2 VALUES LESS THAN (15),
+	PARTITION p3 VALUES LESS THAN MAXVALUE
+)
+
+insert into tbl_users value(1,'id1','a','s1','t1','');
+insert into tbl_users value(8,'id8','a','s8','t8','');
+insert into tbl_users value(20,'id20','a','s20','t20','');
+</code></pre></td></tr></tbody></table></div></div>
+<p>1-2、RANGE columns</p>
+
+<p>固定值格式的字段比如时间</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users3(
+	uuid INT NOT NULL,
+	customerId VARCHAR(20),
+	pwd VARCHAR(20),
+	showName VARCHAR(100),
+	trueName VARCHAR(100),
+	registerTime VARCHAR(100)
+)
+PARTITION BY RANGE columns(customerId) (
+	PARTITION p0 VALUES LESS THAN ('id05'),
+	PARTITION p1 VALUES LESS THAN ('id10'),
+	PARTITION p2 VALUES LESS THAN ('id15')
+)
+
+insert into tbl_users value(1,'id1','a','s1','t1','');
+insert into tbl_users value(8,'id8','a','s8','t8','');
+insert into tbl_users value(20,'id20','a','s20','t20','');
+</code></pre></td></tr></tbody></table></div></div>
+<p>#MySQL的分区-4</p>
+
+<p>1)到存放数据的地方查看文件，路径配置在/usr/bin/mysql_config里面的ldata。</p>
+
+<p>$ nano mysql_config</p>
+
+<p>ldata=’/var/lib/mysql’</p>
+
+<p>$ cd /var/lib/mysql</p>
+
+<p>$ cd arch1
+$ ls</p>
+
+<p>tbl_users#p0.ibd
+tbl_users#p1.ibd
+tbl_users#p2.ibd
+tbl_users#p3.ibd</p>
+
+<p>2)可以通过使用形如：SELECT * FROM information_schema.partitions WHERE table_schema=’arch1’ and table_name = ‘tbl_users’ \G 的语句来查看分区信息</p>
+
+<p>3）可以通过形如select * from tbl_users partition(p0)的语句来查看分区上的数据
+4)可以使用形如EXPLAIN partitions select * from tbl_users where uuid = 80来查看分区</p>
+
+<p>2：List分区</p>
+
+<p>按类型分区</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_user2(
+	uuid INT NOT NULL,
+	customerId VARCHAR(20),
+	pwd VARCHAR(20),
+	showName VARCHAR(100),
+	trueName VARCHAR(100),
+	registerTime VARCHAR(100)
+)
+PARTITION BY LIST(uuid){
+	PARTITION p0 VALUES in(1,2,3,5)
+	PARTITION p0 VALUES in(7,9,10)
+	PARTITION p0 VALUES in(11,15)
+}
+</code></pre></td></tr></tbody></table></div></div>
+<p>1）如果试图操作的列值不在分区值列表中时，那么会失败并报错。要注意的是，LIST分区没有类似如“VALUES LESS THAN MAXVALUE”这样的包含其他值在内的定义，将要匹配的任何值都必须在值列表中找到。</p>
+
+<p>2）LIST分区除了能和RANGE分区结合起来生成一个复合的子分区，与HASH和KEY分区结合起来生成复合的子分区也是可以的。</p>
+
+<p>3：Hash分区
+HASH分区主要用来确保数据在预先确定数目的分区中平均分布。在RANGE和LIST分区中，必须明确指定一个给定的列值或列值集合以指定应该保存在哪个分区中：而在HASH分区中，MySQL自动完成这些工作，要做的只是基于将要被哈希的列值指定一个表达式，以及指定被分区的表将要被分割成的分区数量，如：</p>
+
+<p>应用场景：运动员参赛时，年龄会在固定的区间</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
+	uuid INT NOT NULL,
+	customerId VARCHAR(20),
+	pwd VARCHAR(20),
+	showName VARCHAR(100),
+	trueName VARCHAR(100),
+	registerTime VARCHAR(100)
+)
+PARTITION BY hash(uuid)
+Partitions 3
+insert into tbl_users value(1,'id1','a','s1','t1','');
+insert into tbl_users value(8,'id8','a','s8','t8','');
+insert into tbl_users value(20,'id20','a','s20','t20','');
+</code></pre></td></tr></tbody></table></div></div>
+<p>默认是按uuid 除3取余数
+1）由于每次插入、更新、删除一行，这个表达式都要计算一次：这意味着非常复杂的表达式可能会引起性能问题，尤其是在执行同时影响大量行的运算（例如批量插入）的时候。
+2）最有效率的哈希函数是只对单个表列进行计算，并且它的值进行一致地增大或减小，因为这考虑了在分区范围上的“修剪”。也就是说，表达式值和她所基于的列的值变化越接近，就能越有效地使用该表达式来进行HASH分区。</p>
+
+<p>3.1： 线性Hash</p>
+
+<p>4：Key分区</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
+	uuid INT NOT NULL,
+	customerId VARCHAR(20),
+	pwd VARCHAR(20),
+	showName VARCHAR(100),
+	trueName VARCHAR(100),
+	registerTime VARCHAR(100)
+)
+PARTITION BY linear key(uuid)
+Partitions 3
+insert into tbl_users value(1,'id1','a','s1','t1','');
+insert into tbl_users value(8,'id8','a','s8','t8','');
+insert into tbl_users value(20,'id20','a','s20','t20','');
+</code></pre></td></tr></tbody></table></div></div>
+<p>5: 子分区
+子分区是分区表中每个分区的再次分割，适合保存非常大量的数据。</p>
+
+<h1 id="mysql的分区-12">MySQL的分区-12</h1>
+
+<h2 id="其他">其他</h2>
+<p>1：最大分区数目不能超过1024，一般建议对单标的分区数不要超过150个
+2：如果含有唯一索引或者主键，则分区列必须包含在所有的唯一索引或者主键在内
+3：不支持外检
+4：不支持全文索引，对分区表的分区键创建索引，那么这个索引页将被分区
+5：按日期进行分区很合适，因为很多日期函数可以用。但是对于字符串来说合适的分析函数不太多
+6：只有RANGE和LIST分区能进行子分区，HASH和KEY分区不能进行子分区
+7：临时表不能被分区
+8：分区表对于单条记录的查询没有优势
+9：要注意选择分区的成本，每插入一行数据都需要按照表达式筛选插入的分区
+10：分区字段尽量不要可以为null</p>
+
+<h1 id="分库分表-1">分库分表-1</h1>
+
+<h2 id="为什么要分库分表">为什么要分库分表</h2>
+
+<p>先考虑分区，然后考虑分库分表。</p>
+
+<p>数据库的复制能解决访问问题，并不能解决大规模的并发写入问题，由于无法进行分布式部署，而一台服务器的资源（CPU、磁盘、内存、IO等）是有限的，最终数据库所能承载的数据量、数据处理能力都将遭遇瓶颈。</p>
+
+<p>要解决这个问题就要考虑对数据库进行分库分表了，它有如下好处：
+1、解决磁盘系统最大文件限制，比如常见的有：
+FAT16(最大分区2GB，最大文件2GB)
+FAT32(最大分区32GB，最大容量2TB，最大文件32GB)
+NTFS（最大分区2TB，最大容量，最大文件2TB）
+EXT3(最大文件大小：2TB，最大文件极限：仅受文件系统大小限制，最大分区/文件系统大小：4TB，最大文件名长度：255字符)</p>
+
+<p>2、减少增量数据写入时的锁对查询的影响，减少长时间查询造成的表锁，影响写入操作等竞争的情况，节省排队的时间开支，增加吞吐量。
+3、由于表单数据量下降，常见的查询操作由于减少了需要扫描的记录，使得单标单次查询所需要的检索行数变少，减少了磁盘IO，时延变短。</p>
+
+<p>MySQL单表500万到1000 万</p>
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/wechat.gif" alt="Zhao Q.H. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/pay.gif" alt="Zhao Q.H. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/php/2021/01/16/php-fpm-optimize/" rel="next" title="php-fpm优化">
+                <i class="fa fa-chevron-left"></i> php-fpm优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/vue/2019/12/09/vue-cli-learning/" rel="prev" title="Vue CLI学习笔记">
+                Vue CLI学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Q.H." />
+          <p class="site-author-name" itemprop="name">Zhao Q.H.</p>
+           
+              <p class="site-description motion-element" itemprop="description">Keep It Simple, Stupid</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaoqhu/zhaoqhu.github.io/issues" target="_blank" title="Issues">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  Issues
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#mysql的分区-1"> <span class="nav-number">1</span> <span class="nav-text">MySQL的分区-1</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#什么是分区"> <span class="nav-number">1.1</span> <span class="nav-text">什么是分区</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#分区能干什么"> <span class="nav-number">1.2</span> <span class="nav-text">分区能干什么</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#mysql的分区-2"> <span class="nav-number">2</span> <span class="nav-text">MySQL的分区-2</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#分区类型"> <span class="nav-number">2.1</span> <span class="nav-text">分区类型</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#但是不论什么类型的分区都要注意一下问题"> <span class="nav-number">2.2</span> <span class="nav-text">但是不论什么类型的分区，都要注意一下问题：</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#分区命名"> <span class="nav-number">2.3</span> <span class="nav-text">分区命名</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建分区"> <span class="nav-number">2.4</span> <span class="nav-text">创建分区</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#mysql的分区-12"> <span class="nav-number">3</span> <span class="nav-text">MySQL的分区-12</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#其他"> <span class="nav-number">3.1</span> <span class="nav-text">其他</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#分库分表-1"> <span class="nav-number">4</span> <span class="nav-text">分库分表-1</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#为什么要分库分表"> <span class="nav-number">4.1</span> <span class="nav-text">为什么要分库分表</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Q.H.</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '6b408abe365ff10490b9',
+        clientSecret: 'a46aa7a0fda5ead2100ddc767dcb83ffaed15392',
+        repo: 'zhaoqhu.github.io',
+        owner: 'zhaoqhu',
+        admin: ['zhaoqhu'],
+        id: '/mysql/2021/01/14/mysql-partition/',
+        labels: ['gitalk'],
+        perPage: 50,
+        distractionFreeMode: false
+      });
+      gitalk.render('gitalk-container');
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

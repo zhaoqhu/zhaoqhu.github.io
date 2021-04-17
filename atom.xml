@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-24T18:40:04+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">php面试</title><link href="http://localhost:4000/php/2021/02/05/php-ms/" rel="alternate" type="text/html" title="php面试" /><published>2021-02-05T00:00:00+08:00</published><updated>2021-02-05T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/02/05/php-ms</id><content type="html" xml:base="http://localhost:4000/php/2021/02/05/php-ms/">&lt;h2 id=&quot;线程和进程的区别&quot;&gt;线程和进程的区别&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-04-18T01:43:15+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir nextcloud
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;创建mysql目录用于数据卷映射&quot;&gt;创建mysql目录用于数据卷映射&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/nextcloud
+mkdir mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;创建nextcloud文件目录用于映射&quot;&gt;创建nextcloud文件目录用于映射&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd nextcloud
+mkdir nextcloud
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;创建docker-composeyml文件内容如下&quot;&gt;创建docker-compose.yml文件，内容如下&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '2'
+
+volumes:
+  nextcloud:
+  db:
+
+services:
+  db:
+    image: mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - /Users/zhaoqinghu/dev_docker/nextcloud/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345678
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 7080:80
+    links:
+      - db
+    volumes:
+      - /Users/zhaoqinghu/dev_docker/nextcloud/nextcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="nextcloud" /><summary type="html">创建nextcloud安装目录 mkdir nextcloud 创建mysql目录用于数据卷映射 cd ~/nextcloud mkdir mysql 创建nextcloud文件目录用于映射 cd nextcloud mkdir nextcloud 创建docker-compose.yml文件，内容如下 ``` version: ‘2’</summary></entry><entry><title type="html">php面试</title><link href="http://localhost:4000/php/2021/02/05/php-ms/" rel="alternate" type="text/html" title="php面试" /><published>2021-02-05T00:00:00+08:00</published><updated>2021-02-05T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/02/05/php-ms</id><content type="html" xml:base="http://localhost:4000/php/2021/02/05/php-ms/">&lt;h2 id=&quot;线程和进程的区别&quot;&gt;线程和进程的区别&lt;/h2&gt;
 
 &lt;p&gt;简而言之,一个程序至少有一个进程,一个进程至少有一个线程&lt;/p&gt;
 
@@ -68,7 +114,72 @@ ab -n 500 -c 5000 http://127.0.0.1/seckill/buy.php #模拟500个客户端发送5
 
 &lt;p&gt;苹果商店排行20的App
 淘宝客
-双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">Redis 学习</title><link href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/" rel="alternate" type="text/html" title="Redis 学习" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/nosql/redis/2021/01/23/redis-learning</id><content type="html" xml:base="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">&lt;h2 id=&quot;版本&quot;&gt;版本&lt;/h2&gt;
+双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">Laravel 安装</title><link href="http://localhost:4000/php/laravel/2021/01/23/laravel-install/" rel="alternate" type="text/html" title="Laravel 安装" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/php/laravel/2021/01/23/laravel-install</id><content type="html" xml:base="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">&lt;h3 id=&quot;composer全量镜像配置&quot;&gt;Composer全量镜像配置&lt;/h3&gt;
+&lt;p&gt;由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。
+推荐使用国内阿里云镜像&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
+composer config -g --unset repos.packagist #取消配置
+
+composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置
+composer config --unset repos.packagist #单个项目局部取消配置
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装最新版本laravel&quot;&gt;安装最新版本laravel&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
+mkdir laravel_last #创建文件夹
+composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录
+php artisan #查看laravel框架的版本，目前的最新版本是8.24.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装指定版本laravel&quot;&gt;安装指定版本laravel&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
+mkdir laravel_7_30_4
+composer create-project   laravel/laravel ./   &quot;7.30.*&quot;;
+php artisan 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;github下载laravel指定版本压缩包解压安装&quot;&gt;Github下载laravel指定版本压缩包解压安装&lt;/h3&gt;
+&lt;p&gt;访问Github上对应的版本&lt;a href=&quot;https://github.com/laravel/laravel/archive/v7.30.0.zip&quot;&gt;https://github.com/laravel/laravel/archive/v7.30.0.zip&lt;/a&gt;,然后下载到本地电脑，然后解压，然后进入7.30.0目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip v7.30.0 
+cd laravel-7.30.0
+composer install #安装
+php artisan -V #查看版本
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;使用-laravel命令行工具安装&quot;&gt;使用 laravel命令行工具安装&lt;/h3&gt;
+&lt;p&gt;查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composer&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer global require laravel/installer #安装laravel命令行工具
+composer config -l #查看composer配置
+cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
+ ~/.composer/vendor/bin/laravel new example-app; #安装
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;参考教程&quot;&gt;参考教程&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://laravel.com/docs/8.x/installation#installation-via-composer&quot;&gt;larave Composer安装方式&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.aliyun.com/composer&quot;&gt; 阿里云 Composer 全量镜像&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pkg.phpcomposer.com/&quot;&gt;中国全量镜像&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Composer全量镜像配置 由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。 推荐使用国内阿里云镜像 ``` composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装 composer config -g –unset repos.packagist #取消配置</summary></entry><entry><title type="html">使用docker-compose.yml创建lnmp环境</title><link href="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/" rel="alternate" type="text/html" title="使用docker-compose.yml创建lnmp环境" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml</id><content type="html" xml:base="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/">&lt;h2 id=&quot;创建docker-composeyml文件&quot;&gt;创建docker-compose.yml文件&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: &quot;3&quot;
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+    - 80:80
+    volumes:
+    - ./html:/usr/share/nginx/html
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  php:
+    image: devilbox/php-fpm:8.0-work-release-0.123
+    volumes:
+    - ./html:/var/www/html
+  mysql:
+    image: mysql:5.6
+    environment:
+    - MYSQL_ROOT_PASSWORD=123456
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;启动&quot;&gt;启动&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/bobo132/docker-compose-demo-1&quot;&gt;https://github.com/bobo132/docker-compose-demo-1&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Docker" /><summary type="html">创建docker-compose.yml文件 version: &quot;3&quot; services: nginx: image: nginx:alpine ports: - 80:80 volumes: - ./html:/usr/share/nginx/html - ./nginx/nginx.conf:/etc/nginx/nginx.conf php: image: devilbox/php-fpm:8.0-work-release-0.123 volumes: - ./html:/var/www/html mysql: image: mysql:5.6 environment: - MYSQL_ROOT_PASSWORD=123456 启动 docker-compose up -d 参考资料 https://github.com/bobo132/docker-compose-demo-1</summary></entry><entry><title type="html">Redis 学习</title><link href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/" rel="alternate" type="text/html" title="Redis 学习" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/nosql/redis/2021/01/23/redis-learning</id><content type="html" xml:base="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">&lt;h2 id=&quot;版本&quot;&gt;版本&lt;/h2&gt;
 &lt;p&gt;当前最新版本是6.0&lt;/p&gt;
 
 &lt;h2 id=&quot;redis安装&quot;&gt;redis安装&lt;/h2&gt;
@@ -379,72 +490,7 @@ publish newstop &quot;four&quot;
 &lt;h2 id=&quot;redis和memcached相比的独特之处&quot;&gt;redis和memcached相比的独特之处&lt;/h2&gt;
 
 &lt;p&gt;1、redis可以用来做存储(storage)，而memcached是用来做缓存(cache)，这个特点主要因为其有持久化的功能
-2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">版本 当前最新版本是6.0</summary></entry><entry><title type="html">使用docker-compose.yml创建lnmp环境</title><link href="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/" rel="alternate" type="text/html" title="使用docker-compose.yml创建lnmp环境" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml</id><content type="html" xml:base="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/">&lt;h2 id=&quot;创建docker-composeyml文件&quot;&gt;创建docker-compose.yml文件&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: &quot;3&quot;
-services:
-  nginx:
-    image: nginx:alpine
-    ports:
-    - 80:80
-    volumes:
-    - ./html:/usr/share/nginx/html
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  php:
-    image: devilbox/php-fpm:8.0-work-release-0.123
-    volumes:
-    - ./html:/var/www/html
-  mysql:
-    image: mysql:5.6
-    environment:
-    - MYSQL_ROOT_PASSWORD=123456
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;启动&quot;&gt;启动&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose up -d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/bobo132/docker-compose-demo-1&quot;&gt;https://github.com/bobo132/docker-compose-demo-1&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Docker" /><summary type="html">创建docker-compose.yml文件 version: &quot;3&quot; services: nginx: image: nginx:alpine ports: - 80:80 volumes: - ./html:/usr/share/nginx/html - ./nginx/nginx.conf:/etc/nginx/nginx.conf php: image: devilbox/php-fpm:8.0-work-release-0.123 volumes: - ./html:/var/www/html mysql: image: mysql:5.6 environment: - MYSQL_ROOT_PASSWORD=123456 启动 docker-compose up -d 参考资料 https://github.com/bobo132/docker-compose-demo-1</summary></entry><entry><title type="html">Laravel 安装</title><link href="http://localhost:4000/php/laravel/2021/01/23/laravel-install/" rel="alternate" type="text/html" title="Laravel 安装" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/php/laravel/2021/01/23/laravel-install</id><content type="html" xml:base="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">&lt;h3 id=&quot;composer全量镜像配置&quot;&gt;Composer全量镜像配置&lt;/h3&gt;
-&lt;p&gt;由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。
-推荐使用国内阿里云镜像&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
-composer config -g --unset repos.packagist #取消配置
-
-composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置
-composer config --unset repos.packagist #单个项目局部取消配置
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;安装最新版本laravel&quot;&gt;安装最新版本laravel&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
-mkdir laravel_last #创建文件夹
-composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录
-php artisan #查看laravel框架的版本，目前的最新版本是8.24.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;安装指定版本laravel&quot;&gt;安装指定版本laravel&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
-mkdir laravel_7_30_4
-composer create-project   laravel/laravel ./   &quot;7.30.*&quot;;
-php artisan 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;github下载laravel指定版本压缩包解压安装&quot;&gt;Github下载laravel指定版本压缩包解压安装&lt;/h3&gt;
-&lt;p&gt;访问Github上对应的版本&lt;a href=&quot;https://github.com/laravel/laravel/archive/v7.30.0.zip&quot;&gt;https://github.com/laravel/laravel/archive/v7.30.0.zip&lt;/a&gt;,然后下载到本地电脑，然后解压，然后进入7.30.0目录&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip v7.30.0 
-cd laravel-7.30.0
-composer install #安装
-php artisan -V #查看版本
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;使用-laravel命令行工具安装&quot;&gt;使用 laravel命令行工具安装&lt;/h3&gt;
-&lt;p&gt;查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composer&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer global require laravel/installer #安装laravel命令行工具
-composer config -l #查看composer配置
-cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
- ~/.composer/vendor/bin/laravel new example-app; #安装
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;参考教程&quot;&gt;参考教程&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://laravel.com/docs/8.x/installation#installation-via-composer&quot;&gt;larave Composer安装方式&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.aliyun.com/composer&quot;&gt; 阿里云 Composer 全量镜像&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pkg.phpcomposer.com/&quot;&gt;中国全量镜像&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Composer全量镜像配置 由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。 推荐使用国内阿里云镜像 ``` composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装 composer config -g –unset repos.packagist #取消配置</summary></entry><entry><title type="html">Docker 学习</title><link href="http://localhost:4000/2021/01/21/docker-learn/" rel="alternate" type="text/html" title="Docker 学习" /><published>2021-01-21T00:00:00+08:00</published><updated>2021-01-21T00:00:00+08:00</updated><id>http://localhost:4000/2021/01/21/docker-learn</id><content type="html" xml:base="http://localhost:4000/2021/01/21/docker-learn/">&lt;p&gt;Docker公司简介&lt;/p&gt;
+2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">版本 当前最新版本是6.0</summary></entry><entry><title type="html">Docker 学习</title><link href="http://localhost:4000/2021/01/21/docker-learn/" rel="alternate" type="text/html" title="Docker 学习" /><published>2021-01-21T00:00:00+08:00</published><updated>2021-01-21T00:00:00+08:00</updated><id>http://localhost:4000/2021/01/21/docker-learn</id><content type="html" xml:base="http://localhost:4000/2021/01/21/docker-learn/">&lt;p&gt;Docker公司简介&lt;/p&gt;
 
 &lt;p&gt;地址：美国剑桥大街318号加州帕洛阿尔托94306&lt;/p&gt;
 
@@ -774,89 +820,4 @@ $_GET = array[0]
 $_POST = array[0]
 $_REQUEST = array[0]
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">php安装xdebug</summary></entry><entry><title type="html">php-fpm优化</title><link href="http://localhost:4000/php/2021/01/16/php-fpm-optimize/" rel="alternate" type="text/html" title="php-fpm优化" /><published>2021-01-16T00:00:00+08:00</published><updated>2021-01-16T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/01/16/php-fpm-optimize</id><content type="html" xml:base="http://localhost:4000/php/2021/01/16/php-fpm-optimize/">&lt;p&gt;php-fpm
-进程管理器
-进程和线程
-一个进程对应一个线程&lt;/p&gt;
-&lt;h2 id=&quot;查看php-fpm进程所占用的内存&quot;&gt;查看php-fpm进程所占用的内存&lt;/h2&gt;
-&lt;p&gt;ps aux | grep php-fpm|awk ‘{mem+=$6}END {print mem}’
-通过上面的命令可以计算出php-fpm总共使用的内存，例如有一个主php-fpm进程，2个子php-fpm进程，总共使用的内存为45460，平均每个php-fpm进程使用的内存是15兆。
-在实际使用过程中每个php-fpm进程使用的内存是20兆。
-五、进程管理器的核心优化
-1.动态创建子进程
-pm = dynamic
-2.最大子进程数:
-pm.max_children = 100(默认5)
-#每开启一个php-fpm进程要占用20M左右的内存，假设服务器内存为2G，优化的目的是让php-fpm达到服务器内存的顶配
-3.初始进程数：
-pm.start_servers = 40(默认2)
-4.最小空闲进程数:
-pm.min_spare_servers = 20(默认1)
-5.最大空闲进程数:
-pm.max_spare_servers = 60（默认3）
-6.最大多少次请求后子进程重生：
-pm.max_requests = 10240
-#有效降低内存消耗&lt;/p&gt;
-
-&lt;p&gt;php5.3.3以后的php-fpm不在支持php-fpm以前具有的/usr/local/php/sbin/php-fpm(start|stop|reload)等命令，所以不要在看这种老掉牙的命令了，需要使用信号控制：master进程可以理解一下信号
-INT,TERM立刻终止
-QUIT平滑终止
-USR1重新打开日志文件
-USR2平滑重载所有worker进程并重新载入配置额二进制模块&lt;/p&gt;
-
-&lt;p&gt;六、进程状态监控：
-1、php配置：
-pm.status_path = /phpstatus
-2.nginx设置方法：
-location /phpstatus {
-	fastcgi_index index.php;
-	fastcgi_pass 127.0.0.1:9000;
-	fastcgi_param SCRIPT_FIFILENAME $document_root$fastcgi_script_name;
-	include		fastcgi_params;
-}
-3.客户端测试：
-http://192.168.2.1/phpstatus&lt;/p&gt;
-
-&lt;p&gt;4.进程状态信息：
-pool: www								#进程池名称
-process manager: dynamic					#进程池管理方式
-start time; 22/Jan/2016:15:49:00 +0800		#启动时间
-start_since: 375							#运行时长
-accepted conn: 7							#当前进程池接受的请求数
-listen queue: 0							#请求等待队列，如果不为0，意味着FPM进程不足，需要增加
-max listen queue: 0						#最大等待数量确定是否换硬件
-listen_queue_len:1024						#SOCKET等待队列长度
-ide_processes:							#空闲进程数
-active_processes:							#活跃进程数
-total_processes:							#总进程数
-max active_process: 1						#最大活跃进程数，确定是否换硬件
-max_children reached: 0					#达到最大进程数的次数，如果不为0，意味着最大进程数不足，需要增加，确定是否换硬件 
-slow requests: 							#慢请求数量，需要设置 slow log&lt;/p&gt;
-
-&lt;p&gt;七、生成访问日志：
-access.log = log/$pool.access.log
-access.format = “%R - %u %t \”%m %r%Q%q\” %s %f %{mili}d %{kilo}M %C%% ”&lt;/p&gt;
-
-&lt;p&gt;八、开启慢日志&lt;/p&gt;
-
-&lt;p&gt;request_slowlog_timeout = 5
-slowlog = log/$pool.log.slow&lt;/p&gt;
-
-&lt;p&gt;九、增加php-fpm打开文件数的限制
-rlimit_files = 65535&lt;/p&gt;
-
-&lt;p&gt;十、每个php-fpm进程的内存限制(php.ini)
-memory_limit = 128M
-十一、进程最大执行时间，与php.ini中max_execution_time作用相同(php.ini)
-max_execution_time=30
-phpstatus&lt;/p&gt;
-
-&lt;p&gt;/usr/local/php/sbin/php-fpm -t #测试配置文件是否正确&lt;/p&gt;
-
-&lt;p&gt;十二、ab压力测试
-#ab-&amp;gt;nginx-&amp;gt;php-&amp;gt;index.php
-ApacheBench压力测试
-ab -n10 -c10
-ab -n1000 -c1000
-ab -n10000 -c10000
-ab -n18000 -c18000&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">php-fpm 进程管理器 进程和线程 一个进程对应一个线程 查看php-fpm进程所占用的内存 ps aux | grep php-fpm|awk ‘{mem+=$6}END {print mem}’ 通过上面的命令可以计算出php-fpm总共使用的内存，例如有一个主php-fpm进程，2个子php-fpm进程，总共使用的内存为45460，平均每个php-fpm进程使用的内存是15兆。 在实际使用过程中每个php-fpm进程使用的内存是20兆。 五、进程管理器的核心优化 1.动态创建子进程 pm = dynamic 2.最大子进程数: pm.max_children = 100(默认5) #每开启一个php-fpm进程要占用20M左右的内存，假设服务器内存为2G，优化的目的是让php-fpm达到服务器内存的顶配 3.初始进程数： pm.start_servers = 40(默认2) 4.最小空闲进程数: pm.min_spare_servers = 20(默认1) 5.最大空闲进程数: pm.max_spare_servers = 60（默认3） 6.最大多少次请求后子进程重生： pm.max_requests = 10240 #有效降低内存消耗</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">php安装xdebug</summary></entry></feed>

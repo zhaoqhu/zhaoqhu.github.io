@@ -2,6 +2,21 @@
 <search>
   
     <entry>
+      <title><![CDATA[nextcloud yml安装]]></title>
+      <url>/nextcloud/2021/03/09/nextcloud-yml/</url>
+      <content type="text"><![CDATA[创建nextcloud安装目录mkdir nextcloud创建mysql目录用于数据卷映射cd ~/nextcloudmkdir mysql创建nextcloud文件目录用于映射cd nextcloudmkdir nextcloud创建docker-compose.yml文件，内容如下version: '2'volumes:  nextcloud:  db:services:  db:    image: mysql    restart: always    command: --default-authentication-plugin=mysql_native_password    volumes:      - /Users/zhaoqinghu/dev_docker/nextcloud/mysql:/var/lib/mysql    environment:      - MYSQL_ROOT_PASSWORD=12345678      - MYSQL_PASSWORD=nextcloud      - MYSQL_DATABASE=nextcloud      - MYSQL_USER=nextcloud  app:    image: nextcloud    restart: always    ports:      - 7080:80    links:      - db    volumes:      - /Users/zhaoqinghu/dev_docker/nextcloud/nextcloud:/var/www/html    environment:      - MYSQL_PASSWORD=      - MYSQL_DATABASE=nextcloud      - MYSQL_USER=nextcloud      - MYSQL_HOST=db]]></content>
+      <categories>
+        
+          <category> nextcloud </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[php面试]]></title>
       <url>/php/2021/02/05/php-ms/</url>
       <content type="text"><![CDATA[线程和进程的区别简而言之,一个程序至少有一个进程,一个进程至少有一个线程php-fpm是一个主进程master和多个工作进程worker，每个php-fpm进程有一个线程。1、php的哪些语言特性，在合适的场景可以显著减少内存开销？spltraitGeneratortype hint2、对于php的自动加载描述正确的是？Composer的自动加载是通过__autoload函数实现在文件顶部use的时候会载入对应的类自动加载函数只支持按Class/Interface/Trait名加载，不能按function名加载现在大多数类库都遵循psr0规范3、对于Trait描述正确的是可以用来减少重复代码一个类无法同时引入两个包含相同方法的Trait子类中引入的Trait利的方法会覆盖父类的方法在Trait中不可以调用引用类里的方法4、下列对Composer描述正确的是拿到一个Project类型的项目时，需要通过composer update来安装对应的依赖包一般情况下应该把PHPUnit包含在require段composer.json不仅可以指定依赖的PHP类库，还能指定依赖的PHP扩展Library类型的项目，需要把composer.lock文件提交到版本库中5、如果一个包遵循Semantic Version，下列哪些版本升级大概率不会出问题6、按照RESTFul的规范，修改文章的展示隐藏应该使用哪一种路由7、通常使用过滤特殊字符的方式来避免SQL注入8、只要项目中使用了PDO的prepare就能完全避免SQL注入9、CSRF攻击是因为没有对用户输入进行转义导致的14、为了避免XSS攻击，需要在写入数据库前对其转义，从数据库读取后反转义]]></content>
