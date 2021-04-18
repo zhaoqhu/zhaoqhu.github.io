@@ -481,9 +481,10 @@ make install
 
 <p>打开并修改</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>;xdebug start
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>;xdebug start
 zend_extension="/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so"
-xdebug.remote_enable = on
+xdebug.remote_enable = on #*
+xdebug.remote_autostart = on #*
 xdebug.remote_handler = dbgp
 xdebug.remote_host = 127.0.0.1
 xdebug.remote_port=9001
@@ -560,7 +561,14 @@ $_POST = array[0]
 $_REQUEST = array[0]
 
 </code></pre></td></tr></tbody></table></div></div>
+<h2 id="vscode编写php项目">vscode编写php项目</h2>
+<h3 id="php-intellisense扩展">php intellisense扩展</h3>
+<h3 id="php-debug扩展">php debug扩展</h3>
 
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>"php.suggest.basic": false,
+"php.validate.executablePath": "/usr/local/php7-15/bin"
+
+</code></pre></td></tr></tbody></table></div></div>
 
 
       
@@ -717,7 +725,7 @@ $_REQUEST = array[0]
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -728,7 +736,7 @@ $_REQUEST = array[0]
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -806,7 +814,7 @@ $_REQUEST = array[0]
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#php安装xdebug"> <span class="nav-number">1</span> <span class="nav-text">php安装xdebug</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#先查看php版本然后在确定下载xdebug的版本"> <span class="nav-number">1.1</span> <span class="nav-text">先查看php版本，然后在确定下载xdebug的版本。</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用php715自带的工具phpize工具进行编译安装"> <span class="nav-number">1.2</span> <span class="nav-text">使用php7.1.5自带的工具phpize工具进行编译安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置phpini"> <span class="nav-number">1.3</span> <span class="nav-text">配置php.ini</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#sublime-text3安装xdebug"> <span class="nav-number">1.4</span> <span class="nav-text">sublime text3安装xdebug</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#界面打开"> <span class="nav-number">1.4.1</span> <span class="nav-text">界面打开</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#快捷键打开"> <span class="nav-number">1.4.2</span> <span class="nav-text">快捷键打开</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置sublime-text3"> <span class="nav-number">1.4.3</span> <span class="nav-text">配置sublime text3</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#chrome-安装xdebug-helper-插件"> <span class="nav-number">1.5</span> <span class="nav-text">Chrome 安装Xdebug helper 插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装方法"> <span class="nav-number">1.5.1</span> <span class="nav-text">安装方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置xdebug-helper"> <span class="nav-number">1.5.2</span> <span class="nav-text">配置Xdebug helper</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#firefox安装xdebug-helper插件"> <span class="nav-number">1.6</span> <span class="nav-text">Firefox安装Xdebug helper插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装方法-1"> <span class="nav-number">1.6.1</span> <span class="nav-text">安装方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置"> <span class="nav-number">1.6.2</span> <span class="nav-text">配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#检查是否配置成功"> <span class="nav-number">1.7</span> <span class="nav-text">检查是否配置成功</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#创建indexphp"> <span class="nav-number">1.7.1</span> <span class="nav-text">创建index.php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#开启调试"> <span class="nav-number">1.7.2</span> <span class="nav-text">开启调试</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#浏览器访问-localhostindexphp"> <span class="nav-number">1.7.3</span> <span class="nav-text">浏览器访问 localhost/index.php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#检查xdebug-context控制台"> <span class="nav-number">1.7.4</span> <span class="nav-text">检查Xdebug Context控制台</span> </a> </li> </ol> </li> </ol> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#php安装xdebug"> <span class="nav-number">1</span> <span class="nav-text">php安装xdebug</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#先查看php版本然后在确定下载xdebug的版本"> <span class="nav-number">1.1</span> <span class="nav-text">先查看php版本，然后在确定下载xdebug的版本。</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用php715自带的工具phpize工具进行编译安装"> <span class="nav-number">1.2</span> <span class="nav-text">使用php7.1.5自带的工具phpize工具进行编译安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置phpini"> <span class="nav-number">1.3</span> <span class="nav-text">配置php.ini</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#sublime-text3安装xdebug"> <span class="nav-number">1.4</span> <span class="nav-text">sublime text3安装xdebug</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#界面打开"> <span class="nav-number">1.4.1</span> <span class="nav-text">界面打开</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#快捷键打开"> <span class="nav-number">1.4.2</span> <span class="nav-text">快捷键打开</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置sublime-text3"> <span class="nav-number">1.4.3</span> <span class="nav-text">配置sublime text3</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#chrome-安装xdebug-helper-插件"> <span class="nav-number">1.5</span> <span class="nav-text">Chrome 安装Xdebug helper 插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装方法"> <span class="nav-number">1.5.1</span> <span class="nav-text">安装方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置xdebug-helper"> <span class="nav-number">1.5.2</span> <span class="nav-text">配置Xdebug helper</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#firefox安装xdebug-helper插件"> <span class="nav-number">1.6</span> <span class="nav-text">Firefox安装Xdebug helper插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装方法-1"> <span class="nav-number">1.6.1</span> <span class="nav-text">安装方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置"> <span class="nav-number">1.6.2</span> <span class="nav-text">配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#检查是否配置成功"> <span class="nav-number">1.7</span> <span class="nav-text">检查是否配置成功</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#创建indexphp"> <span class="nav-number">1.7.1</span> <span class="nav-text">创建index.php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#开启调试"> <span class="nav-number">1.7.2</span> <span class="nav-text">开启调试</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#浏览器访问-localhostindexphp"> <span class="nav-number">1.7.3</span> <span class="nav-text">浏览器访问 localhost/index.php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#检查xdebug-context控制台"> <span class="nav-number">1.7.4</span> <span class="nav-text">检查Xdebug Context控制台</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vscode编写php项目"> <span class="nav-number">1.8</span> <span class="nav-text">vscode编写php项目</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#php-intellisense扩展"> <span class="nav-number">1.8.1</span> <span class="nav-text">php intellisense扩展</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#php-debug扩展"> <span class="nav-number">1.8.2</span> <span class="nav-text">php debug扩展</span> </a> </li> </ol> </li> </ol> </li>
     </ol>
   </div>
             

@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-04-18T01:43:15+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-04-18T08:20:26+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Mac系统下设置全局默认的php版本和Mysql的版本</title><link href="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/" rel="alternate" type="text/html" title="Mac系统下设置全局默认的php版本和Mysql的版本" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/04/18/mac-default-php-mysql</id><content type="html" xml:base="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/">&lt;h1 id=&quot;mac系统下设置全局默认的php版本&quot;&gt;Mac系统下设置全局默认的php版本&lt;/h1&gt;
+&lt;p&gt;Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5&lt;/p&gt;
+&lt;h2 id=&quot;找到php715版本bin目录下的二进制可执行的php文件&quot;&gt;找到php7.1.5版本bin目录下的二进制可执行的php文件&lt;/h2&gt;
+&lt;p&gt;所在目录的路径为&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/php7-15/bin/php
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;找到-zshrc&quot;&gt;找到 ~/.zshrc&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/
+ls -al #列出目录下面所有文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;修改-zshrc&quot;&gt;修改 ~/.zshrc&lt;/h2&gt;
+&lt;p&gt;使用超级管理员的权限命令打开.zshrc文件&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo vim ~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;将下面的设定php全局变量的命令粘贴到.zshrc文件中&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PATH=&quot;/usr/local/php7-15/bin:$PATH&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;重新载入-zshrc文件&quot;&gt;重新载入 ~/.zshrc文件&lt;/h2&gt;
+
+&lt;p&gt;执行下面的命令重新载入.zshrc文件，使添加的php全局变量执行文件生效。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source ~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;mysql设置指定版本为全局变量&quot;&gt;MySQL设置指定版本为全局变量&lt;/h1&gt;
+&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir nextcloud
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;创建mysql目录用于数据卷映射&quot;&gt;创建mysql目录用于数据卷映射&lt;/h2&gt;
@@ -712,112 +737,4 @@ docker images&lt;/p&gt;
 
 &lt;h3 id=&quot;根据创建的镜像仓库zhaoqhu_docker_image&quot;&gt;根据创建的镜像仓库zhaoqhu_docker_image&lt;/h3&gt;
 
-&lt;p&gt;根据操作指南把本地仓库推送到阿里云上面。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Docker公司简介</summary></entry><entry><title type="html">php xdebug安装和调试</title><link href="http://localhost:4000/php/2021/01/20/php-xdebug/" rel="alternate" type="text/html" title="php xdebug安装和调试" /><published>2021-01-20T00:00:00+08:00</published><updated>2021-01-20T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/01/20/php-xdebug</id><content type="html" xml:base="http://localhost:4000/php/2021/01/20/php-xdebug/">&lt;h1 id=&quot;php安装xdebug&quot;&gt;php安装xdebug&lt;/h1&gt;
-
-&lt;h2 id=&quot;先查看php版本然后在确定下载xdebug的版本&quot;&gt;先查看php版本，然后在确定下载xdebug的版本。&lt;/h2&gt;
-&lt;p&gt;比如php的版本是7.1.5，访问xdebug历史版本下载页https://xdebug.org/download/historical
-，然后选定并下载和php版本匹配的Linux,macOS Source，Xdebug2.5.5这个版本支持php7.1.5,下载地址是https://xdebug.org/files/xdebug-2.5.5.tgz。&lt;/p&gt;
-
-&lt;h2 id=&quot;使用php715自带的工具phpize工具进行编译安装&quot;&gt;使用php7.1.5自带的工具phpize工具进行编译安装&lt;/h2&gt;
-
-&lt;p&gt;比如php7.1.5安装的目录是/usr/local/php7-15，phpize工具所在的目录是/usr/local/php7-15/bin/phpize&lt;/p&gt;
-
-&lt;p&gt;xdebug-2.5.5.tgz&lt;/p&gt;
-
-&lt;p&gt;解压&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/
-
-cd xdebug-2.5.5
-
-/usr/local/php7-15/bin/phpize #执行生成configure文件
-./configure   --with-php-config=/usr/local/php7-15/bin/php-config
-make
-make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;配置phpini&quot;&gt;配置php.ini&lt;/h2&gt;
-&lt;p&gt;查看php.ini文件位置&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/php7-15/bin/php --ini
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;打开并修改&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;;xdebug start
-zend_extension=&quot;/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so&quot;
-xdebug.remote_enable = on
-xdebug.remote_handler = dbgp
-xdebug.remote_host = 127.0.0.1
-xdebug.remote_port=9001
-
-;xdebug end
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;sublime-text3安装xdebug&quot;&gt;sublime text3安装xdebug&lt;/h2&gt;
-
-&lt;h3 id=&quot;界面打开&quot;&gt;界面打开&lt;/h3&gt;
-&lt;p&gt;首选项=&amp;gt;Package Control=&amp;gt;Install Package&lt;/p&gt;
-&lt;h3 id=&quot;快捷键打开&quot;&gt;快捷键打开&lt;/h3&gt;
-&lt;p&gt;打开命令行输入Mac上输入快捷键Command+shift+p，Windows上快捷键Control+shift+p&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Package Control: Install Package
-xdebug-client
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;配置sublime-text3&quot;&gt;配置sublime text3&lt;/h3&gt;
-&lt;p&gt;首选项=&amp;gt;Package Settings=&amp;gt;Package Control=&amp;gt;Xdebug=&amp;gt;Settings-User&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-
-&quot;port&quot;: 9001,
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;chrome-安装xdebug-helper-插件&quot;&gt;Chrome 安装Xdebug helper 插件&lt;/h2&gt;
-
-&lt;h3 id=&quot;安装方法&quot;&gt;安装方法&lt;/h3&gt;
-&lt;h3 id=&quot;配置xdebug-helper&quot;&gt;配置Xdebug helper&lt;/h3&gt;
-
-&lt;p&gt;IDE key，选其他，输入&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sublime.xdebug
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;firefox安装xdebug-helper插件&quot;&gt;Firefox安装Xdebug helper插件&lt;/h2&gt;
-
-&lt;h3 id=&quot;安装方法-1&quot;&gt;安装方法&lt;/h3&gt;
-&lt;p&gt;打开附加组件=》搜索Xdebug helper=&amp;gt;安装&lt;/p&gt;
-&lt;h3 id=&quot;配置&quot;&gt;配置&lt;/h3&gt;
-&lt;p&gt;IDE key，选其他，输入&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sublime.xdebug
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;检查是否配置成功&quot;&gt;检查是否配置成功&lt;/h2&gt;
-
-&lt;h3 id=&quot;创建indexphp&quot;&gt;创建index.php&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
-
-var_dump(&quot;hello xdebug&quot;); #设置断点
-?&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;开启调试&quot;&gt;开启调试&lt;/h3&gt;
-
-&lt;p&gt;快捷键打开命令行输入工具Command+shif+p,输入:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Xdebug: Start Debugging
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;浏览器访问-localhostindexphp&quot;&gt;浏览器访问 localhost/index.php&lt;/h3&gt;
-
-&lt;h3 id=&quot;检查xdebug-context控制台&quot;&gt;检查Xdebug Context控制台&lt;/h3&gt;
-
-&lt;p&gt;如果控制台有内容输出，证明配置成功&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$_COOKIE = array[1]
-$_COOKIE['XDEBUG_SESSION'] = (string) sublime.xdebug
-$_ENV = array[0]
-$_FILES = array[0]
-$_GET = array[0]
-$_POST = array[0]
-$_REQUEST = array[0]
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">php安装xdebug</summary></entry></feed>
+&lt;p&gt;根据操作指南把本地仓库推送到阿里云上面。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Docker公司简介</summary></entry></feed>

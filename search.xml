@@ -2,6 +2,21 @@
 <search>
   
     <entry>
+      <title><![CDATA[Mac系统下设置全局默认的php版本和Mysql的版本]]></title>
+      <url>/php/2021/04/18/mac-default-php-mysql/</url>
+      <content type="text"><![CDATA[Mac系统下设置全局默认的php版本Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5找到php7.1.5版本bin目录下的二进制可执行的php文件所在目录的路径为/usr/local/php7-15/bin/php找到 ~/.zshrccd ~/ls -al #列出目录下面所有文件修改 ~/.zshrc使用超级管理员的权限命令打开.zshrc文件sudo vim ~/.zshrc将下面的设定php全局变量的命令粘贴到.zshrc文件中export PATH="/usr/local/php7-15/bin:$PATH"重新载入 ~/.zshrc文件执行下面的命令重新载入.zshrc文件，使添加的php全局变量执行文件生效。source ~/.zshrcMySQL设置指定版本为全局变量指定方法可以参考设定PHP指定版本为全局变量的方法。]]></content>
+      <categories>
+        
+          <category> php </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[nextcloud yml安装]]></title>
       <url>/nextcloud/2021/03/09/nextcloud-yml/</url>
       <content type="text"><![CDATA[创建nextcloud安装目录mkdir nextcloud创建mysql目录用于数据卷映射cd ~/nextcloudmkdir mysql创建nextcloud文件目录用于映射cd nextcloudmkdir nextcloud创建docker-compose.yml文件，内容如下version: '2'volumes:  nextcloud:  db:services:  db:    image: mysql    restart: always    command: --default-authentication-plugin=mysql_native_password    volumes:      - /Users/zhaoqinghu/dev_docker/nextcloud/mysql:/var/lib/mysql    environment:      - MYSQL_ROOT_PASSWORD=12345678      - MYSQL_PASSWORD=nextcloud      - MYSQL_DATABASE=nextcloud      - MYSQL_USER=nextcloud  app:    image: nextcloud    restart: always    ports:      - 7080:80    links:      - db    volumes:      - /Users/zhaoqinghu/dev_docker/nextcloud/nextcloud:/var/www/html    environment:      - MYSQL_PASSWORD=      - MYSQL_DATABASE=nextcloud      - MYSQL_USER=nextcloud      - MYSQL_HOST=db]]></content>
@@ -145,7 +160,7 @@
     <entry>
       <title><![CDATA[php xdebug安装和调试]]></title>
       <url>/php/2021/01/20/php-xdebug/</url>
-      <content type="text"><![CDATA[php安装xdebug先查看php版本，然后在确定下载xdebug的版本。比如php的版本是7.1.5，访问xdebug历史版本下载页https://xdebug.org/download/historical，然后选定并下载和php版本匹配的Linux,macOS Source，Xdebug2.5.5这个版本支持php7.1.5,下载地址是https://xdebug.org/files/xdebug-2.5.5.tgz。使用php7.1.5自带的工具phpize工具进行编译安装比如php7.1.5安装的目录是/usr/local/php7-15，phpize工具所在的目录是/usr/local/php7-15/bin/phpizexdebug-2.5.5.tgz解压tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/cd xdebug-2.5.5/usr/local/php7-15/bin/phpize #执行生成configure文件./configure   --with-php-config=/usr/local/php7-15/bin/php-configmakemake install配置php.ini查看php.ini文件位置/usr/local/php7-15/bin/php --ini打开并修改;xdebug startzend_extension="/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so"xdebug.remote_enable = onxdebug.remote_handler = dbgpxdebug.remote_host = 127.0.0.1xdebug.remote_port=9001;xdebug endsublime text3安装xdebug界面打开首选项=&gt;Package Control=&gt;Install Package快捷键打开打开命令行输入Mac上输入快捷键Command+shift+p，Windows上快捷键Control+shift+pPackage Control: Install Packagexdebug-client配置sublime text3首选项=&gt;Package Settings=&gt;Package Control=&gt;Xdebug=&gt;Settings-User{"port": 9001,}Chrome 安装Xdebug helper 插件安装方法配置Xdebug helperIDE key，选其他，输入sublime.xdebugFirefox安装Xdebug helper插件安装方法打开附加组件=》搜索Xdebug helper=&gt;安装配置IDE key，选其他，输入sublime.xdebug检查是否配置成功创建index.php&lt;?phpvar_dump("hello xdebug"); #设置断点?&gt;开启调试快捷键打开命令行输入工具Command+shif+p,输入:Xdebug: Start Debugging浏览器访问 localhost/index.php检查Xdebug Context控制台如果控制台有内容输出，证明配置成功$_COOKIE = array[1]$_COOKIE['XDEBUG_SESSION'] = (string) sublime.xdebug$_ENV = array[0]$_FILES = array[0]$_GET = array[0]$_POST = array[0]$_REQUEST = array[0]]]></content>
+      <content type="text"><![CDATA[php安装xdebug先查看php版本，然后在确定下载xdebug的版本。比如php的版本是7.1.5，访问xdebug历史版本下载页https://xdebug.org/download/historical，然后选定并下载和php版本匹配的Linux,macOS Source，Xdebug2.5.5这个版本支持php7.1.5,下载地址是https://xdebug.org/files/xdebug-2.5.5.tgz。使用php7.1.5自带的工具phpize工具进行编译安装比如php7.1.5安装的目录是/usr/local/php7-15，phpize工具所在的目录是/usr/local/php7-15/bin/phpizexdebug-2.5.5.tgz解压tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/cd xdebug-2.5.5/usr/local/php7-15/bin/phpize #执行生成configure文件./configure   --with-php-config=/usr/local/php7-15/bin/php-configmakemake install配置php.ini查看php.ini文件位置/usr/local/php7-15/bin/php --ini打开并修改;xdebug startzend_extension="/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so"xdebug.remote_enable = on #*xdebug.remote_autostart = on #*xdebug.remote_handler = dbgpxdebug.remote_host = 127.0.0.1xdebug.remote_port=9001;xdebug endsublime text3安装xdebug界面打开首选项=&gt;Package Control=&gt;Install Package快捷键打开打开命令行输入Mac上输入快捷键Command+shift+p，Windows上快捷键Control+shift+pPackage Control: Install Packagexdebug-client配置sublime text3首选项=&gt;Package Settings=&gt;Package Control=&gt;Xdebug=&gt;Settings-User{"port": 9001,}Chrome 安装Xdebug helper 插件安装方法配置Xdebug helperIDE key，选其他，输入sublime.xdebugFirefox安装Xdebug helper插件安装方法打开附加组件=》搜索Xdebug helper=&gt;安装配置IDE key，选其他，输入sublime.xdebug检查是否配置成功创建index.php&lt;?phpvar_dump("hello xdebug"); #设置断点?&gt;开启调试快捷键打开命令行输入工具Command+shif+p,输入:Xdebug: Start Debugging浏览器访问 localhost/index.php检查Xdebug Context控制台如果控制台有内容输出，证明配置成功$_COOKIE = array[1]$_COOKIE['XDEBUG_SESSION'] = (string) sublime.xdebug$_ENV = array[0]$_FILES = array[0]$_GET = array[0]$_POST = array[0]$_REQUEST = array[0]vscode编写php项目php intellisense扩展php debug扩展"php.suggest.basic": false,"php.validate.executablePath": "/usr/local/php7-15/bin"]]></content>
       <categories>
         
           <category> PHP </category>
