@@ -1,4 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-04-18T08:20:26+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Mac系统下设置全局默认的php版本和Mysql的版本</title><link href="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/" rel="alternate" type="text/html" title="Mac系统下设置全局默认的php版本和Mysql的版本" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/04/18/mac-default-php-mysql</id><content type="html" xml:base="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/">&lt;h1 id=&quot;mac系统下设置全局默认的php版本&quot;&gt;Mac系统下设置全局默认的php版本&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T15:55:35+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">vscode 使用xdebug3.0.4调试</title><link href="http://localhost:4000/2021/07/10/vscode-xdebug/" rel="alternate" type="text/html" title="vscode 使用xdebug3.0.4调试" /><published>2021-07-10T00:00:00+08:00</published><updated>2021-07-10T00:00:00+08:00</updated><id>http://localhost:4000/2021/07/10/vscode-xdebug</id><content type="html" xml:base="http://localhost:4000/2021/07/10/vscode-xdebug/">&lt;h1 id=&quot;vscode-安装-php-debug-扩展&quot;&gt;vscode 安装 PHP Debug 扩展&lt;/h1&gt;
+&lt;p&gt;左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;php debug=&amp;gt;点击安装&lt;/p&gt;
+&lt;h1 id=&quot;vscode-安装-php-intellisense&quot;&gt;vscode 安装 PHP IntelliSense&lt;/h1&gt;
+&lt;p&gt;左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;PHP IntelliSense=&amp;gt;点击安装&lt;/p&gt;
+&lt;h1 id=&quot;php安装xdebug&quot;&gt;php安装xdebug&lt;/h1&gt;
+&lt;p&gt;使用pecl工具来安装xdebug&lt;/p&gt;
+&lt;h2 id=&quot;查找pecl工具的位置&quot;&gt;查找pecl工具的位置&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;which pecl
+/usr/local/bin/pecl #pecl工具所在目录
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;使用pecl工具安装xdebug&quot;&gt;使用pecl工具安装xdebug&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pecl install xdebug
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;创建zhaoqhu-php-ext-xdebugini&quot;&gt;创建zhaoqhu-php-ext-xdebug.ini&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zend_extension=xdebug
+[xdebug]
+xdebug.mode = debug 
+xdebug.start_with_request = yes 
+xdebug.client_port = 9001 
+xdebug.client_host=192.168.100.226
+xdebug.idekey=VSCODE
+extension = php_screw_plus
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;复制zhaoqhu-php-ext-xdebugini文件到php的配置文件目录下&quot;&gt;复制zhaoqhu-php-ext-xdebug.ini文件到php的配置文件目录下&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp /var/www/html/zhaoqhu-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;检查zhaoqhu-php-ext-xdebugini文件的内容&quot;&gt;检查zhaoqhu-php-ext-xdebug.ini文件的内容&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm -f /usr/local/etc/php/conf.d/zhaoqhu-php-ext-xdebug.ini
+cat /usr/local/etc/php/conf.d/zhaoqhu-php-ext-xdebug.ini
+cat /var/www/html/zhaoqhu-php-ext-xdebug.ini
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;vscode-配置launchjson文件&quot;&gt;vscode 配置launch.json文件&lt;/h1&gt;
+&lt;p&gt;docker容器内的环境注意要添加pathMappings的配置，值为”server”:”local”&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;Listen for Xdebug&quot;,
+            &quot;type&quot;: &quot;php&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;port&quot;: 9001,
+            &quot;pathMappings&quot;: {
+                &quot;/var/www/html&quot;:&quot;/Users/zhaoqinghu/dev_docker/nextcloud/nextcloud&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Launch currently open script&quot;,
+            &quot;type&quot;: &quot;php&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;program&quot;: &quot;${file}&quot;,
+            &quot;cwd&quot;: &quot;${fileDirname}&quot;,
+            &quot;port&quot;: 9001
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;调试&quot;&gt;调试&lt;/h1&gt;
+&lt;p&gt;exec&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat /sys/class/dmi/id/product_uuid
+cat /sys/class/dmi/id/board_serial
+cat /sys/class/dmi/id/board_name
+cat /sys/class/dmi/id/
+cat /sys/class/net/eth0/speed
+cat /sys/class/net/eth0/status
+
+		$product_uuid  = shell_exec('cat /sys/class/dmi/id/product_uuid');
+		$board_serial  = shell_exec('cat /sys/class/dmi/id/board_serial');
+		$board_name  = shell_exec('cat /sys/class/dmi/id/board_name');
+		$product_name  = shell_exec('cat sys/class/dmi/id/product_name');
+		$speed  = shell_exec('cat /sys/class/net/eth0/speed');
+make -p /home/dmi/ &amp;amp;&amp;amp; cp -rf /sys/class/dmi/id/ /home/dmi/ &amp;amp;&amp;amp; chmod -R 777 /home/dmi/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">vscode 安装 PHP Debug 扩展 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;php debug=&amp;gt;点击安装 vscode 安装 PHP IntelliSense 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;PHP IntelliSense=&amp;gt;点击安装 php安装xdebug 使用pecl工具来安装xdebug 查找pecl工具的位置 which pecl /usr/local/bin/pecl #pecl工具所在目录 使用pecl工具安装xdebug ``` pecl install xdebug</summary></entry><entry><title type="html">Mac系统下设置全局默认的php版本和Mysql的版本</title><link href="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/" rel="alternate" type="text/html" title="Mac系统下设置全局默认的php版本和Mysql的版本" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/04/18/mac-default-php-mysql</id><content type="html" xml:base="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/">&lt;h1 id=&quot;mac系统下设置全局默认的php版本&quot;&gt;Mac系统下设置全局默认的php版本&lt;/h1&gt;
 &lt;p&gt;Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5&lt;/p&gt;
 &lt;h2 id=&quot;找到php715版本bin目录下的二进制可执行的php文件&quot;&gt;找到php7.1.5版本bin目录下的二进制可执行的php文件&lt;/h2&gt;
 &lt;p&gt;所在目录的路径为&lt;/p&gt;
@@ -23,7 +96,115 @@ ls -al #列出目录下面所有文件
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source ~/.zshrc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h1 id=&quot;mysql设置指定版本为全局变量&quot;&gt;MySQL设置指定版本为全局变量&lt;/h1&gt;
-&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
+&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">Php7.4.16</title><link href="http://localhost:4000/2021/04/18/php7.4.16/" rel="alternate" type="text/html" title="Php7.4.16" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/2021/04/18/php7.4.16</id><content type="html" xml:base="http://localhost:4000/2021/04/18/php7.4.16/">&lt;p&gt;apcu
+bcmath
+Core
+ctype
+curl
+date
+dom
+exif
+fileinfo
+filter
+ftp
+gd
+gmp
+hash
+iconv
+imagick
+intl
+json
+ldap
+libxml
+mbstring
+memcached
+mysqlnd
+openssl
+pcntl
+pcre
+PDO
+pdo_mysql
+pdo_pgsql
+pdo_sqlite
+Phar
+posix
+readline
+redis
+Reflection
+session
+SimpleXML
+sodium
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+Zend OPcache
+zip
+zlib&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/etc/php/conf.d/docker-php-ext-apcu.ini, 
+/usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini,
+ /usr/local/etc/php/conf.d/docker-php-ext-exif.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-gd.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-gmp.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-intl.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-redis.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, 
+ /usr/local/etc/php/conf.d/docker-php-ext-zip.ini, 
+ /usr/local/etc/php/conf.d/nextcloud.ini, 
+ /usr/local/etc/php/conf.d/opcache-recommended.ini
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu'
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure --prefix=/usr/local/php-7.2.9 \
+	--with-config-file-path=/usr/local/php-7.2.9/etc \
+	--with-mysql=mysqlnd \
+	--with-mysqli=mysqlnd \
+	--with-pdo-mysql=mysqlnd \
+	--enable-fpm \
+	--enable-fastcgi \
+	--enable-static \
+	--enable-inline-optimization \
+	--enable-sockets \
+	--enable-wddx \
+	--enable-zip \
+	--enable-calendar \
+	--enable-bcmath \
+	--enable-soap \
+	--with-zlib \
+	--with-iconv \
+	--with-gd \
+	--with-xmlrpc \
+	--enable-mbstring \
+	--without-sqlite \
+	--with-curl \
+	--enable-ftp \
+	--with-mcrypt  \
+	--with-freetype-dir \
+	--with-jpeg-dir \
+	--with-png-dir \
+	--disable-ipv6 \
+	--disable-debug \
+	--with-openssl \
+	--disable-maintainer-zts \
+	--disable-safe-mode \
+	--disable-fileinfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">apcu bcmath Core ctype curl date dom exif fileinfo filter ftp gd gmp hash iconv imagick intl json ldap libxml mbstring memcached mysqlnd openssl pcntl pcre PDO pdo_mysql pdo_pgsql pdo_sqlite Phar posix readline redis Reflection session SimpleXML sodium SPL sqlite3 standard tokenizer xml xmlreader xmlwriter Zend OPcache zip zlib</summary></entry><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir nextcloud
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;创建mysql目录用于数据卷映射&quot;&gt;创建mysql目录用于数据卷映射&lt;/h2&gt;
@@ -139,72 +320,7 @@ ab -n 500 -c 5000 http://127.0.0.1/seckill/buy.php #模拟500个客户端发送5
 
 &lt;p&gt;苹果商店排行20的App
 淘宝客
-双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">Laravel 安装</title><link href="http://localhost:4000/php/laravel/2021/01/23/laravel-install/" rel="alternate" type="text/html" title="Laravel 安装" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/php/laravel/2021/01/23/laravel-install</id><content type="html" xml:base="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">&lt;h3 id=&quot;composer全量镜像配置&quot;&gt;Composer全量镜像配置&lt;/h3&gt;
-&lt;p&gt;由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。
-推荐使用国内阿里云镜像&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
-composer config -g --unset repos.packagist #取消配置
-
-composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置
-composer config --unset repos.packagist #单个项目局部取消配置
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;安装最新版本laravel&quot;&gt;安装最新版本laravel&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
-mkdir laravel_last #创建文件夹
-composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录
-php artisan #查看laravel框架的版本，目前的最新版本是8.24.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;安装指定版本laravel&quot;&gt;安装指定版本laravel&lt;/h3&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
-mkdir laravel_7_30_4
-composer create-project   laravel/laravel ./   &quot;7.30.*&quot;;
-php artisan 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;github下载laravel指定版本压缩包解压安装&quot;&gt;Github下载laravel指定版本压缩包解压安装&lt;/h3&gt;
-&lt;p&gt;访问Github上对应的版本&lt;a href=&quot;https://github.com/laravel/laravel/archive/v7.30.0.zip&quot;&gt;https://github.com/laravel/laravel/archive/v7.30.0.zip&lt;/a&gt;,然后下载到本地电脑，然后解压，然后进入7.30.0目录&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip v7.30.0 
-cd laravel-7.30.0
-composer install #安装
-php artisan -V #查看版本
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;使用-laravel命令行工具安装&quot;&gt;使用 laravel命令行工具安装&lt;/h3&gt;
-&lt;p&gt;查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composer&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer global require laravel/installer #安装laravel命令行工具
-composer config -l #查看composer配置
-cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
- ~/.composer/vendor/bin/laravel new example-app; #安装
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;参考教程&quot;&gt;参考教程&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://laravel.com/docs/8.x/installation#installation-via-composer&quot;&gt;larave Composer安装方式&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.aliyun.com/composer&quot;&gt; 阿里云 Composer 全量镜像&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pkg.phpcomposer.com/&quot;&gt;中国全量镜像&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Composer全量镜像配置 由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。 推荐使用国内阿里云镜像 ``` composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装 composer config -g –unset repos.packagist #取消配置</summary></entry><entry><title type="html">使用docker-compose.yml创建lnmp环境</title><link href="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/" rel="alternate" type="text/html" title="使用docker-compose.yml创建lnmp环境" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml</id><content type="html" xml:base="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/">&lt;h2 id=&quot;创建docker-composeyml文件&quot;&gt;创建docker-compose.yml文件&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: &quot;3&quot;
-services:
-  nginx:
-    image: nginx:alpine
-    ports:
-    - 80:80
-    volumes:
-    - ./html:/usr/share/nginx/html
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-  php:
-    image: devilbox/php-fpm:8.0-work-release-0.123
-    volumes:
-    - ./html:/var/www/html
-  mysql:
-    image: mysql:5.6
-    environment:
-    - MYSQL_ROOT_PASSWORD=123456
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;启动&quot;&gt;启动&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose up -d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/bobo132/docker-compose-demo-1&quot;&gt;https://github.com/bobo132/docker-compose-demo-1&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Docker" /><summary type="html">创建docker-compose.yml文件 version: &quot;3&quot; services: nginx: image: nginx:alpine ports: - 80:80 volumes: - ./html:/usr/share/nginx/html - ./nginx/nginx.conf:/etc/nginx/nginx.conf php: image: devilbox/php-fpm:8.0-work-release-0.123 volumes: - ./html:/var/www/html mysql: image: mysql:5.6 environment: - MYSQL_ROOT_PASSWORD=123456 启动 docker-compose up -d 参考资料 https://github.com/bobo132/docker-compose-demo-1</summary></entry><entry><title type="html">Redis 学习</title><link href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/" rel="alternate" type="text/html" title="Redis 学习" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/nosql/redis/2021/01/23/redis-learning</id><content type="html" xml:base="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">&lt;h2 id=&quot;版本&quot;&gt;版本&lt;/h2&gt;
+双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">Redis 学习</title><link href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/" rel="alternate" type="text/html" title="Redis 学习" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/nosql/redis/2021/01/23/redis-learning</id><content type="html" xml:base="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">&lt;h2 id=&quot;版本&quot;&gt;版本&lt;/h2&gt;
 &lt;p&gt;当前最新版本是6.0&lt;/p&gt;
 
 &lt;h2 id=&quot;redis安装&quot;&gt;redis安装&lt;/h2&gt;
@@ -515,226 +631,46 @@ publish newstop &quot;four&quot;
 &lt;h2 id=&quot;redis和memcached相比的独特之处&quot;&gt;redis和memcached相比的独特之处&lt;/h2&gt;
 
 &lt;p&gt;1、redis可以用来做存储(storage)，而memcached是用来做缓存(cache)，这个特点主要因为其有持久化的功能
-2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">版本 当前最新版本是6.0</summary></entry><entry><title type="html">Docker 学习</title><link href="http://localhost:4000/2021/01/21/docker-learn/" rel="alternate" type="text/html" title="Docker 学习" /><published>2021-01-21T00:00:00+08:00</published><updated>2021-01-21T00:00:00+08:00</updated><id>http://localhost:4000/2021/01/21/docker-learn</id><content type="html" xml:base="http://localhost:4000/2021/01/21/docker-learn/">&lt;p&gt;Docker公司简介&lt;/p&gt;
-
-&lt;p&gt;地址：美国剑桥大街318号加州帕洛阿尔托94306&lt;/p&gt;
-
-&lt;h2 id=&quot;docker工具简介&quot;&gt;Docker工具简介:&lt;/h2&gt;
-
-&lt;p&gt;Docker是开源应用容器的应用容器引擎，基于Go语言开发实现，属于操作系统层面的虚拟化技术。
-Docker可以让开发者打包他们的应用以及依赖包到一个轻量级，可移植的容器中，然后发布到任何有Docker的电脑(window和Linux)上。
-容器是完全使用沙箱机制，相互之间不会有任何接口（类似iphone的app）,更重要的是容器性能开销极低。&lt;/p&gt;
-
-&lt;h2 id=&quot;docker能做什么&quot;&gt;Docker能做什么&lt;/h2&gt;
-&lt;p&gt;Docker 可以解决虚拟机能够虚拟机解决的问题，同时能够解决虚拟机由于电脑资源过高而无法解决的问题。&lt;/p&gt;
-
-&lt;h2 id=&quot;docker在线工具&quot;&gt;Docker在线工具&lt;/h2&gt;
-&lt;p&gt;https://labs.play-with-docker.com/&lt;/p&gt;
-
-&lt;p&gt;Docker中每个镜像都拥有一个Linux发行版系统，拥有完整的运行环境&lt;/p&gt;
-
-&lt;p&gt;Docker的主要用法也是创建多个镜像，通过应用编排构成一个完整的应用&lt;/p&gt;
-
-&lt;p&gt;镜像越多，在同一台服务器中就会有越多的运行环境（发行版系统），它们本身也会造成开销&lt;/p&gt;
-
-&lt;p&gt;请问在这种多镜像的环境下，Docker是否会因为系统过多，造成极大的额外开销？&lt;/p&gt;
-
-&lt;p&gt;Docker安装&lt;/p&gt;
-
-&lt;p&gt;docker远程仓库&lt;/p&gt;
-
-&lt;p&gt;镜像Image&lt;/p&gt;
-
-&lt;p&gt;容器Container&lt;/p&gt;
-
-&lt;p&gt;Docker命令&lt;/p&gt;
-
-&lt;p&gt;docker info
-docker version
-docker run hello-world&lt;/p&gt;
-
-&lt;p&gt;docker镜像加速&lt;/p&gt;
-
-&lt;p&gt;“registry-mirrors”: [
-    “https://jtjwzjlb.mirror.aliyuncs.com”,
-    “https://registry.docker-cn.com”
-  ]&lt;/p&gt;
-
-&lt;h2 id=&quot;下载镜像&quot;&gt;下载镜像：&lt;/h2&gt;
-&lt;p&gt;从Docker远程镜像仓库获取镜像的命令是docker pull。请命令格式为：&lt;/p&gt;
-
-&lt;p&gt;docker pull 镜像名字&lt;/p&gt;
-
-&lt;h2 id=&quot;下载技巧&quot;&gt;下载技巧&lt;/h2&gt;
-&lt;p&gt;从 https://hub.docker.com/上面搜索镜像的安装方式，但是实际上是从阿里云加速镜像上面下载的。
-例如：
-docker pull training/webapp
-docker pull busybox
-docker pull centos&lt;/p&gt;
-
-&lt;p&gt;training/webapp #python的app
-busybox:是一个集成了三百多个最常用Linux命令工具，简化的Linux系统
-centos：linux系统容器&lt;/p&gt;
-
-&lt;h2 id=&quot;查看镜像&quot;&gt;查看镜像&lt;/h2&gt;
-
-&lt;p&gt;docker image ls
-或者
-docker images&lt;/p&gt;
-
-&lt;h2 id=&quot;删除镜像&quot;&gt;删除镜像&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;docker image rm 镜像名字&lt;/td&gt;
-      &lt;td&gt;镜像id&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;通过镜像创建容器进行容器操作&quot;&gt;通过镜像创建容器进行容器操作&lt;/h2&gt;
-
-&lt;h3 id=&quot;查看正在运行的容器&quot;&gt;查看正在运行的容器&lt;/h3&gt;
-&lt;p&gt;docker ps&lt;/p&gt;
-
-&lt;h3 id=&quot;查看所有容器&quot;&gt;查看所有容器&lt;/h3&gt;
-
-&lt;p&gt;docker ps -a&lt;/p&gt;
-
-&lt;h3 id=&quot;启动容器&quot;&gt;启动容器&lt;/h3&gt;
-
-&lt;h4 id=&quot;基于镜像新建一个容器并启动&quot;&gt;基于镜像新建一个容器并启动，&lt;/h4&gt;
-
-&lt;h4 id=&quot;启动一个已存在的容器&quot;&gt;启动一个已存在的容器&lt;/h4&gt;
-
-&lt;p&gt;docker run training/webapp
-提示启动了一个服务，http://0.0.0.0:5000/&lt;/p&gt;
-
-&lt;h4 id=&quot;端口映射&quot;&gt;端口映射&lt;/h4&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;docker run -p 本地端口:容器端口 容器名字&lt;/td&gt;
-      &lt;td&gt;容器id&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h4 id=&quot;后台运行语法&quot;&gt;后台运行语法&lt;/h4&gt;
-
-&lt;p&gt;docker -d run -p 8888:5000 training/webapp&lt;/p&gt;
-
-&lt;h4 id=&quot;在本地电脑浏览器中执行localhost8888就可以看到hello-world&quot;&gt;在本地电脑浏览器中执行localhost:8888，就可以看到hello world&lt;/h4&gt;
-
-&lt;h3 id=&quot;交互运行&quot;&gt;交互运行&lt;/h3&gt;
-
-&lt;p&gt;启动一个bash终端，允许用户进行交互。&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;docker run -t -i 容器名字&lt;/td&gt;
-      &lt;td&gt;容器id /bin/bash&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;-t选项让docker分配一个伪终端(pseudo-tty)并绑定到容器的标准输入上。
--i则让容器的标准输入保持打开。
-在交互式模式下，用户可以通过所创建的终端来输入linux命令.&lt;/p&gt;
-
-&lt;p&gt;例如&lt;/p&gt;
-
-&lt;p&gt;docker run -it centos /bin/bash
-创建centos 容器并且进入centos容器中&lt;/p&gt;
-
-&lt;h3 id=&quot;退出容器&quot;&gt;退出容器&lt;/h3&gt;
-
-&lt;p&gt;exit&lt;/p&gt;
-
-&lt;h3 id=&quot;终止容器&quot;&gt;终止容器&lt;/h3&gt;
-
-&lt;p&gt;docker stop 容器id&lt;/p&gt;
-
-&lt;h3 id=&quot;删除容器&quot;&gt;删除容器&lt;/h3&gt;
-
-&lt;p&gt;docker rm 容器id&lt;/p&gt;
-
-&lt;h3 id=&quot;开启容器&quot;&gt;开启容器&lt;/h3&gt;
-
-&lt;p&gt;docker start 容器id&lt;/p&gt;
-
-&lt;h3 id=&quot;重启容器&quot;&gt;重启容器&lt;/h3&gt;
-
-&lt;p&gt;docker restart 容器id&lt;/p&gt;
-
-&lt;h3 id=&quot;查看容器启动产生的数据&quot;&gt;查看容器启动产生的数据。&lt;/h3&gt;
-
-&lt;p&gt;docker logs 容器的id&lt;/p&gt;
-
-&lt;h3 id=&quot;进入正在运行的容器里&quot;&gt;进入正在运行的容器里&lt;/h3&gt;
-
-&lt;h3 id=&quot;主机和容器之间拷贝文件&quot;&gt;主机和容器之间拷贝文件&lt;/h3&gt;
-
-&lt;h4 id=&quot;容器拷贝到主机&quot;&gt;容器拷贝到主机&lt;/h4&gt;
-
-&lt;p&gt;docker cp 容器id:/opt/webapp/app.py d:/www&lt;/p&gt;
-
-&lt;h4 id=&quot;主机拷贝到容器&quot;&gt;主机拷贝到容器&lt;/h4&gt;
-
-&lt;p&gt;docker cp d:/www/文件 容器id:/opt/webapp/&lt;/p&gt;
-
-&lt;h3 id=&quot;8数据卷&quot;&gt;8、数据卷&lt;/h3&gt;
-&lt;h4 id=&quot;什么是数据卷&quot;&gt;什么是数据卷&lt;/h4&gt;
-&lt;p&gt;数据卷是一个可供一个或多个容器使用的特殊目录，他绕过UFS，可以提供很多有用的特性：
-1、数据卷可以在容器之间共享和重用
-2、对数据卷的修改会立马生效
-3、对数据卷的更新，不会影响镜像
-4、数据卷默认会一直存在，即使容器被删除&lt;/p&gt;
-
-&lt;p&gt;使用docker run -d -p 8888:5000 -v d:/wwww/webapp:/opt/webapp 31ff6ac986e0(容器id)&lt;/p&gt;
-
-&lt;h4 id=&quot;前提需要检查docker配置项中的file-sharing中是否包含想要创建的数据卷目录&quot;&gt;***前提需要检查docker配置项中的FILE SHARING中是否包含想要创建的数据卷目录。&lt;/h4&gt;
-
-&lt;h3 id=&quot;docker应用-搭建php开发环境&quot;&gt;Docker应用-搭建PHP开发环境&lt;/h3&gt;
-
-&lt;p&gt;9.1下载阿里云的lamp镜像&lt;/p&gt;
-
-&lt;p&gt;docker pull registry.cn-hangzhou.aliyuncs.com/itsource/centos-lamp:v3&lt;/p&gt;
-
-&lt;p&gt;docker run -itd  -p 80:80 -p 3306:3306 –name lamp –privileged=true 
--v /data/wwwroot/www.baidu.com:/data/wwwroot/www.baidu.com  registry.cn-hangzhou.aliyuncs.com/itsource/centos-lamp:v2  /usr/sbin/init
--i 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上
--t 则让容器的标准输入保持打开。
--d 则让容器在后台运行。
-–name lamp为容器起名为lamp
-–privileged=true 让container内的root拥有真正的root权限。
--v 创建数据卷，将本地主机目录挂着到容器的指定目录中&lt;/p&gt;
-
-&lt;p&gt;/usr/sbin/init是为了获取root权限&lt;/p&gt;
-
-&lt;h3 id=&quot;制作阿里云镜像&quot;&gt;制作阿里云镜像&lt;/h3&gt;
-&lt;p&gt; 
- #### 将修改后的容器生成镜像&lt;/p&gt;
-
-&lt;p&gt; docker commit -a “itsource” -m “this is my centos” 3ee458166862(容器id) my-centos:v2&lt;/p&gt;
-
-&lt;p&gt; *** -a 作者的名字 -m注释都要使用双引号&lt;/p&gt;
-
-&lt;h4 id=&quot;登录到阿里云&quot;&gt;登录到阿里云&lt;/h4&gt;
-
-&lt;p&gt;界面=&amp;gt;镜像列表=&amp;gt;创建镜像仓库&lt;/p&gt;
-
-&lt;p&gt;地址：华东1
-命名空间：itsource
-仓库名称：my-centos2
-摘要：my-centos2
-描述信息：my-centos2
-仓库类型：公开
-设置代码源：本地仓库&lt;/p&gt;
-
-&lt;h3 id=&quot;根据创建的镜像仓库zhaoqhu_docker_image&quot;&gt;根据创建的镜像仓库zhaoqhu_docker_image&lt;/h3&gt;
-
-&lt;p&gt;根据操作指南把本地仓库推送到阿里云上面。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Docker公司简介</summary></entry></feed>
+2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">版本 当前最新版本是6.0</summary></entry><entry><title type="html">Laravel 安装</title><link href="http://localhost:4000/php/laravel/2021/01/23/laravel-install/" rel="alternate" type="text/html" title="Laravel 安装" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/php/laravel/2021/01/23/laravel-install</id><content type="html" xml:base="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">&lt;h3 id=&quot;composer全量镜像配置&quot;&gt;Composer全量镜像配置&lt;/h3&gt;
+&lt;p&gt;由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。
+推荐使用国内阿里云镜像&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
+composer config -g --unset repos.packagist #取消配置
+
+composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置
+composer config --unset repos.packagist #单个项目局部取消配置
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装最新版本laravel&quot;&gt;安装最新版本laravel&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
+mkdir laravel_last #创建文件夹
+composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录
+php artisan #查看laravel框架的版本，目前的最新版本是8.24.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装指定版本laravel&quot;&gt;安装指定版本laravel&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /Users/zhaoqhu/www/
+mkdir laravel_7_30_4
+composer create-project   laravel/laravel ./   &quot;7.30.*&quot;;
+php artisan 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;github下载laravel指定版本压缩包解压安装&quot;&gt;Github下载laravel指定版本压缩包解压安装&lt;/h3&gt;
+&lt;p&gt;访问Github上对应的版本&lt;a href=&quot;https://github.com/laravel/laravel/archive/v7.30.0.zip&quot;&gt;https://github.com/laravel/laravel/archive/v7.30.0.zip&lt;/a&gt;,然后下载到本地电脑，然后解压，然后进入7.30.0目录&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;unzip v7.30.0 
+cd laravel-7.30.0
+composer install #安装
+php artisan -V #查看版本
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;使用-laravel命令行工具安装&quot;&gt;使用 laravel命令行工具安装&lt;/h3&gt;
+&lt;p&gt;查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composer&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer global require laravel/installer #安装laravel命令行工具
+composer config -l #查看composer配置
+cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
+ ~/.composer/vendor/bin/laravel new example-app; #安装
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;参考教程&quot;&gt;参考教程&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://laravel.com/docs/8.x/installation#installation-via-composer&quot;&gt;larave Composer安装方式&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.aliyun.com/composer&quot;&gt; 阿里云 Composer 全量镜像&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pkg.phpcomposer.com/&quot;&gt;中国全量镜像&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Composer全量镜像配置 由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。 推荐使用国内阿里云镜像 ``` composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装 composer config -g –unset repos.packagist #取消配置</summary></entry></feed>

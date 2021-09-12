@@ -2,6 +2,32 @@
 <search>
   
     <entry>
+      <title><![CDATA[vscode 使用xdebug3.0.4调试]]></title>
+      <url>/2021/07/10/vscode-xdebug/</url>
+      <content type="text"><![CDATA[vscode 安装 PHP Debug 扩展左侧菜单栏扩展图标=&gt;搜索输入框=&gt;php debug=&gt;点击安装vscode 安装 PHP IntelliSense左侧菜单栏扩展图标=&gt;搜索输入框=&gt;PHP IntelliSense=&gt;点击安装php安装xdebug使用pecl工具来安装xdebug查找pecl工具的位置which pecl/usr/local/bin/pecl #pecl工具所在目录使用pecl工具安装xdebugpecl install xdebug创建zhaoqhu-php-ext-xdebug.inizend_extension=xdebug[xdebug]xdebug.mode = debug xdebug.start_with_request = yes xdebug.client_port = 9001 xdebug.client_host=192.168.100.226xdebug.idekey=VSCODEextension = php_screw_plus复制zhaoqhu-php-ext-xdebug.ini文件到php的配置文件目录下cp /var/www/html/zhaoqhu-php-ext-xdebug.ini /usr/local/etc/php/conf.d/检查zhaoqhu-php-ext-xdebug.ini文件的内容rm -f /usr/local/etc/php/conf.d/zhaoqhu-php-ext-xdebug.inicat /usr/local/etc/php/conf.d/zhaoqhu-php-ext-xdebug.inicat /var/www/html/zhaoqhu-php-ext-xdebug.inivscode 配置launch.json文件docker容器内的环境注意要添加pathMappings的配置，值为”server”:”local”{    "version": "0.2.0",    "configurations": [        {            "name": "Listen for Xdebug",            "type": "php",            "request": "launch",            "port": 9001,            "pathMappings": {                "/var/www/html":"/Users/zhaoqinghu/dev_docker/nextcloud/nextcloud"            }        },        {            "name": "Launch currently open script",            "type": "php",            "request": "launch",            "program": "${file}",            "cwd": "${fileDirname}",            "port": 9001        }    ]}调试execcat /sys/class/dmi/id/product_uuidcat /sys/class/dmi/id/board_serialcat /sys/class/dmi/id/board_namecat /sys/class/dmi/id/cat /sys/class/net/eth0/speedcat /sys/class/net/eth0/status		$product_uuid  = shell_exec('cat /sys/class/dmi/id/product_uuid');		$board_serial  = shell_exec('cat /sys/class/dmi/id/board_serial');		$board_name  = shell_exec('cat /sys/class/dmi/id/board_name');		$product_name  = shell_exec('cat sys/class/dmi/id/product_name');		$speed  = shell_exec('cat /sys/class/net/eth0/speed');make -p /home/dmi/ &amp;&amp; cp -rf /sys/class/dmi/id/ /home/dmi/ &amp;&amp; chmod -R 777 /home/dmi/]]></content>
+      <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Php7.4.16]]></title>
+      <url>/2021/04/18/php7.4.16/</url>
+      <content type="text"><![CDATA[apcubcmathCorectypecurldatedomexiffileinfofilterftpgdgmphashiconvimagickintljsonldaplibxmlmbstringmemcachedmysqlndopensslpcntlpcrePDOpdo_mysqlpdo_pgsqlpdo_sqlitePharposixreadlineredisReflectionsessionSimpleXMLsodiumSPLsqlite3standardtokenizerxmlxmlreaderxmlwriterZend OPcachezipzlib/usr/local/etc/php/conf.d/docker-php-ext-apcu.ini, /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini, /usr/local/etc/php/conf.d/docker-php-ext-exif.ini,  /usr/local/etc/php/conf.d/docker-php-ext-gd.ini,  /usr/local/etc/php/conf.d/docker-php-ext-gmp.ini,  /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini,  /usr/local/etc/php/conf.d/docker-php-ext-intl.ini,  /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini,  /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini,  /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini,  /usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini,  /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini,  /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini,  /usr/local/etc/php/conf.d/docker-php-ext-redis.ini,  /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini,  /usr/local/etc/php/conf.d/docker-php-ext-zip.ini,  /usr/local/etc/php/conf.d/nextcloud.ini,  /usr/local/etc/php/conf.d/opcache-recommended.ini'./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu''./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu'./configure --prefix=/usr/local/php-7.2.9 \	--with-config-file-path=/usr/local/php-7.2.9/etc \	--with-mysql=mysqlnd \	--with-mysqli=mysqlnd \	--with-pdo-mysql=mysqlnd \	--enable-fpm \	--enable-fastcgi \	--enable-static \	--enable-inline-optimization \	--enable-sockets \	--enable-wddx \	--enable-zip \	--enable-calendar \	--enable-bcmath \	--enable-soap \	--with-zlib \	--with-iconv \	--with-gd \	--with-xmlrpc \	--enable-mbstring \	--without-sqlite \	--with-curl \	--enable-ftp \	--with-mcrypt  \	--with-freetype-dir \	--with-jpeg-dir \	--with-png-dir \	--disable-ipv6 \	--disable-debug \	--with-openssl \	--disable-maintainer-zts \	--disable-safe-mode \	--disable-fileinfo]]></content>
+      <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[Mac系统下设置全局默认的php版本和Mysql的版本]]></title>
       <url>/php/2021/04/18/mac-default-php-mysql/</url>
       <content type="text"><![CDATA[Mac系统下设置全局默认的php版本Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5找到php7.1.5版本bin目录下的二进制可执行的php文件所在目录的路径为/usr/local/php7-15/bin/php找到 ~/.zshrccd ~/ls -al #列出目录下面所有文件修改 ~/.zshrc使用超级管理员的权限命令打开.zshrc文件sudo vim ~/.zshrc将下面的设定php全局变量的命令粘贴到.zshrc文件中export PATH="/usr/local/php7-15/bin:$PATH"重新载入 ~/.zshrc文件执行下面的命令重新载入.zshrc文件，使添加的php全局变量执行文件生效。source ~/.zshrcMySQL设置指定版本为全局变量指定方法可以参考设定PHP指定版本为全局变量的方法。]]></content>
@@ -323,7 +349,7 @@
     <entry>
       <title><![CDATA[jekyll学习笔记]]></title>
       <url>/jekyll/2019/09/29/jekyll-learning/</url>
-      <content type="text"><![CDATA[jekyll安装 使用~ $ gem install jekyll~ $ jekyll new myblog~ $ cd myblog~/myblog $ jekyll serve //启动server~/myblog $ bundle exec jekyll server //windows system start jekyll server# =&gt; Now browse to http://localhost:4000jekyll代码块转义特殊字符如何显示呢{{  }} 具体如下： {% raw %}{{ msg }} {% endraw %}  参考资料  jekyll如何转义特殊字符]]></content>
+      <content type="text"><![CDATA[jekyll安装 使用~ $ gem install jekyll~ $ jekyll new myblog~ $ cd myblog~/myblog $ jekyll serve //启动方式一，如果有错，尝试启动方式二~/myblog $ bundle exec jekyll serve //启动方式二# =&gt; Now browse to http://localhost:4000jekyll代码块转义特殊字符如何显示呢{{  }} 具体如下： {% raw %}{{ msg }} {% endraw %}  参考资料  jekyll如何转义特殊字符]]></content>
       <categories>
         
           <category> jekyll </category>
