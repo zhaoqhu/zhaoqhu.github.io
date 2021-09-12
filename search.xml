@@ -2,6 +2,21 @@
 <search>
   
     <entry>
+      <title><![CDATA[php使用kafka]]></title>
+      <url>/php/2021/09/12/php-kafka/</url>
+      <content type="text"><![CDATA[  kafka基础架构和消息队列原理剖析  生产者与消费者模式原理解读  kafka flollwer如何与leader同步数据？  如何保证消息的幂等性、确认消费，避免重复消费  kafka的确认机制是如何保证的  必备kafka高可用集群搭建方案zookeeper Serverkafka队列使用场景京东618，秒杀场景。队列的作用解耦系统，异步，限流，消峰。服务器的性能，10w qps618活动时达到，200w qps使用队列把200w qps，分解到10w qps，保障系统正常的使用。异步生产者与消费者模式原理解读zookeeper 负责管理kafka集群，比如kafka1挂掉，zookeeper负责自动链接到kafka2kafka的数据通过zookeeperkafka 1kafka 2kafka 3消息被确认消费？Redis 队列 中小型没有持久化的内容 性能支持每秒10万级别吞吐量没问题。kafka 大型的系统每秒25万级别的吞吐量批量读写MMAP 内存映射php 使用kafkacomposer kafkacomposer require nmred/kafka-phpuse Kafkaclass KafkaController extends Controller{    public function Producer(){        //任务 消息内容. ---&gt;3000 小猪的详细信息 订单信息        $value = 'winner 的kafka';        //主题        $topic = 'order1';        $config = Kafka\ProducerConfig::getInstance();        $config-&gt;setMetadataRefreshIntervalMs(metadataRefreshIntervalMs:10000);        $config-&gt;setMetadataBrokerList(list:'localhost:9092');        $config-&gt;setBrokerVersion(version:'1.0.0');        //消息可靠        //当ack模式为1时，服务端的消息会持久化发送到主副本leader        //ack模式为0时，不会等待消息的持久化到主副本。        //ack模式为2时，        //可靠性:2&gt;1&gt;0        //性能:0&gt;1&gt;2        $config-&gt;setRequiredAck(requiredAck:'1');        //客户端生产消息的模式        //同步        //异步        //发后即忘        //性能：异步&gt;同步&gt;发后即忘        $config-&gt;setIsAsyn(asyn:false);        $config-&gt;setProduceInterval(produceInterval:500);        $producer = new Kafka\Prodecer(function() use($value,$topic){            return [                [                    'topic'=&gt;$topic,                    'value'=&gt;$value,                    'key =&gt; '',                ]            ];        });        dump($producer);        $producer-&gt;success(function($result){            dump($result);        });    }}消费者高级 如何保证消息可靠消费？  消息不能够被丢失，消息存在。 生产者：ACK机制使用默认值1 消费者：确认消费序列器 1次2次3次public function handle(){    $config = Kafka\ConsumerConfig::getInstance();    $config-&gt;setMetadataRefreshInstervalMs(metadataRefreshIntervalMs:500);    $config-&gt;setMetadataBrokerList(list:'localhost:9092');    //组    $config-&gt;setGroupId(groupId:'test1');    $config-&gt;setBrokerVersion(version:'1.0.0');    $config-&gt;setTopics(['order1']);    //$config-&gt;setOffsetReset('earliest);    $consumer = new Kafka\Consumer();    $consumer-&gt;start(function($topic,$part,$message){        var_dump($topic);        var_dump($part);        var_dump($message);    });}子副本]]></content>
+      <categories>
+        
+          <category> PHP </category>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[Mac系统查看隐藏文件]]></title>
       <url>/mac/2021/09/12/mac-01/</url>
       <content type="text"><![CDATA[在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。使用快捷键Shift+Command+.同时按下Shift和Command和.三个键切换显示状态。使用命令行显示defaults write com.apple.finder AppleShowAllFiles TRUEkillall Finder隐藏defaults write com.apple.finder AppleShowAllFiles FALSEkillall Finder]]></content>
@@ -48,7 +63,7 @@
       <content type="text"><![CDATA[Mac系统下设置全局默认的php版本Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5找到php7.1.5版本bin目录下的二进制可执行的php文件所在目录的路径为/usr/local/php7-15/bin/php找到 ~/.zshrccd ~/ls -al #列出目录下面所有文件修改 ~/.zshrc使用超级管理员的权限命令打开.zshrc文件sudo vim ~/.zshrc将下面的设定php全局变量的命令粘贴到.zshrc文件中export PATH="/usr/local/php7-15/bin:$PATH"重新载入 ~/.zshrc文件执行下面的命令重新载入.zshrc文件，使添加的php全局变量执行文件生效。source ~/.zshrcMySQL设置指定版本为全局变量指定方法可以参考设定PHP指定版本为全局变量的方法。]]></content>
       <categories>
         
-          <category> php </category>
+          <category> PHP </category>
         
       </categories>
       <tags>

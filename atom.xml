@@ -1,4 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-12T17:28:05+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Mac系统查看隐藏文件</title><link href="http://localhost:4000/mac/2021/09/12/mac-01/" rel="alternate" type="text/html" title="Mac系统查看隐藏文件" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/mac/2021/09/12/mac-01</id><content type="html" xml:base="http://localhost:4000/mac/2021/09/12/mac-01/">&lt;p&gt;在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-13T01:48:18+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">php使用kafka</title><link href="http://localhost:4000/php/2021/09/12/php-kafka/" rel="alternate" type="text/html" title="php使用kafka" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/09/12/php-kafka</id><content type="html" xml:base="http://localhost:4000/php/2021/09/12/php-kafka/">&lt;ul&gt;
+  &lt;li&gt;kafka基础架构和消息队列原理剖析&lt;/li&gt;
+  &lt;li&gt;生产者与消费者模式原理解读&lt;/li&gt;
+  &lt;li&gt;kafka flollwer如何与leader同步数据？&lt;/li&gt;
+  &lt;li&gt;如何保证消息的幂等性、确认消费，避免重复消费&lt;/li&gt;
+  &lt;li&gt;kafka的确认机制是如何保证的&lt;/li&gt;
+  &lt;li&gt;必备kafka高可用集群搭建方案&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;zookeeper-server&quot;&gt;zookeeper Server&lt;/h1&gt;
+&lt;h1 id=&quot;kafka&quot;&gt;kafka&lt;/h1&gt;
+
+&lt;h1 id=&quot;队列&quot;&gt;队列&lt;/h1&gt;
+
+&lt;h2 id=&quot;使用场景&quot;&gt;使用场景&lt;/h2&gt;
+&lt;p&gt;京东618，秒杀场景。&lt;/p&gt;
+
+&lt;h2 id=&quot;队列的作用&quot;&gt;队列的作用&lt;/h2&gt;
+&lt;p&gt;解耦系统，异步，限流，消峰。&lt;/p&gt;
+
+&lt;p&gt;服务器的性能，10w qps&lt;/p&gt;
+
+&lt;p&gt;618活动时达到，200w qps&lt;/p&gt;
+
+&lt;p&gt;使用队列把200w qps，分解到10w qps，保障系统正常的使用。&lt;/p&gt;
+
+&lt;h3 id=&quot;异步&quot;&gt;异步&lt;/h3&gt;
+
+&lt;h1 id=&quot;生产者与消费者模式原理解读&quot;&gt;生产者与消费者模式原理解读&lt;/h1&gt;
+
+&lt;p&gt;zookeeper 负责管理kafka集群，比如kafka1挂掉，zookeeper负责自动链接到kafka2&lt;/p&gt;
+
+&lt;p&gt;kafka的数据通过zookeeper&lt;/p&gt;
+
+&lt;p&gt;kafka 1&lt;/p&gt;
+
+&lt;p&gt;kafka 2&lt;/p&gt;
+
+&lt;p&gt;kafka 3&lt;/p&gt;
+
+&lt;h1 id=&quot;消息被确认消费&quot;&gt;消息被确认消费？&lt;/h1&gt;
+
+&lt;h2 id=&quot;redis-队列-中小型&quot;&gt;Redis 队列 中小型&lt;/h2&gt;
+&lt;p&gt;没有持久化的内容 
+性能支持每秒10万级别吞吐量没问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;kafka-大型的系统&quot;&gt;kafka 大型的系统&lt;/h2&gt;
+&lt;p&gt;每秒25万级别的吞吐量
+批量读写
+MMAP 内存映射&lt;/p&gt;
+
+&lt;h1 id=&quot;php-使用kafka&quot;&gt;php 使用kafka&lt;/h1&gt;
+&lt;p&gt;composer kafka&lt;/p&gt;
+
+&lt;p&gt;composer require nmred/kafka-php&lt;/p&gt;
+
+&lt;p&gt;use Kafka&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class KafkaController extends Controller
+{
+    public function Producer(){
+        //任务 消息内容. ---&amp;gt;3000 小猪的详细信息 订单信息
+        $value = 'winner 的kafka';
+        //主题
+        $topic = 'order1';
+        $config = Kafka\ProducerConfig::getInstance();
+        $config-&amp;gt;setMetadataRefreshIntervalMs(metadataRefreshIntervalMs:10000);
+        $config-&amp;gt;setMetadataBrokerList(list:'localhost:9092');
+        $config-&amp;gt;setBrokerVersion(version:'1.0.0');
+        //消息可靠
+        //当ack模式为1时，服务端的消息会持久化发送到主副本leader
+        //ack模式为0时，不会等待消息的持久化到主副本。
+        //ack模式为2时，
+        //可靠性:2&amp;gt;1&amp;gt;0
+        //性能:0&amp;gt;1&amp;gt;2
+        $config-&amp;gt;setRequiredAck(requiredAck:'1');
+        //客户端生产消息的模式
+        //同步
+        //异步
+        //发后即忘
+        //性能：异步&amp;gt;同步&amp;gt;发后即忘
+        $config-&amp;gt;setIsAsyn(asyn:false);
+        $config-&amp;gt;setProduceInterval(produceInterval:500);
+        $producer = new Kafka\Prodecer(function() use($value,$topic){
+            return [
+                [
+                    'topic'=&amp;gt;$topic,
+                    'value'=&amp;gt;$value,
+                    'key =&amp;gt; '',
+                ]
+            ];
+        });
+        dump($producer);
+        $producer-&amp;gt;success(function($result){
+            dump($result);
+        });
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;消费者&quot;&gt;消费者&lt;/h1&gt;
+
+&lt;p&gt;高级 如何保证消息可靠消费？&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;消息不能够被丢失，消息存在。
+ 生产者：ACK机制使用默认值1
+ 消费者：确认消费&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;序列器 
+1次
+2次
+3次&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function handle(){
+    $config = Kafka\ConsumerConfig::getInstance();
+    $config-&amp;gt;setMetadataRefreshInstervalMs(metadataRefreshIntervalMs:500);
+    $config-&amp;gt;setMetadataBrokerList(list:'localhost:9092');
+    //组
+    $config-&amp;gt;setGroupId(groupId:'test1');
+    $config-&amp;gt;setBrokerVersion(version:'1.0.0');
+    $config-&amp;gt;setTopics(['order1']);
+    //$config-&amp;gt;setOffsetReset('earliest);
+    $consumer = new Kafka\Consumer();
+    $consumer-&amp;gt;start(function($topic,$part,$message){
+        var_dump($topic);
+        var_dump($part);
+        var_dump($message);
+    });
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;子副本&quot;&gt;子副本&lt;/h1&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">kafka基础架构和消息队列原理剖析 生产者与消费者模式原理解读 kafka flollwer如何与leader同步数据？ 如何保证消息的幂等性、确认消费，避免重复消费 kafka的确认机制是如何保证的 必备kafka高可用集群搭建方案</summary></entry><entry><title type="html">Mac系统查看隐藏文件</title><link href="http://localhost:4000/mac/2021/09/12/mac-01/" rel="alternate" type="text/html" title="Mac系统查看隐藏文件" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/mac/2021/09/12/mac-01</id><content type="html" xml:base="http://localhost:4000/mac/2021/09/12/mac-01/">&lt;p&gt;在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。&lt;/p&gt;
 
 &lt;h1 id=&quot;使用快捷键&quot;&gt;使用快捷键&lt;/h1&gt;
 &lt;p&gt;Shift+Command+.
@@ -113,7 +244,7 @@ ls -al #列出目录下面所有文件
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source ~/.zshrc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h1 id=&quot;mysql设置指定版本为全局变量&quot;&gt;MySQL设置指定版本为全局变量&lt;/h1&gt;
-&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">Php7.4.16</title><link href="http://localhost:4000/2021/04/18/php7.4.16/" rel="alternate" type="text/html" title="Php7.4.16" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/2021/04/18/php7.4.16</id><content type="html" xml:base="http://localhost:4000/2021/04/18/php7.4.16/">&lt;p&gt;apcu
+&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">Php7.4.16</title><link href="http://localhost:4000/2021/04/18/php7.4.16/" rel="alternate" type="text/html" title="Php7.4.16" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/2021/04/18/php7.4.16</id><content type="html" xml:base="http://localhost:4000/2021/04/18/php7.4.16/">&lt;p&gt;apcu
 bcmath
 Core
 ctype
@@ -337,315 +468,4 @@ ab -n 500 -c 5000 http://127.0.0.1/seckill/buy.php #模拟500个客户端发送5
 
 &lt;p&gt;苹果商店排行20的App
 淘宝客
-双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">Redis 学习</title><link href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/" rel="alternate" type="text/html" title="Redis 学习" /><published>2021-01-23T00:00:00+08:00</published><updated>2021-01-23T00:00:00+08:00</updated><id>http://localhost:4000/nosql/redis/2021/01/23/redis-learning</id><content type="html" xml:base="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">&lt;h2 id=&quot;版本&quot;&gt;版本&lt;/h2&gt;
-&lt;p&gt;当前最新版本是6.0&lt;/p&gt;
-
-&lt;h2 id=&quot;redis安装&quot;&gt;redis安装&lt;/h2&gt;
-
-&lt;p&gt;下载最新的稳定版，
-make
-make PREFIX=/usr/local/redis install
-cd /usr/local/redis/bin #进入redis安装后的binary目录
-ls #查看目录下的命令行工具&lt;/p&gt;
-
-&lt;p&gt;redis-benhmark  #redis性能测试工具
-redis-check-aof #检查aof日志的工具
-redis-check-dump #检查rdb日志的工具
-redis-cli #链接用的客户端工具
-redis-server #redis服务进程&lt;/p&gt;
-
-&lt;h2 id=&quot;启动&quot;&gt;启动&lt;/h2&gt;
-
-&lt;h3 id=&quot;复制redis源码中的配置文件&quot;&gt;复制redis源码中的配置文件&lt;/h3&gt;
-&lt;p&gt;cd /usr/local/redis
-cp /usr/local/src/redis-2.6.16/redis.conf ./&lt;/p&gt;
-&lt;h3 id=&quot;启动redis服务&quot;&gt;启动redis服务&lt;/h3&gt;
-&lt;p&gt;/usr/local/redis/bin/redis-server ./redis.onf&lt;/p&gt;
-
-&lt;h3 id=&quot;redis后台运行服务&quot;&gt;redis后台运行服务&lt;/h3&gt;
-
-&lt;p&gt;修改redis.conf中的daemonize改为yes&lt;/p&gt;
-
-&lt;h2 id=&quot;五大value&quot;&gt;五大Value&lt;/h2&gt;
-
-&lt;h3 id=&quot;string字符串类型的操作&quot;&gt;String字符串类型的操作&lt;/h3&gt;
-&lt;p&gt;set key value [ex 秒数][px 毫秒数]&lt;/p&gt;
-
-&lt;p&gt;如果 ex 秒数和px 毫秒数，同时使用，则以后面的为准&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;flushdb #清空数据
-set site www.zixue.it
-ttl site #查看生命周期,默认的生命周期是永久
-
-set search www.baidu.com ex 10 px 6567
-
-pttl search
-flush db
-
-flushdb #清空数据
-set site www.so.com
-set site www.baidu.com nx# nx的参数表示如果没有这个key才可以执行
-get site #返回结果依然是www.so.com
-set site www.google.com xx #xx的参数表示如果有这个key才可以执行
-get site #返回值是www.google.com
-set abc www.google.com xx#xx表示有这个key才可以执行
-
-mset a aman b bold c controller d diamond
-keys #返回a、b、c、d
-mget a b c#一次获取多个key
-
-flushdb
-
-set word hello
-get word
-setrange word 2 ??
-get word #返回结果he??o
-set word hello 
-setrange word 6 !
-get world #返回结果hello\x00!
-append word @@
-#getrange key start stop
-set area chinese
-getrange area 1 4 
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;字符串
-数值
-二进制
-help @String&lt;/p&gt;
-
-&lt;h3 id=&quot;list链表&quot;&gt;List链表&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lpush charlist a
-rpush charlist b
-rpush charlist b
-lpush charlist 0
-lrange charlist 1 2
-lrange charlist 1 3
-lrange charlist 0 3
-lrange charlist 0 -1 #查看所有的链表上的值
-lpop charlist #弹出最左边的值，链表上的值会消失
-rpop charlist #弹出最右边的值，链表上的值会消失
-flushdb #清空所有
-rpush answer a b c a b d a
-
-lrem answer 1 b#删除链表answer上的一个b
-lrem answer -2 a#从链表answer最后开始删除两个a
-fushdb
-rpush charlist a b c d e f
-lrange charlist 0 -1
-ltrim charlist 2 5
-lindex charlist  0
-lindex charlist 1
-lindex charlist 2
-llen charlist #查看链表的长度
-lrpush num 1 3 6 8 9 #创建一个num链表
-linsert num before 3 2 #在链表num值3的前面添加2
-linsert num after 9 10
-lrange num 0 -1
-linsert num after 99 10
-linsert num after 9 10
-flushdb
-rpush task a b c d
-rpoplpush task job #右边弹出task链表的值d存储到链表d左边
-rpop job 
-brpop job 20 #等待20秒,当收到新值后结束
-lpush job e
-blop job
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;位图法统计活跃用户3天连续登录&quot;&gt;位图法统计活跃用户3天连续登录&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;setbit mon 1000000000 0
-setbit mon 3 1
-setbit mon 5 1
-setbit mon 7 1
-
-set tues 100000000 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;hash&quot;&gt;Hash&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hset user1 name lisi
-hset user1 age 28
-hset user1 height 175
-hgetall user1
-hmset user2 name wang age 10 height 100
-hgetall user2
-hget user1 name 
-hget user2 name
-hmget user1 name height
-hgetall user1
-hdel user1 age
-hgetall user1
-hlen uesr1
-hlen user2
-hexists user1 age
-hexists user2 age
-hincrby user2 age 1
-hgetall user2
-hget user2 age
-hincrbyfloat user2 age 0.5
-hkeys user2
-hvals user2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;set&quot;&gt;Set&lt;/h3&gt;
-&lt;p&gt;1、无序性 2、确定性 3、唯一性&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sadd gender male female
-sadd gender yao yao
-sadd gender yao
-smembers gender #查看gender所有的值
-srem gender yao #删除yao
-srem gender x c #删除失败(integer 0)
-srem gender male x c #成功删除(male)
-spop key #随机删除
-sadd gender a b c d e f 
-spop gender #随机删除无序集合gender里的值
-smembers gender
-
-srandmember gender
-sismember gender Q #判断某个vlue在某个集合中
-sismember gender f
-scard gender #返回集合中元素的个数
-sadd uuper A B C
-sadd lower a b c
-
-smove upper lower A #移动upper集合中的A到集合lower中
-smembers upper
-smembers lower
-
-sadd lisi a b c d
-sadd wang a b c d e f
-sadd poly a b c d g
-
-sinter lisi wang poly #求交集
-sunion lisi wang poly#求并集
-sdiff lisi wang
-sinter lisi wang poly
-sintersrore result lisi wang poly #求并集存入到result
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;zset&quot;&gt;ZSet&lt;/h3&gt;
-
-&lt;p&gt;order set 有序集合&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;flushdb
-zadd class 12 lily 13 lucy 18 lilei 6 poly
-zrange class 0 3#有序的查询出class集合中的前四个人
-zrangebyscore class 13 18 #查询13岁到18岁的人
-zrangebyscore class 1 20 limit 1 2
-zrange class 1 3 withscores
-zrangebyscore class 10 20 withscores #查看分数去某个范围内元素。
-zrange class 0 -1
-zrank class lily
-zrank class poly
-zrank class lilei
-zrank class zhangfei
-zrevrank class lilei
-zrange class 0 -1 withscores
-zremrangebysore class 10 15
-zrange class 0 -1 withscores
-zadd class 12 lily 13 lucy
-zremrangebyrank class 0 1#删除poly 和lily
-zrange class 0 -1 withscores
-zrem class lucy
-zrange class 0 -1 withscores
-zrem class lilei
-zrane class 0 -1 withscores
-zadd ty 25 zhangfei 27 guanyu 28 libei
-zcard ty 
-zadd ty 23 zhaoyun
-zcard ty
-zcoun ty 25 30
-flushdb
-zadd lisi 3 cat 5 dog 6 horse
-zadd wang 5 cat 6 dog 8 horse 1 donckey
-zinterstore result 2 lisi wang
-zrange result 0 -1 
-
-zinterstore result 2 lisi wang aggregate min
-zrange result 0 -1
-zinterstore result 2 lisi wang aggregate max
-
-zinterstore result 2 lisi wang weight 2 1 aggreagate max
-zrange result 0 -1 withscores
-
-zinterstore result 2 lisi wang weights 2 1 aggregate sum 
-zrange result 0 -1 withscores
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;redis-事务&quot;&gt;redis 事务&lt;/h2&gt;
-&lt;p&gt;redis开启事务后，所有的执行语句先放入到队列中，如果想取消可以执行discard命令，但是如果执行exec后，在队列中的语句已经执行成功了，回滚不回来，不支持回滚&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fulshdb
-set wang 200
-set zhao 700
-multi #开启事务
-decrby zhao 100
-incryby wang 100
-exec #执行成功
-multi #开启事务
-decryby zhao 100
-sdfa
-exec 执行错误
-mget zhao wang
-multi #开启事务
-decryby zhao 100
-sadd wang pig
-exec #执行错误
-multi #开启事务
-decrby zhao 100
-incrby wang 100
-discard #取消 
-#买票场景当车票只剩一张时，李四正在买票，redis开启事务，已经把修改车票和修改用户钱数的语句放到队列，还未执行exec，正在此时，王五把这张票买走了。
-
-flushdb
-set ticket 1
-set lisi 300
-set wang 300
-#李四买票
-multi
-decr ticket
-decrby lisi 100
-#exec尚未执行exec
-
-
-#王五买票成功了。
-decr ticket
-
-get ticket
-
-#李四开启watch买票
-set ticket 1
-watch ticket
-multi
-decr ticket
-decrby lisi 100
-#exec尚未执行，这时王五又执行了
-desc ticket
-get ticket
-
-watch key1 key2 key3#监听多个key
-unwatch #取消监听多个key
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;频道发布与消息订阅&quot;&gt;频道发布与消息订阅&lt;/h2&gt;
-
-&lt;p&gt;服务端&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;publish news &quot;today is sunshine&quot;
-publish news &quot;still sunshine&quot;
-publish news &quot;away sunshine&quot;
-publish news &quot;thress&quot;
-publish newstop &quot;four&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;客户端1&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;subscribe news
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;客户端2&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;subscribe news
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psubscribe new*
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;redis和memcached相比的独特之处&quot;&gt;redis和memcached相比的独特之处&lt;/h2&gt;
-
-&lt;p&gt;1、redis可以用来做存储(storage)，而memcached是用来做缓存(cache)，这个特点主要因为其有持久化的功能
-2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">版本 当前最新版本是6.0</summary></entry></feed>
+双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry></feed>
