@@ -234,7 +234,7 @@ html, body { height: 100%; }
 .footer-inner { box-sizing: border-box; margin: 20px auto; width: 920px; }
 @media (min-width: 1600px) { .container .footer-inner { width: 920px; } }
 
-pre, .highlight { overflow: auto; margin: 20px 0; padding: 0; font-size: 13px; color: #000000; background: #adba6c; line-height: 1.6; }
+pre, .highlight { overflow: auto; margin: 20px 0; padding: 0; font-size: 13px; color: #000000; background: #f6c291; line-height: 1.6; }
 
 pre, code { font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace; }
 
@@ -244,7 +244,7 @@ pre code { padding: 0; color: #000000; background: none; text-shadow: none; }
 
 .highlight { border-radius: 1px; }
 .highlight pre { border: none; margin: 0; padding: 10px 0; }
-.highlight > pre { padding-left: 10px; padding-right: 10px; background-color: #adba6c; }
+.highlight > pre { padding-left: 10px; padding-right: 10px; background-color: #f6c291; }
 .highlight table { margin: -10px; width: auto; border: none; }
 .highlight td { border: none; padding: 0; }
 .highlight figcaption { font-size: 1em; color: #000000; line-height: 1em; margin-bottom: 1em; }
@@ -253,7 +253,7 @@ pre code { padding: 0; color: #000000; background: none; text-shadow: none; }
 .highlight figcaption a { float: right; color: #000000; }
 .highlight figcaption a:hover { border-bottom-color: #000000; }
 .highlight .gutter pre { padding-left: 10px; padding-right: 10px; color: #869194; text-align: right; background-color: #eff2f3; }
-.highlight .code pre { width: 100%; padding-left: 10px; padding-right: 10px; background-color: #adba6c; }
+.highlight .code pre { width: 100%; padding-left: 10px; padding-right: 10px; background-color: #f6c291; }
 .highlight .line { height: 20px; }
 
 .gutter { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
@@ -582,7 +582,7 @@ pre .k, pre .kd, pre .kn, pre .kp, pre .kr, pre .kt, pre .javascript .function {
 .links-of-author { margin-top: 20px; }
 
 .links-of-author a { display: inline-block; vertical-align: middle; margin-right: 10px; margin-bottom: 10px; border-bottom-color: #555; font-size: 13px; }
-.links-of-author a:before { display: inline-block; vertical-align: middle; margin-right: 3px; content: " "; width: 4px; height: 4px; border-radius: 50%; background: #6ea6ff; }
+.links-of-author a:before { display: inline-block; vertical-align: middle; margin-right: 3px; content: " "; width: 4px; height: 4px; border-radius: 50%; background: #ff8000; }
 
 .links-of-blogroll { font-size: 13px; }
 
