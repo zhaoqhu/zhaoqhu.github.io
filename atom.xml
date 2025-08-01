@@ -1,4 +1,436 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-09-13T01:48:18+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">php使用kafka</title><link href="http://localhost:4000/php/2021/09/12/php-kafka/" rel="alternate" type="text/html" title="php使用kafka" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/09/12/php-kafka</id><content type="html" xml:base="http://localhost:4000/php/2021/09/12/php-kafka/">&lt;ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-08-01T18:56:38+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
+&lt;h2 id=&quot;检查go是否安装&quot;&gt;检查Go是否安装&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go version
+go version go1.24.1 darwin/amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;vscode安装go相关开发调试的工具&quot;&gt;VSCode安装Go相关开发调试的工具&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Command/Ctrl+Shift+P快捷键弹出命令面板窗口
+选择=》Go:Install/Update Tools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-tools.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;检查go开发调试相关工具安装是否成功&quot;&gt;检查Go开发调试相关工具安装是否成功&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go env|grep -E &quot;GOPATH&quot;
+GOPATH='/Users/zhaoqhu/go'
+bash-3.2$ ls -alt /Users/zhaoqhu/go/bin/
+total 243744
+-rwxr-xr-x   1 zhaoqhu  staff  15396912  8  1 16:43 staticcheck
+-rwxr-xr-x   1 zhaoqhu  staff  21008256  8  1 16:43 dlv
+-rwxr-xr-x   1 zhaoqhu  staff   8835376  8  1 16:42 goplay
+-rwxr-xr-x   1 zhaoqhu  staff   7168976  8  1 16:42 impl
+-rwxr-xr-x   1 zhaoqhu  staff  13199952  8  1 16:42 gotests
+drwxr-xr-x   6 zhaoqhu  staff       192  8  1 14:56 ..
+drwxr-xr-x  10 zhaoqhu  staff       320  7 22 16:30 .
+-rwxr-xr-x   1 zhaoqhu  staff  18287600  7 12 13:16 godoc
+-rwxr-xr-x   1 zhaoqhu  staff   4149888  3 26 13:49 gomodifytags
+-rwxr-xr-x   1 zhaoqhu  staff  36730976  3 26 13:49 gopls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;安装go扩展&quot;&gt;安装Go扩展&lt;/h2&gt;
+&lt;p&gt;Command/Ctrl+Shift+X快捷键，打开扩展商店&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-ext.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;运行和调试&quot;&gt;运行和调试&lt;/h2&gt;
+
+&lt;p&gt;创建launch.json文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+    {
+        &quot;name&quot;: &quot;Launch Package&quot;,
+        &quot;type&quot;: &quot;go&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+        &quot;mode&quot;: &quot;auto&quot;,
+        &quot;program&quot;: &quot;${workspaceFolder}&quot;
+    },
+    {
+        &quot;name&quot;: &quot;Launch Package test&quot;,
+        &quot;type&quot;: &quot;go&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+        &quot;mode&quot;: &quot;auto&quot;,
+        &quot;program&quot;: &quot;${workspaceFolder}/test&quot;
+    },
+    {
+        &quot;name&quot;: &quot;Launch Package chapter1&quot;,
+        &quot;type&quot;: &quot;go&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+        &quot;mode&quot;: &quot;auto&quot;,
+        &quot;program&quot;: &quot;${workspaceFolder}/chapter1/channels&quot;
+    },
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;验证调试&quot;&gt;验证调试&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ curl http://127.0.0.1:8080/ping
+{&quot;message&quot;:&quot;pong&quot;}
+bash-3.2$ curl http://127.0.0.1:8080/hello
+{&quot;msg&quot;:&quot;hello&quot;}
+bash-3.2$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry><entry><title type="html">Php Config</title><link href="http://localhost:4000/2024/03/10/php-config/" rel="alternate" type="text/html" title="Php Config" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-config</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-config/">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure  --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;chmod -R 7777 ./index.html ./caches ./html ./uploadfile ./phpsso_server/caches ./phpsso_server/uploadfile&lt;/p&gt;
+
+&lt;h1 id=&quot;cd-homezhaoqhuphp-src&quot;&gt;cd /home/zhaoqhu/php-src&lt;/h1&gt;
+&lt;p&gt;wget https://www.php.net/distributions/php-7.4.16.tar.gz&lt;/p&gt;
+&lt;h1 id=&quot;tar--zxvf-php-7416targz&quot;&gt;tar -zxvf ./php-7.4.16.tar.gz&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PKG_CONFIG_PATH=&quot;/usr/local/opt/libedit/lib/pkgconfig&quot;
+export PKG_CONFIG_PATH=&quot;/usr/local/opt/libsodium/lib/pkgconfig&quot;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;./configure \
+–with-iconv=/usr/local/opt/libiconv \
+–enable-fpm \
+–prefix=/usr/local/php7-416 \
+–with-config-file-path=/usr/local/php7-416/etc \
+–with-config-file-scan-dir=/usr/local/php7-416/etc/conf.d \
+–enable-option-checking=fatal \
+–with-mhash \
+–with-pic \
+–enable-ftp \
+–enable-mbstring \
+–enable-mysqlnd \
+–with-password-argon2 \
+–with-sodium \
+–with-curl \
+–with-libedit \
+–with-openssl \
+–with-zlib \
+–with-pear \
+–with-fpm-user=www-data \
+–with-fpm-group=www-data \
+–disable-cgi \&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+# 扩展安装
+## apcu
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/php
+/usr/local/php7-416/sbin/php-fpm
+./pecl install apcu
+sh-3.2# ../../php7-416/bin/pecl install apcu&lt;/p&gt;
+
+&lt;p&gt;../../php7-416/bin/pecl install https://pecl.php.net/get/apcu-5.1.22.tgz&lt;/p&gt;
+
+&lt;p&gt;cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-apcu.ini ./&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## bcmath
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make
+make install
+cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-bcmath.ini ./
+killall -9 php-fpm&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## exif
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-exif.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+## gd
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;cd ext/gd/
+/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config –with-freetype
+make &amp;amp;&amp;amp; make install
+cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-gd.ini ./&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+## gmp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;cd ext/gmp/
+/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+checking for __gmpz_rootrem in -lgmp… no
+configure: error: GNU MP Library version 4.2 or greater required.&lt;/p&gt;
+&lt;h1 id=&quot;brew-install-gmp&quot;&gt;brew install gmp&lt;/h1&gt;
+&lt;p&gt;make &amp;amp;&amp;amp; make install
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-gmp.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## imageick
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;https://pecl.php.net/get/imagick-3.7.0.tgz
+sh-3.2# pwd
+/usr/local/php-src-7.4.16/pecl-src
+sh-3.2# cp ~zhaoqinghu/Downloads/imagick-3.7.0.tgz ./
+sh-3.2# /usr/local/php7-416/bin/pecl install imagick-3.7.0.tgz 
+33 source files, building
+configure: error: not found. Please provide a path to MagickWand-config or Wand-config program.
+ERROR: `/private/var/tmp/pear/temp/imagick/configure –with-php-config=/usr/local/php7-416/bin/php-config –with-imagick’ failed&lt;/p&gt;
+
+&lt;p&gt;brew install imagemagick
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-imagick.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## intl
+安装失败
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;cd intl&lt;/p&gt;
+
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+checking for icu-uc &amp;gt;= 50.1 icu-io icu-i18n… no
+configure: error: Package requirements (icu-uc &amp;gt;= 50.1 icu-io icu-i18n) were not met:&lt;/p&gt;
+&lt;h1 id=&quot;export-pkg_config_pathpkg_config_pathusrlocalopticu4clibpkgconfig&quot;&gt;export PKG_CONFIG_PATH=”$PKG_CONFIG_PATH:/usr/local/opt/icu4c/lib/pkgconfig”&lt;/h1&gt;
+&lt;p&gt;./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## ldap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config –with-ldap=/usr/local/opt/openldap&lt;/p&gt;
+&lt;h1 id=&quot;brew-install-openldap&quot;&gt;brew install openldap&lt;/h1&gt;
+
+&lt;h1 id=&quot;export-pkg_config_pathpkg_config_pathusrlocaloptopenldaplibpkgconfig&quot;&gt;export PKG_CONFIG_PATH=”$PKG_CONFIG_PATH:/usr/local/opt/openldap/lib/pkgconfig”&lt;/h1&gt;
+&lt;p&gt;export LDFLAGS=”-L/usr/local/opt/openldap/lib”
+export CPPFLAGS=”-I/usr/local/opt/openldap/include”
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-ldap.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## memcached
+安装错误
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;https://pecl.php.net/get/memcached-3.2.0.tgz
+cp ~zhaoqinghu/Downloads/memcached-3.2.0.tgz ./
+-3.2# cp ~zhaoqinghu/Downloads/memcached-3.2.0.tgz ./
+sh-3.2# /usr/local/php7-416/bin/pecl install memcached-3.2.0.tgz&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## opcache
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install
+cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-opcache.ini ./
+killall -9 php-fpm
+/usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## pcntl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-pcntl.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## pdo_mysql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## pdo_pgsql
+暂时不安装
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## redis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;https://pecl.php.net/get/redis-5.3.7.tgz
+sh-3.2# cp ~zhaoqinghu/Downloads/redis-5.3.7.tgz ./
+sh-3.2# /usr/local/php7-416/bin/pecl install redis-5.3.7.tgz 
+31 source files, building
+sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-redis.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm
+sh-3.2#&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## sodium
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;brew install libzip
+zhaoqinghu@zhaoqinghudeMacBook-Pro no-debug-non-zts-20190902 % chmod -R 777 /usr/local/lib/cmake 
+chmod: Unable to change file mode on /usr/local/lib/cmake: Operation not permitted
+chmod: Unable to change file mode on /usr/local/lib/cmake/libxml2: Operation not permitted
+chmod: Unable to change file mode on /usr/local/lib/cmake/libxml2/libxml2-config.cmake: Operation not permitted
+zhaoqinghu@zhaoqinghudeMacBook-Pro no-debug-non-zts-20190902 % sudo chmod -R 777 /usr/local/lib/cmake
+zhaoqinghu@zhaoqinghudeMacBook-Pro no-debug-non-zts-20190902 %  brew link libzip                   &lt;br /&gt;
+Linking /usr/local/Cellar/libzip/1.9.2… 135 symlinks created.&lt;/p&gt;
+
+&lt;p&gt;/usr/local/php7-416/bin/phpize
+./configure   –with-php-config=/usr/local/php7-416/bin/php-config
+make &amp;amp;&amp;amp; make install&lt;/p&gt;
+
+&lt;p&gt;sh-3.2# cp ~zhaoqinghu/Desktop/83-2000/etc/php/conf.d/docker-php-ext-zip.ini ./
+sh-3.2# killall -9 php-fpm
+sh-3.2# /usr/local/php7-416/sbin/php-fpm&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+## mysqli
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;cd mysqli/
+ /usr/local/php7-416/bin/phpize
+ ./configure   –with-php-config=/usr/local/php7-416/bin/php-config 
+ make &amp;amp;&amp;amp; make install&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;## xdebug
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;sh-3.2# /usr/local/php7-416/bin/pecl install xdebug-3.2.0.tgz 
+pecl/xdebug requires PHP (version &amp;gt;= 8.0.0, version &amp;lt;= 8.2.99), installed version is 7.4.16
+No valid packages found
+install failed
+sh-3.2# cp ~zhaoqinghu/Downloads/xdebug-3.1.5.tgz ./
+sh-3.2# /usr/local/php7-416/bin/pecl install xdebug-3.1.5.tgz 
+93 source files, building
+running: phpize
+Configuring for:
+PHP Api Version:         20190902
+Zend Module Api No:      20190902
+Zend Extension Api No:   320190902
+sh-3.2# cat docker-php-ext-xdebug.ini 
+zend_extension=xdebug
+xdebug.remote_handler = dbgp
+xdebug.remote_connect_back = 0
+xdebug.idekey = docker
+xdebug.mode = debug
+xdebug.start_with_request = yes
+xdebug.client_port = 9003
+xdebug.client_host = 127.0.0.1
+xdebug.log = /tmp/xdebug.log
+```&lt;/p&gt;
+
+&lt;p&gt;参考资料
+&lt;a href=&quot;https://blog.csdn.net/ligaofeng/article/details/105819374&quot;&gt;https://blog.csdn.net/ligaofeng/article/details/105819374&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.liuvv.com/p/ad42ac48.html&quot;&gt;https://www.liuvv.com/p/ad42ac48.html&lt;/a&gt;
+&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&lt;/a&gt;
+&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">./configure --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo</summary></entry><entry><title type="html">Php High Level</title><link href="http://localhost:4000/2024/03/10/php-high-level/" rel="alternate" type="text/html" title="Php High Level" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-high-level</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-high-level/">&lt;h1 id=&quot;分布式事务最大努力通知案例分析&quot;&gt;分布式事务最大努力通知案例分析&lt;/h1&gt;
+
+&lt;p&gt;在第三方支付中，例如支付宝，或者微信，对于订单请求，第三方支付系统采用的是消息同步返回，异步通知+主动补偿查询的补偿机制。&lt;/p&gt;
+
+&lt;p&gt;由于互联网通信的不可靠性，例如网络故障、服务器故障、应用bug等因素的影响，不管是同步返回、异步通知、主动查询报文都可能出现超时无响应、报文丢失等情况，所以像支付业务、对结果的通知、一般采用几种方案结合的补偿机制，不能完全依赖某一种机制。&lt;/p&gt;
+
+&lt;p&gt;例如一个支付结果的通知，一方面会在支付页面跳转时候返回支付结果（一般只用作前端展示使用，非最终状态），同时会采用后台异步通知机制（有前台、后台通知的，以后台异步通知结果为准），但由于前台跳转、后台结果通知可能失效，因此还以定时补单+请求方主动查询接口作为辅助手段。&lt;/p&gt;
+
+&lt;p&gt;常见的补单操作，任务调度策略一般设定30秒、60秒、3分钟、6分钟、10分钟调度多次（以自己业务需要），如果调度接受到响应确认报文，补单成功。则终止对应订单的调度任务；如果超过补单上限次数，则停止补单，避免无谓的资源浪费。请求端随时可以发起请求报文查询对应订单的状态。&lt;/p&gt;
+
+&lt;p&gt;## 最大努力通知型&lt;/p&gt;
+
+&lt;p&gt;### 实现
+  1、业务活动的主动方，在完成业务处理之后，向业务活动的被动房发送消息，被动方需主动响应正确消息，否则根据定时策略，最大努力通知。
+  2、业务活动的被动方（电商平台）也可以向业务活动主动方（支付宝平台）查询，恢复丢失的业务消息。
+  ### 约束
+  被动方的处理结果不能影响主动方的处理结果
+  ### 成本
+  业务查询与校对系统的建设成本
+  ### 使用范围
+  对业务最终一致性的时间敏感度低
+  跨企业的业务活动
+  ### 方案特点
+  业务活动的主动方在完成业务处理后，向业务活动被动方发送通知消息（允许消息丢失）
+  主动方可以设置时间阶梯通知规则，在通知失败后按规则重复通知，直到通知N次后，主动方提供校队查询接口给被动方按需校队查询，用于恢复丢失的业务消息
+  ### 应用案例
+  银行通知、商户通知等（各大交易业务平台间的商户通知：多次通知、查询校对、对账文件）&lt;/p&gt;
+
+&lt;p&gt;## 了解docker并且快速配置RabbitMQ&lt;/p&gt;
+
+&lt;p&gt;### Docker是什么？
+  Docker是一个开源的应用容器引擎，你可以将其理解为一个轻量级的虚拟机，开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，只要有了Docker，用户便不在需要为这些应用配置其所需的特有环境了，也不需要为这些应用统一环境了
+  ### 为什么要使用Docker，Docker的好处是什么？
+  可以认为Docker是一个通用安装程序，简单来说，利用Docker容器，可以将任何一个或者多个程序封装起来，并提供标准的管理接口，因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这样，开发人员负责维护内容，并使用Docker进行封装，系统管理人员利用Docker的标准接口进行部署和管理。&lt;/p&gt;
+
+&lt;p&gt;Docker的主要用途，目前有三大类。
+  1）提供一致性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建环境。
+  2）提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。
+  3）组件微服务架构，通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。&lt;/p&gt;
+
+&lt;p&gt;### 一、Docker安装 
+  CentOS
+  1、更新update到最新的版本
+  yum update
+  2、安装docker
+  yum -y install docker
+  3、启动docker
+  systemctl start docker
+  4、加入开启自启
+  systemctl enable docker&lt;/p&gt;
+
+&lt;p&gt;### 二、Docker参数说明
+  启动会自动搜索 rabbitMQ&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">分布式事务最大努力通知案例分析</summary></entry><entry><title type="html">Rabbitmq</title><link href="http://localhost:4000/2022/12/06/rabbitmq/" rel="alternate" type="text/html" title="Rabbitmq" /><published>2022-12-06T00:00:00+08:00</published><updated>2022-12-06T00:00:00+08:00</updated><id>http://localhost:4000/2022/12/06/rabbitmq</id><content type="html" xml:base="http://localhost:4000/2022/12/06/rabbitmq/">&lt;h1 id=&quot;mac安装rabbitmq&quot;&gt;Mac安装rabbitmq&lt;/h1&gt;
+&lt;p&gt;使用homebrew安装&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew update
+brew install rabbitmq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;启动rabbitmq服务&quot;&gt;启动rabbitmq服务&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% pwd
+/usr/local/Cellar/rabbitmq/3.11.4/sbin
+% ls
+rabbitmq-defaults	rabbitmq-queues		rabbitmq-upgrade
+rabbitmq-diagnostics	rabbitmq-server		rabbitmqadmin
+rabbitmq-env		rabbitmq-streams	rabbitmqctl
+rabbitmq-plugins	rabbitmq-tanzu
+% /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-server # 启动服务
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;启动management-插件网页管理器&quot;&gt;启动management 插件网页管理器&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-plugins enable rabbitmq_management
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;访问management&quot;&gt;访问Management&lt;/h1&gt;
+&lt;p&gt;http://localhost:15672/
+默认账号:guest
+默认密码:guest&lt;/p&gt;
+
+&lt;h1 id=&quot;php安装amqp扩展&quot;&gt;php安装amqp扩展&lt;/h1&gt;
+&lt;p&gt;amqp扩展依赖&lt;a href=&quot;https://formulae.brew.sh/formula/rabbitmq-c#default&quot;&gt;rabbitmq-c&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;homebrew安装rabbitmq-c&quot;&gt;homebrew安装rabbitmq-c&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install rabbitmq-c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;由于国内网络原因，使用pecl在线安装可能会失败，如果失败可以先将安装包现在到本地，然后在使用本地的安装包下载&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -O https://pecl.php.net/get/amqp-1.11.0.tgz
+% pwd
+/usr/local/php7-15/bin
+% ./pecl install /Users/zhaoqinghu/Downloads/amqp-1.11.0.tgz
+% Set the path to librabbitmq install prefix [autodetect] : /usr/local/Cellar/rabbitmq-c/0.11.0 #输入rabbitmq-c的安装位置
+Installing '/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/amqp.so'
+install ok: channel://pecl.php.net/amqp-1.11.0
+configuration option &quot;php_ini&quot; is not set to php.ini location
+You should add &quot;extension=amqp.so&quot; to php.ini
+sh-3.2#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;参考资料&quot;&gt;参考资料&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.rabbitmq.com/install-homebrew.html&quot;&gt;https://www.rabbitmq.com/install-homebrew.html&lt;/a&gt;
+&lt;a href=&quot;https://formulae.brew.sh/formula/rabbitmq#default&quot;&gt;https://formulae.brew.sh/formula/rabbitmq#default&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Mac安装rabbitmq 使用homebrew安装 brew update brew install rabbitmq 启动rabbitmq服务 % pwd /usr/local/Cellar/rabbitmq/3.11.4/sbin % ls rabbitmq-defaults rabbitmq-queues rabbitmq-upgrade rabbitmq-diagnostics rabbitmq-server rabbitmqadmin rabbitmq-env rabbitmq-streams rabbitmqctl rabbitmq-plugins rabbitmq-tanzu % /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-server # 启动服务</summary></entry><entry><title type="html">mysql启动</title><link href="http://localhost:4000/2021/11/14/mysql-init/" rel="alternate" type="text/html" title="mysql启动" /><published>2021-11-14T00:00:00+08:00</published><updated>2021-11-14T00:00:00+08:00</updated><id>http://localhost:4000/2021/11/14/mysql-init</id><content type="html" xml:base="http://localhost:4000/2021/11/14/mysql-init/">&lt;h1 id=&quot;查看mysql配置文件&quot;&gt;查看mysql配置文件&lt;/h1&gt;
+&lt;p&gt;/usr/local/Cellar/mysql/5.6.23/bin/mysql&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/usr/local/Cellar/mysql/5.6.23/bin/mysql –help&lt;/td&gt;
+      &lt;td&gt;grep ‘my.cnf’&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;cat /usr/local/etc/my.cnf;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ps aux&lt;/td&gt;
+      &lt;td&gt;grep mysql&lt;/td&gt;
+      &lt;td&gt;grep ‘my.cnf’&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">查看mysql配置文件 /usr/local/Cellar/mysql/5.6.23/bin/mysql</summary></entry><entry><title type="html">php使用kafka</title><link href="http://localhost:4000/php/2021/09/12/php-kafka/" rel="alternate" type="text/html" title="php使用kafka" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/09/12/php-kafka</id><content type="html" xml:base="http://localhost:4000/php/2021/09/12/php-kafka/">&lt;ul&gt;
   &lt;li&gt;kafka基础架构和消息队列原理剖析&lt;/li&gt;
   &lt;li&gt;生产者与消费者模式原理解读&lt;/li&gt;
   &lt;li&gt;kafka flollwer如何与leader同步数据？&lt;/li&gt;
@@ -129,7 +561,31 @@ MMAP 内存映射&lt;/p&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;子副本&quot;&gt;子副本&lt;/h1&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">kafka基础架构和消息队列原理剖析 生产者与消费者模式原理解读 kafka flollwer如何与leader同步数据？ 如何保证消息的幂等性、确认消费，避免重复消费 kafka的确认机制是如何保证的 必备kafka高可用集群搭建方案</summary></entry><entry><title type="html">Mac系统查看隐藏文件</title><link href="http://localhost:4000/mac/2021/09/12/mac-01/" rel="alternate" type="text/html" title="Mac系统查看隐藏文件" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/mac/2021/09/12/mac-01</id><content type="html" xml:base="http://localhost:4000/mac/2021/09/12/mac-01/">&lt;p&gt;在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。&lt;/p&gt;
+&lt;h1 id=&quot;子副本&quot;&gt;子副本&lt;/h1&gt;
+
+&lt;h1 id=&quot;消息&quot;&gt;消息&lt;/h1&gt;
+&lt;p&gt;数据库里的一行数据&lt;/p&gt;
+&lt;h1 id=&quot;生产者&quot;&gt;生产者&lt;/h1&gt;
+&lt;p&gt;发布消息的程序
+主题
+分区
+指定分区
+不指定分区
+键
+一个标记
+值&lt;/p&gt;
+
+&lt;h1 id=&quot;消费者-1&quot;&gt;消费者&lt;/h1&gt;
+&lt;p&gt;订阅消息的程序&lt;/p&gt;
+
+&lt;p&gt;偏移量
+消费者根据偏移量读取数据&lt;/p&gt;
+
+&lt;p&gt;broker1
+主题:圆蛋蛋
+分区0
+主题:圆蛋蛋
+分区1&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">kafka基础架构和消息队列原理剖析 生产者与消费者模式原理解读 kafka flollwer如何与leader同步数据？ 如何保证消息的幂等性、确认消费，避免重复消费 kafka的确认机制是如何保证的 必备kafka高可用集群搭建方案</summary></entry><entry><title type="html">Mac系统查看隐藏文件</title><link href="http://localhost:4000/mac/2021/09/12/mac-01/" rel="alternate" type="text/html" title="Mac系统查看隐藏文件" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/mac/2021/09/12/mac-01</id><content type="html" xml:base="http://localhost:4000/mac/2021/09/12/mac-01/">&lt;p&gt;在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。&lt;/p&gt;
 
 &lt;h1 id=&quot;使用快捷键&quot;&gt;使用快捷键&lt;/h1&gt;
 &lt;p&gt;Shift+Command+.
@@ -352,120 +808,4 @@ zlib&lt;/p&gt;
 	--disable-maintainer-zts \
 	--disable-safe-mode \
 	--disable-fileinfo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">apcu bcmath Core ctype curl date dom exif fileinfo filter ftp gd gmp hash iconv imagick intl json ldap libxml mbstring memcached mysqlnd openssl pcntl pcre PDO pdo_mysql pdo_pgsql pdo_sqlite Phar posix readline redis Reflection session SimpleXML sodium SPL sqlite3 standard tokenizer xml xmlreader xmlwriter Zend OPcache zip zlib</summary></entry><entry><title type="html">nextcloud yml安装</title><link href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/" rel="alternate" type="text/html" title="nextcloud yml安装" /><published>2021-03-09T00:00:00+08:00</published><updated>2021-03-09T00:00:00+08:00</updated><id>http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml</id><content type="html" xml:base="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">&lt;h2 id=&quot;创建nextcloud安装目录&quot;&gt;创建nextcloud安装目录&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir nextcloud
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;创建mysql目录用于数据卷映射&quot;&gt;创建mysql目录用于数据卷映射&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/nextcloud
-mkdir mysql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;创建nextcloud文件目录用于映射&quot;&gt;创建nextcloud文件目录用于映射&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd nextcloud
-mkdir nextcloud
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;创建docker-composeyml文件内容如下&quot;&gt;创建docker-compose.yml文件，内容如下&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;version: '2'
-
-volumes:
-  nextcloud:
-  db:
-
-services:
-  db:
-    image: mysql
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - /Users/zhaoqinghu/dev_docker/nextcloud/mysql:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=12345678
-      - MYSQL_PASSWORD=nextcloud
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-
-  app:
-    image: nextcloud
-    restart: always
-    ports:
-      - 7080:80
-    links:
-      - db
-    volumes:
-      - /Users/zhaoqinghu/dev_docker/nextcloud/nextcloud:/var/www/html
-    environment:
-      - MYSQL_PASSWORD=
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=db
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="nextcloud" /><summary type="html">创建nextcloud安装目录 mkdir nextcloud 创建mysql目录用于数据卷映射 cd ~/nextcloud mkdir mysql 创建nextcloud文件目录用于映射 cd nextcloud mkdir nextcloud 创建docker-compose.yml文件，内容如下 ``` version: ‘2’</summary></entry><entry><title type="html">php面试</title><link href="http://localhost:4000/php/2021/02/05/php-ms/" rel="alternate" type="text/html" title="php面试" /><published>2021-02-05T00:00:00+08:00</published><updated>2021-02-05T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/02/05/php-ms</id><content type="html" xml:base="http://localhost:4000/php/2021/02/05/php-ms/">&lt;h2 id=&quot;线程和进程的区别&quot;&gt;线程和进程的区别&lt;/h2&gt;
-
-&lt;p&gt;简而言之,一个程序至少有一个进程,一个进程至少有一个线程&lt;/p&gt;
-
-&lt;p&gt;php-fpm是一个主进程master和多个工作进程worker，每个php-fpm进程有一个线程。&lt;/p&gt;
-
-&lt;p&gt;1、php的哪些语言特性，在合适的场景可以显著减少内存开销？
-spl
-trait
-Generator
-type hint
-2、对于php的自动加载描述正确的是？
-Composer的自动加载是通过__autoload函数实现
-在文件顶部use的时候会载入对应的类
-自动加载函数只支持按Class/Interface/Trait名加载，不能按function名加载
-现在大多数类库都遵循psr0规范
-3、对于Trait描述正确的是
-可以用来减少重复代码
-一个类无法同时引入两个包含相同方法的Trait
-子类中引入的Trait利的方法会覆盖父类的方法
-在Trait中不可以调用引用类里的方法
-4、下列对Composer描述正确的是
-拿到一个Project类型的项目时，需要通过composer update来安装对应的依赖包
-一般情况下应该把PHPUnit包含在require段
-composer.json不仅可以指定依赖的PHP类库，还能指定依赖的PHP扩展
-Library类型的项目，需要把composer.lock文件提交到版本库中
-5、如果一个包遵循Semantic Version，下列哪些版本升级大概率不会出问题
-6、按照RESTFul的规范，修改文章的展示隐藏应该使用哪一种路由
-7、通常使用过滤特殊字符的方式来避免SQL注入
-8、只要项目中使用了PDO的prepare就能完全避免SQL注入
-9、CSRF攻击是因为没有对用户输入进行转义导致的
-14、为了避免XSS攻击，需要在写入数据库前对其转义，从数据库读取后反转义&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">线程和进程的区别</summary></entry><entry><title type="html">Elasticsearch 学习</title><link href="http://localhost:4000/2021/02/04/Elesticsearch/" rel="alternate" type="text/html" title="Elasticsearch 学习" /><published>2021-02-04T00:00:00+08:00</published><updated>2021-02-04T00:00:00+08:00</updated><id>http://localhost:4000/2021/02/04/Elesticsearch</id><content type="html" xml:base="http://localhost:4000/2021/02/04/Elesticsearch/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry><entry><title type="html">php高级教程-大型电商平台双十一Redis高并发秒杀解决方案</title><link href="http://localhost:4000/php/2021/01/28/php-redis-seckill/" rel="alternate" type="text/html" title="php高级教程-大型电商平台双十一Redis高并发秒杀解决方案" /><published>2021-01-28T00:00:00+08:00</published><updated>2021-01-28T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/01/28/php-redis-seckill</id><content type="html" xml:base="http://localhost:4000/php/2021/01/28/php-redis-seckill/">&lt;h2 id=&quot;使用场景介绍&quot;&gt;使用场景介绍&lt;/h2&gt;
-&lt;h3 id=&quot;秒杀红包&quot;&gt;秒杀红包&lt;/h3&gt;
-&lt;p&gt;1、时间短、数量少
-2、大流量、高并发&lt;/p&gt;
-
-&lt;h3 id=&quot;数据安全&quot;&gt;数据安全&lt;/h3&gt;
-&lt;p&gt;1、业务场景、高并发会引发问题
-2、压力测试工具的使用
-3、悲观锁、乐观锁、lua脚本
-4、不同场景的解决方案
-2.2redis一些相关的原理（10服用、原子性）&lt;/p&gt;
-
-&lt;h3 id=&quot;秒杀场景遇到的问题&quot;&gt;秒杀场景遇到的问题&lt;/h3&gt;
-&lt;p&gt;1、卡顿崩溃
-2、超卖（库存变为负数）&lt;/p&gt;
-
-&lt;p&gt;模拟秒杀库存只有3件的商品，如果用压力测试工具进行模拟500人进行秒杀的情况，比如发送了5000次链接，如果不做处理
-一定会出现商品超卖的情况，实际成功的订单会大于3个，商品库存会变成负数，比如-36，那实际上成功的订单会是39个订单，超卖了36件，这样子就赔钱了。&lt;/p&gt;
-&lt;h2 id=&quot;使用压力测试工具模拟高并发场景&quot;&gt;使用压力测试工具模拟高并发场景&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ab -n 请求数 -c 并发数 url地址
-ab -n 500 -c 5000 http://127.0.0.1/seckill/buy.php #模拟500个客户端发送5000个请求
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;解决办法&quot;&gt;解决办法&lt;/h2&gt;
-&lt;h3 id=&quot;数据库悲观锁&quot;&gt;数据库悲观锁&lt;/h3&gt;
-
-&lt;h3 id=&quot;redis&quot;&gt;redis&lt;/h3&gt;
-&lt;p&gt;1、redis速度快（单机的读写速度可以达到8万左右）
-2、数据限制
-悲观锁：假设当前的数据操作一定会发生冲突的，屏蔽一切（行锁、文件锁）&lt;/p&gt;
-
-&lt;p&gt;如果用mysql的行锁会导致阻塞、等待状态，会崩溃。
-性能差，速度慢。&lt;/p&gt;
-
-&lt;p&gt;乐观锁：假设当前的数据不会发生并发冲突，在真写数据的时候，再去检查，有没有发生冲突。&lt;/p&gt;
-
-&lt;p&gt;苹果商店排行20的App
-淘宝客
-双十一销售额，5亿，每秒并发14w&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><category term="PHP" /><summary type="html">使用场景介绍 秒杀红包 1、时间短、数量少 2、大流量、高并发</summary></entry><entry><title type="html">Redis nginx memcached</title><link href="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="alternate" type="text/html" title="Redis nginx memcached" /><published>2021-01-25T00:00:00+08:00</published><updated>2021-01-25T00:00:00+08:00</updated><id>http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached</id><content type="html" xml:base="http://localhost:4000/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/"></content><author><name>Zhao Q.H.</name></author><summary type="html"></summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">apcu bcmath Core ctype curl date dom exif fileinfo filter ftp gd gmp hash iconv imagick intl json ldap libxml mbstring memcached mysqlnd openssl pcntl pcre PDO pdo_mysql pdo_pgsql pdo_sqlite Phar posix readline redis Reflection session SimpleXML sodium SPL sqlite3 standard tokenizer xml xmlreader xmlwriter Zend OPcache zip zlib</summary></entry></feed>

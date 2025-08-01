@@ -584,6 +584,30 @@ MMAP 内存映射</p>
 
 <h1 id="子副本">子副本</h1>
 
+<h1 id="消息">消息</h1>
+<p>数据库里的一行数据</p>
+<h1 id="生产者">生产者</h1>
+<p>发布消息的程序
+主题
+分区
+指定分区
+不指定分区
+键
+一个标记
+值</p>
+
+<h1 id="消费者-1">消费者</h1>
+<p>订阅消息的程序</p>
+
+<p>偏移量
+消费者根据偏移量读取数据</p>
+
+<p>broker1
+主题:圆蛋蛋
+分区0
+主题:圆蛋蛋
+分区1</p>
+
 
       
     </div>
@@ -643,6 +667,10 @@ MMAP 内存映射</p>
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/14/mysql-init/" rel="next" title="mysql启动">
+                <i class="fa fa-chevron-left"></i> mysql启动
+              </a>
             
           </div>
 
@@ -735,7 +763,7 @@ MMAP 内存映射</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -746,7 +774,7 @@ MMAP 内存映射</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -824,7 +852,7 @@ MMAP 内存映射</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#zookeeper-server"> <span class="nav-number">1</span> <span class="nav-text">zookeeper Server</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#kafka"> <span class="nav-number">2</span> <span class="nav-text">kafka</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#队列"> <span class="nav-number">3</span> <span class="nav-text">队列</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用场景"> <span class="nav-number">3.1</span> <span class="nav-text">使用场景</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#队列的作用"> <span class="nav-number">3.2</span> <span class="nav-text">队列的作用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#异步"> <span class="nav-number">3.2.1</span> <span class="nav-text">异步</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#生产者与消费者模式原理解读"> <span class="nav-number">4</span> <span class="nav-text">生产者与消费者模式原理解读</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消息被确认消费"> <span class="nav-number">5</span> <span class="nav-text">消息被确认消费？</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis-队列-中小型"> <span class="nav-number">5.1</span> <span class="nav-text">Redis 队列 中小型</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#kafka-大型的系统"> <span class="nav-number">5.2</span> <span class="nav-text">kafka 大型的系统</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#php-使用kafka"> <span class="nav-number">6</span> <span class="nav-text">php 使用kafka</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消费者"> <span class="nav-number">7</span> <span class="nav-text">消费者</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#子副本"> <span class="nav-number">8</span> <span class="nav-text">子副本</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#zookeeper-server"> <span class="nav-number">1</span> <span class="nav-text">zookeeper Server</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#kafka"> <span class="nav-number">2</span> <span class="nav-text">kafka</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#队列"> <span class="nav-number">3</span> <span class="nav-text">队列</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用场景"> <span class="nav-number">3.1</span> <span class="nav-text">使用场景</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#队列的作用"> <span class="nav-number">3.2</span> <span class="nav-text">队列的作用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#异步"> <span class="nav-number">3.2.1</span> <span class="nav-text">异步</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#生产者与消费者模式原理解读"> <span class="nav-number">4</span> <span class="nav-text">生产者与消费者模式原理解读</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消息被确认消费"> <span class="nav-number">5</span> <span class="nav-text">消息被确认消费？</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis-队列-中小型"> <span class="nav-number">5.1</span> <span class="nav-text">Redis 队列 中小型</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#kafka-大型的系统"> <span class="nav-number">5.2</span> <span class="nav-text">kafka 大型的系统</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#php-使用kafka"> <span class="nav-number">6</span> <span class="nav-text">php 使用kafka</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消费者"> <span class="nav-number">7</span> <span class="nav-text">消费者</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#子副本"> <span class="nav-number">8</span> <span class="nav-text">子副本</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消息"> <span class="nav-number">9</span> <span class="nav-text">消息</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#生产者"> <span class="nav-number">10</span> <span class="nav-text">生产者</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#消费者-1"> <span class="nav-number">11</span> <span class="nav-text">消费者</span> </a> </li>
     </ol>
   </div>
             
@@ -849,7 +877,7 @@ MMAP 内存映射</p>
   
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
