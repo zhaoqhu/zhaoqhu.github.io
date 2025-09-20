@@ -1,4 +1,364 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-08-01T18:56:38+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-20T13:49:47+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go 语言学习笔记</title><link href="http://localhost:4000/go/2025/09/18/go-study-note/" rel="alternate" type="text/html" title="Go 语言学习笔记" /><published>2025-09-18T00:00:00+08:00</published><updated>2025-09-18T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/18/go-study-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/18/go-study-note/">&lt;h2 id=&quot;数据类型&quot;&gt;数据类型&lt;/h2&gt;
+&lt;h3 id=&quot;基础类型&quot;&gt;基础类型&lt;/h3&gt;
+&lt;h4 id=&quot;布尔&quot;&gt;布尔&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var b1 bool
+b1 = true
+b2 := false
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;字符串&quot;&gt;字符串&lt;/h4&gt;
+&lt;p&gt;string 和 byte[]，string可以直接转换成byte字节切片&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	var (
+		str1 string = &quot;hello string&quot;
+	)
+	str2 := &quot;hello str2&quot;
+	fmt.Println(str1, str2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;整型&quot;&gt;整型&lt;/h4&gt;
+&lt;p&gt;11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var a int = 10
+var i1, i2 int = 10, 20
+i3 := 30                  //默认类型是int
+fmt.Println(i1, i2, i3)
+fmt.Printf(&quot;i1 type is %T\n &quot;, i1)
+fmt.Printf(&quot;i3 type is %T\n\n &quot;, i3)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;浮点型&quot;&gt;浮点型&lt;/h4&gt;
+&lt;p&gt;两种内置浮点数类型：float32和float64。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var f1 float32 = 3.14
+f2 := 3.14              //默认数据类型是float64
+fmt.Println(f1, f2)
+fmt.Printf(&quot;f2 type is %T\n &quot;, f2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;复数&quot;&gt;复数&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var cmp1 complex64 = 1 + 2i
+cmp2 := 2 + 4i        //默认值是complex128
+fmt.Println(cmp1, cmp2)
+fmt.Printf(&quot;cmp2 type is %T\n&quot;, cmp2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;零型&quot;&gt;零型&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var (
+  zb   bool
+  zs   string
+  zi   int
+  zf   float64
+  zcmp complex128
+)
+fmt.Println(zb, zs, zi, zf, zcmp)
+输出结果为
+false  0 0 (0+0i)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;复合类型&quot;&gt;复合类型&lt;/h3&gt;
+&lt;h4 id=&quot;数组&quot;&gt;数组&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;定义数组
+    &lt;ul&gt;
+      &lt;li&gt;var 变量名 [长度]类型&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;初始化定义数组
+    &lt;ol&gt;
+      &lt;li&gt;var 变量名 = [长度]类型{v1,v2,v3}&lt;/li&gt;
+      &lt;li&gt;var 变量名 = […]类型{v1,v2,v3}&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+// 冒泡排序
+for i := 0; i &amp;lt; len(arr)-1; i++ {
+  for j := 0; j &amp;lt; len(arr)-1-i; j++ {
+    if arr[j] &amp;lt; arr[j+1] {
+      arr[j], arr[j+1] = arr[j+1], arr[j]
+    }
+    fmt.Println(&quot;aa:&quot;, arr)
+  }
+  fmt.Println(&quot;aaa:&quot;, arr)
+}
+
+fmt.Println(arr)
+
+//多维数组定义和遍历
+var arr3 = [3][2]int{ {1, 2}, {3, 4}, {5, 6}}
+for i := 0; i &amp;lt; len(arr3); i++ {
+  for j := 0; j &amp;lt; len(arr3[i]); j++ {
+    fmt.Printf(&quot;%d &quot;, arr3[i][j])
+  }
+}
+for _, val := range arr3 {
+  for index2, val2 := range val {
+    fmt.Printf(&quot;index is %d,val is %d \n&quot;, index2, val2)
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;切片&quot;&gt;切片&lt;/h4&gt;
+&lt;p&gt;引用类型&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;定义切片
+    &lt;ul&gt;
+      &lt;li&gt;var 变量名 []类型，不需要指定长度。&lt;/li&gt;
+      &lt;li&gt;变量名 := make([]int,len,cap)，这种需要合理预估切片容量大小，如果预估过大会造成内存浪费，预估准确会提升性能。
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;slice1 := make([]int, 0)
+fmt.Printf(&quot;slice1 type is %T\n&quot;, slice1)
+fmt.Println(slice1 == nil)
+slice1 = append(slice1, 1)
+slice1 = append(slice1, 2, 3, 4)
+fmt.Println(slice1 == nil)
+fmt.Println(slice1)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;切片常用操作
+    &lt;ul&gt;
+      &lt;li&gt;添加，append&lt;/li&gt;
+      &lt;li&gt;截取，slice[start:end]，start或者end都可以省略&lt;/li&gt;
+      &lt;li&gt;复制，copy(目标切片，源切片)，复制覆盖同位置的元素，不会改变切片的长度。&lt;/li&gt;
+      &lt;li&gt;删除,slice[:2],删除第二个以后所有的元素，slice[2:]，删除第二个和前面的元素
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;slice1 := []int{1, 2, 3}
+slice2 := []int{4, 5, 6}
+slice1 = append(slice1, 7)
+//slice1 = slice1[:2]
+copy(slice1, slice2)
+fmt.Println(slice1, slice2)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+        &lt;h4 id=&quot;集合映射&quot;&gt;集合、映射&lt;/h4&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;定义方式
+    &lt;ul&gt;
+      &lt;li&gt;map[键的类型]值的类型&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+ //定义一个空集合、映射。
+ma := map[string]int{}
+ma[&quot;a&quot;] = 1
+fmt.Println(ma)
+//初始化定义一个非空集合、映射。
+m1 := map[string]int{&quot;a&quot;: 1, &quot;b&quot;: 2}
+//定义一个空集合、映射。
+m2 := make(map[string]string)
+//m2[&quot;a&quot;] = 1
+m2[&quot;b&quot;] = &quot;hello&quot;
+//m2[3] = 3.14
+m2[&quot;name&quot;] = &quot;tom&quot;
+m2[&quot;age&quot;] = &quot;20&quot;
+m2[&quot;city&quot;] = &quot;beijing&quot;
+delete(m2, &quot;city&quot;)
+//m2[&quot;city&quot;] = &quot;shanghai&quot;
+//将json字符串转换成map集合。
+var j string
+j = `{&quot;infos&quot;:[{&quot;name&quot;:&quot;tom&quot;,&quot;age&quot;:20,&quot;city&quot;:&quot;beijing&quot;},{&quot;name&quot;:&quot;jack&quot;,&quot;age&quot;:22,&quot;city&quot;:&quot;shanghai&quot;}]}`
+fmt.Println(j)
+var m3 = map[string]any{}
+json.Unmarshal([]byte(j), &amp;amp;m3)
+for key, val := range m3 {
+  fmt.Println(&quot;key is &quot;, key)
+  fmt.Println(&quot;val is &quot;, val)
+  //valSlice := val.([]interface{})
+  //valSlice := val.([]any)
+  valSlice := val.([]interface{})
+  for index, val2 := range valSlice {
+    fmt.Println(&quot;index is &quot;, index)
+    fmt.Println(&quot;val2 is &quot;, val2)
+    valMap := val2.(map[string]any)
+    for key3, val3 := range valMap {
+      fmt.Printf(&quot;key3 is %s,val3 is %v \n&quot;, key3, val3)
+    }
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;函数&quot;&gt;函数&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func sum(a,b int) int{
+  return a+b
+}
+func main(){
+  sumInt := sum(1,2)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;方法&quot;&gt;方法&lt;/h4&gt;
+
+&lt;p&gt;函数和方法的区别是方法有一个类型接收者。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;type Age int
+
+func (age Age) Hello() {
+	fmt.Println(&quot;hello&quot;, age)
+}
+func main(){
+  age := Age(10)
+  age.Hello
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;结构体&quot;&gt;结构体&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;type Book struct {
+	Name   string
+	Price  float64
+	Author string
+	Page   int
+}
+//结构体定义方法
+func (b Book) HelloName() {
+	fmt.Println(&quot;book name is &quot;, b.Name)
+}
+func (b Book) Pages() int {
+	return b.Page
+}
+func (b *Book) SetPages(page int) int {
+	b.Page = page
+	return b.Page
+}
+function main(){
+  Book1 := Book{Name: &quot;Go&quot;,Price: 66.6, Author: &quot;tom&quot;}
+  Book1.HelloName()
+  var Book1 Book
+	Book1.SetPages(200)
+	pages := Book1.Pages()
+	fmt.Println(pages)
+	return
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;接口&quot;&gt;接口&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;接口的定义
+  接口的定义与结构体稍微有些差别，虽然都以type关键字开始，但接口的关键字是interface，表示定义的类型是一个接口。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;type Stringer interface {
+  String() string
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;接口的实现
+  接口的实现者必须是一个具体的类型，以person结构体为例，让它来实现Stringer接口，如下面的代码所示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;type Stringer interface {
+  String() string
+}
+type Address struct {
+    province string
+    city string
+}
+type Person struct{
+  Name String
+  Age int
+  Address Address
+}
+func (p Person) String() string {
+  return fmt.Sprintf(&quot;the name is %s,age is %d&quot;,p.name,p.age)
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;指针&quot;&gt;指针&lt;/h4&gt;
+&lt;h4 id=&quot;通道&quot;&gt;通道&lt;/h4&gt;
+&lt;p&gt;​​不要在同一个 goroutine 中，对无缓冲 channel 顺序执行先接收后发送或先发送后接收的操作​​，这会导致该 goroutine 阻塞，从而使后续的配对操作没有机会执行。务必让它们在两个不同的 goroutine 中并发执行。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func main(){
+ch3 := make(chan int)
+go func() {
+  ch3 &amp;lt;- 100
+}()
+ch100 := &amp;lt;-ch3
+fmt.Println(&quot;ch100 is &quot;, ch100)
+return
+ch2 := make(chan int, 1)  //带缓冲区的通道
+ch2 &amp;lt;- 1
+//ch2 &amp;lt;- 2
+cha1 := &amp;lt;-ch2
+//cha2 := &amp;lt;-ch2
+fmt.Println(cha1)
+return
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;type关键字&quot;&gt;type关键字&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//自定义类型（在基本类型基础上），使用大小驼峰，大驼峰代表导出，小驼峰只在包内。
+type MyInt int
+type myInt int
+//结构体
+type ShoppingCart struct{
+
+}
+//接口
+type Formatter interface{
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;类型断言&quot;&gt;类型断言&lt;/h2&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">数据类型 基础类型 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T\n &quot;, i1) fmt.Printf(&quot;i3 type is %T\n\n &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T\n &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T\n&quot;, cmp2) 零型</summary></entry><entry><title type="html">Redis</title><link href="http://localhost:4000/redis/2025/09/16/redis/" rel="alternate" type="text/html" title="Redis" /><published>2025-09-16T00:00:00+08:00</published><updated>2025-09-16T00:00:00+08:00</updated><id>http://localhost:4000/redis/2025/09/16/redis</id><content type="html" xml:base="http://localhost:4000/redis/2025/09/16/redis/">&lt;h2 id=&quot;redis高频面试题&quot;&gt;Redis高频面试题&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;缓存穿透
+    &lt;ul&gt;
+      &lt;li&gt;问题描述&lt;/li&gt;
+      &lt;li&gt;解决方案&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缓存击穿
+    &lt;ul&gt;
+      &lt;li&gt;问题描述&lt;/li&gt;
+      &lt;li&gt;解决方案&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缓存雪崩
+    &lt;ul&gt;
+      &lt;li&gt;问题描述&lt;/li&gt;
+      &lt;li&gt;解决方案
+        &lt;h2 id=&quot;redis-持久化方案&quot;&gt;Redis 持久化方案&lt;/h2&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;RDB&lt;/li&gt;
+  &lt;li&gt;AOF&lt;/li&gt;
+  &lt;li&gt;RDB+AOF
+```
+    &lt;h1 id=&quot;1-rdb-配置---根据你的数据重要性和写入频繁程度调整&quot;&gt;1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整&lt;/h1&gt;
+    &lt;p&gt;save 900 1                      # 900秒（15分钟）内至少1个key发生变化
+save 300 10                     # 300秒（5分钟）内至少10个key发生变化
+save 60 10000                   # 60秒内至少10000个key发生变化
+dbfilename dump.rdb             # RDB 文件名
+rdbcompression yes               # 开启RDB文件压缩，节省空间
+rdbchecksum yes                 # 开启RDB文件校验，保证数据完整性
+stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;2-aof-配置---混合持久化的基础必须开启&quot;&gt;2. AOF 配置 - 混合持久化的基础，必须开启&lt;/h1&gt;
+&lt;p&gt;appendonly yes                  # 启用AOF持久化
+appendfilename “appendonly.aof” # AOF文件名
+appendfsync everysec            # 每秒同步，性能与安全的良好平衡&lt;/p&gt;
+
+&lt;h1 id=&quot;3-aof-重写配置---防止aof文件无限膨胀&quot;&gt;3. AOF 重写配置 - 防止AOF文件无限膨胀&lt;/h1&gt;
+&lt;p&gt;auto-aof-rewrite-percentage 100  # 当前AOF文件比上次重写后大小增长100%时触发
+auto-aof-rewrite-min-size 64mb   # AOF文件最小达到64MB才触发重写&lt;/p&gt;
+
+&lt;h1 id=&quot;4-启用混合持久化-redis-40&quot;&gt;4. 启用混合持久化 (Redis 4.0+)&lt;/h1&gt;
+&lt;p&gt;aof-use-rdb-preamble yes&lt;/p&gt;
+
+&lt;h1 id=&quot;5-通用配置&quot;&gt;5. 通用配置&lt;/h1&gt;
+&lt;p&gt;dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁盘空间充足
+```&lt;/p&gt;
+&lt;h2 id=&quot;redis高可用方案&quot;&gt;Redis高可用方案&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;主从
+1台主、1台从&lt;/li&gt;
+  &lt;li&gt;哨兵模式
+1台主、2台从、3台哨兵(部署到每台主从)&lt;/li&gt;
+  &lt;li&gt;集群模式
+3太主、3台从&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述 解决方案 缓存击穿 问题描述 解决方案 缓存雪崩 问题描述 解决方案 Redis 持久化方案 RDB AOF RDB+AOF ``` 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致</summary></entry><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
 &lt;h2 id=&quot;检查go是否安装&quot;&gt;检查Go是否安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go version
 go version go1.24.1 darwin/amd64
@@ -675,137 +1035,4 @@ cat /sys/class/net/eth0/status
 		$product_name  = shell_exec('cat sys/class/dmi/id/product_name');
 		$speed  = shell_exec('cat /sys/class/net/eth0/speed');
 make -p /home/dmi/ &amp;amp;&amp;amp; cp -rf /sys/class/dmi/id/ /home/dmi/ &amp;amp;&amp;amp; chmod -R 777 /home/dmi/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">vscode 安装 PHP Debug 扩展 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;php debug=&amp;gt;点击安装 vscode 安装 PHP IntelliSense 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;PHP IntelliSense=&amp;gt;点击安装 php安装xdebug 使用pecl工具来安装xdebug 查找pecl工具的位置 which pecl /usr/local/bin/pecl #pecl工具所在目录 使用pecl工具安装xdebug ``` pecl install xdebug</summary></entry><entry><title type="html">Mac系统下设置全局默认的php版本和Mysql的版本</title><link href="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/" rel="alternate" type="text/html" title="Mac系统下设置全局默认的php版本和Mysql的版本" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/04/18/mac-default-php-mysql</id><content type="html" xml:base="http://localhost:4000/php/2021/04/18/mac-default-php-mysql/">&lt;h1 id=&quot;mac系统下设置全局默认的php版本&quot;&gt;Mac系统下设置全局默认的php版本&lt;/h1&gt;
-&lt;p&gt;Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5&lt;/p&gt;
-&lt;h2 id=&quot;找到php715版本bin目录下的二进制可执行的php文件&quot;&gt;找到php7.1.5版本bin目录下的二进制可执行的php文件&lt;/h2&gt;
-&lt;p&gt;所在目录的路径为&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/php7-15/bin/php
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;找到-zshrc&quot;&gt;找到 ~/.zshrc&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/
-ls -al #列出目录下面所有文件
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;修改-zshrc&quot;&gt;修改 ~/.zshrc&lt;/h2&gt;
-&lt;p&gt;使用超级管理员的权限命令打开.zshrc文件&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo vim ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;将下面的设定php全局变量的命令粘贴到.zshrc文件中&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export PATH=&quot;/usr/local/php7-15/bin:$PATH&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;重新载入-zshrc文件&quot;&gt;重新载入 ~/.zshrc文件&lt;/h2&gt;
-
-&lt;p&gt;执行下面的命令重新载入.zshrc文件，使添加的php全局变量执行文件生效。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h1 id=&quot;mysql设置指定版本为全局变量&quot;&gt;MySQL设置指定版本为全局变量&lt;/h1&gt;
-&lt;p&gt;指定方法可以参考设定PHP指定版本为全局变量的方法。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">Mac系统下设置全局默认的php版本 Mac系统版本Mac OS big Sur，这个版本的系统默认装的php版本是php7.3.24 ,可能你还会在自己的电脑上安装其他的php版本，比如php5,php7.1.5,,php7.4.16。如果电脑上面装了多个版本的php，可以指定某一个版本的php为全局默认的，假如我们设定全局默认的php版本是php7.1.5 找到php7.1.5版本bin目录下的二进制可执行的php文件 所在目录的路径为 /usr/local/php7-15/bin/php 找到 ~/.zshrc cd ~/ ls -al #列出目录下面所有文件 修改 ~/.zshrc 使用超级管理员的权限命令打开.zshrc文件 sudo vim ~/.zshrc 将下面的设定php全局变量的命令粘贴到.zshrc文件中</summary></entry><entry><title type="html">Php7.4.16</title><link href="http://localhost:4000/2021/04/18/php7.4.16/" rel="alternate" type="text/html" title="Php7.4.16" /><published>2021-04-18T00:00:00+08:00</published><updated>2021-04-18T00:00:00+08:00</updated><id>http://localhost:4000/2021/04/18/php7.4.16</id><content type="html" xml:base="http://localhost:4000/2021/04/18/php7.4.16/">&lt;p&gt;apcu
-bcmath
-Core
-ctype
-curl
-date
-dom
-exif
-fileinfo
-filter
-ftp
-gd
-gmp
-hash
-iconv
-imagick
-intl
-json
-ldap
-libxml
-mbstring
-memcached
-mysqlnd
-openssl
-pcntl
-pcre
-PDO
-pdo_mysql
-pdo_pgsql
-pdo_sqlite
-Phar
-posix
-readline
-redis
-Reflection
-session
-SimpleXML
-sodium
-SPL
-sqlite3
-standard
-tokenizer
-xml
-xmlreader
-xmlwriter
-Zend OPcache
-zip
-zlib&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/etc/php/conf.d/docker-php-ext-apcu.ini, 
-/usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini,
- /usr/local/etc/php/conf.d/docker-php-ext-exif.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-gd.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-gmp.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-intl.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-ldap.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-redis.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, 
- /usr/local/etc/php/conf.d/docker-php-ext-zip.ini, 
- /usr/local/etc/php/conf.d/nextcloud.ini, 
- /usr/local/etc/php/conf.d/opcache-recommended.ini
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu'
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'./configure' '--build=x86_64-linux-gnu' '--with-config-file-path=/usr/local/etc/php' '--with-config-file-scan-dir=/usr/local/etc/php/conf.d' '--enable-option-checking=fatal' '--with-mhash' '--with-pic' '--enable-ftp' '--enable-mbstring' '--enable-mysqlnd' '--with-password-argon2' '--with-sodium=shared' '--with-pdo-sqlite=/usr' '--with-sqlite3=/usr' '--with-curl' '--with-libedit' '--with-openssl' '--with-zlib' '--with-pear' '--with-libdir=lib/x86_64-linux-gnu' '--with-apxs2' '--disable-cgi' 'build_alias=x86_64-linux-gnu'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure --prefix=/usr/local/php-7.2.9 \
-	--with-config-file-path=/usr/local/php-7.2.9/etc \
-	--with-mysql=mysqlnd \
-	--with-mysqli=mysqlnd \
-	--with-pdo-mysql=mysqlnd \
-	--enable-fpm \
-	--enable-fastcgi \
-	--enable-static \
-	--enable-inline-optimization \
-	--enable-sockets \
-	--enable-wddx \
-	--enable-zip \
-	--enable-calendar \
-	--enable-bcmath \
-	--enable-soap \
-	--with-zlib \
-	--with-iconv \
-	--with-gd \
-	--with-xmlrpc \
-	--enable-mbstring \
-	--without-sqlite \
-	--with-curl \
-	--enable-ftp \
-	--with-mcrypt  \
-	--with-freetype-dir \
-	--with-jpeg-dir \
-	--with-png-dir \
-	--disable-ipv6 \
-	--disable-debug \
-	--with-openssl \
-	--disable-maintainer-zts \
-	--disable-safe-mode \
-	--disable-fileinfo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">apcu bcmath Core ctype curl date dom exif fileinfo filter ftp gd gmp hash iconv imagick intl json ldap libxml mbstring memcached mysqlnd openssl pcntl pcre PDO pdo_mysql pdo_pgsql pdo_sqlite Phar posix readline redis Reflection session SimpleXML sodium SPL sqlite3 standard tokenizer xml xmlreader xmlwriter Zend OPcache zip zlib</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">vscode 安装 PHP Debug 扩展 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;php debug=&amp;gt;点击安装 vscode 安装 PHP IntelliSense 左侧菜单栏扩展图标=&amp;gt;搜索输入框=&amp;gt;PHP IntelliSense=&amp;gt;点击安装 php安装xdebug 使用pecl工具来安装xdebug 查找pecl工具的位置 which pecl /usr/local/bin/pecl #pecl工具所在目录 使用pecl工具安装xdebug ``` pecl install xdebug</summary></entry></feed>

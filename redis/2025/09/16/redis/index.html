@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Jekyll, NexT" />
+  <meta name="keywords" content="" />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Building...">
+<meta name="description" content="Redis高频面试题 缓存穿透 问题描述 解决方案 缓存击穿 问题描述 解决方案 缓存雪崩 问题描述 解决方案 Redis 持久化方案 RDB AOF RDB+AOF ``` 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致">
 <meta name="keywords" content="Jekyll, NexT">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhao Q.H.'s Notes">
-<meta property="og:url" content="http://localhost:4000/about/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="http://localhost:4000/redis/2025/09/16/redis/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="Building...">
+<meta property="og:description" content="Redis高频面试题 缓存穿透 问题描述 解决方案 缓存击穿 问题描述 解决方案 缓存雪崩 问题描述 解决方案 Redis 持久化方案 RDB AOF RDB+AOF ``` 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhao Q.H.'s Notes">
-<meta name="twitter:description" content="Building...">
+<meta name="twitter:title" content="Redis">
+<meta name="twitter:description" content="Redis高频面试题 缓存穿透 问题描述 解决方案 缓存击穿 问题描述 解决方案 缓存雪崩 问题描述 解决方案 Redis 持久化方案 RDB AOF RDB+AOF ``` 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>              关于 | Zhao Q.H.'s Notes      </title>
+  <title>Redis | Zhao Q.H.'s Notes</title>
   
 
 
@@ -314,24 +314,291 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+
 <div id="posts" class="posts-expand">
-<header class="post-header">
+  
+  
 
-	<h1 class="post-title" itemprop="name headline">
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/redis/2025/09/16/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Q.H.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhao Q.H.'s Notes">
+    </span>
+
     
-      关于
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Redis
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-16T00:00:00+08:00">
+                2025-09-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="">
+                
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Redis" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
     
-  </h1>
 
+    <div class="post-body" itemprop="articleBody">
 
+      
+      
 
-</header>
-
+      
+        
   
   
-    <p>Building…</p>
 
-  
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="redis高频面试题">Redis高频面试题</h2>
+<ul>
+  <li>缓存穿透
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案</li>
+    </ul>
+  </li>
+  <li>缓存击穿
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案</li>
+    </ul>
+  </li>
+  <li>缓存雪崩
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案
+        <h2 id="redis-持久化方案">Redis 持久化方案</h2>
+      </li>
+    </ul>
+  </li>
+  <li>RDB</li>
+  <li>AOF</li>
+  <li>RDB+AOF
+```
+    <h1 id="1-rdb-配置---根据你的数据重要性和写入频繁程度调整">1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整</h1>
+    <p>save 900 1                      # 900秒（15分钟）内至少1个key发生变化
+save 300 10                     # 300秒（5分钟）内至少10个key发生变化
+save 60 10000                   # 60秒内至少10000个key发生变化
+dbfilename dump.rdb             # RDB 文件名
+rdbcompression yes               # 开启RDB文件压缩，节省空间
+rdbchecksum yes                 # 开启RDB文件校验，保证数据完整性
+stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致</p>
+  </li>
+</ul>
+
+<h1 id="2-aof-配置---混合持久化的基础必须开启">2. AOF 配置 - 混合持久化的基础，必须开启</h1>
+<p>appendonly yes                  # 启用AOF持久化
+appendfilename “appendonly.aof” # AOF文件名
+appendfsync everysec            # 每秒同步，性能与安全的良好平衡</p>
+
+<h1 id="3-aof-重写配置---防止aof文件无限膨胀">3. AOF 重写配置 - 防止AOF文件无限膨胀</h1>
+<p>auto-aof-rewrite-percentage 100  # 当前AOF文件比上次重写后大小增长100%时触发
+auto-aof-rewrite-min-size 64mb   # AOF文件最小达到64MB才触发重写</p>
+
+<h1 id="4-启用混合持久化-redis-40">4. 启用混合持久化 (Redis 4.0+)</h1>
+<p>aof-use-rdb-preamble yes</p>
+
+<h1 id="5-通用配置">5. 通用配置</h1>
+<p>dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁盘空间充足
+```</p>
+<h2 id="redis高可用方案">Redis高可用方案</h2>
+<ul>
+  <li>主从
+1台主、1台从</li>
+  <li>哨兵模式
+1台主、2台从、3台哨兵(部署到每台主从)</li>
+  <li>集群模式
+3太主、3台从</li>
+</ul>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/wechat.gif" alt="Zhao Q.H. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/pay.gif" alt="Zhao Q.H. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/go/2025/09/18/go-study-note/" rel="next" title="Go 语言学习笔记">
+                <i class="fa fa-chevron-left"></i> Go 语言学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/go/2025/08/01/go-dev-env/" rel="prev" title="VSCode如何配置go开发环境">
+                VSCode如何配置go开发环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
 </div>
 
 
@@ -340,6 +607,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
 
         </div>
         
@@ -357,10 +630,30 @@
     <div class="sidebar-inner">
 
       
+        
+        
+        
+
+
+
+
+
+
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -444,6 +737,34 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#1-rdb-配置---根据你的数据重要性和写入频繁程度调整"> <span class="nav-number">1</span> <span class="nav-text">1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#2-aof-配置---混合持久化的基础必须开启"> <span class="nav-number">2</span> <span class="nav-text">2. AOF 配置 - 混合持久化的基础，必须开启</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#3-aof-重写配置---防止aof文件无限膨胀"> <span class="nav-number">3</span> <span class="nav-text">3. AOF 重写配置 - 防止AOF文件无限膨胀</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#4-启用混合持久化-redis-40"> <span class="nav-number">4</span> <span class="nav-text">4. 启用混合持久化 (Redis 4.0+)</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#5-通用配置"> <span class="nav-number">5</span> <span class="nav-text">5. 通用配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis高可用方案"> <span class="nav-number">5.1</span> <span class="nav-text">Redis高可用方案</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -630,7 +951,7 @@
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/about/',
+        id: '/redis/2025/09/16/redis/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false

@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Building...">
+<meta name="description" content="## Redis高频面试题 * 缓存穿透 * 问题描述 * 解决方案 * 缓存击穿 * 问题描述 * 解决方案 * 缓存雪崩 * 问题描述 * 解决方案 ## Redis 持久化方案 * RDB * AOF * RDB+AOF ``` # 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致 # 2. AOF 配置 - 混合持久化的基础，必须开启 appendonly yes # 启用AOF持久化 appendfilename &quot;appendonly.aof&quot; # AOF文件名 appendfsync everysec # 每秒同步，性能与安全的良好平衡 # 3. AOF 重写配置 - 防止AOF文件无限膨胀 auto-aof-rewrite-percentage 100 # 当前AOF文件比上次重写后大小增长100%时触发 auto-aof-rewrite-min-size 64mb # AOF文件最小达到64MB才触发重写 # 4. 启用混合持久化 (Redis 4.0+) aof-use-rdb-preamble yes # 5. 通用配置 dir /path/to/your/redis/data # 设置持久化文件存储目录，确保磁盘空间充足 ``` ## Redis高可用方案 * 主从 1台主、1台从 * 哨兵模式 1台主、2台从、3台哨兵(部署到每台主从) * 集群模式 3太主、3台从">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Zhao Q.H.'s Notes">
-<meta property="og:url" content="http://localhost:4000/about/">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="http://localhost:4000/2025-09-16-redis/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="Building...">
+<meta property="og:description" content="## Redis高频面试题 * 缓存穿透 * 问题描述 * 解决方案 * 缓存击穿 * 问题描述 * 解决方案 * 缓存雪崩 * 问题描述 * 解决方案 ## Redis 持久化方案 * RDB * AOF * RDB+AOF ``` # 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致 # 2. AOF 配置 - 混合持久化的基础，必须开启 appendonly yes # 启用AOF持久化 appendfilename &quot;appendonly.aof&quot; # AOF文件名 appendfsync everysec # 每秒同步，性能与安全的良好平衡 # 3. AOF 重写配置 - 防止AOF文件无限膨胀 auto-aof-rewrite-percentage 100 # 当前AOF文件比上次重写后大小增长100%时触发 auto-aof-rewrite-min-size 64mb # AOF文件最小达到64MB才触发重写 # 4. 启用混合持久化 (Redis 4.0+) aof-use-rdb-preamble yes # 5. 通用配置 dir /path/to/your/redis/data # 设置持久化文件存储目录，确保磁盘空间充足 ``` ## Redis高可用方案 * 主从 1台主、1台从 * 哨兵模式 1台主、2台从、3台哨兵(部署到每台主从) * 集群模式 3太主、3台从">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhao Q.H.'s Notes">
-<meta name="twitter:description" content="Building...">
+<meta name="twitter:title" content="Redis">
+<meta name="twitter:description" content="## Redis高频面试题 * 缓存穿透 * 问题描述 * 解决方案 * 缓存击穿 * 问题描述 * 解决方案 * 缓存雪崩 * 问题描述 * 解决方案 ## Redis 持久化方案 * RDB * AOF * RDB+AOF ``` # 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整 save 900 1 # 900秒（15分钟）内至少1个key发生变化 save 300 10 # 300秒（5分钟）内至少10个key发生变化 save 60 10000 # 60秒内至少10000个key发生变化 dbfilename dump.rdb # RDB 文件名 rdbcompression yes # 开启RDB文件压缩，节省空间 rdbchecksum yes # 开启RDB文件校验，保证数据完整性 stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致 # 2. AOF 配置 - 混合持久化的基础，必须开启 appendonly yes # 启用AOF持久化 appendfilename &quot;appendonly.aof&quot; # AOF文件名 appendfsync everysec # 每秒同步，性能与安全的良好平衡 # 3. AOF 重写配置 - 防止AOF文件无限膨胀 auto-aof-rewrite-percentage 100 # 当前AOF文件比上次重写后大小增长100%时触发 auto-aof-rewrite-min-size 64mb # AOF文件最小达到64MB才触发重写 # 4. 启用混合持久化 (Redis 4.0+) aof-use-rdb-preamble yes # 5. 通用配置 dir /path/to/your/redis/data # 设置持久化文件存储目录，确保磁盘空间充足 ``` ## Redis高可用方案 * 主从 1台主、1台从 * 哨兵模式 1台主、2台从、3台哨兵(部署到每台主从) * 集群模式 3太主、3台从">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>              关于 | Zhao Q.H.'s Notes      </title>
+  <title>              Redis | Zhao Q.H.'s Notes      </title>
   
 
 
@@ -319,7 +319,7 @@
 
 	<h1 class="post-title" itemprop="name headline">
     
-      关于
+      Redis
     
   </h1>
 
@@ -329,7 +329,67 @@
 
   
   
-    <p>Building…</p>
+    <h2 id="redis高频面试题">Redis高频面试题</h2>
+<ul>
+  <li>缓存穿透
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案</li>
+    </ul>
+  </li>
+  <li>缓存击穿
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案</li>
+    </ul>
+  </li>
+  <li>缓存雪崩
+    <ul>
+      <li>问题描述</li>
+      <li>解决方案
+        <h2 id="redis-持久化方案">Redis 持久化方案</h2>
+      </li>
+    </ul>
+  </li>
+  <li>RDB</li>
+  <li>AOF</li>
+  <li>RDB+AOF
+```
+    <h1 id="1-rdb-配置---根据你的数据重要性和写入频繁程度调整">1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整</h1>
+    <p>save 900 1                      # 900秒（15分钟）内至少1个key发生变化
+save 300 10                     # 300秒（5分钟）内至少10个key发生变化
+save 60 10000                   # 60秒内至少10000个key发生变化
+dbfilename dump.rdb             # RDB 文件名
+rdbcompression yes               # 开启RDB文件压缩，节省空间
+rdbchecksum yes                 # 开启RDB文件校验，保证数据完整性
+stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致</p>
+  </li>
+</ul>
+
+<h1 id="2-aof-配置---混合持久化的基础必须开启">2. AOF 配置 - 混合持久化的基础，必须开启</h1>
+<p>appendonly yes                  # 启用AOF持久化
+appendfilename “appendonly.aof” # AOF文件名
+appendfsync everysec            # 每秒同步，性能与安全的良好平衡</p>
+
+<h1 id="3-aof-重写配置---防止aof文件无限膨胀">3. AOF 重写配置 - 防止AOF文件无限膨胀</h1>
+<p>auto-aof-rewrite-percentage 100  # 当前AOF文件比上次重写后大小增长100%时触发
+auto-aof-rewrite-min-size 64mb   # AOF文件最小达到64MB才触发重写</p>
+
+<h1 id="4-启用混合持久化-redis-40">4. 启用混合持久化 (Redis 4.0+)</h1>
+<p>aof-use-rdb-preamble yes</p>
+
+<h1 id="5-通用配置">5. 通用配置</h1>
+<p>dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁盘空间充足
+```</p>
+<h2 id="redis高可用方案">Redis高可用方案</h2>
+<ul>
+  <li>主从
+1台主、1台从</li>
+  <li>哨兵模式
+1台主、2台从、3台哨兵(部署到每台主从)</li>
+  <li>集群模式
+3太主、3台从</li>
+</ul>
 
   
 </div>
@@ -630,7 +690,7 @@
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/about/',
+        id: '/2025-09-16-redis/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false
