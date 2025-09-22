@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-20T13:49:47+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go 语言学习笔记</title><link href="http://localhost:4000/go/2025/09/18/go-study-note/" rel="alternate" type="text/html" title="Go 语言学习笔记" /><published>2025-09-18T00:00:00+08:00</published><updated>2025-09-18T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/18/go-study-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/18/go-study-note/">&lt;h2 id=&quot;数据类型&quot;&gt;数据类型&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-09-22T12:12:29+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go 语言学习笔记</title><link href="http://localhost:4000/go/2025/09/18/go-study-note/" rel="alternate" type="text/html" title="Go 语言学习笔记" /><published>2025-09-18T00:00:00+08:00</published><updated>2025-09-18T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/18/go-study-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/18/go-study-note/">&lt;h2 id=&quot;数据类型&quot;&gt;数据类型&lt;/h2&gt;
 &lt;h3 id=&quot;基础类型&quot;&gt;基础类型&lt;/h3&gt;
 &lt;h4 id=&quot;布尔&quot;&gt;布尔&lt;/h4&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var b1 bool
@@ -65,7 +65,17 @@ false  0 0 (0+0i)
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//数组
+var arr = [5]int{1, 2, 3, 4, 5}
+var arr1 [3]int
+var arr2 = [3]int{1, 2, 3}
+arr3 := [3]int{4, 5, 6}
+var arr4 = [...]int{1, 2, 3}
+arr5 := [...]int{4, 5, 6}
+fmt.Println(arr1, arr2, arr3, arr4, arr5)
+for i, v := range arr2 {
+  fmt.Println(i, v)
+}
 // 冒泡排序
 for i := 0; i &amp;lt; len(arr)-1; i++ {
   for j := 0; j &amp;lt; len(arr)-1-i; j++ {
@@ -80,18 +90,17 @@ for i := 0; i &amp;lt; len(arr)-1; i++ {
 fmt.Println(arr)
 
 //多维数组定义和遍历
-var arr3 = [3][2]int{ {1, 2}, {3, 4}, {5, 6}}
-for i := 0; i &amp;lt; len(arr3); i++ {
-  for j := 0; j &amp;lt; len(arr3[i]); j++ {
-    fmt.Printf(&quot;%d &quot;, arr3[i][j])
+var arrM3 = [3][2]int{ {1, 2}, {3, 4}, {5, 6}}
+for i := 0; i &amp;lt; len(arrM3); i++ {
+  for j := 0; j &amp;lt; len(arrM3[i]); j++ {
+    fmt.Printf(&quot;%d &quot;, arrM3[i][j])
   }
 }
-for _, val := range arr3 {
+for _, val := range arrM3 {
   for index2, val2 := range val {
     fmt.Printf(&quot;index is %d,val is %d \n&quot;, index2, val2)
   }
 }
-
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;切片&quot;&gt;切片&lt;/h4&gt;
@@ -101,7 +110,12 @@ for _, val := range arr3 {
     &lt;ul&gt;
       &lt;li&gt;var 变量名 []类型，不需要指定长度。&lt;/li&gt;
       &lt;li&gt;变量名 := make([]int,len,cap)，这种需要合理预估切片容量大小，如果预估过大会造成内存浪费，预估准确会提升性能。
-        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;slice1 := make([]int, 0)
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var slice1 []int
+slice2 := []int{1, 2, 3}
+var slice3 = make([]int, 0)
+slice4 := make([]int, 0)
+fmt.Println(slice1, slice2, slice3, slice4)
+fmt.Printf(&quot;slice1 type is %T\nslice2 type is %T\n&quot;, slice1, slice2)
 fmt.Printf(&quot;slice1 type is %T\n&quot;, slice1)
 fmt.Println(slice1 == nil)
 slice1 = append(slice1, 1)

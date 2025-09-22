@@ -518,7 +518,17 @@ false  0 0 (0+0i)
   </li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36</pre></td><td class="code"><pre class="highlight"><code>//数组
+var arr = [5]int{1, 2, 3, 4, 5}
+var arr1 [3]int
+var arr2 = [3]int{1, 2, 3}
+arr3 := [3]int{4, 5, 6}
+var arr4 = [...]int{1, 2, 3}
+arr5 := [...]int{4, 5, 6}
+fmt.Println(arr1, arr2, arr3, arr4, arr5)
+for i, v := range arr2 {
+  fmt.Println(i, v)
+}
 // 冒泡排序
 for i := 0; i &lt; len(arr)-1; i++ {
   for j := 0; j &lt; len(arr)-1-i; j++ {
@@ -533,18 +543,17 @@ for i := 0; i &lt; len(arr)-1; i++ {
 fmt.Println(arr)
 
 //多维数组定义和遍历
-var arr3 = [3][2]int{ {1, 2}, {3, 4}, {5, 6}}
-for i := 0; i &lt; len(arr3); i++ {
-  for j := 0; j &lt; len(arr3[i]); j++ {
-    fmt.Printf("%d ", arr3[i][j])
+var arrM3 = [3][2]int{ {1, 2}, {3, 4}, {5, 6}}
+for i := 0; i &lt; len(arrM3); i++ {
+  for j := 0; j &lt; len(arrM3[i]); j++ {
+    fmt.Printf("%d ", arrM3[i][j])
   }
 }
-for _, val := range arr3 {
+for _, val := range arrM3 {
   for index2, val2 := range val {
     fmt.Printf("index is %d,val is %d \n", index2, val2)
   }
 }
-
 </code></pre></td></tr></tbody></table></div></div>
 
 <h4 id="切片">切片</h4>
@@ -554,7 +563,12 @@ for _, val := range arr3 {
     <ul>
       <li>var 变量名 []类型，不需要指定长度。</li>
       <li>变量名 := make([]int,len,cap)，这种需要合理预估切片容量大小，如果预估过大会造成内存浪费，预估准确会提升性能。
-        <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>slice1 := make([]int, 0)
+        <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code>var slice1 []int
+slice2 := []int{1, 2, 3}
+var slice3 = make([]int, 0)
+slice4 := make([]int, 0)
+fmt.Println(slice1, slice2, slice3, slice4)
+fmt.Printf("slice1 type is %T\nslice2 type is %T\n", slice1, slice2)
 fmt.Printf("slice1 type is %T\n", slice1)
 fmt.Println(slice1 == nil)
 slice1 = append(slice1, 1)
