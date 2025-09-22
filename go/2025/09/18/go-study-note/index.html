@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="数据类型 基础类型 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
+<meta name="description" content="数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go 语言学习笔记">
 <meta property="og:url" content="http://localhost:4000/go/2025/09/18/go-study-note/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="数据类型 基础类型 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
+<meta property="og:description" content="数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 语言学习笔记">
-<meta name="twitter:description" content="数据类型 基础类型 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
+<meta name="twitter:description" content="数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -452,7 +452,9 @@
 
 
   <h2 id="数据类型">数据类型</h2>
+<p>Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。</p>
 <h3 id="基础类型">基础类型</h3>
+<p>构成程序的基础，不可再拆分，内存占用固定</p>
 <h4 id="布尔">布尔</h4>
 <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>var b1 bool
 b1 = true
@@ -502,7 +504,10 @@ fmt.Println(zb, zs, zi, zf, zcmp)
 false  0 0 (0+0i)
 
 </code></pre></td></tr></tbody></table></div></div>
+<h4 id="常量">常量</h4>
+
 <h3 id="复合类型">复合类型</h3>
+<p>由基本类型或其他复合类型组合而成，用于构建更复杂的数据结构</p>
 <h4 id="数组">数组</h4>
 <ul>
   <li>定义数组
@@ -728,7 +733,6 @@ func (p Person) String() string {
 
 }
 </code></pre></td></tr></tbody></table></div></div>
-<h4 id="指针">指针</h4>
 <h4 id="通道">通道</h4>
 <p>​​不要在同一个 goroutine 中，对无缓冲 channel 顺序执行先接收后发送或先发送后接收的操作​​，这会导致该 goroutine 阻塞，从而使后续的配对操作没有机会执行。务必让它们在两个不同的 goroutine 中并发执行。</p>
 
@@ -749,7 +753,239 @@ fmt.Println(cha1)
 return
 }
 </code></pre></td></tr></tbody></table></div></div>
+<h3 id="值类型">值类型</h3>
 
+<p>​​赋值和传参时复制整个数据的副本​​，操作新副本不会影响原数据。
+所有​​基本类型​​、​​数组 (array)​​、​​结构体 (struct)​​</p>
+
+<h3 id="引用类型">引用类型</h3>
+
+<p>​​赋值和传参时复制数据的引用（内存地址）​​，多个变量共享同一底层数据，修改会相互影响。
+​​切片 (slice)​​、​​映射 (map)​​、​​通道 (channel)​​、​​函数 (function)​​、​​接口 (interface)​​</p>
+
+<h2 id="指针">指针</h2>
+
+<p>指针的本质是存储一个​​内存地址​​。理论上，任何类型的变量都有其内存地址，因此几乎​​所有数据类型​​（包括所有基本类型和复合类型）都可以有对应的指针类型。</p>
+<ul>
+  <li>函数参数传递默认是​​值传递​​，这意味着传递的是变量的副本。当参数是大型结构体或数组时，直接传值会导致显著的内存拷贝开销，影响性能。使用指针传递可以有效避免这种不必要的复制，因为传递的只是一个内存地址（在 64 位系统上通常是 8 字节），无论原对象有多大，开销几乎不变。</li>
+</ul>
+
+<h3 id="make">make</h3>
+<p>make函数是专门用于初始化​​切片（slice）​​、​​映射（map）​​ 和​​通道（channel）​​ 这三种内置的引用类型的内置函数。它会对这些类型进行必要的内存分配和初始化，使其立即可用。</p>
+
+<ul>
+  <li>slice 切片</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="s2">"fmt"</span>
+
+<span class="n">type</span> <span class="n">Person</span> <span class="n">struct</span> <span class="p">{</span>
+    <span class="n">Name</span> <span class="k">string</span>
+    <span class="n">Age</span>  <span class="n">int</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">初始化一个长度为</span> <span class="m">3</span> <span class="err">的</span> <span class="p">*</span><span class="n">Person</span> <span class="err">切片（指针切片）</span>
+    <span class="n">people</span> <span class="p">:=</span> <span class="n">make</span><span class="p">([]*</span><span class="n">Person</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span> <span class="p">//</span> <span class="err">长度和容量均为</span> <span class="m">3</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"初始化后: %v</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="p">[&lt;</span><span class="n">nil</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="n">nil</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="n">nil</span><span class="p">&gt;]</span>
+
+    <span class="p">//</span> <span class="err">为切片中的每个指针元素分配具体的</span> <span class="n">Person</span> <span class="err">实例</span>
+    <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">people</span><span class="p">);</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+        <span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">Person</span><span class="p">{</span>
+            <span class="n">Name</span><span class="p">:</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s2">"Person%d"</span><span class="p">,</span> <span class="n">i</span><span class="p">+</span><span class="m">1</span><span class="p">),</span>
+            <span class="n">Age</span><span class="p">:</span>  <span class="m">20</span> <span class="p">+</span> <span class="n">i</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="p">//</span> <span class="err">现在可以安全地访问和操作</span>
+    <span class="n">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">people</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"Name: %s, Age: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+<ul>
+  <li>map集合映射</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="s2">"fmt"</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">初始化一个键为</span> <span class="k">string</span><span class="p">,</span> <span class="err">值为</span> <span class="p">*</span><span class="n">int</span> <span class="err">的映射</span>
+    <span class="n">scoreMap</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="k">string</span><span class="p">]*</span><span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span> <span class="p">//</span> <span class="err">初始容量提示为</span> <span class="m">5</span>
+
+    <span class="p">//</span> <span class="err">准备一些数据</span>
+    <span class="n">scores</span> <span class="p">:=</span> <span class="p">[]</span><span class="n">int</span><span class="p">{</span><span class="m">100</span><span class="p">,</span> <span class="m">95</span><span class="p">,</span> <span class="m">88</span><span class="p">}</span>
+    <span class="n">names</span> <span class="p">:=</span> <span class="p">[]</span><span class="k">string</span><span class="p">{</span><span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Bob"</span><span class="p">,</span> <span class="s2">"Charlie"</span><span class="p">}</span>
+
+    <span class="p">//</span> <span class="err">将指针指向的分数存入映射</span>
+    <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">scores</span><span class="p">);</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+        <span class="p">//</span> <span class="err">注意：不能直接使用</span> <span class="p">&amp;</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="err">如果</span> <span class="n">scores</span> <span class="err">是切片且后续可能修改或扩容</span>
+        <span class="p">//</span> <span class="err">更安全的做法是创建变量的地址，或确保切片不再修改</span>
+        <span class="n">score</span> <span class="p">:=</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">//</span> <span class="err">创建副本，取其地址</span>
+        <span class="n">scoreMap</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">score</span>
+    <span class="p">}</span>
+
+    <span class="p">//</span> <span class="err">遍历映射，打印键和指针指向的值</span>
+    <span class="n">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ptr</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">scoreMap</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"Name: %s, Score: %d (指针地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="p">*</span><span class="n">ptr</span><span class="p">,</span> <span class="n">ptr</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="p">//</span> <span class="err">通过指针修改映射中的值</span>
+    <span class="k">if</span> <span class="n">ptr</span><span class="p">,</span> <span class="nb">exists</span> <span class="p">:=</span> <span class="n">scoreMap</span><span class="p">[</span><span class="s2">"Alice"</span><span class="p">];</span> <span class="nb">exists</span> <span class="p">{</span>
+        <span class="p">*</span><span class="n">ptr</span> <span class="p">=</span> <span class="m">99</span> <span class="p">//</span> <span class="err">修改</span> <span class="n">Alice</span> <span class="err">的分数</span>
+        <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"修改后 Alice 的分数:"</span><span class="p">,</span> <span class="p">*</span><span class="n">scoreMap</span><span class="p">[</span><span class="s2">"Alice"</span><span class="p">])</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
+  <li>chan 通道</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+    <span class="s2">"fmt"</span>
+    <span class="s2">"time"</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">创建一个能缓冲</span> <span class="m">2</span> <span class="err">个</span> <span class="n">int</span> <span class="err">指针的通道</span>
+    <span class="n">msgChan</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="p">*</span><span class="n">int</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+
+    <span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="p">//</span> <span class="err">在</span> <span class="n">goroutine</span> <span class="err">中创建一些整数并发送其指针到通道</span>
+        <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+            <span class="n">num</span> <span class="p">:=</span> <span class="n">i</span> <span class="p">*</span> <span class="m">10</span> <span class="p">//</span> <span class="err">创建整数</span>
+            <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"发送: %d (地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">num</span><span class="p">)</span>
+            <span class="n">msgChan</span> <span class="p">&lt;-</span> <span class="p">&amp;</span><span class="n">num</span> <span class="p">//</span> <span class="err">发送整数的指针到通道</span>
+            <span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">100</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">msgChan</span><span class="p">)</span> <span class="p">//</span> <span class="err">发送完毕后关闭通道</span>
+    <span class="p">}()</span>
+
+    <span class="p">//</span> <span class="err">从通道接收整数的指针并打印其值</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"接收数据:"</span><span class="p">)</span>
+    <span class="n">for</span> <span class="n">receivedPtr</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">msgChan</span> <span class="p">{</span>
+        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"接收: %d (来自地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="p">*</span><span class="n">receivedPtr</span><span class="p">,</span> <span class="n">receivedPtr</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+<h3 id="new">new</h3>
+<p>new函数常用来声明非引用数据类型如基本类型、复合类型的变量。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47</pre></td><td class="code"><pre class="highlight"><code>// 1. 基本数据类型
+var intPtr *int = new(int)           // *int, 指向 0
+var floatPtr *float64 = new(float64) // *float64, 指向 0.0
+var boolPtr *bool = new(bool)         // *bool, 指向 false
+var strPtr *string = new(string)     // *string, 指向 ""
+// 2. 数组 (array)
+var arrPtr *[3]int = new([3]int) // *[3]int, 指向 [3]int{0, 0, 0}
+// 3. 结构体 (struct)
+type Person struct {
+    Name string
+    Age  int
+}
+var structPtr *Person = new(Person) // *Person, 指向 Person{"", 0}
+// 4. 切片 (slice) - 注意：new 只为切片头结构分配了内存，其底层数组为 nil
+var slicePtr *[]int = new([]int) // *[]int, 指向一个 nil 切片
+// 5. 集合 (map) - 注意：new 只为 map 指针分配了内存，其底层哈希结构为 nil
+var mapPtr *map[string]int = new(map[string]int) // *map[string]int, 指向一个 nil map
+// 6. 通道 (channel) - 注意：new 只为 channel 指针分配了内存，其底层通道结构为 nil
+var chanPtr *chan int = new(chan int) // *chan int, 指向一个 nil channel
+// 7. 指针的指针
+var ptrToPtr **int = new(*int) // **int, 指向一个 *int 类型的指针，该指针本身为 nil
+// 打印初始零值
+fmt.Println("基本类型零值:", *intPtr, *floatPtr, *boolPtr, *strPtr)
+fmt.Println("数组零值:", *arrPtr)
+fmt.Println("结构体零值:", *structPtr)
+fmt.Println("切片指针的值 (底层数组为nil):", *slicePtr) // 输出 []
+fmt.Println("映射指针的值 (底层映射为nil):", *mapPtr)   // 输出 map[]
+fmt.Println("通道指针的值 (底层通道为nil):", *chanPtr)   // 输出 &lt;nil&gt;
+fmt.Println("指针的指针的值 (指向的指针为nil):", *ptrToPtr) // 输出 &lt;nil&gt;
+
+// 重要说明：对于引用类型（slice, map, channel），new 仅分配了指针本身的内存，
+// 并没有初始化其底层数据结构。直接使用（如赋值、发送数据）会导致 panic。
+// 例如：
+// (*mapPtr)["key"] = 1 // 这行会引发 panic: assignment to entry in nil map
+// *slicePtr = append(*slicePtr, 1) // 这行可以执行，因为 append 会处理 nil slice，但通常不这样用。
+
+// 正确初始化引用类型应使用 make 函数：
+*slicePtr = make([]int, 0, 10) // 初始化切片底层数组
+*mapPtr = make(map[string]int)  // 初始化映射
+*chanPtr = make(chan int, 5)    // 初始化通道
+// 初始化后即可安全使用
+(*mapPtr)["key"] = 100
+*slicePtr = append(*slicePtr, 1, 2, 3)
+go func() { *chanPtr &lt;- 42 }()
+fmt.Println("初始化后的映射:", *mapPtr)
+fmt.Println("初始化后的切片:", *slicePtr)
+fmt.Println("从通道接收值:", &lt;-*chanPtr)
+</code></pre></td></tr></tbody></table></div></div>
+<h3 id="指针在函数中的应用">指针在函数中的应用</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="s2">"fmt"</span>
+
+<span class="p">//</span> <span class="n">increment</span> <span class="err">函数接收一个指向整数的指针，并将其指向的值加</span><span class="m">1</span>
+<span class="n">func</span> <span class="n">increment</span><span class="p">(</span><span class="n">ptr</span> <span class="p">*</span><span class="n">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">*</span><span class="n">ptr</span> <span class="p">=</span> <span class="p">*</span><span class="n">ptr</span> <span class="p">+</span> <span class="m">1</span> <span class="p">//</span> <span class="err">通过指针修改原始值</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">count</span> <span class="p">:=</span> <span class="m">10</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"原始值:"</span><span class="p">,</span> <span class="k">count</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">原始值</span><span class="p">:</span> <span class="m">10</span>
+    
+    <span class="n">increment</span><span class="p">(&amp;</span><span class="k">count</span><span class="p">)</span>          <span class="p">//</span> <span class="err">传递</span> <span class="k">count</span> <span class="err">的地址</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用后:"</span><span class="p">,</span> <span class="k">count</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用后</span><span class="p">:</span> <span class="m">11</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="指针在方法中的应用">指针在方法中的应用</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="s2">"fmt"</span>
+
+<span class="n">type</span> <span class="n">Person</span> <span class="n">struct</span> <span class="p">{</span>
+    <span class="n">Name</span> <span class="k">string</span>
+    <span class="n">Age</span>  <span class="n">int</span>
+<span class="p">}</span>
+
+<span class="p">//</span> <span class="n">Birthday</span> <span class="err">方法使用指针接收者</span> <span class="p">*</span><span class="n">Person</span><span class="err">，用于增加年龄</span>
+<span class="n">func</span> <span class="p">(</span><span class="n">p</span> <span class="p">*</span><span class="n">Person</span><span class="p">)</span> <span class="n">Birthday</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">++</span> <span class="p">//</span> <span class="err">直接修改接收者</span> <span class="n">p</span> <span class="err">所指向的</span> <span class="n">Person</span> <span class="err">实例的</span> <span class="n">Age</span> <span class="err">字段</span>
+    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"%s 过生日啦！现在年龄是 %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">person</span> <span class="p">:=</span> <span class="n">Person</span><span class="p">{</span><span class="n">Name</span><span class="p">:</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="n">Age</span><span class="p">:</span> <span class="m">25</span><span class="p">}</span>
+  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用前:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用前</span><span class="p">:</span> <span class="m">25</span>
+  
+  <span class="n">person</span><span class="p">.</span><span class="n">Birthday</span><span class="p">()</span>               <span class="p">//</span> <span class="err">调用方法，</span><span class="n">Go</span> <span class="err">会自动将</span> <span class="n">person</span> <span class="err">的地址传递给指针接收者</span>
+  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用后:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用后</span><span class="p">:</span> <span class="m">26</span>
+  
+  <span class="p">//</span> <span class="err">即使你有一个指针变量，调用方式也是一样的（</span><span class="n">Go</span> <span class="err">的语法糖）</span>
+  <span class="n">ptr</span> <span class="p">:=</span> <span class="p">&amp;</span><span class="n">person</span>
+  <span class="n">ptr</span><span class="p">.</span><span class="n">Birthday</span><span class="p">()</span>                  <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="n">Alice</span> <span class="err">过生日啦！现在年龄是</span> <span class="m">27</span>
+  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"通过指针调用后:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">通过指针调用后</span><span class="p">:</span> <span class="m">27</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="号和符号">*号和&amp;符号</h3>
+<p>声明变量为指针变量</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>
+//指针
+intP1 := 100
+var intPointer *int
+intPointer = &amp;intP1
+intPointer2 := *intPointer
+fmt.Println(intPointer, *intPointer, intPointer2)
+</code></pre></td></tr></tbody></table></div></div>
 <h2 id="type关键字">type关键字</h2>
 
 <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>//自定义类型（在基本类型基础上），使用大小驼峰，大驼峰代表导出，小驼峰只在包内。
@@ -764,7 +1000,6 @@ type Formatter interface{
 
 }
 </code></pre></td></tr></tbody></table></div></div>
-
 <h2 id="类型断言">类型断言</h2>
 
 
@@ -1008,7 +1243,7 @@ type Formatter interface{
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据类型"> <span class="nav-number">1</span> <span class="nav-text">数据类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#基础类型"> <span class="nav-number">1.1</span> <span class="nav-text">基础类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#布尔"> <span class="nav-number">1.1.1</span> <span class="nav-text">布尔</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#字符串"> <span class="nav-number">1.1.2</span> <span class="nav-text">字符串</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#整型"> <span class="nav-number">1.1.3</span> <span class="nav-text">整型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#浮点型"> <span class="nav-number">1.1.4</span> <span class="nav-text">浮点型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#复数"> <span class="nav-number">1.1.5</span> <span class="nav-text">复数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#零型"> <span class="nav-number">1.1.6</span> <span class="nav-text">零型</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#复合类型"> <span class="nav-number">1.2</span> <span class="nav-text">复合类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#数组"> <span class="nav-number">1.2.1</span> <span class="nav-text">数组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#切片"> <span class="nav-number">1.2.2</span> <span class="nav-text">切片</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#集合映射"> <span class="nav-number">1.2.3</span> <span class="nav-text">集合、映射</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#函数"> <span class="nav-number">1.2.4</span> <span class="nav-text">函数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#方法"> <span class="nav-number">1.2.5</span> <span class="nav-text">方法</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#结构体"> <span class="nav-number">1.2.6</span> <span class="nav-text">结构体</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#接口"> <span class="nav-number">1.2.7</span> <span class="nav-text">接口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#指针"> <span class="nav-number">1.2.8</span> <span class="nav-text">指针</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#通道"> <span class="nav-number">1.2.9</span> <span class="nav-text">通道</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#type关键字"> <span class="nav-number">2</span> <span class="nav-text">type关键字</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#类型断言"> <span class="nav-number">3</span> <span class="nav-text">类型断言</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据类型"> <span class="nav-number">1</span> <span class="nav-text">数据类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#基础类型"> <span class="nav-number">1.1</span> <span class="nav-text">基础类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#布尔"> <span class="nav-number">1.1.1</span> <span class="nav-text">布尔</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#字符串"> <span class="nav-number">1.1.2</span> <span class="nav-text">字符串</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#整型"> <span class="nav-number">1.1.3</span> <span class="nav-text">整型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#浮点型"> <span class="nav-number">1.1.4</span> <span class="nav-text">浮点型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#复数"> <span class="nav-number">1.1.5</span> <span class="nav-text">复数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#零型"> <span class="nav-number">1.1.6</span> <span class="nav-text">零型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#常量"> <span class="nav-number">1.1.7</span> <span class="nav-text">常量</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#复合类型"> <span class="nav-number">1.2</span> <span class="nav-text">复合类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#数组"> <span class="nav-number">1.2.1</span> <span class="nav-text">数组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#切片"> <span class="nav-number">1.2.2</span> <span class="nav-text">切片</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#集合映射"> <span class="nav-number">1.2.3</span> <span class="nav-text">集合、映射</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#函数"> <span class="nav-number">1.2.4</span> <span class="nav-text">函数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#方法"> <span class="nav-number">1.2.5</span> <span class="nav-text">方法</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#结构体"> <span class="nav-number">1.2.6</span> <span class="nav-text">结构体</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#接口"> <span class="nav-number">1.2.7</span> <span class="nav-text">接口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#通道"> <span class="nav-number">1.2.8</span> <span class="nav-text">通道</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#值类型"> <span class="nav-number">1.3</span> <span class="nav-text">值类型</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#引用类型"> <span class="nav-number">1.4</span> <span class="nav-text">引用类型</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#指针"> <span class="nav-number">2</span> <span class="nav-text">指针</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#make"> <span class="nav-number">2.1</span> <span class="nav-text">make</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#new"> <span class="nav-number">2.2</span> <span class="nav-text">new</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#指针在函数中的应用"> <span class="nav-number">2.3</span> <span class="nav-text">指针在函数中的应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#指针在方法中的应用"> <span class="nav-number">2.4</span> <span class="nav-text">指针在方法中的应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#号和符号"> <span class="nav-number">2.5</span> <span class="nav-text">*号和&amp;符号</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#type关键字"> <span class="nav-number">3</span> <span class="nav-text">type关键字</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#类型断言"> <span class="nav-number">4</span> <span class="nav-text">类型断言</span> </a> </li>
     </ol>
   </div>
             
