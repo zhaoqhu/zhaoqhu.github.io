@@ -1049,35 +1049,7 @@ fmt.Printf("cmp2 type is %T\n", cmp2)
   <li>缓存穿透
     <ul>
       <li>问题描述</li>
-      <li>解决方案</li>
     </ul>
-  </li>
-  <li>缓存击穿
-    <ul>
-      <li>问题描述</li>
-      <li>解决方案</li>
-    </ul>
-  </li>
-  <li>缓存雪崩
-    <ul>
-      <li>问题描述</li>
-      <li>解决方案
-        <h2 id="redis-持久化方案">Redis 持久化方案</h2>
-      </li>
-    </ul>
-  </li>
-  <li>RDB</li>
-  <li>AOF</li>
-  <li>RDB+AOF
-```
-    <h1 id="1-rdb-配置---根据你的数据重要性和写入频繁程度调整">1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整</h1>
-    <p>save 900 1                      # 900秒（15分钟）内至少1个key发生变化
-save 300 10                     # 300秒（5分钟）内至少10个key发生变化
-save 60 10000                   # 60秒内至少10000个key发生变化
-dbfilename dump.rdb             # RDB 文件名
-rdbcompression yes               # 开启RDB文件压缩，节省空间
-rdbchecksum yes                 # 开启RDB文件校验，保证数据完整性
-stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致</p>
   </li>
 </ul>
 
