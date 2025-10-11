@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-11T13:56:33+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-11T14:08:05+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -918,13 +918,20 @@ dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁�
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;redis高可用方案&quot;&gt;Redis高可用方案&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;主从
-1台主、1台从&lt;/li&gt;
-  &lt;li&gt;哨兵模式
-1台主、2台从、3台哨兵(部署到每台主从)&lt;/li&gt;
-  &lt;li&gt;集群模式
-3太主、3台从&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述</summary></entry><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
+  &lt;li&gt;主从&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;1台主、1台从&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;哨兵模式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;1台主、2台从、3台哨兵(部署到每台主从)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;集群模式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;3太主、3台从&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述</summary></entry><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
 &lt;h2 id=&quot;检查go是否安装&quot;&gt;检查Go是否安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go version
 go version go1.24.1 darwin/amd64
