@@ -1,4 +1,204 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-11T14:08:05+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-11T16:02:41+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">理论知识</title><link href="http://localhost:4000/2025/10/11/ms/" rel="alternate" type="text/html" title="理论知识" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Mysql索引用的是什么算法&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Mysql选用的是B+树，B+树主要是查询效率高，时间复杂度是O(logmN)，内部节点可以拥有多个子节点，通常大于2，这使得B+树比二叉树更宽，更矮时间复杂度是O(log2N)有助于减少树的高度，进而减少磁盘I/O操作。
+总结：Mysql中创建索引的目的是为了更快的查询，索引选用B+树的数据结构，这种结构的查找算法的时间复杂度是O(logmN)，查找的效率快，磁盘I/O操作少。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL事务的关键特性？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;原子性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;原子性是指开启事务后数据库的修改操作要么都成功，要么都失败，回滚到事务之前的状态。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一致性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;一致性是指遵守资金守恒原则，例如银行转账操作A账户转出一定的金额给B账户，为了得到一致性这个事务需要确保金额从A减少并在增加。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;隔离性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;隔离性，在并发事务T1和T2都需要更新同一个账户的余额，若没有隔离措施，T1和T2可能会使用同样的金额进行计算，从而导致结果错误。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;持久性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL事务隔离级别？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;读未提交&lt;/p&gt;
+
+    &lt;p&gt;A事务可以读取B事务未调教的数据，引发脏读。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;读已提交&lt;/p&gt;
+
+    &lt;p&gt;A事务可以读取B事务已提交的数据&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;可重复读&lt;/p&gt;
+
+    &lt;p&gt;默认的事务隔离级别，事务开启时，不在允许修改操作，可避免脏读。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;串行&lt;/p&gt;
+
+    &lt;p&gt;串行是最高的隔离级别，可以避免脏读、幻读、可重复读，但是性能太差。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL存储引擎？
+    &lt;ul&gt;
+      &lt;li&gt;InnoDB&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;InnoDB是默认的存储引擎，支持事务、行锁，支持多版本并发控制。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;MyIsAm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;MyIsAm在5.5版本之前是默认的选项，不支持事务、行锁，支持表锁。适合读密集应用，数据压缩能力强，适合只读数据存储。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Memory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;将所有数据保存在内存中，数据易丢失。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Archive&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;设计用于存储大量的归档数据，具有高压缩率。只支持Insert和Select操作，非常适合存储日志数据或其他很少需要修改的数据。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL高可用方案
+    &lt;ul&gt;
+      &lt;li&gt;主从复制&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;适合读密集型应用&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;InnoDB Cluster&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;适合大规模并发写入应用。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL中utf8和utf8mb4的区别&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;mysql在5.5.3之后增加了utf8mb4的编码，mb4就是most bytes4，utf8编码最大字符长度为3字节，如果遇到4字节的宽字符就会插入异常。utf8mb4就是most bytes4的意思，专门用来兼容4字节的unicode字符。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL中乐观锁和悲观锁的区别？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;传统的关系型数据库里边就用到了很多这种锁机制，比如行锁、表锁等，读锁、写锁等。都是在做操作之前先上锁。
+乐观锁和悲观锁主要是为了解决并发事务中的数据一致性问题，他们的设计初衷是为了在多用户或进程同时访问和修改相同数据时，保证数据的一致性和完整性。举例：在秒杀场景下对库存的查询加锁，在这个事务结束前，其他并发事务需要阻塞排队等待。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL索引主要是哪些？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;索引的目的是提高查询效率，索引的类型有唯一索引、普通索引、主键索引、组合索引。唯一索引不可以出现相同的值，可以有Null值。&lt;/p&gt;
+
+&lt;p&gt;索引使用技巧，1.使用短索引，如果有一个char(255)列，可以在前10个或20个字符内做短索引。2.使用like语句%aaa%，不会使用索引，而 “aaa%”可以使用索引。3.where和join的列键索引。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;组合索引最左匹配原则？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在查询数据时，从联合索引的最左边开始匹配。MySQL会一直向右匹配直到遇到范围查询(&amp;gt;、&amp;lt;、betwwen、like就停止匹配了)，比如索引列(abcd) where a=1 and c=2 and b&amp;gt;5 and d=6，这样c和d都不会用到索引。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;聚簇索引和非聚簇索引的区别？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;MyIsAM存储引擎是非聚簇索引，InnnoDB是聚簇索引。聚簇索引中主键索引存放数据，二级索引存储索引列和主键列。非聚簇索引主键索引和二级索引都存放完整的数据。聚簇索引会额外占用空间，但查询效率高。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;如何查询一个字段是否命中了索引？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用explain分析SQL是否走了索引。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Mysql中的MVCC是什么？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;多版本并发控制Multiversion concurrency control，多版本并发控制常用的是所，给当前事务DQL加毒素哦，给DML加写锁，这种锁是一种悲观锁的实现方式，会阻塞其他事务，从而影响数据库性能。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL读写分离以及主从同步。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;原理，主库将变更写binlog日志，然后从库链接到主库后，从库有一个IO线程将主库的binlog日志拷贝到自己本地，写入一个中继日志，接着从库有一个sql线程从中继日志读取binlog然后执行binlog日志的内容。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Mysql如何保证一致性和持久性？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Mysql为了保证ACID中的一致性和持久性，使用了WAL(Write A head logging)，先写日志在写磁盘。Redolog就是一张WAL的应用，当数据库忽然断点在重新启动时，Mysql可以通过Redolog还原数据。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;为什么选B+树作为索引结构？&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;InnnoDB的行锁模式？&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;1.共享锁(s)，用法lock in share mode又称读锁，2. 排它锁，又称写锁。
+s锁，若事务T对数据对象A加上S锁，其他事务智能对A加S锁，而不能加X锁。
+x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，其他事务不能在对A加任何锁，X锁用法for update。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;哈希(hash)比树(tree)更快，索引结构为什么设计成树形？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;哈希查询、插入、修改、删除的平均响应时间复杂度都是O(1)，树的平均响应时间复杂度是O(logmN)，哈希只能满足等值查询，不能满足范围和大小查询，其次不可以排序。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;为什么索引的key长度不能太长。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;key太长会导致一个页当中能够村昂的key数目变小，间接导致索引树的页数变多，索引层次增加。从而影响查询效率。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;MySQL的数据如何恢复到任意时间点。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;1.启用二进制日志。2.首先使用最近一次的备份恢复数据库。3.使用mysqlbinlog工具将binlog文件合并，然后使用mysql工具导入已合并的sql文件。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Mysql为什么加了索引可以加快查询？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用索引后再查询时不用扫描全表来定位。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Explain命令有什么用？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">MySQL Mysql索引用的是什么算法</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1008,7 +1208,59 @@ bash-3.2$ curl http://127.0.0.1:8080/hello
 {&quot;msg&quot;:&quot;hello&quot;}
 bash-3.2$ 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry><entry><title type="html">Php Config</title><link href="http://localhost:4000/2024/03/10/php-config/" rel="alternate" type="text/html" title="Php Config" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-config</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-config/">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure  --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry><entry><title type="html">Php High Level</title><link href="http://localhost:4000/2024/03/10/php-high-level/" rel="alternate" type="text/html" title="Php High Level" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-high-level</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-high-level/">&lt;h1 id=&quot;分布式事务最大努力通知案例分析&quot;&gt;分布式事务最大努力通知案例分析&lt;/h1&gt;
+
+&lt;p&gt;在第三方支付中，例如支付宝，或者微信，对于订单请求，第三方支付系统采用的是消息同步返回，异步通知+主动补偿查询的补偿机制。&lt;/p&gt;
+
+&lt;p&gt;由于互联网通信的不可靠性，例如网络故障、服务器故障、应用bug等因素的影响，不管是同步返回、异步通知、主动查询报文都可能出现超时无响应、报文丢失等情况，所以像支付业务、对结果的通知、一般采用几种方案结合的补偿机制，不能完全依赖某一种机制。&lt;/p&gt;
+
+&lt;p&gt;例如一个支付结果的通知，一方面会在支付页面跳转时候返回支付结果（一般只用作前端展示使用，非最终状态），同时会采用后台异步通知机制（有前台、后台通知的，以后台异步通知结果为准），但由于前台跳转、后台结果通知可能失效，因此还以定时补单+请求方主动查询接口作为辅助手段。&lt;/p&gt;
+
+&lt;p&gt;常见的补单操作，任务调度策略一般设定30秒、60秒、3分钟、6分钟、10分钟调度多次（以自己业务需要），如果调度接受到响应确认报文，补单成功。则终止对应订单的调度任务；如果超过补单上限次数，则停止补单，避免无谓的资源浪费。请求端随时可以发起请求报文查询对应订单的状态。&lt;/p&gt;
+
+&lt;p&gt;## 最大努力通知型&lt;/p&gt;
+
+&lt;p&gt;### 实现
+  1、业务活动的主动方，在完成业务处理之后，向业务活动的被动房发送消息，被动方需主动响应正确消息，否则根据定时策略，最大努力通知。
+  2、业务活动的被动方（电商平台）也可以向业务活动主动方（支付宝平台）查询，恢复丢失的业务消息。
+  ### 约束
+  被动方的处理结果不能影响主动方的处理结果
+  ### 成本
+  业务查询与校对系统的建设成本
+  ### 使用范围
+  对业务最终一致性的时间敏感度低
+  跨企业的业务活动
+  ### 方案特点
+  业务活动的主动方在完成业务处理后，向业务活动被动方发送通知消息（允许消息丢失）
+  主动方可以设置时间阶梯通知规则，在通知失败后按规则重复通知，直到通知N次后，主动方提供校队查询接口给被动方按需校队查询，用于恢复丢失的业务消息
+  ### 应用案例
+  银行通知、商户通知等（各大交易业务平台间的商户通知：多次通知、查询校对、对账文件）&lt;/p&gt;
+
+&lt;p&gt;## 了解docker并且快速配置RabbitMQ&lt;/p&gt;
+
+&lt;p&gt;### Docker是什么？
+  Docker是一个开源的应用容器引擎，你可以将其理解为一个轻量级的虚拟机，开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，只要有了Docker，用户便不在需要为这些应用配置其所需的特有环境了，也不需要为这些应用统一环境了
+  ### 为什么要使用Docker，Docker的好处是什么？
+  可以认为Docker是一个通用安装程序，简单来说，利用Docker容器，可以将任何一个或者多个程序封装起来，并提供标准的管理接口，因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这样，开发人员负责维护内容，并使用Docker进行封装，系统管理人员利用Docker的标准接口进行部署和管理。&lt;/p&gt;
+
+&lt;p&gt;Docker的主要用途，目前有三大类。
+  1）提供一致性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建环境。
+  2）提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。
+  3）组件微服务架构，通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。&lt;/p&gt;
+
+&lt;p&gt;### 一、Docker安装 
+  CentOS
+  1、更新update到最新的版本
+  yum update
+  2、安装docker
+  yum -y install docker
+  3、启动docker
+  systemctl start docker
+  4、加入开启自启
+  systemctl enable docker&lt;/p&gt;
+
+&lt;p&gt;### 二、Docker参数说明
+  启动会自动搜索 rabbitMQ&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">分布式事务最大努力通知案例分析</summary></entry><entry><title type="html">Php Config</title><link href="http://localhost:4000/2024/03/10/php-config/" rel="alternate" type="text/html" title="Php Config" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-config</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-config/">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure  --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;chmod -R 7777 ./index.html ./caches ./html ./uploadfile ./phpsso_server/caches ./phpsso_server/uploadfile&lt;/p&gt;
@@ -1242,59 +1494,7 @@ xdebug.log = /tmp/xdebug.log
 
 &lt;p&gt;&lt;a href=&quot;https://www.liuvv.com/p/ad42ac48.html&quot;&gt;https://www.liuvv.com/p/ad42ac48.html&lt;/a&gt;
 &lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&lt;/a&gt;
-&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">./configure --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo</summary></entry><entry><title type="html">Php High Level</title><link href="http://localhost:4000/2024/03/10/php-high-level/" rel="alternate" type="text/html" title="Php High Level" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-high-level</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-high-level/">&lt;h1 id=&quot;分布式事务最大努力通知案例分析&quot;&gt;分布式事务最大努力通知案例分析&lt;/h1&gt;
-
-&lt;p&gt;在第三方支付中，例如支付宝，或者微信，对于订单请求，第三方支付系统采用的是消息同步返回，异步通知+主动补偿查询的补偿机制。&lt;/p&gt;
-
-&lt;p&gt;由于互联网通信的不可靠性，例如网络故障、服务器故障、应用bug等因素的影响，不管是同步返回、异步通知、主动查询报文都可能出现超时无响应、报文丢失等情况，所以像支付业务、对结果的通知、一般采用几种方案结合的补偿机制，不能完全依赖某一种机制。&lt;/p&gt;
-
-&lt;p&gt;例如一个支付结果的通知，一方面会在支付页面跳转时候返回支付结果（一般只用作前端展示使用，非最终状态），同时会采用后台异步通知机制（有前台、后台通知的，以后台异步通知结果为准），但由于前台跳转、后台结果通知可能失效，因此还以定时补单+请求方主动查询接口作为辅助手段。&lt;/p&gt;
-
-&lt;p&gt;常见的补单操作，任务调度策略一般设定30秒、60秒、3分钟、6分钟、10分钟调度多次（以自己业务需要），如果调度接受到响应确认报文，补单成功。则终止对应订单的调度任务；如果超过补单上限次数，则停止补单，避免无谓的资源浪费。请求端随时可以发起请求报文查询对应订单的状态。&lt;/p&gt;
-
-&lt;p&gt;## 最大努力通知型&lt;/p&gt;
-
-&lt;p&gt;### 实现
-  1、业务活动的主动方，在完成业务处理之后，向业务活动的被动房发送消息，被动方需主动响应正确消息，否则根据定时策略，最大努力通知。
-  2、业务活动的被动方（电商平台）也可以向业务活动主动方（支付宝平台）查询，恢复丢失的业务消息。
-  ### 约束
-  被动方的处理结果不能影响主动方的处理结果
-  ### 成本
-  业务查询与校对系统的建设成本
-  ### 使用范围
-  对业务最终一致性的时间敏感度低
-  跨企业的业务活动
-  ### 方案特点
-  业务活动的主动方在完成业务处理后，向业务活动被动方发送通知消息（允许消息丢失）
-  主动方可以设置时间阶梯通知规则，在通知失败后按规则重复通知，直到通知N次后，主动方提供校队查询接口给被动方按需校队查询，用于恢复丢失的业务消息
-  ### 应用案例
-  银行通知、商户通知等（各大交易业务平台间的商户通知：多次通知、查询校对、对账文件）&lt;/p&gt;
-
-&lt;p&gt;## 了解docker并且快速配置RabbitMQ&lt;/p&gt;
-
-&lt;p&gt;### Docker是什么？
-  Docker是一个开源的应用容器引擎，你可以将其理解为一个轻量级的虚拟机，开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，只要有了Docker，用户便不在需要为这些应用配置其所需的特有环境了，也不需要为这些应用统一环境了
-  ### 为什么要使用Docker，Docker的好处是什么？
-  可以认为Docker是一个通用安装程序，简单来说，利用Docker容器，可以将任何一个或者多个程序封装起来，并提供标准的管理接口，因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这样，开发人员负责维护内容，并使用Docker进行封装，系统管理人员利用Docker的标准接口进行部署和管理。&lt;/p&gt;
-
-&lt;p&gt;Docker的主要用途，目前有三大类。
-  1）提供一致性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建环境。
-  2）提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。
-  3）组件微服务架构，通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。&lt;/p&gt;
-
-&lt;p&gt;### 一、Docker安装 
-  CentOS
-  1、更新update到最新的版本
-  yum update
-  2、安装docker
-  yum -y install docker
-  3、启动docker
-  systemctl start docker
-  4、加入开启自启
-  systemctl enable docker&lt;/p&gt;
-
-&lt;p&gt;### 二、Docker参数说明
-  启动会自动搜索 rabbitMQ&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">分布式事务最大努力通知案例分析</summary></entry><entry><title type="html">Rabbitmq</title><link href="http://localhost:4000/2022/12/06/rabbitmq/" rel="alternate" type="text/html" title="Rabbitmq" /><published>2022-12-06T00:00:00+08:00</published><updated>2022-12-06T00:00:00+08:00</updated><id>http://localhost:4000/2022/12/06/rabbitmq</id><content type="html" xml:base="http://localhost:4000/2022/12/06/rabbitmq/">&lt;h1 id=&quot;mac安装rabbitmq&quot;&gt;Mac安装rabbitmq&lt;/h1&gt;
+&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">./configure --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo</summary></entry><entry><title type="html">Rabbitmq</title><link href="http://localhost:4000/2022/12/06/rabbitmq/" rel="alternate" type="text/html" title="Rabbitmq" /><published>2022-12-06T00:00:00+08:00</published><updated>2022-12-06T00:00:00+08:00</updated><id>http://localhost:4000/2022/12/06/rabbitmq</id><content type="html" xml:base="http://localhost:4000/2022/12/06/rabbitmq/">&lt;h1 id=&quot;mac安装rabbitmq&quot;&gt;Mac安装rabbitmq&lt;/h1&gt;
 &lt;p&gt;使用homebrew安装&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew update
 brew install rabbitmq
@@ -1363,159 +1563,4 @@ sh-3.2#
       &lt;td&gt;grep ‘my.cnf’&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">查看mysql配置文件 /usr/local/Cellar/mysql/5.6.23/bin/mysql</summary></entry><entry><title type="html">php使用kafka</title><link href="http://localhost:4000/php/2021/09/12/php-kafka/" rel="alternate" type="text/html" title="php使用kafka" /><published>2021-09-12T00:00:00+08:00</published><updated>2021-09-12T00:00:00+08:00</updated><id>http://localhost:4000/php/2021/09/12/php-kafka</id><content type="html" xml:base="http://localhost:4000/php/2021/09/12/php-kafka/">&lt;ul&gt;
-  &lt;li&gt;kafka基础架构和消息队列原理剖析&lt;/li&gt;
-  &lt;li&gt;生产者与消费者模式原理解读&lt;/li&gt;
-  &lt;li&gt;kafka flollwer如何与leader同步数据？&lt;/li&gt;
-  &lt;li&gt;如何保证消息的幂等性、确认消费，避免重复消费&lt;/li&gt;
-  &lt;li&gt;kafka的确认机制是如何保证的&lt;/li&gt;
-  &lt;li&gt;必备kafka高可用集群搭建方案&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;zookeeper-server&quot;&gt;zookeeper Server&lt;/h1&gt;
-&lt;h1 id=&quot;kafka&quot;&gt;kafka&lt;/h1&gt;
-
-&lt;h1 id=&quot;队列&quot;&gt;队列&lt;/h1&gt;
-
-&lt;h2 id=&quot;使用场景&quot;&gt;使用场景&lt;/h2&gt;
-&lt;p&gt;京东618，秒杀场景。&lt;/p&gt;
-
-&lt;h2 id=&quot;队列的作用&quot;&gt;队列的作用&lt;/h2&gt;
-&lt;p&gt;解耦系统，异步，限流，消峰。&lt;/p&gt;
-
-&lt;p&gt;服务器的性能，10w qps&lt;/p&gt;
-
-&lt;p&gt;618活动时达到，200w qps&lt;/p&gt;
-
-&lt;p&gt;使用队列把200w qps，分解到10w qps，保障系统正常的使用。&lt;/p&gt;
-
-&lt;h3 id=&quot;异步&quot;&gt;异步&lt;/h3&gt;
-
-&lt;h1 id=&quot;生产者与消费者模式原理解读&quot;&gt;生产者与消费者模式原理解读&lt;/h1&gt;
-
-&lt;p&gt;zookeeper 负责管理kafka集群，比如kafka1挂掉，zookeeper负责自动链接到kafka2&lt;/p&gt;
-
-&lt;p&gt;kafka的数据通过zookeeper&lt;/p&gt;
-
-&lt;p&gt;kafka 1&lt;/p&gt;
-
-&lt;p&gt;kafka 2&lt;/p&gt;
-
-&lt;p&gt;kafka 3&lt;/p&gt;
-
-&lt;h1 id=&quot;消息被确认消费&quot;&gt;消息被确认消费？&lt;/h1&gt;
-
-&lt;h2 id=&quot;redis-队列-中小型&quot;&gt;Redis 队列 中小型&lt;/h2&gt;
-&lt;p&gt;没有持久化的内容 
-性能支持每秒10万级别吞吐量没问题。&lt;/p&gt;
-
-&lt;h2 id=&quot;kafka-大型的系统&quot;&gt;kafka 大型的系统&lt;/h2&gt;
-&lt;p&gt;每秒25万级别的吞吐量
-批量读写
-MMAP 内存映射&lt;/p&gt;
-
-&lt;h1 id=&quot;php-使用kafka&quot;&gt;php 使用kafka&lt;/h1&gt;
-&lt;p&gt;composer kafka&lt;/p&gt;
-
-&lt;p&gt;composer require nmred/kafka-php&lt;/p&gt;
-
-&lt;p&gt;use Kafka&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class KafkaController extends Controller
-{
-    public function Producer(){
-        //任务 消息内容. ---&amp;gt;3000 小猪的详细信息 订单信息
-        $value = 'winner 的kafka';
-        //主题
-        $topic = 'order1';
-        $config = Kafka\ProducerConfig::getInstance();
-        $config-&amp;gt;setMetadataRefreshIntervalMs(metadataRefreshIntervalMs:10000);
-        $config-&amp;gt;setMetadataBrokerList(list:'localhost:9092');
-        $config-&amp;gt;setBrokerVersion(version:'1.0.0');
-        //消息可靠
-        //当ack模式为1时，服务端的消息会持久化发送到主副本leader
-        //ack模式为0时，不会等待消息的持久化到主副本。
-        //ack模式为2时，
-        //可靠性:2&amp;gt;1&amp;gt;0
-        //性能:0&amp;gt;1&amp;gt;2
-        $config-&amp;gt;setRequiredAck(requiredAck:'1');
-        //客户端生产消息的模式
-        //同步
-        //异步
-        //发后即忘
-        //性能：异步&amp;gt;同步&amp;gt;发后即忘
-        $config-&amp;gt;setIsAsyn(asyn:false);
-        $config-&amp;gt;setProduceInterval(produceInterval:500);
-        $producer = new Kafka\Prodecer(function() use($value,$topic){
-            return [
-                [
-                    'topic'=&amp;gt;$topic,
-                    'value'=&amp;gt;$value,
-                    'key =&amp;gt; '',
-                ]
-            ];
-        });
-        dump($producer);
-        $producer-&amp;gt;success(function($result){
-            dump($result);
-        });
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h1 id=&quot;消费者&quot;&gt;消费者&lt;/h1&gt;
-
-&lt;p&gt;高级 如何保证消息可靠消费？&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;消息不能够被丢失，消息存在。
- 生产者：ACK机制使用默认值1
- 消费者：确认消费&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;序列器 
-1次
-2次
-3次&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function handle(){
-    $config = Kafka\ConsumerConfig::getInstance();
-    $config-&amp;gt;setMetadataRefreshInstervalMs(metadataRefreshIntervalMs:500);
-    $config-&amp;gt;setMetadataBrokerList(list:'localhost:9092');
-    //组
-    $config-&amp;gt;setGroupId(groupId:'test1');
-    $config-&amp;gt;setBrokerVersion(version:'1.0.0');
-    $config-&amp;gt;setTopics(['order1']);
-    //$config-&amp;gt;setOffsetReset('earliest);
-    $consumer = new Kafka\Consumer();
-    $consumer-&amp;gt;start(function($topic,$part,$message){
-        var_dump($topic);
-        var_dump($part);
-        var_dump($message);
-    });
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;子副本&quot;&gt;子副本&lt;/h1&gt;
-
-&lt;h1 id=&quot;消息&quot;&gt;消息&lt;/h1&gt;
-&lt;p&gt;数据库里的一行数据&lt;/p&gt;
-&lt;h1 id=&quot;生产者&quot;&gt;生产者&lt;/h1&gt;
-&lt;p&gt;发布消息的程序
-主题
-分区
-指定分区
-不指定分区
-键
-一个标记
-值&lt;/p&gt;
-
-&lt;h1 id=&quot;消费者-1&quot;&gt;消费者&lt;/h1&gt;
-&lt;p&gt;订阅消息的程序&lt;/p&gt;
-
-&lt;p&gt;偏移量
-消费者根据偏移量读取数据&lt;/p&gt;
-
-&lt;p&gt;broker1
-主题:圆蛋蛋
-分区0
-主题:圆蛋蛋
-分区1&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="PHP" /><summary type="html">kafka基础架构和消息队列原理剖析 生产者与消费者模式原理解读 kafka flollwer如何与leader同步数据？ 如何保证消息的幂等性、确认消费，避免重复消费 kafka的确认机制是如何保证的 必备kafka高可用集群搭建方案</summary></entry></feed>
+&lt;/table&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">查看mysql配置文件 /usr/local/Cellar/mysql/5.6.23/bin/mysql</summary></entry></feed>
