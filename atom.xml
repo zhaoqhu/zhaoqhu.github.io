@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-11T16:02:41+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">理论知识</title><link href="http://localhost:4000/2025/10/11/ms/" rel="alternate" type="text/html" title="理论知识" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;Mysql索引用的是什么算法&lt;/li&gt;
-&lt;/ol&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-13T15:10:47+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">mysql面试题</title><link href="http://localhost:4000/2025/10/11/ms/" rel="alternate" type="text/html" title="mysql面试题" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
+
+&lt;h3 id=&quot;mysql索引用的是什么算法&quot;&gt;Mysql索引用的是什么算法&lt;/h3&gt;
 
 &lt;p&gt;Mysql选用的是B+树，B+树主要是查询效率高，时间复杂度是O(logmN)，内部节点可以拥有多个子节点，通常大于2，这使得B+树比二叉树更宽，更矮时间复杂度是O(log2N)有助于减少树的高度，进而减少磁盘I/O操作。
 总结：Mysql中创建索引的目的是为了更快的查询，索引选用B+树的数据结构，这种结构的查找算法的时间复杂度是O(logmN)，查找的效率快，磁盘I/O操作少。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL事务的关键特性？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql事务的关键特性&quot;&gt;MySQL事务的关键特性&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;原子性&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;原子性是指开启事务后数据库的修改操作要么都成功，要么都失败，回滚到事务之前的状态。&lt;/p&gt;
+&lt;p&gt;事务是操作的最小单元，要么全成功，要么全回滚。
+原子性是指开启事务后数据库的修改操作要么都成功，要么都失败，回滚到事务之前的状态。&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;一致性&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;事务执行前后，数据库从一个合法状态变为另一个合法状态（如转账总金额不变）。&lt;/p&gt;
 
 &lt;p&gt;一致性是指遵守资金守恒原则，例如银行转账操作A账户转出一定的金额给B账户，为了得到一致性这个事务需要确保金额从A减少并在增加。&lt;/p&gt;
 
@@ -26,15 +26,16 @@
   &lt;li&gt;隔离性&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;隔离性，在并发事务T1和T2都需要更新同一个账户的余额，若没有隔离措施，T1和T2可能会使用同样的金额进行计算，从而导致结果错误。&lt;/p&gt;
+&lt;p&gt;多事务并发时互不干扰，默认隔离级别REPEATABLE READ通过MVCC和间隙锁避免脏读、不可重复读、部分幻读
+隔离性，在并发事务T1和T2都需要更新同一个账户的余额，若没有隔离措施，T1和T2可能会使用同样的金额进行计算，从而导致结果错误。&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;持久性&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL事务隔离级别？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;mysql事务提交后永久保存，宕机不丢失。&lt;/p&gt;
+
+&lt;h3 id=&quot;mysql事务隔离级别&quot;&gt;MySQL事务隔离级别&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -59,13 +60,11 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL存储引擎？
-    &lt;ul&gt;
-      &lt;li&gt;InnoDB&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql存储引擎&quot;&gt;MySQL存储引擎&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;InnoDB&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;InnoDB是默认的存储引擎，支持事务、行锁，支持多版本并发控制。&lt;/p&gt;
 &lt;ul&gt;
@@ -84,13 +83,11 @@
 
 &lt;p&gt;设计用于存储大量的归档数据，具有高压缩率。只支持Insert和Select操作，非常适合存储日志数据或其他很少需要修改的数据。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL高可用方案
-    &lt;ul&gt;
-      &lt;li&gt;主从复制&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql高可用方案&quot;&gt;MySQL高可用方案&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;主从复制&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;适合读密集型应用&lt;/p&gt;
 
@@ -100,105 +97,73 @@
 
 &lt;p&gt;适合大规模并发写入应用。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL中utf8和utf8mb4的区别&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql中utf8和utf8mb4的区别&quot;&gt;MySQL中utf8和utf8mb4的区别&lt;/h3&gt;
 
 &lt;p&gt;mysql在5.5.3之后增加了utf8mb4的编码，mb4就是most bytes4，utf8编码最大字符长度为3字节，如果遇到4字节的宽字符就会插入异常。utf8mb4就是most bytes4的意思，专门用来兼容4字节的unicode字符。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL中乐观锁和悲观锁的区别？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql中乐观锁和悲观锁的区别&quot;&gt;MySQL中乐观锁和悲观锁的区别？&lt;/h3&gt;
 
 &lt;p&gt;传统的关系型数据库里边就用到了很多这种锁机制，比如行锁、表锁等，读锁、写锁等。都是在做操作之前先上锁。
 乐观锁和悲观锁主要是为了解决并发事务中的数据一致性问题，他们的设计初衷是为了在多用户或进程同时访问和修改相同数据时，保证数据的一致性和完整性。举例：在秒杀场景下对库存的查询加锁，在这个事务结束前，其他并发事务需要阻塞排队等待。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL索引主要是哪些？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql索引主要是哪些&quot;&gt;MySQL索引主要是哪些？&lt;/h3&gt;
 
 &lt;p&gt;索引的目的是提高查询效率，索引的类型有唯一索引、普通索引、主键索引、组合索引。唯一索引不可以出现相同的值，可以有Null值。&lt;/p&gt;
 
 &lt;p&gt;索引使用技巧，1.使用短索引，如果有一个char(255)列，可以在前10个或20个字符内做短索引。2.使用like语句%aaa%，不会使用索引，而 “aaa%”可以使用索引。3.where和join的列键索引。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;组合索引最左匹配原则？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;组合索引最左匹配原则&quot;&gt;组合索引最左匹配原则？&lt;/h3&gt;
 
 &lt;p&gt;在查询数据时，从联合索引的最左边开始匹配。MySQL会一直向右匹配直到遇到范围查询(&amp;gt;、&amp;lt;、betwwen、like就停止匹配了)，比如索引列(abcd) where a=1 and c=2 and b&amp;gt;5 and d=6，这样c和d都不会用到索引。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;聚簇索引和非聚簇索引的区别？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;聚簇索引和非聚簇索引的区别&quot;&gt;聚簇索引和非聚簇索引的区别？&lt;/h3&gt;
 
 &lt;p&gt;MyIsAM存储引擎是非聚簇索引，InnnoDB是聚簇索引。聚簇索引中主键索引存放数据，二级索引存储索引列和主键列。非聚簇索引主键索引和二级索引都存放完整的数据。聚簇索引会额外占用空间，但查询效率高。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;如何查询一个字段是否命中了索引？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;如何查询一个字段是否命中了索引&quot;&gt;如何查询一个字段是否命中了索引？&lt;/h3&gt;
 
 &lt;p&gt;使用explain分析SQL是否走了索引。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Mysql中的MVCC是什么？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql中的mvcc是什么&quot;&gt;Mysql中的MVCC是什么？&lt;/h3&gt;
 
 &lt;p&gt;多版本并发控制Multiversion concurrency control，多版本并发控制常用的是所，给当前事务DQL加毒素哦，给DML加写锁，这种锁是一种悲观锁的实现方式，会阻塞其他事务，从而影响数据库性能。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL读写分离以及主从同步。&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql读写分离以及主从同步&quot;&gt;MySQL读写分离以及主从同步。&lt;/h3&gt;
 
 &lt;p&gt;原理，主库将变更写binlog日志，然后从库链接到主库后，从库有一个IO线程将主库的binlog日志拷贝到自己本地，写入一个中继日志，接着从库有一个sql线程从中继日志读取binlog然后执行binlog日志的内容。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Mysql如何保证一致性和持久性？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql如何保证一致性和持久性&quot;&gt;Mysql如何保证一致性和持久性？&lt;/h3&gt;
 
 &lt;p&gt;Mysql为了保证ACID中的一致性和持久性，使用了WAL(Write A head logging)，先写日志在写磁盘。Redolog就是一张WAL的应用，当数据库忽然断点在重新启动时，Mysql可以通过Redolog还原数据。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;为什么选B+树作为索引结构？&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;InnnoDB的行锁模式？&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;为什么选b树作为索引结构&quot;&gt;为什么选B+树作为索引结构？&lt;/h3&gt;
+&lt;p&gt;1.非叶子节点仅存索引（键值和指针），支持高效范围查询。2.叶子节点存数据并链表连接天然支持水平扩展理论存储容量仅受磁盘总空间限制。3.B+树的节点（非叶子和叶子）大小设计为磁盘页（16KB）大小，让B+树查询时用最少的I/O定位数据。&lt;/p&gt;
+
+&lt;h3 id=&quot;innnodb的行锁模式&quot;&gt;InnnoDB的行锁模式？&lt;/h3&gt;
 
 &lt;p&gt;1.共享锁(s)，用法lock in share mode又称读锁，2. 排它锁，又称写锁。
 s锁，若事务T对数据对象A加上S锁，其他事务智能对A加S锁，而不能加X锁。
 x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，其他事务不能在对A加任何锁，X锁用法for update。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;哈希(hash)比树(tree)更快，索引结构为什么设计成树形？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;哈希hash比树tree更快索引结构为什么设计成树形&quot;&gt;哈希(hash)比树(tree)更快，索引结构为什么设计成树形&lt;/h3&gt;
 
 &lt;p&gt;哈希查询、插入、修改、删除的平均响应时间复杂度都是O(1)，树的平均响应时间复杂度是O(logmN)，哈希只能满足等值查询，不能满足范围和大小查询，其次不可以排序。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;为什么索引的key长度不能太长。&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;为什么索引的key长度不能太长&quot;&gt;为什么索引的key长度不能太长。&lt;/h3&gt;
 
 &lt;p&gt;key太长会导致一个页当中能够村昂的key数目变小，间接导致索引树的页数变多，索引层次增加。从而影响查询效率。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;MySQL的数据如何恢复到任意时间点。&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql的数据如何恢复到任意时间点&quot;&gt;MySQL的数据如何恢复到任意时间点&lt;/h3&gt;
 
 &lt;p&gt;1.启用二进制日志。2.首先使用最近一次的备份恢复数据库。3.使用mysqlbinlog工具将binlog文件合并，然后使用mysql工具导入已合并的sql文件。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Mysql为什么加了索引可以加快查询？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;mysql为什么加了索引可以加快查询&quot;&gt;Mysql为什么加了索引可以加快查询&lt;/h3&gt;
 
 &lt;p&gt;使用索引后再查询时不用扫描全表来定位。&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Explain命令有什么用？&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;explain命令有什么用&quot;&gt;Explain命令有什么用&lt;/h3&gt;
 
-&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">MySQL Mysql索引用的是什么算法</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">MySQL</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
