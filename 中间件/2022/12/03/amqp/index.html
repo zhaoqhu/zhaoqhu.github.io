@@ -111,17 +111,18 @@
 
 
 
-<meta name="description" content="在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。">
+<meta name="description" content="组件间关系与协作流程​">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac系统查看隐藏文件">
-<meta property="og:url" content="http://localhost:4000/mac/2021/09/12/mac-01/">
+<meta property="og:title" content="rabbitmq生产者和消费者">
+<meta property="og:url" content="http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。">
+<meta property="og:description" content="组件间关系与协作流程​">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2025-09-23T18:00:00+08:00">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac系统查看隐藏文件">
-<meta name="twitter:description" content="在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。">
+<meta name="twitter:title" content="rabbitmq生产者和消费者">
+<meta name="twitter:description" content="组件间关系与协作流程​">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +155,7 @@
 
 
 
-  <title>Mac系统查看隐藏文件 | Zhao Q.H.'s Notes</title>
+  <title>rabbitmq生产者和消费者 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -326,7 +327,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/mac/2021/09/12/mac-01/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -346,7 +347,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Mac系统查看隐藏文件
+            rabbitmq生产者和消费者
           
         </h1>
         
@@ -360,8 +361,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-12T00:00:00+08:00">
-                2021-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-12-03T00:00:00+08:00">
+                2022-12-03
               </time>
             
 
@@ -376,8 +377,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="">
-                
+              <time title="更新于" itemprop="dateModified" datetime="2025-09-23">
+                2025-09-23
               </time>
             
           </span>
@@ -396,8 +397,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/Mac" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
+                  <a href="/category/#/%E4%B8%AD%E9%97%B4%E4%BB%B6" itemprop="url" rel="index">
+                    <span itemprop="name">中间件</span>
                   </a>
                 </span>
 
@@ -451,24 +452,178 @@
 
 
 
-  <p>在mac系统下，默认看不到隐藏的目录，比如.git目录，通过下面的方法可以切换是否显示。</p>
+  <h1 id="组件间关系与协作流程">组件间关系与协作流程​</h1>
 
-<h1 id="使用快捷键">使用快捷键</h1>
-<p>Shift+Command+.
-同时按下Shift和Command和.三个键切换显示状态。</p>
-<h1 id="使用命令行">使用命令行</h1>
-<h2 id="显示">显示</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>defaults write com.apple.finder AppleShowAllFiles TRUE
+<h2 id="消息发送流程">消息发送流程​​</h2>
+<ul>
+  <li>生产者建立连接和通道​​</li>
+  <li>生产者​​声明交换机（如 order_exchange）和队列（如 order_queue）。</li>
+  <li>生产者​​通过 queueBind将队列绑定到交换机，指定路由键（如 order.created）。</li>
+  <li>生产者​​构造消息，设置路由键和元数据。</li>
+  <li>生产者​​通过 basicPublish将消息发送到交换机。</li>
+  <li>交换机​​根据路由键和绑定规则，将消息路由到目标队列。</li>
+  <li>息持久化存储在队列中，等待消费者消费。</li>
+</ul>
 
-killall Finder
+<h2 id="消息消费流程">​​消息消费流程​​</h2>
+<ul>
+  <li>消费者建立连接和通道</li>
+  <li>​消费者​​声明队列（确保队列存在）。</li>
+  <li>​消费者​​通过 basicConsume订阅队列，监听消息。</li>
+  <li>消息到达队列后，Broker 推送或消费者拉取消息。</li>
+  <li>​消费者​​处理消息，发送确认（ACK）或拒绝（NACK）。</li>
+  <li>消息确认后从队列删除，或根据配置重新入队。</li>
+</ul>
+
+<h2 id="消息生产者-交换机-topic">消息生产者-交换机-topic</h2>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+
+$connArgs = array( 
+    'host'=&gt;'localhost',
+    'port'=&gt; '5672',
+    'login'=&gt;'guest',
+    'password'=&gt;'guest',
+    'vhost' =&gt;'/');
+$conn = new AMQPConnection($connArgs);
+$conn-&gt;connect();
+$channel = new AMQPChannel($conn);
+$eName = 'e.zhaoqhu.topic'; //交换机名 
+//$q_name = 'q_linvo'; //无需队列名 
+$routeKey = 'route.key.zhaoqhu.login.error'; //路由key 
+$routeKeyB = 'route.key.zhaoqhu.mail.error'; //路由key 
+$routeKeyC = 'route.key.zhaoqhu.register.error';
+//创建交换机对象    
+$ex = new AMQPExchange($channel);   
+$ex-&gt;setName($eName);
+//设置交换机类型
+//$ex-&gt;setType(AMQP_EX_TYPE_DIRECT);
+$ex-&gt;setType(AMQP_EX_TYPE_TOPIC);
+//数据持久化类型
+$ex-&gt;setFlags(AMQP_DURABLE);
+//var_dump($ex);die;
+//date_default_timezone_set("Asia/Shanghai");
+//发送消息
+for($i=0; $i&lt;5; ++$i){ 
+    sleep(0.1);//休眠1秒
+    //消息内容 
+    //$message = "Hello Rabbitmq zhaoqhu route.key.zhaoqhu.register.error 2222!".date("h:i:sa");
+    $message = [
+        'exchange'=&gt;'e.zhaoqhu.topic',
+        'routeKey'=&gt;'route.key.zhaoqhu.register.error',
+        'msg'=&gt;'hello2222route.key.zhaoqhu.register.error'
+    ];
+    $message = json_encode($message);
+   // echo "Send Message:".$ex-&gt;publish($message, $routeKeyC)."\n";  
+//    content_type	 	text/plain
+// content_encoding	 	NULL
+// message_id	 	NULL
+// user_id	 	NULL
+// app_id	 	NULL
+// delivery_mode	 	NULL
+// priority	 	NULL
+// timestamp	 	NULL
+// expiration	 	NULL
+// type	 	NULL
+// reply_to 
+   $attr = ['content_type'=&gt;'text/plain',
+   'content_encoding'=&gt;'utf-8',
+   'message_id'=&gt;100,
+   'user_id'=&gt;"guest",
+   //'app_id'=&gt;'',
+   //'delivery_mode'=&gt;'',
+   //'priority'=&gt;'',
+   //'timestamp'=&gt;'',
+   //'expiration'=&gt;'',
+   //'type'=&gt;'',
+   //'reply_to'=&gt;'',
+   ];
+   echo "Send Message:".$ex-&gt;publish($message, $routeKeyC,AMQP_MANDATORY,$attr)."\n";  
+} 
+die;
+for($i=0; $i&lt;5; ++$i){ 
+    sleep(0.1);//休眠1秒
+    //消息内容 
+    $message = "Hello Rabbitmq zhaoqhu route.key.zhaoqhu.login.error 2222!".date("h:i:sa");   
+    echo "Send Message:".$ex-&gt;publish($message, $routeKey)."\n";  
+} 
+for($i=0; $i&lt;5; ++$i){ 
+    sleep(0.1);//休眠1秒
+    //消息内容 
+    $message = "Hello Rabbitmq zhaoqhu route.key.zhaoqhu.mail.error 2222!".date("h:i:sa");   
+    echo "Send Message:".$ex-&gt;publish($message, $routeKeyB)."\n";  
+} 
+
+$conn-&gt;disconnect();
+echo "sucess:end";
+?&gt;
 
 </code></pre></td></tr></tbody></table></div></div>
-<h2 id="隐藏">隐藏</h2>
+<h2 id="消息消费者">消息消费者</h2>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+$connArgs = array( 
+    'host'=&gt;'localhost',
+    'port'=&gt; '5672',
+    'login'=&gt;'guest',
+    'password'=&gt;'guest',
+    'vhost' =&gt;'/');
+$e_name = 'e.zhaoqhu.topic'; //交换机名 
+$q_name = 'q.zhaoqhu'; //队列名 
+$k_route = 'route.key.zhaoqhu.login.error'; //路由key 
+$k_route = '#.error'; //路由key 
+ 
+//创建连接和channel 
+$conn = new AMQPConnection($connArgs);   
+if (!$conn-&gt;connect()) {   
+    die("Cannot connect to the broker!\n");   
+}   
+$channel = new AMQPChannel($conn);   
+ 
+//创建交换机    
+$ex = new AMQPExchange($channel);   
+$ex-&gt;setName($e_name); 
+$ex-&gt;setType(AMQP_EX_TYPE_TOPIC); //topic类型  
+$ex-&gt;setFlags(AMQP_DURABLE); //持久化 
+try {
+   // echo "Exchange Status:".$ex-&gt;declare()."\n";  
+   echo "Exchange Status:".$ex-&gt;declareExchange()."\n";  
+} catch (\Throwable $th) {
+    var_dump(1111,$th-&gt;getMessage());die;
+}
+ 
+   
+//创建队列    
+$q = new AMQPQueue($channel); 
+$q-&gt;setName($q_name);   
+$q-&gt;setFlags(AMQP_DURABLE); //持久化  
+//echo "Message Total:".$q-&gt;declare()."\n";   
+echo "Message Total:".$q-&gt;declareQueue()."\n";   
+ 
+//绑定交换机与队列，并指定路由键 
+echo 'Queue Bind: '.$q-&gt;bind($e_name, $k_route)."\n"; 
+ 
+//阻塞模式接收消息 
+echo "Message:\n";   
+while(True){ 
+    $q-&gt;consume('processMessage');
+    //$q-&gt;consume('processMessage', AMQP_AUTOACK); //自动ACK应答  
+    sleep(1);
+} 
+$conn-&gt;disconnect();
+/**
+ * 消费回调函数
+ * 处理消息
+ */ 
+function processMessage($envelope, $queue) { 
+    $msg = $envelope-&gt;getBody(); 
+    echo $msg."\n"; //处理消息 
+    $queue-&gt;ack($envelope-&gt;getDeliveryTag()); //手动发送ACK应答 
+}
+?&gt;
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>defaults write com.apple.finder AppleShowAllFiles FALSE
-
-killall Finder
 </code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="参考资料">参考资料</h1>
+<p><a href="http://docs.php.net/manual/da/book.amqp.php">http://docs.php.net/manual/da/book.amqp.php</a></p>
 
 
       
@@ -530,8 +685,8 @@ killall Finder
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/php/2021/09/12/php-kafka/" rel="next" title="php使用kafka">
-                <i class="fa fa-chevron-left"></i> php使用kafka
+              <a href="/2022/12/06/rabbitmq/" rel="next" title="Rabbitmq">
+                <i class="fa fa-chevron-left"></i> Rabbitmq
               </a>
             
           </div>
@@ -540,8 +695,8 @@ killall Finder
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/07/10/vscode-xdebug/" rel="prev" title="vscode 使用xdebug3.0.4调试">
-                vscode 使用xdebug3.0.4调试 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/11/14/mysql-init/" rel="prev" title="mysql启动">
+                mysql启动 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -714,7 +869,7 @@ killall Finder
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#使用快捷键"> <span class="nav-number">1</span> <span class="nav-text">使用快捷键</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#使用命令行"> <span class="nav-number">2</span> <span class="nav-text">使用命令行</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#显示"> <span class="nav-number">2.1</span> <span class="nav-text">显示</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#隐藏"> <span class="nav-number">2.2</span> <span class="nav-text">隐藏</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#组件间关系与协作流程"> <span class="nav-number">1</span> <span class="nav-text">组件间关系与协作流程​</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息发送流程"> <span class="nav-number">1.1</span> <span class="nav-text">消息发送流程​​</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息消费流程"> <span class="nav-number">1.2</span> <span class="nav-text">​​消息消费流程​​</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息生产者-交换机-topic"> <span class="nav-number">1.3</span> <span class="nav-text">消息生产者-交换机-topic</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息消费者"> <span class="nav-number">1.4</span> <span class="nav-text">消息消费者</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#参考资料"> <span class="nav-number">2</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             
@@ -908,7 +1063,7 @@ killall Finder
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/mac/2021/09/12/mac-01/',
+        id: '/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false

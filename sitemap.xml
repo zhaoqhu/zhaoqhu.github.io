@@ -125,6 +125,10 @@
 <lastmod>2021-11-14T00:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/</loc>
+<lastmod>2022-12-03T00:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/2022/12/06/rabbitmq/</loc>
 <lastmod>2022-12-06T00:00:00+08:00</lastmod>
 </url>
@@ -201,5 +205,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page4/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page5/</loc>
 </url>
 </urlset>
