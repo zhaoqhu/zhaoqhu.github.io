@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="创建nextcloud安装目录 mkdir nextcloud 创建mysql目录用于数据卷映射 cd ~/nextcloud mkdir mysql 创建nextcloud文件目录用于映射 cd nextcloud mkdir nextcloud 创建docker-compose.yml文件，内容如下 ``` version: ‘2’">
+<meta name="description" content="Hugging face">
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nextcloud yml安装">
-<meta property="og:url" content="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">
+<meta property="og:title" content="Hugging face 学习记录">
+<meta property="og:url" content="http://localhost:4000/2025/10/21/huggingface/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="创建nextcloud安装目录 mkdir nextcloud 创建mysql目录用于数据卷映射 cd ~/nextcloud mkdir mysql 创建nextcloud文件目录用于映射 cd nextcloud mkdir nextcloud 创建docker-compose.yml文件，内容如下 ``` version: ‘2’">
+<meta property="og:description" content="Hugging face">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nextcloud yml安装">
-<meta name="twitter:description" content="创建nextcloud安装目录 mkdir nextcloud 创建mysql目录用于数据卷映射 cd ~/nextcloud mkdir mysql 创建nextcloud文件目录用于映射 cd nextcloud mkdir nextcloud 创建docker-compose.yml文件，内容如下 ``` version: ‘2’">
+<meta name="twitter:title" content="Hugging face 学习记录">
+<meta name="twitter:description" content="Hugging face">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>nextcloud yml安装 | Zhao Q.H.'s Notes</title>
+  <title>Hugging face 学习记录 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/nextcloud/2021/03/09/nextcloud-yml/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2025/10/21/huggingface/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -346,7 +346,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            nextcloud yml安装
+            Hugging face 学习记录
           
         </h1>
         
@@ -360,8 +360,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-09T00:00:00+08:00">
-                2021-03-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-10-21T00:00:00+08:00">
+                2025-10-21
               </time>
             
 
@@ -382,29 +382,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/nextcloud" itemprop="url" rel="index">
-                    <span itemprop="name">nextcloud</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -451,53 +428,17 @@
 
 
 
-  <h2 id="创建nextcloud安装目录">创建nextcloud安装目录</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>mkdir nextcloud
-</code></pre></td></tr></tbody></table></div></div>
-<h2 id="创建mysql目录用于数据卷映射">创建mysql目录用于数据卷映射</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>cd ~/nextcloud
-mkdir mysql
-</code></pre></td></tr></tbody></table></div></div>
-<h2 id="创建nextcloud文件目录用于映射">创建nextcloud文件目录用于映射</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>cd nextcloud
-mkdir nextcloud
-</code></pre></td></tr></tbody></table></div></div>
-<h2 id="创建docker-composeyml文件内容如下">创建docker-compose.yml文件，内容如下</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34</pre></td><td class="code"><pre class="highlight"><code>version: '2'
+  <h1 id="hugging-face">Hugging face</h1>
 
-volumes:
-  nextcloud:
-  db:
+<ul>
+  <li>hugging face入门教程，可以在自己的macbook pro 15款上学习和练习huggging face吗？</li>
+  <li>我的macbook pro 15款8+256G的有docker环境，第一部分Huggingface的Python环境可以用docker的python环境吗？</li>
+</ul>
 
-services:
-  db:
-    image: mysql
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - /Users/zhaoqinghu/dev_docker/nextcloud/mysql:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=12345678
-      - MYSQL_PASSWORD=nextcloud
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-
-  app:
-    image: nextcloud
-    restart: always
-    ports:
-      - 7080:80
-    links:
-      - db
-    volumes:
-      - /Users/zhaoqinghu/dev_docker/nextcloud/nextcloud:/var/www/html
-    environment:
-      - MYSQL_PASSWORD=
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=db
-
-</code></pre></td></tr></tbody></table></div></div>
+<h2 id="环境准备">环境准备</h2>
+<h3 id="安装python-39">安装Python 3.9</h3>
+<h3 id="pip安装pytorch">Pip安装PyTorch</h3>
+<h3 id="pip安装hugging-face核心库transformer和datasets">Pip安装Hugging Face核心库transformer和datasets</h3>
 
 
       
@@ -559,8 +500,8 @@ services:
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/php/2021/04/18/mac-default-php-mysql/" rel="next" title="Mac系统下设置全局默认的php版本和Mysql的版本">
-                <i class="fa fa-chevron-left"></i> Mac系统下设置全局默认的php版本和Mysql的版本
+              <a href="/2025/11/04/wuqing/" rel="next" title="Wuqing">
+                <i class="fa fa-chevron-left"></i> Wuqing
               </a>
             
           </div>
@@ -569,8 +510,8 @@ services:
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/php/2021/02/05/php-ms/" rel="prev" title="php面试">
-                php面试 <i class="fa fa-chevron-right"></i>
+              <a href="/2025/10/11/mysql-ms/" rel="prev" title="mysql面试题">
+                mysql面试题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -743,7 +684,7 @@ services:
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建nextcloud安装目录"> <span class="nav-number">1</span> <span class="nav-text">创建nextcloud安装目录</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建mysql目录用于数据卷映射"> <span class="nav-number">2</span> <span class="nav-text">创建mysql目录用于数据卷映射</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建nextcloud文件目录用于映射"> <span class="nav-number">3</span> <span class="nav-text">创建nextcloud文件目录用于映射</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建docker-composeyml文件内容如下"> <span class="nav-number">4</span> <span class="nav-text">创建docker-compose.yml文件，内容如下</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#hugging-face"> <span class="nav-number">1</span> <span class="nav-text">Hugging face</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#环境准备"> <span class="nav-number">1.1</span> <span class="nav-text">环境准备</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装python-39"> <span class="nav-number">1.1.1</span> <span class="nav-text">安装Python 3.9</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#pip安装pytorch"> <span class="nav-number">1.1.2</span> <span class="nav-text">Pip安装PyTorch</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#pip安装hugging-face核心库transformer和datasets"> <span class="nav-number">1.1.3</span> <span class="nav-text">Pip安装Hugging Face核心库transformer和datasets</span> </a> </li> </ol> </li> </ol> </li>
     </ol>
   </div>
             
@@ -937,7 +878,7 @@ services:
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/nextcloud/2021/03/09/nextcloud-yml/',
+        id: '/2025/10/21/huggingface/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false

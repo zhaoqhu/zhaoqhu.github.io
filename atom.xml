@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-10-15T15:02:52+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">mysql面试题</title><link href="http://localhost:4000/2025/10/11/mysql-ms/" rel="alternate" type="text/html" title="mysql面试题" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/mysql-ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/mysql-ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-11-04T21:48:21+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Wuqing</title><link href="http://localhost:4000/2025/11/04/wuqing/" rel="alternate" type="text/html" title="Wuqing" /><published>2025-11-04T00:00:00+08:00</published><updated>2025-11-04T00:00:00+08:00</updated><id>http://localhost:4000/2025/11/04/wuqing</id><content type="html" xml:base="http://localhost:4000/2025/11/04/wuqing/">&lt;h1 id=&quot;武清商圈&quot;&gt;武清商圈&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;佛罗伦萨小镇&lt;/li&gt;
+  &lt;li&gt;创意米兰生活广场&lt;/li&gt;
+  &lt;li&gt;V1汽车世界&lt;/li&gt;
+  &lt;li&gt;威尼都&lt;/li&gt;
+  &lt;li&gt;天津武清福源万达广场&lt;/li&gt;
+  &lt;li&gt;住总大光明中心&lt;/li&gt;
+  &lt;li&gt;友谊商厦（武清店）&lt;/li&gt;
+  &lt;li&gt;荔隆时代广场/荔隆广场&lt;/li&gt;
+  &lt;li&gt;瑞安威尼都&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">武清商圈 佛罗伦萨小镇 创意米兰生活广场 V1汽车世界 威尼都 天津武清福源万达广场 住总大光明中心 友谊商厦（武清店） 荔隆时代广场/荔隆广场 瑞安威尼都</summary></entry><entry><title type="html">Hugging face 学习记录</title><link href="http://localhost:4000/2025/10/21/huggingface/" rel="alternate" type="text/html" title="Hugging face 学习记录" /><published>2025-10-21T00:00:00+08:00</published><updated>2025-10-21T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/21/huggingface</id><content type="html" xml:base="http://localhost:4000/2025/10/21/huggingface/">&lt;h1 id=&quot;hugging-face&quot;&gt;Hugging face&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hugging face入门教程，可以在自己的macbook pro 15款上学习和练习huggging face吗？&lt;/li&gt;
+  &lt;li&gt;我的macbook pro 15款8+256G的有docker环境，第一部分Huggingface的Python环境可以用docker的python环境吗？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;环境准备&quot;&gt;环境准备&lt;/h2&gt;
+&lt;h3 id=&quot;安装python-39&quot;&gt;安装Python 3.9&lt;/h3&gt;
+&lt;h3 id=&quot;pip安装pytorch&quot;&gt;Pip安装PyTorch&lt;/h3&gt;
+&lt;h3 id=&quot;pip安装hugging-face核心库transformer和datasets&quot;&gt;Pip安装Hugging Face核心库transformer和datasets&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Hugging face</summary></entry><entry><title type="html">mysql面试题</title><link href="http://localhost:4000/2025/10/11/mysql-ms/" rel="alternate" type="text/html" title="mysql面试题" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/mysql-ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/mysql-ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
 
 &lt;h3 id=&quot;mysql索引用的是什么算法&quot;&gt;Mysql索引用的是什么算法&lt;/h3&gt;
 
@@ -1173,7 +1194,59 @@ bash-3.2$ curl http://127.0.0.1:8080/hello
 {&quot;msg&quot;:&quot;hello&quot;}
 bash-3.2$ 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry><entry><title type="html">Php Config</title><link href="http://localhost:4000/2024/03/10/php-config/" rel="alternate" type="text/html" title="Php Config" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-config</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-config/">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure  --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry><entry><title type="html">Php High Level</title><link href="http://localhost:4000/2024/03/10/php-high-level/" rel="alternate" type="text/html" title="Php High Level" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-high-level</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-high-level/">&lt;h1 id=&quot;分布式事务最大努力通知案例分析&quot;&gt;分布式事务最大努力通知案例分析&lt;/h1&gt;
+
+&lt;p&gt;在第三方支付中，例如支付宝，或者微信，对于订单请求，第三方支付系统采用的是消息同步返回，异步通知+主动补偿查询的补偿机制。&lt;/p&gt;
+
+&lt;p&gt;由于互联网通信的不可靠性，例如网络故障、服务器故障、应用bug等因素的影响，不管是同步返回、异步通知、主动查询报文都可能出现超时无响应、报文丢失等情况，所以像支付业务、对结果的通知、一般采用几种方案结合的补偿机制，不能完全依赖某一种机制。&lt;/p&gt;
+
+&lt;p&gt;例如一个支付结果的通知，一方面会在支付页面跳转时候返回支付结果（一般只用作前端展示使用，非最终状态），同时会采用后台异步通知机制（有前台、后台通知的，以后台异步通知结果为准），但由于前台跳转、后台结果通知可能失效，因此还以定时补单+请求方主动查询接口作为辅助手段。&lt;/p&gt;
+
+&lt;p&gt;常见的补单操作，任务调度策略一般设定30秒、60秒、3分钟、6分钟、10分钟调度多次（以自己业务需要），如果调度接受到响应确认报文，补单成功。则终止对应订单的调度任务；如果超过补单上限次数，则停止补单，避免无谓的资源浪费。请求端随时可以发起请求报文查询对应订单的状态。&lt;/p&gt;
+
+&lt;p&gt;## 最大努力通知型&lt;/p&gt;
+
+&lt;p&gt;### 实现
+  1、业务活动的主动方，在完成业务处理之后，向业务活动的被动房发送消息，被动方需主动响应正确消息，否则根据定时策略，最大努力通知。
+  2、业务活动的被动方（电商平台）也可以向业务活动主动方（支付宝平台）查询，恢复丢失的业务消息。
+  ### 约束
+  被动方的处理结果不能影响主动方的处理结果
+  ### 成本
+  业务查询与校对系统的建设成本
+  ### 使用范围
+  对业务最终一致性的时间敏感度低
+  跨企业的业务活动
+  ### 方案特点
+  业务活动的主动方在完成业务处理后，向业务活动被动方发送通知消息（允许消息丢失）
+  主动方可以设置时间阶梯通知规则，在通知失败后按规则重复通知，直到通知N次后，主动方提供校队查询接口给被动方按需校队查询，用于恢复丢失的业务消息
+  ### 应用案例
+  银行通知、商户通知等（各大交易业务平台间的商户通知：多次通知、查询校对、对账文件）&lt;/p&gt;
+
+&lt;p&gt;## 了解docker并且快速配置RabbitMQ&lt;/p&gt;
+
+&lt;p&gt;### Docker是什么？
+  Docker是一个开源的应用容器引擎，你可以将其理解为一个轻量级的虚拟机，开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，只要有了Docker，用户便不在需要为这些应用配置其所需的特有环境了，也不需要为这些应用统一环境了
+  ### 为什么要使用Docker，Docker的好处是什么？
+  可以认为Docker是一个通用安装程序，简单来说，利用Docker容器，可以将任何一个或者多个程序封装起来，并提供标准的管理接口，因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这样，开发人员负责维护内容，并使用Docker进行封装，系统管理人员利用Docker的标准接口进行部署和管理。&lt;/p&gt;
+
+&lt;p&gt;Docker的主要用途，目前有三大类。
+  1）提供一致性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建环境。
+  2）提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。
+  3）组件微服务架构，通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。&lt;/p&gt;
+
+&lt;p&gt;### 一、Docker安装 
+  CentOS
+  1、更新update到最新的版本
+  yum update
+  2、安装docker
+  yum -y install docker
+  3、启动docker
+  systemctl start docker
+  4、加入开启自启
+  systemctl enable docker&lt;/p&gt;
+
+&lt;p&gt;### 二、Docker参数说明
+  启动会自动搜索 rabbitMQ&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">分布式事务最大努力通知案例分析</summary></entry><entry><title type="html">Php Config</title><link href="http://localhost:4000/2024/03/10/php-config/" rel="alternate" type="text/html" title="Php Config" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-config</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-config/">&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure  --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;chmod -R 7777 ./index.html ./caches ./html ./uploadfile ./phpsso_server/caches ./phpsso_server/uploadfile&lt;/p&gt;
@@ -1407,274 +1480,4 @@ xdebug.log = /tmp/xdebug.log
 
 &lt;p&gt;&lt;a href=&quot;https://www.liuvv.com/p/ad42ac48.html&quot;&gt;https://www.liuvv.com/p/ad42ac48.html&lt;/a&gt;
 &lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/&lt;/a&gt;
-&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">./configure --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo</summary></entry><entry><title type="html">Php High Level</title><link href="http://localhost:4000/2024/03/10/php-high-level/" rel="alternate" type="text/html" title="Php High Level" /><published>2024-03-10T00:00:00+08:00</published><updated>2024-03-10T00:00:00+08:00</updated><id>http://localhost:4000/2024/03/10/php-high-level</id><content type="html" xml:base="http://localhost:4000/2024/03/10/php-high-level/">&lt;h1 id=&quot;分布式事务最大努力通知案例分析&quot;&gt;分布式事务最大努力通知案例分析&lt;/h1&gt;
-
-&lt;p&gt;在第三方支付中，例如支付宝，或者微信，对于订单请求，第三方支付系统采用的是消息同步返回，异步通知+主动补偿查询的补偿机制。&lt;/p&gt;
-
-&lt;p&gt;由于互联网通信的不可靠性，例如网络故障、服务器故障、应用bug等因素的影响，不管是同步返回、异步通知、主动查询报文都可能出现超时无响应、报文丢失等情况，所以像支付业务、对结果的通知、一般采用几种方案结合的补偿机制，不能完全依赖某一种机制。&lt;/p&gt;
-
-&lt;p&gt;例如一个支付结果的通知，一方面会在支付页面跳转时候返回支付结果（一般只用作前端展示使用，非最终状态），同时会采用后台异步通知机制（有前台、后台通知的，以后台异步通知结果为准），但由于前台跳转、后台结果通知可能失效，因此还以定时补单+请求方主动查询接口作为辅助手段。&lt;/p&gt;
-
-&lt;p&gt;常见的补单操作，任务调度策略一般设定30秒、60秒、3分钟、6分钟、10分钟调度多次（以自己业务需要），如果调度接受到响应确认报文，补单成功。则终止对应订单的调度任务；如果超过补单上限次数，则停止补单，避免无谓的资源浪费。请求端随时可以发起请求报文查询对应订单的状态。&lt;/p&gt;
-
-&lt;p&gt;## 最大努力通知型&lt;/p&gt;
-
-&lt;p&gt;### 实现
-  1、业务活动的主动方，在完成业务处理之后，向业务活动的被动房发送消息，被动方需主动响应正确消息，否则根据定时策略，最大努力通知。
-  2、业务活动的被动方（电商平台）也可以向业务活动主动方（支付宝平台）查询，恢复丢失的业务消息。
-  ### 约束
-  被动方的处理结果不能影响主动方的处理结果
-  ### 成本
-  业务查询与校对系统的建设成本
-  ### 使用范围
-  对业务最终一致性的时间敏感度低
-  跨企业的业务活动
-  ### 方案特点
-  业务活动的主动方在完成业务处理后，向业务活动被动方发送通知消息（允许消息丢失）
-  主动方可以设置时间阶梯通知规则，在通知失败后按规则重复通知，直到通知N次后，主动方提供校队查询接口给被动方按需校队查询，用于恢复丢失的业务消息
-  ### 应用案例
-  银行通知、商户通知等（各大交易业务平台间的商户通知：多次通知、查询校对、对账文件）&lt;/p&gt;
-
-&lt;p&gt;## 了解docker并且快速配置RabbitMQ&lt;/p&gt;
-
-&lt;p&gt;### Docker是什么？
-  Docker是一个开源的应用容器引擎，你可以将其理解为一个轻量级的虚拟机，开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器上，只要有了Docker，用户便不在需要为这些应用配置其所需的特有环境了，也不需要为这些应用统一环境了
-  ### 为什么要使用Docker，Docker的好处是什么？
-  可以认为Docker是一个通用安装程序，简单来说，利用Docker容器，可以将任何一个或者多个程序封装起来，并提供标准的管理接口，因为使用了容器，所以可以很方便的把生产环境和开发环境分开，互不影响，这样，开发人员负责维护内容，并使用Docker进行封装，系统管理人员利用Docker的标准接口进行部署和管理。&lt;/p&gt;
-
-&lt;p&gt;Docker的主要用途，目前有三大类。
-  1）提供一致性的环境。比如，本地测试他人的软件、持续集成的时候提供单元测试和构建环境。
-  2）提供弹性的云服务。因为Docker容器可以随开随关，很适合动态扩容和缩容。
-  3）组件微服务架构，通过多个容器，一台机器可以跑多个服务，因此在本机就可以模拟出微服务架构。&lt;/p&gt;
-
-&lt;p&gt;### 一、Docker安装 
-  CentOS
-  1、更新update到最新的版本
-  yum update
-  2、安装docker
-  yum -y install docker
-  3、启动docker
-  systemctl start docker
-  4、加入开启自启
-  systemctl enable docker&lt;/p&gt;
-
-&lt;p&gt;### 二、Docker参数说明
-  启动会自动搜索 rabbitMQ&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">分布式事务最大努力通知案例分析</summary></entry><entry><title type="html">Rabbitmq</title><link href="http://localhost:4000/2022/12/06/rabbitmq/" rel="alternate" type="text/html" title="Rabbitmq" /><published>2022-12-06T00:00:00+08:00</published><updated>2022-12-06T00:00:00+08:00</updated><id>http://localhost:4000/2022/12/06/rabbitmq</id><content type="html" xml:base="http://localhost:4000/2022/12/06/rabbitmq/">&lt;h1 id=&quot;mac安装rabbitmq&quot;&gt;Mac安装rabbitmq&lt;/h1&gt;
-&lt;p&gt;使用homebrew安装&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew update
-brew install rabbitmq
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h1 id=&quot;启动rabbitmq服务&quot;&gt;启动rabbitmq服务&lt;/h1&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% pwd
-/usr/local/Cellar/rabbitmq/3.11.4/sbin
-% ls
-rabbitmq-defaults	rabbitmq-queues		rabbitmq-upgrade
-rabbitmq-diagnostics	rabbitmq-server		rabbitmqadmin
-rabbitmq-env		rabbitmq-streams	rabbitmqctl
-rabbitmq-plugins	rabbitmq-tanzu
-% /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-server # 启动服务
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;启动management-插件网页管理器&quot;&gt;启动management 插件网页管理器&lt;/h1&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-plugins enable rabbitmq_management
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;访问management&quot;&gt;访问Management&lt;/h1&gt;
-&lt;p&gt;http://localhost:15672/
-默认账号:guest
-默认密码:guest&lt;/p&gt;
-
-&lt;h1 id=&quot;php安装amqp扩展&quot;&gt;php安装amqp扩展&lt;/h1&gt;
-&lt;p&gt;amqp扩展依赖&lt;a href=&quot;https://formulae.brew.sh/formula/rabbitmq-c#default&quot;&gt;rabbitmq-c&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;homebrew安装rabbitmq-c&quot;&gt;homebrew安装rabbitmq-c&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install rabbitmq-c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;由于国内网络原因，使用pecl在线安装可能会失败，如果失败可以先将安装包现在到本地，然后在使用本地的安装包下载&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -O https://pecl.php.net/get/amqp-1.11.0.tgz
-% pwd
-/usr/local/php7-15/bin
-% ./pecl install /Users/zhaoqinghu/Downloads/amqp-1.11.0.tgz
-% Set the path to librabbitmq install prefix [autodetect] : /usr/local/Cellar/rabbitmq-c/0.11.0 #输入rabbitmq-c的安装位置
-Installing '/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/amqp.so'
-install ok: channel://pecl.php.net/amqp-1.11.0
-configuration option &quot;php_ini&quot; is not set to php.ini location
-You should add &quot;extension=amqp.so&quot; to php.ini
-sh-3.2#
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;参考资料&quot;&gt;参考资料&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.rabbitmq.com/install-homebrew.html&quot;&gt;https://www.rabbitmq.com/install-homebrew.html&lt;/a&gt;
-&lt;a href=&quot;https://formulae.brew.sh/formula/rabbitmq#default&quot;&gt;https://formulae.brew.sh/formula/rabbitmq#default&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Mac安装rabbitmq 使用homebrew安装 brew update brew install rabbitmq 启动rabbitmq服务 % pwd /usr/local/Cellar/rabbitmq/3.11.4/sbin % ls rabbitmq-defaults rabbitmq-queues rabbitmq-upgrade rabbitmq-diagnostics rabbitmq-server rabbitmqadmin rabbitmq-env rabbitmq-streams rabbitmqctl rabbitmq-plugins rabbitmq-tanzu % /usr/local/Cellar/rabbitmq/3.11.4/sbin/rabbitmq-server # 启动服务</summary></entry><entry><title type="html">rabbitmq生产者和消费者</title><link href="http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/" rel="alternate" type="text/html" title="rabbitmq生产者和消费者" /><published>2022-12-03T00:00:00+08:00</published><updated>2022-12-03T00:00:00+08:00</updated><id>http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp</id><content type="html" xml:base="http://localhost:4000/%E4%B8%AD%E9%97%B4%E4%BB%B6/2022/12/03/amqp/">&lt;h1 id=&quot;组件间关系与协作流程&quot;&gt;组件间关系与协作流程​&lt;/h1&gt;
-
-&lt;h2 id=&quot;消息发送流程&quot;&gt;消息发送流程​​&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;生产者建立连接和通道​​&lt;/li&gt;
-  &lt;li&gt;生产者​​声明交换机（如 order_exchange）和队列（如 order_queue）。&lt;/li&gt;
-  &lt;li&gt;生产者​​通过 queueBind将队列绑定到交换机，指定路由键（如 order.created）。&lt;/li&gt;
-  &lt;li&gt;生产者​​构造消息，设置路由键和元数据。&lt;/li&gt;
-  &lt;li&gt;生产者​​通过 basicPublish将消息发送到交换机。&lt;/li&gt;
-  &lt;li&gt;交换机​​根据路由键和绑定规则，将消息路由到目标队列。&lt;/li&gt;
-  &lt;li&gt;息持久化存储在队列中，等待消费者消费。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;消息消费流程&quot;&gt;​​消息消费流程​​&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;消费者建立连接和通道&lt;/li&gt;
-  &lt;li&gt;​消费者​​声明队列（确保队列存在）。&lt;/li&gt;
-  &lt;li&gt;​消费者​​通过 basicConsume订阅队列，监听消息。&lt;/li&gt;
-  &lt;li&gt;消息到达队列后，Broker 推送或消费者拉取消息。&lt;/li&gt;
-  &lt;li&gt;​消费者​​处理消息，发送确认（ACK）或拒绝（NACK）。&lt;/li&gt;
-  &lt;li&gt;消息确认后从队列删除，或根据配置重新入队。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;消息生产者-交换机-topic&quot;&gt;消息生产者-交换机-topic&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
-
-$connArgs = array( 
-    'host'=&amp;gt;'localhost',
-    'port'=&amp;gt; '5672',
-    'login'=&amp;gt;'guest',
-    'password'=&amp;gt;'guest',
-    'vhost' =&amp;gt;'/');
-$conn = new AMQPConnection($connArgs);
-$conn-&amp;gt;connect();
-$channel = new AMQPChannel($conn);
-$eName = 'e.zhaoqhu.topic'; //交换机名 
-//$q_name = 'q_linvo'; //无需队列名 
-$routeKey = 'route.key.zhaoqhu.login.error'; //路由key 
-$routeKeyB = 'route.key.zhaoqhu.mail.error'; //路由key 
-$routeKeyC = 'route.key.zhaoqhu.register.error';
-//创建交换机对象    
-$ex = new AMQPExchange($channel);   
-$ex-&amp;gt;setName($eName);
-//设置交换机类型
-//$ex-&amp;gt;setType(AMQP_EX_TYPE_DIRECT);
-$ex-&amp;gt;setType(AMQP_EX_TYPE_TOPIC);
-//数据持久化类型
-$ex-&amp;gt;setFlags(AMQP_DURABLE);
-//var_dump($ex);die;
-//date_default_timezone_set(&quot;Asia/Shanghai&quot;);
-//发送消息
-for($i=0; $i&amp;lt;5; ++$i){ 
-    sleep(0.1);//休眠1秒
-    //消息内容 
-    //$message = &quot;Hello Rabbitmq zhaoqhu route.key.zhaoqhu.register.error 2222!&quot;.date(&quot;h:i:sa&quot;);
-    $message = [
-        'exchange'=&amp;gt;'e.zhaoqhu.topic',
-        'routeKey'=&amp;gt;'route.key.zhaoqhu.register.error',
-        'msg'=&amp;gt;'hello2222route.key.zhaoqhu.register.error'
-    ];
-    $message = json_encode($message);
-   // echo &quot;Send Message:&quot;.$ex-&amp;gt;publish($message, $routeKeyC).&quot;\n&quot;;  
-//    content_type	 	text/plain
-// content_encoding	 	NULL
-// message_id	 	NULL
-// user_id	 	NULL
-// app_id	 	NULL
-// delivery_mode	 	NULL
-// priority	 	NULL
-// timestamp	 	NULL
-// expiration	 	NULL
-// type	 	NULL
-// reply_to 
-   $attr = ['content_type'=&amp;gt;'text/plain',
-   'content_encoding'=&amp;gt;'utf-8',
-   'message_id'=&amp;gt;100,
-   'user_id'=&amp;gt;&quot;guest&quot;,
-   //'app_id'=&amp;gt;'',
-   //'delivery_mode'=&amp;gt;'',
-   //'priority'=&amp;gt;'',
-   //'timestamp'=&amp;gt;'',
-   //'expiration'=&amp;gt;'',
-   //'type'=&amp;gt;'',
-   //'reply_to'=&amp;gt;'',
-   ];
-   echo &quot;Send Message:&quot;.$ex-&amp;gt;publish($message, $routeKeyC,AMQP_MANDATORY,$attr).&quot;\n&quot;;  
-} 
-die;
-for($i=0; $i&amp;lt;5; ++$i){ 
-    sleep(0.1);//休眠1秒
-    //消息内容 
-    $message = &quot;Hello Rabbitmq zhaoqhu route.key.zhaoqhu.login.error 2222!&quot;.date(&quot;h:i:sa&quot;);   
-    echo &quot;Send Message:&quot;.$ex-&amp;gt;publish($message, $routeKey).&quot;\n&quot;;  
-} 
-for($i=0; $i&amp;lt;5; ++$i){ 
-    sleep(0.1);//休眠1秒
-    //消息内容 
-    $message = &quot;Hello Rabbitmq zhaoqhu route.key.zhaoqhu.mail.error 2222!&quot;.date(&quot;h:i:sa&quot;);   
-    echo &quot;Send Message:&quot;.$ex-&amp;gt;publish($message, $routeKeyB).&quot;\n&quot;;  
-} 
-
-$conn-&amp;gt;disconnect();
-echo &quot;sucess:end&quot;;
-?&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;消息消费者&quot;&gt;消息消费者&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
-$connArgs = array( 
-    'host'=&amp;gt;'localhost',
-    'port'=&amp;gt; '5672',
-    'login'=&amp;gt;'guest',
-    'password'=&amp;gt;'guest',
-    'vhost' =&amp;gt;'/');
-$e_name = 'e.zhaoqhu.topic'; //交换机名 
-$q_name = 'q.zhaoqhu'; //队列名 
-$k_route = 'route.key.zhaoqhu.login.error'; //路由key 
-$k_route = '#.error'; //路由key 
- 
-//创建连接和channel 
-$conn = new AMQPConnection($connArgs);   
-if (!$conn-&amp;gt;connect()) {   
-    die(&quot;Cannot connect to the broker!\n&quot;);   
-}   
-$channel = new AMQPChannel($conn);   
- 
-//创建交换机    
-$ex = new AMQPExchange($channel);   
-$ex-&amp;gt;setName($e_name); 
-$ex-&amp;gt;setType(AMQP_EX_TYPE_TOPIC); //topic类型  
-$ex-&amp;gt;setFlags(AMQP_DURABLE); //持久化 
-try {
-   // echo &quot;Exchange Status:&quot;.$ex-&amp;gt;declare().&quot;\n&quot;;  
-   echo &quot;Exchange Status:&quot;.$ex-&amp;gt;declareExchange().&quot;\n&quot;;  
-} catch (\Throwable $th) {
-    var_dump(1111,$th-&amp;gt;getMessage());die;
-}
- 
-   
-//创建队列    
-$q = new AMQPQueue($channel); 
-$q-&amp;gt;setName($q_name);   
-$q-&amp;gt;setFlags(AMQP_DURABLE); //持久化  
-//echo &quot;Message Total:&quot;.$q-&amp;gt;declare().&quot;\n&quot;;   
-echo &quot;Message Total:&quot;.$q-&amp;gt;declareQueue().&quot;\n&quot;;   
- 
-//绑定交换机与队列，并指定路由键 
-echo 'Queue Bind: '.$q-&amp;gt;bind($e_name, $k_route).&quot;\n&quot;; 
- 
-//阻塞模式接收消息 
-echo &quot;Message:\n&quot;;   
-while(True){ 
-    $q-&amp;gt;consume('processMessage');
-    //$q-&amp;gt;consume('processMessage', AMQP_AUTOACK); //自动ACK应答  
-    sleep(1);
-} 
-$conn-&amp;gt;disconnect();
-/**
- * 消费回调函数
- * 处理消息
- */ 
-function processMessage($envelope, $queue) { 
-    $msg = $envelope-&amp;gt;getBody(); 
-    echo $msg.&quot;\n&quot;; //处理消息 
-    $queue-&amp;gt;ack($envelope-&amp;gt;getDeliveryTag()); //手动发送ACK应答 
-}
-?&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;参考资料&quot;&gt;参考资料&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&quot;http://docs.php.net/manual/da/book.amqp.php&quot;&gt;http://docs.php.net/manual/da/book.amqp.php&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="中间件" /><summary type="html">组件间关系与协作流程​</summary></entry></feed>
+&lt;a href=&quot;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&quot;&gt;https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/icu4c-71.1.big_sur.bottle.tar.gz&lt;/a&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">./configure --prefix=/usr/local/php7-15 --enable-opcache --with-config-file-path=/usr/local/php7-15/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --enable-fpm --enable-fastcgi --enable-static --enable-inline-optimization --enable-sockets --enable-wddx --enable-zip --enable-calendar --enable-bcmath --enable-soap --with-zlib --with-iconv=/usr/local --with-gd --with-xmlrpc --enable-mbstring --without-sqlite --with-curl --enable-ftp --with-freetype-dir=/usr/local/Cellar/freetype/2.12.1 --with-jpeg-dir=/usr/local/Cellar/jpeg-turbo/2.1.4 --with-webp-dir=/usr/local/Cellar/webp/1.2.4 --with-xpm-dir=/usr/local/Cellar/libxpm/3.5.14 --with-png-dir=/usr/local/Cellar/libpng/1.6.39 --with-zlib-dir=/usr/local/Cellar/zlib/1.2.13 --with-iconv=/usr/local/Cellar/libiconv/1.17 --disable-ipv6 --disable-debug --disable-maintainer-zts --disable-safe-mode --disable-fileinfo</summary></entry></feed>
