@@ -2,6 +2,36 @@
 <search>
   
     <entry>
+      <title><![CDATA[docker 容器化构建php-laravel开发环境]]></title>
+      <url>/php/2025/11/30/php-larvel/</url>
+      <content type="text"><![CDATA[构建php-laravel:8.4.15.1-fpm-xdebug镜像使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。laravellaravel版本是12root@bcb209344039:/app/app# php artisan -VLaravel Framework 12.39.0php使用root@bcb209344039:/app/app# php --versionPHP 8.4.15 (cli) (built: Nov 20 2025 19:53:54) (NTS)Copyright (c) The PHP GroupBuilt by https://github.com/docker-library/phpZend Engine v4.4.15, Copyright (c) Zend Technologies    with Zend OPcache v8.4.15, Copyright (c), by Zend Technologies    with Xdebug v3.4.7, Copyright (c) 2002-2025, by Derick Rethansdocker-composeservices:  laravel-svc:    container_name: laravel-ctr    build: ./build/    command: sh -c "cd /app/app &amp;&amp; npm install &amp;&amp; npm run build &amp;&amp;            composer run dev"    image: php-laravel:8.4.15.1-fpm-xdebug    restart: always    ports:      - 8000:8000    volumes:      - ./app/app:/app/app      - ./build/etc/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini     networks:      - laravel_network    environment:      PWD: /app/app      PHP_PORT: 8000      DB_CONNECTION: mysql      DB_HOST: laravel-db-svc      DB_PORT: 3306      DB_DATABASE: laravel_db      DB_USERNAME: zhaoqhu      DB_PASSWORD: larH2025,.    # command: ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"]  laravel-db-svc:    container_name: laravel-db-ctr    image: mysql:8.0    restart: always    environment:      MYSQL_ROOT_PASSWORD: larH20025,.      MYSQL_DATABASE: laravel_db      MYSQL_USER: zhaoqhu      MYSQL_PASSWORD: larH2025,.    ports:      - 3206:3306    volumes:      - ./db:/var/lib/mysql    networks:      - laravel_networkvolumes:  html:  db:networks:  laravel_network:    driver: bridge运行效果]]></content>
+      <categories>
+        
+          <category> php </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> laravel </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
+      <title><![CDATA[Bj]]></title>
+      <url>/2025/11/05/bj/</url>
+      <content type="text"><![CDATA[东城西城朝阳丰台海淀https://www.zhipin.com/web/geek/jobs?city=101010100&amp;multiBusinessDistrict=110101,110102,110105,110106,110108&amp;query=phphttps://www.zhipin.com/web/geek/jobs?city=101010100&amp;multiBusinessDistrict=110101,110102,110105,110106,110108&amp;query=php%20golangcurl -X POST "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions" \-H "Authorization: Bearer sk-4a93b67d823047df8121c9093e2fb1d0" \-H "Content-Type: application/json" \--no-buffer \-d '{    "model": "qwen-plus",    "messages": [{"role": "user", "content": "你是谁？"}],    "stream": true,    "stream_options": {"include_usage": true}}'curl -X POST "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions" \-H "Authorization: Bearer sk-4a93b67d823047df8121c9093e2fb1d0" \-H "Content-Type: application/json" \--no-buffer \-d '{    "model": "qwen-plus",    "messages": [{"role": "user", "content": "你是谁？"}]}'curl -X POST "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions" \-H "Authorization: Bearer sk-4a93b67d823047df8121c9093e2fb1d0" \-H "Content-Type: application/json" \--no-buffer \-d '{    "model": "qwen-plus",    "messages": [{"role": "user", "content": "php在调用阿里云大模型阿里百炼怎么做到流式输出。"}],    "stream": true,    "stream_options": {"include_usage": true}}'curl -X POST "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions" \-H "Authorization: Bearer sk-4a93b67d823047df8121c9093e2fb1d0" \-H "Content-Type: application/json" \--no-buffer \-d '{    "model": "qwen-plus",    "messages": [{"role": "user", "content": "php在调用阿里云大模型阿里百炼怎么做到流式输出。"}]}']]></content>
+      <categories>
+        
+      </categories>
+      <tags>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[Wuqing]]></title>
       <url>/2025/11/04/wuqing/</url>
       <content type="text"><![CDATA[武清商圈佛罗伦萨小镇  Boss直聘创意米兰生活广场  Boss直聘V1汽车世界  Boss直聘威尼都  Boss直聘福源万达广场  Boss直聘住总大光明中心  Boss直聘友谊商厦  Boss直聘荔隆时代广场/荔隆广场  Boss直聘瑞安威尼都  Boss直聘]]></content>
