@@ -2,6 +2,23 @@
 <search>
   
     <entry>
+      <title><![CDATA[XHProf性能分析工具。]]></title>
+      <url>/php/2025/12/03/xhprof/</url>
+      <content type="text"><![CDATA[XHProf 是一个性能分析分析器。XHProf2.3.10报告表头            英文表头      中文解释      详细说明与重要性                  Function Name      函数名称      被调用的函数或方法的完整名称。例如 main(), mysql_query, UserController::index()。这是识别代码位置的关键。              Calls      调用次数      该函数在此次请求中被调用的总次数。重要性：如果一个函数被调用了成千上万次（例如循环内），即使单次很快，累积起来也可能成为性能瓶颈。              Calls%      调用次数占比      该函数的调用次数占总调用次数的百分比。用途：帮助识别哪些函数是程序的主要执行路径。              Incl. Wall Time (microsec)      总耗时 (微秒) (或: 包含实际时间)      核心指标。指函数从开始到结束的总耗时，包括其内部调用的所有子函数的时间。单位：微秒 (1秒 = 1,000,000 微秒)。重要性：用于定位哪个大的功能模块最耗时。              IWall%      总耗时占比 (或: 包含实际时间占比)      该函数的包含时间占总包含时间的百分比。重要性：直观地看出每个函数对总响应时间的“贡献”比例。main() 函数永远是 100%。              Excl. Wall Time (microsec)      自身耗时 (微秒) (或: 独占实际时间)      另一个核心指标。指函数自身的执行时间，不包括其内部调用的任何子函数的时间。重要性：这是优化的关键！如果这个值很高，说明函数自身的逻辑（算法、循环、计算）需要优化。              EWall%      自身耗时占比 (或: 独占实际时间占比)      该函数的独占时间占总时间的百分比。用途：辅助判断函数自身逻辑的耗时占比。但通常我们更关注绝对值。              Incl. CPU (microsecs)      总CPU时间 (微秒)      类似于 总耗时，但是统计的是CPU实际工作的时间，排除了等待时间（如I/O、网络、sleep）。重要性：如果 总耗时 很高但 总CPU时间 很低，说明瓶颈可能在I/O或外部服务（数据库、API调用）。              Excl. CPU (microsecs)      自身CPU时间 (微秒)      类似于 自身耗时，是函数自身消耗的纯CPU时间。              Incl. MemUse (bytes)      包含内存占用 (字节)      函数执行过程中分配的内存总量，包括其子函数分配的内存。              Excl. MemUse (bytes)      独占内存占用 (字节)      函数自身直接分配的内存量，不包括子函数。重要性：用于发现内存泄漏或大对象分配的热点。              Incl. PeakMemUse (bytes)      包含峰值内存 (字节)      在函数执行期间，整个进程达到的内存使用峰值，包括子函数的影响。              Excl. PeakMemUse (bytes)      独占峰值内存 (字节)      在函数自身执行栈帧内达到的内存峰值。      xhprof扩展地址https://pecl.php.net/package/xhprofxhprof代码地址https://github.com/longxinH/xhprofxhprof使用例子代码&lt;?phpxhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);for ($i = 0; $i &lt;= 1000; $i++) {    $a = $i * $i;}$xhprof_data = xhprof_disable();$XHPROF_ROOT = "/tools/xhprof/";include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";$xhprof_runs = new XHProfRuns_Default();$run_id = $xhprof_runs-&gt;save_run($xhprof_data, "xhprof_testing");echo "http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;source=xhprof_testing\n";?&gt;输出报告链接http://localhost/xhprof/xhprof_html/index.php?run=t11_4bdf44d21121f&amp;source=xhprof_testing报告表例子]]></content>
+      <categories>
+        
+          <category> php </category>
+        
+      </categories>
+      <tags>
+        
+          <tag> xhprof </tag>
+        
+      </tags>
+      <tags></tags>
+    </entry>
+  
+    <entry>
       <title><![CDATA[docker 容器化构建php-laravel开发环境]]></title>
       <url>/php/2025/11/30/php-larvel/</url>
       <content type="text"><![CDATA[构建php-laravel:8.4.15.1-fpm-xdebug镜像使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。laravellaravel版本是12root@bcb209344039:/app/app# php artisan -VLaravel Framework 12.39.0php使用root@bcb209344039:/app/app# php --versionPHP 8.4.15 (cli) (built: Nov 20 2025 19:53:54) (NTS)Copyright (c) The PHP GroupBuilt by https://github.com/docker-library/phpZend Engine v4.4.15, Copyright (c) Zend Technologies    with Zend OPcache v8.4.15, Copyright (c), by Zend Technologies    with Xdebug v3.4.7, Copyright (c) 2002-2025, by Derick Rethansdocker-composeservices:  laravel-svc:    container_name: laravel-ctr    build: ./build/    command: sh -c "cd /app/app &amp;&amp; npm install &amp;&amp; npm run build &amp;&amp;            composer run dev"    image: php-laravel:8.4.15.1-fpm-xdebug    restart: always    ports:      - 8000:8000    volumes:      - ./app/app:/app/app      - ./build/etc/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini     networks:      - laravel_network    environment:      PWD: /app/app      PHP_PORT: 8000      DB_CONNECTION: mysql      DB_HOST: laravel-db-svc      DB_PORT: 3306      DB_DATABASE: laravel_db      DB_USERNAME: zhaoqhu      DB_PASSWORD: larH2025,.    # command: ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"]  laravel-db-svc:    container_name: laravel-db-ctr    image: mysql:8.0    restart: always    environment:      MYSQL_ROOT_PASSWORD: larH20025,.      MYSQL_DATABASE: laravel_db      MYSQL_USER: zhaoqhu      MYSQL_PASSWORD: larH2025,.    ports:      - 3206:3306    volumes:      - ./db:/var/lib/mysql    networks:      - laravel_networkvolumes:  html:  db:networks:  laravel_network:    driver: bridge运行效果]]></content>

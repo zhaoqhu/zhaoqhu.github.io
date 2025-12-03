@@ -1,4 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-11-30T21:35:04+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">docker 容器化构建php-laravel开发环境</title><link href="http://localhost:4000/php/2025/11/30/php-larvel/" rel="alternate" type="text/html" title="docker 容器化构建php-laravel开发环境" /><published>2025-11-30T00:00:00+08:00</published><updated>2025-11-30T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/11/30/php-larvel</id><content type="html" xml:base="http://localhost:4000/php/2025/11/30/php-larvel/">&lt;h2 id=&quot;构建php-laravel84151-fpm-xdebug镜像&quot;&gt;构建php-laravel:8.4.15.1-fpm-xdebug镜像&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-03T21:27:19+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">XHProf性能分析工具。</title><link href="http://localhost:4000/php/2025/12/03/xhprof/" rel="alternate" type="text/html" title="XHProf性能分析工具。" /><published>2025-12-03T00:00:00+08:00</published><updated>2025-12-03T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/12/03/xhprof</id><content type="html" xml:base="http://localhost:4000/php/2025/12/03/xhprof/">&lt;p&gt;XHProf 是一个性能分析分析器。&lt;/p&gt;
+
+&lt;h2 id=&quot;xhprof2310报告表头&quot;&gt;XHProf2.3.10报告表头&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;英文表头&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;中文解释&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;详细说明与重要性&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Function Name&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;函数名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;被调用的函数或方法的完整名称。例如 &lt;code class=&quot;highlighter-rouge&quot;&gt;main()&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;mysql_query&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;UserController::index()&lt;/code&gt;。这是识别代码位置的关键。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Calls&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;调用次数&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;该函数在此次请求中被调用的总次数。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：如果一个函数被调用了成千上万次（例如循环内），即使单次很快，累积起来也可能成为性能瓶颈。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Calls%&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;调用次数占比&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;该函数的调用次数占总调用次数的百分比。&lt;br /&gt;&lt;strong&gt;用途&lt;/strong&gt;：帮助识别哪些函数是程序的主要执行路径。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. Wall Time (microsec)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总耗时 (微秒)&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 包含实际时间)&lt;/em&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;核心指标&lt;/strong&gt;。指函数从开始到结束的总耗时，&lt;strong&gt;包括其内部调用的所有子函数的时间&lt;/strong&gt;。&lt;br /&gt;单位：微秒 (1秒 = 1,000,000 微秒)。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：用于定位哪个大的功能模块最耗时。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;IWall%&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总耗时占比&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 包含实际时间占比)&lt;/em&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;该函数的包含时间占总包含时间的百分比。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：直观地看出每个函数对总响应时间的“贡献”比例。&lt;code class=&quot;highlighter-rouge&quot;&gt;main()&lt;/code&gt; 函数永远是 100%。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. Wall Time (microsec)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身耗时 (微秒)&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 独占实际时间)&lt;/em&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;另一个核心指标&lt;/strong&gt;。指函数自身的执行时间，&lt;strong&gt;不包括其内部调用的任何子函数的时间&lt;/strong&gt;。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：这是&lt;strong&gt;优化的关键&lt;/strong&gt;！如果这个值很高，说明函数自身的逻辑（算法、循环、计算）需要优化。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;EWall%&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身耗时占比&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 独占实际时间占比)&lt;/em&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;该函数的独占时间占总时间的百分比。&lt;br /&gt;&lt;strong&gt;用途&lt;/strong&gt;：辅助判断函数自身逻辑的耗时占比。但通常我们更关注绝对值。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. CPU (microsecs)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总CPU时间 (微秒)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;类似于 &lt;code class=&quot;highlighter-rouge&quot;&gt;总耗时&lt;/code&gt;，但是统计的是CPU实际工作的时间，排除了等待时间（如I/O、网络、sleep）。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：如果 &lt;code class=&quot;highlighter-rouge&quot;&gt;总耗时&lt;/code&gt; 很高但 &lt;code class=&quot;highlighter-rouge&quot;&gt;总CPU时间&lt;/code&gt; 很低，说明瓶颈可能在I/O或外部服务（数据库、API调用）。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. CPU (microsecs)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身CPU时间 (微秒)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;类似于 &lt;code class=&quot;highlighter-rouge&quot;&gt;自身耗时&lt;/code&gt;，是函数自身消耗的纯CPU时间。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. MemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;包含内存占用 (字节)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;函数执行过程中分配的内存总量，包括其子函数分配的内存。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. MemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;独占内存占用 (字节)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;函数自身直接分配的内存量，不包括子函数。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：用于发现内存泄漏或大对象分配的热点。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. PeakMemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;包含峰值内存 (字节)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;在函数执行期间，整个进程达到的内存使用峰值，包括子函数的影响。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. PeakMemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;独占峰值内存 (字节)&lt;/strong&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;在函数自身执行栈帧内达到的内存峰值。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;xhprof扩展地址&quot;&gt;xhprof扩展地址&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pecl.php.net/package/xhprof&quot;&gt;https://pecl.php.net/package/xhprof&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;xhprof代码地址&quot;&gt;xhprof代码地址&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/longxinH/xhprof&quot;&gt;https://github.com/longxinH/xhprof&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;xhprof使用例子&quot;&gt;xhprof使用例子&lt;/h2&gt;
+&lt;h3 id=&quot;代码&quot;&gt;代码&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+
+for ($i = 0; $i &amp;lt;= 1000; $i++) {
+    $a = $i * $i;
+}
+
+$xhprof_data = xhprof_disable();
+
+$XHPROF_ROOT = &quot;/tools/xhprof/&quot;;
+include_once $XHPROF_ROOT . &quot;/xhprof_lib/utils/xhprof_lib.php&quot;;
+include_once $XHPROF_ROOT . &quot;/xhprof_lib/utils/xhprof_runs.php&quot;;
+
+$xhprof_runs = new XHProfRuns_Default();
+$run_id = $xhprof_runs-&amp;gt;save_run($xhprof_data, &quot;xhprof_testing&quot;);
+
+echo &quot;http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;amp;source=xhprof_testing\n&quot;;
+
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;输出报告链接&quot;&gt;输出报告链接&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://localhost/xhprof/xhprof_html/index.php?run=t11_4bdf44d21121f&amp;amp;source=xhprof_testing
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;报告表例子&quot;&gt;报告表例子&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/php/xhprof-1.png&quot; /&gt;
+&lt;img src=&quot;/assets/images/php/xhprof-2.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="xhprof" /><summary type="html">XHProf 是一个性能分析分析器。</summary></entry><entry><title type="html">docker 容器化构建php-laravel开发环境</title><link href="http://localhost:4000/php/2025/11/30/php-larvel/" rel="alternate" type="text/html" title="docker 容器化构建php-laravel开发环境" /><published>2025-11-30T00:00:00+08:00</published><updated>2025-11-30T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/11/30/php-larvel</id><content type="html" xml:base="http://localhost:4000/php/2025/11/30/php-larvel/">&lt;h2 id=&quot;构建php-laravel84151-fpm-xdebug镜像&quot;&gt;构建php-laravel:8.4.15.1-fpm-xdebug镜像&lt;/h2&gt;
 &lt;p&gt;使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。&lt;/p&gt;
 &lt;h2 id=&quot;laravel&quot;&gt;laravel&lt;/h2&gt;
 &lt;p&gt;laravel版本是12&lt;/p&gt;
@@ -1276,81 +1392,4 @@ dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁�
   &lt;li&gt;集群模式&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;3太主、3台从&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述</summary></entry><entry><title type="html">VSCode如何配置go开发环境</title><link href="http://localhost:4000/go/2025/08/01/go-dev-env/" rel="alternate" type="text/html" title="VSCode如何配置go开发环境" /><published>2025-08-01T00:00:00+08:00</published><updated>2025-08-01T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/08/01/go-dev-env</id><content type="html" xml:base="http://localhost:4000/go/2025/08/01/go-dev-env/">&lt;p&gt;vscode配置Go开发环境&lt;/p&gt;
-&lt;h2 id=&quot;检查go是否安装&quot;&gt;检查Go是否安装&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go version
-go version go1.24.1 darwin/amd64
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;vscode安装go相关开发调试的工具&quot;&gt;VSCode安装Go相关开发调试的工具&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Command/Ctrl+Shift+P快捷键弹出命令面板窗口
-选择=》Go:Install/Update Tools
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-tools.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;检查go开发调试相关工具安装是否成功&quot;&gt;检查Go开发调试相关工具安装是否成功&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ go env|grep -E &quot;GOPATH&quot;
-GOPATH='/Users/zhaoqhu/go'
-bash-3.2$ ls -alt /Users/zhaoqhu/go/bin/
-total 243744
--rwxr-xr-x   1 zhaoqhu  staff  15396912  8  1 16:43 staticcheck
--rwxr-xr-x   1 zhaoqhu  staff  21008256  8  1 16:43 dlv
--rwxr-xr-x   1 zhaoqhu  staff   8835376  8  1 16:42 goplay
--rwxr-xr-x   1 zhaoqhu  staff   7168976  8  1 16:42 impl
--rwxr-xr-x   1 zhaoqhu  staff  13199952  8  1 16:42 gotests
-drwxr-xr-x   6 zhaoqhu  staff       192  8  1 14:56 ..
-drwxr-xr-x  10 zhaoqhu  staff       320  7 22 16:30 .
--rwxr-xr-x   1 zhaoqhu  staff  18287600  7 12 13:16 godoc
--rwxr-xr-x   1 zhaoqhu  staff   4149888  3 26 13:49 gomodifytags
--rwxr-xr-x   1 zhaoqhu  staff  36730976  3 26 13:49 gopls
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;安装go扩展&quot;&gt;安装Go扩展&lt;/h2&gt;
-&lt;p&gt;Command/Ctrl+Shift+X快捷键，打开扩展商店&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-ext.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;运行和调试&quot;&gt;运行和调试&lt;/h2&gt;
-
-&lt;p&gt;创建launch.json文件&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    &quot;version&quot;: &quot;0.2.0&quot;,
-    &quot;configurations&quot;: [
-    {
-        &quot;name&quot;: &quot;Launch Package&quot;,
-        &quot;type&quot;: &quot;go&quot;,
-        &quot;request&quot;: &quot;launch&quot;,
-        &quot;mode&quot;: &quot;auto&quot;,
-        &quot;program&quot;: &quot;${workspaceFolder}&quot;
-    },
-    {
-        &quot;name&quot;: &quot;Launch Package test&quot;,
-        &quot;type&quot;: &quot;go&quot;,
-        &quot;request&quot;: &quot;launch&quot;,
-        &quot;mode&quot;: &quot;auto&quot;,
-        &quot;program&quot;: &quot;${workspaceFolder}/test&quot;
-    },
-    {
-        &quot;name&quot;: &quot;Launch Package chapter1&quot;,
-        &quot;type&quot;: &quot;go&quot;,
-        &quot;request&quot;: &quot;launch&quot;,
-        &quot;mode&quot;: &quot;auto&quot;,
-        &quot;program&quot;: &quot;${workspaceFolder}/chapter1/channels&quot;
-    },
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;验证调试&quot;&gt;验证调试&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-3.2$ curl http://127.0.0.1:8080/ping
-{&quot;message&quot;:&quot;pong&quot;}
-bash-3.2$ curl http://127.0.0.1:8080/hello
-{&quot;msg&quot;:&quot;hello&quot;}
-bash-3.2$ 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/go-debug-ping.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">vscode配置Go开发环境 检查Go是否安装 bash-3.2$ go version go version go1.24.1 darwin/amd64 VSCode安装Go相关开发调试的工具 Command/Ctrl+Shift+P快捷键弹出命令面板窗口 选择=》Go:Install/Update Tools</summary></entry></feed>
+&lt;p&gt;3太主、3台从&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述</summary></entry></feed>
