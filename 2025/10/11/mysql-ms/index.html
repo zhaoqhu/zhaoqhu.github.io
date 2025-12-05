@@ -465,26 +465,148 @@
 
 <p>mysql事务提交后永久保存，宕机不丢失。</p>
 
+<h3 id="mysql中锁">Mysql中锁</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>锁类型</th>
+      <th>触发方式</th>
+      <th>作用范围</th>
+      <th>兼容性</th>
+      <th>使用场景</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>记录锁（Record Lock）</strong></td>
+      <td>隐式：<code class="highlighter-rouge">UPDATE</code>、<code class="highlighter-rouge">DELETE</code> 自动加锁<br />显式：<code class="highlighter-rouge">SELECT ... FOR UPDATE</code> 精确匹配唯一索引</td>
+      <td>索引中的某一行记录</td>
+      <td>与 X 锁互斥，与 S 锁互斥</td>
+      <td>精确修改/删除单行数据，如库存扣减、账户余额更新</td>
+    </tr>
+    <tr>
+      <td><strong>间隙锁（Gap Lock）</strong></td>
+      <td>隐式：<code class="highlighter-rouge">UPDATE</code>、<code class="highlighter-rouge">DELETE</code>、<code class="highlighter-rouge">SELECT ... FOR UPDATE/FOR SHARE</code> 在 <strong>REPEATABLE READ</strong> 下执行范围查询（非唯一索引或范围条件）</td>
+      <td>索引记录之间的间隙（不含记录本身）</td>
+      <td>阻止其他事务在间隙插入新行；S/X 锁均互斥插入</td>
+      <td>防止幻读（写时），如锁定某价格区间不允许新增商品</td>
+    </tr>
+    <tr>
+      <td><strong>临键锁（Next-Key Lock）</strong></td>
+      <td>隐式：InnoDB 在 <strong>REPEATABLE READ</strong> 下默认对范围查询加锁（记录锁+间隙锁）</td>
+      <td>左开右闭区间，如 (10, 20]</td>
+      <td>阻止插入、修改、删除区间内数据</td>
+      <td>RR 级别默认防幻读机制，无需手动控制</td>
+    </tr>
+    <tr>
+      <td><strong>共享锁（S 锁）</strong></td>
+      <td>显式：<code class="highlighter-rouge">SELECT ... FOR SHARE</code>（MySQL 8.0+）<br />显式：<code class="highlighter-rouge">SELECT ... LOCK IN SHARE MODE</code>（旧语法）</td>
+      <td>加在索引记录上</td>
+      <td>多个 S 锁相容，与 X 锁互斥</td>
+      <td>读多写少场景，允许多事务同时读但阻止修改，如读取配置表、基础字典数据</td>
+    </tr>
+    <tr>
+      <td><strong>排他锁（X 锁）</strong></td>
+      <td>显式：<code class="highlighter-rouge">SELECT ... FOR UPDATE</code><br />隐式：<code class="highlighter-rouge">UPDATE</code>、<code class="highlighter-rouge">DELETE</code>、<code class="highlighter-rouge">INSERT</code> 自动加锁</td>
+      <td>加在索引记录上</td>
+      <td>与任何 S/X 锁互斥</td>
+      <td>写冲突严重场景，需独占数据，如订单状态变更、库存扣减、资金转账</td>
+    </tr>
+    <tr>
+      <td><strong>意向共享锁（IS 锁）</strong></td>
+      <td>隐式：InnoDB 自动在加行级 S 锁前于表级加 IS 锁</td>
+      <td>表级</td>
+      <td>与 IX 锁相容，与表级 X 锁互斥</td>
+      <td>内部机制，提高表锁与行锁兼容性检查效率，DBA 一般不直接使用</td>
+    </tr>
+    <tr>
+      <td><strong>意向排他锁（IX 锁）</strong></td>
+      <td>隐式：InnoDB 自动在加行级 X 锁前于表级加 IX 锁</td>
+      <td>表级</td>
+      <td>与 IS 锁相容，与表级 X 锁互斥</td>
+      <td>内部机制，同上</td>
+    </tr>
+    <tr>
+      <td><strong>自增锁（AUTO-INC Lock）</strong></td>
+      <td>隐式：插入含 <code class="highlighter-rouge">AUTO_INCREMENT</code> 列时自动加</td>
+      <td>表级（语句级或事务级，取决于 <code class="highlighter-rouge">innodb_autoinc_lock_mode</code>）</td>
+      <td>阻塞其他会话的自增 ID 分配</td>
+      <td>保证自增主键唯一性，批量插入时可调模式平衡连续性与并发性能</td>
+    </tr>
+    <tr>
+      <td><strong>元数据锁（MDL 锁）</strong></td>
+      <td>隐式：任何 DML/DDL 操作自动加</td>
+      <td>表级</td>
+      <td>读锁（SHARED）相容，写锁（EXCLUSIVE）互斥</td>
+      <td>防止 DML 与 DDL 并发修改表结构，需注意长事务会阻塞 DDL</td>
+    </tr>
+  </tbody>
+</table>
+
 <h3 id="mysql事务隔离级别">MySQL事务隔离级别</h3>
 
-<ul>
-  <li>
-    <p>读未提交</p>
+<table>
+  <thead>
+    <tr>
+      <th>隔离级别</th>
+      <th>脏读</th>
+      <th>不可重复读</th>
+      <th>幻读</th>
+      <th>MySQL 默认</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>READ UNCOMMITTED</td>
+      <td>❌ 可能</td>
+      <td>❌ 可能</td>
+      <td>❌ 可能</td>
+      <td>否</td>
+    </tr>
+    <tr>
+      <td>READ COMMITTED</td>
+      <td>✅ 避免</td>
+      <td>❌ 可能</td>
+      <td>❌ 可能</td>
+      <td>否</td>
+    </tr>
+    <tr>
+      <td>REPEATABLE READ</td>
+      <td>✅ 避免</td>
+      <td>✅ 避免</td>
+      <td>⚠️ 可能（但 InnoDB 通过 MVCC + 间隙锁避免）</td>
+      <td>✅ 是</td>
+    </tr>
+    <tr>
+      <td>SERIALIZABLE</td>
+      <td>✅ 避免</td>
+      <td>✅ 避免</td>
+      <td>✅ 避免</td>
+      <td>否</td>
+    </tr>
+  </tbody>
+</table>
 
-    <p>A事务可以读取B事务未调教的数据，引发脏读。</p>
-  </li>
+<ul>
+  <li>读未提交（READ UNCOMMITTED）
+  A事务可以读取B事务未调教的数据，引发脏读。</li>
   <li>
-    <p>读已提交</p>
+    <p>读已提交（READ COMMITTED）</p>
 
     <p>A事务可以读取B事务已提交的数据</p>
   </li>
   <li>
-    <p>可重复读</p>
-
-    <p>默认的事务隔离级别，事务开启时，不在允许修改操作，可避免脏读。</p>
+    <font color="red">可重复读（REPEATABLE READ）</font>
+    <p>默认的事务隔离级别，事务开启时，不在允许修改操作，可避免脏读，也可以通过在查询时加排它锁避免幻读。</p>
+    <ol>
+      <li>读幻读​ → 靠 RR 隔离级别 + 普通 SELECT（MVCC 自动处理）。</li>
+      <li>写幻读​ → 用 SELECT … FOR UPDATE触发 Next-Key Lock（PHP 中就是执行这条 SQL 并开启事务）。</li>
+      <li>两者结合，即可在业务代码中可靠防止幻读。</li>
+    </ol>
   </li>
   <li>
-    <p>串行</p>
+    <p>串行（SERIALIZABLE）</p>
 
     <p>串行是最高的隔离级别，可以避免脏读、幻读、可重复读，但是性能太差。</p>
   </li>
@@ -840,7 +962,7 @@ x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，�
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql"> <span class="nav-number">1</span> <span class="nav-text">MySQL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql索引用的是什么算法"> <span class="nav-number">1.1</span> <span class="nav-text">Mysql索引用的是什么算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql事务的关键特性"> <span class="nav-number">1.2</span> <span class="nav-text">MySQL事务的关键特性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql事务隔离级别"> <span class="nav-number">1.3</span> <span class="nav-text">MySQL事务隔离级别</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql存储引擎"> <span class="nav-number">1.4</span> <span class="nav-text">MySQL存储引擎</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql高可用方案"> <span class="nav-number">1.5</span> <span class="nav-text">MySQL高可用方案</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中utf8和utf8mb4的区别"> <span class="nav-number">1.6</span> <span class="nav-text">MySQL中utf8和utf8mb4的区别</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中乐观锁和悲观锁的区别"> <span class="nav-number">1.7</span> <span class="nav-text">MySQL中乐观锁和悲观锁的区别？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql索引主要是哪些"> <span class="nav-number">1.8</span> <span class="nav-text">MySQL索引主要是哪些？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#组合索引最左匹配原则"> <span class="nav-number">1.9</span> <span class="nav-text">组合索引最左匹配原则？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#聚簇索引和非聚簇索引的区别"> <span class="nav-number">1.10</span> <span class="nav-text">聚簇索引和非聚簇索引的区别？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#如何查询一个字段是否命中了索引"> <span class="nav-number">1.11</span> <span class="nav-text">如何查询一个字段是否命中了索引？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中的mvcc是什么"> <span class="nav-number">1.12</span> <span class="nav-text">Mysql中的MVCC是什么？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql读写分离以及主从同步"> <span class="nav-number">1.13</span> <span class="nav-text">MySQL读写分离以及主从同步。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql如何保证一致性和持久性"> <span class="nav-number">1.14</span> <span class="nav-text">Mysql如何保证一致性和持久性？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#为什么选b树作为索引结构"> <span class="nav-number">1.15</span> <span class="nav-text">为什么选B+树作为索引结构？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#innnodb的行锁模式"> <span class="nav-number">1.16</span> <span class="nav-text">InnnoDB的行锁模式？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#哈希hash比树tree更快索引结构为什么设计成树形"> <span class="nav-number">1.17</span> <span class="nav-text">哈希(hash)比树(tree)更快，索引结构为什么设计成树形</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#为什么索引的key长度不能太长"> <span class="nav-number">1.18</span> <span class="nav-text">为什么索引的key长度不能太长。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql的数据如何恢复到任意时间点"> <span class="nav-number">1.19</span> <span class="nav-text">MySQL的数据如何恢复到任意时间点</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql为什么加了索引可以加快查询"> <span class="nav-number">1.20</span> <span class="nav-text">Mysql为什么加了索引可以加快查询</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#explain命令有什么用"> <span class="nav-number">1.21</span> <span class="nav-text">Explain命令有什么用</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql"> <span class="nav-number">1</span> <span class="nav-text">MySQL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql索引用的是什么算法"> <span class="nav-number">1.1</span> <span class="nav-text">Mysql索引用的是什么算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql事务的关键特性"> <span class="nav-number">1.2</span> <span class="nav-text">MySQL事务的关键特性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中锁"> <span class="nav-number">1.3</span> <span class="nav-text">Mysql中锁</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql事务隔离级别"> <span class="nav-number">1.4</span> <span class="nav-text">MySQL事务隔离级别</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql存储引擎"> <span class="nav-number">1.5</span> <span class="nav-text">MySQL存储引擎</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql高可用方案"> <span class="nav-number">1.6</span> <span class="nav-text">MySQL高可用方案</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中utf8和utf8mb4的区别"> <span class="nav-number">1.7</span> <span class="nav-text">MySQL中utf8和utf8mb4的区别</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中乐观锁和悲观锁的区别"> <span class="nav-number">1.8</span> <span class="nav-text">MySQL中乐观锁和悲观锁的区别？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql索引主要是哪些"> <span class="nav-number">1.9</span> <span class="nav-text">MySQL索引主要是哪些？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#组合索引最左匹配原则"> <span class="nav-number">1.10</span> <span class="nav-text">组合索引最左匹配原则？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#聚簇索引和非聚簇索引的区别"> <span class="nav-number">1.11</span> <span class="nav-text">聚簇索引和非聚簇索引的区别？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#如何查询一个字段是否命中了索引"> <span class="nav-number">1.12</span> <span class="nav-text">如何查询一个字段是否命中了索引？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql中的mvcc是什么"> <span class="nav-number">1.13</span> <span class="nav-text">Mysql中的MVCC是什么？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql读写分离以及主从同步"> <span class="nav-number">1.14</span> <span class="nav-text">MySQL读写分离以及主从同步。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql如何保证一致性和持久性"> <span class="nav-number">1.15</span> <span class="nav-text">Mysql如何保证一致性和持久性？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#为什么选b树作为索引结构"> <span class="nav-number">1.16</span> <span class="nav-text">为什么选B+树作为索引结构？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#innnodb的行锁模式"> <span class="nav-number">1.17</span> <span class="nav-text">InnnoDB的行锁模式？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#哈希hash比树tree更快索引结构为什么设计成树形"> <span class="nav-number">1.18</span> <span class="nav-text">哈希(hash)比树(tree)更快，索引结构为什么设计成树形</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#为什么索引的key长度不能太长"> <span class="nav-number">1.19</span> <span class="nav-text">为什么索引的key长度不能太长。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql的数据如何恢复到任意时间点"> <span class="nav-number">1.20</span> <span class="nav-text">MySQL的数据如何恢复到任意时间点</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mysql为什么加了索引可以加快查询"> <span class="nav-number">1.21</span> <span class="nav-text">Mysql为什么加了索引可以加快查询</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#explain命令有什么用"> <span class="nav-number">1.22</span> <span class="nav-text">Explain命令有什么用</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
