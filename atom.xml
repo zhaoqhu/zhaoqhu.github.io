@@ -1,4 +1,1264 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-05T12:12:06+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">XHProf性能分析工具。</title><link href="http://localhost:4000/php/2025/12/03/xhprof/" rel="alternate" type="text/html" title="XHProf性能分析工具。" /><published>2025-12-03T00:00:00+08:00</published><updated>2025-12-03T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/12/03/xhprof</id><content type="html" xml:base="http://localhost:4000/php/2025/12/03/xhprof/">&lt;p&gt;XHProf 是一个性能分析分析器。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-05T23:43:07+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Rabbitmq面试汇总</title><link href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/" rel="alternate" type="text/html" title="Rabbitmq面试汇总" /><published>2025-12-05T00:00:00+08:00</published><updated>2025-12-05T00:00:00+08:00</updated><id>http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms</id><content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">&lt;h2 id=&quot;消息队列&quot;&gt;消息队列&lt;/h2&gt;
+&lt;p&gt;生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------+      路由       +-------------+      存储      +-------------+
+| 生产者发送消息 | -------------&amp;gt; | 交换机路由  | -------------&amp;gt; | 队列存储消息 |
++----------------+               +-------------+               +-------------+
+                                       ↑
+                                       绑定关系（Exchange-Queue）
+                                       ↓
++----------------+      订阅/ACK      +-------------+
+| 消费者监听队列 | &amp;lt;------------------ | 消息处理完成 |
++----------------+                   +-------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;生产者&quot;&gt;生产者&lt;/h2&gt;
+
+&lt;h3 id=&quot;-如何确保几乎-100不丢-5-层防护详解&quot;&gt;✅ 如何确保“几乎 100%”不丢？—— 5 层防护详解&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;层级&lt;/th&gt;
+      &lt;th&gt;机制&lt;/th&gt;
+      &lt;th&gt;解决的问题&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1️⃣ 幂等控制&lt;/td&gt;
+      &lt;td&gt;Redis &lt;code class=&quot;highlighter-rouge&quot;&gt;SET NX&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;防止并发压测导致重复发送&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2️⃣ 持久化&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;delivery_mode=2&lt;/code&gt; + &lt;code class=&quot;highlighter-rouge&quot;&gt;durable=true&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;防止 Broker 重启丢消息&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3️⃣ Publisher Confirms&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ack&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;nack&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;确认消息被 Broker 接收并持久化&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4️⃣ Mandatory + Return&lt;/td&gt;
+      &lt;td&gt;路由失败返回&lt;/td&gt;
+      &lt;td&gt;防止消息因路由错误被静默丢弃&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5️⃣ 失败回滚&lt;/td&gt;
+      &lt;td&gt;删除 Redis 标记&lt;/td&gt;
+      &lt;td&gt;允许重试，避免永久阻塞&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;生产环境中生产者的标准答案&quot;&gt;生产环境中生产者的标准答案&lt;/h3&gt;
+&lt;p&gt;没有一个 basic_publish()能保证消息入队，但“持久化 + confirms + mandatory + return + 幂等 + 重试”的组合拳，可以让消息丢失概率低于 0.001%，达到工业级可靠性&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
+
+class ReliableRabbitMQProducer
+{
+    private $connection;
+    private $redis; // 用于幂等控制
+
+    public function __construct()
+    {
+        // 1. 建立 RabbitMQ 连接（进程内复用）
+        $this-&amp;gt;connection = new AMQPStreamConnection(
+            'rabbitmq', 5672, 'guest', 'guest',
+            '/', false, 'plain', null, 'en_US',
+            3.0, 3.0, null, false, 60
+        );
+
+        // 2. 初始化 Redis（用于幂等）
+        $this-&amp;gt;redis = new Redis();
+        $this-&amp;gt;redis-&amp;gt;connect('redis', 6379);
+    }
+
+    /**
+     * 可靠发送消息（多层防护）
+     * @param string $orderId 业务唯一ID
+     * @param array $orderData 订单数据
+     * @return bool 是否成功
+     */
+    public function sendOrderCreated(string $orderId, array $orderData): bool
+    {
+        $lockKey = &quot;sent:order:{$orderId}&quot;;
+
+        // === 第1层：幂等控制（防并发压测）===
+        $isFirstSend = $this-&amp;gt;redis-&amp;gt;set($lockKey, 1, ['nx', 'ex' =&amp;gt; 86400]);
+        if (!$isFirstSend) {
+            error_log(&quot;Duplicate request ignored: {$orderId}&quot;);
+            return true; // 幂等返回成功
+        }
+
+        $channel = null;
+        try {
+            $channel = $this-&amp;gt;connection-&amp;gt;channel();
+
+            // === 第2层：声明资源（幂等操作）===
+            $exchange = 'orders';
+            $queue = 'order.created';
+            $routingKey = 'order.created';
+
+            $channel-&amp;gt;exchange_declare($exchange, 'direct', false, true, false);
+            $channel-&amp;gt;queue_declare($queue, false, true, false, false);
+            $channel-&amp;gt;queue_bind($queue, $exchange, $routingKey);
+
+            // === 第3层：构造持久化消息 + mandatory ===
+            $messageId = 'order:' . $orderId . ':' . str_replace('.', '', microtime(true));
+            $msg = new AMQPMessage(
+                json_encode([
+                    'message_id' =&amp;gt; $messageId,
+                    'order_id'   =&amp;gt; $orderId,
+                    'data'       =&amp;gt; $orderData,
+                    'timestamp'  =&amp;gt; time()
+                ]),
+                [
+                    'delivery_mode' =&amp;gt; AMQPMessage::DELIVERY_MODE_PERSISTENT, // 持久化
+                    'content_type'  =&amp;gt; 'application/json',
+                    'message_id'    =&amp;gt; $messageId,
+                    'mandatory'     =&amp;gt; true  // 关键：路由失败返回给生产者
+                ]
+            );
+
+            // === 第4层：开启 Publisher Confirms ===
+            $channel-&amp;gt;confirm_select();
+
+            $acked = false;
+            $nacked = false;
+            $returned = false;
+
+            // 设置 ack/nack 回调
+            $channel-&amp;gt;set_ack_handler(function (AMQPMessage $message) use (&amp;amp;$acked, $messageId) {
+                if ($message-&amp;gt;get('message_id') === $messageId) {
+                    $acked = true;
+                    error_log(&quot;✅ [CONFIRMED] Message acked: {$messageId}&quot;);
+                }
+            });
+
+            $channel-&amp;gt;set_nack_handler(function (AMQPMessage $message) use (&amp;amp;$nacked, $messageId) {
+                if ($message-&amp;gt;get('message_id') === $messageId) {
+                    $nacked = true;
+                    error_log(&quot;❌ [FAILED] Message nacked: {$messageId}&quot;);
+                }
+            });
+
+            // 设置 return 回调（路由失败）
+            $channel-&amp;gt;set_return_listener(function ($replyCode, $replyText, $exchange, $routingKey, AMQPMessage $message) use (&amp;amp;$returned, $messageId) {
+                $returned = true;
+                error_log(&quot;🚨 [RETURNED] Message returned: {$replyCode} {$replyText}, msg: {$messageId}&quot;);
+                // 可记录到数据库，人工处理
+            });
+
+            // === 第5层：发送消息 ===
+            $channel-&amp;gt;basic_publish($msg, $exchange, $routingKey);
+
+            // === 第6层：等待 Broker 确认（同步阻塞，最多5秒）===
+            $channel-&amp;gt;wait_for_pending_acks_returns(5.0);
+
+            // === 第7层：判断结果 ===
+            if ($nacked) {
+                throw new Exception(&quot;Broker nack'd the message (e.g., queue full)&quot;);
+            }
+            if ($returned) {
+                throw new Exception(&quot;Message was returned (routing failed)&quot;);
+            }
+            if (!$acked) {
+                throw new Exception(&quot;No ack received (network issue or broker down)&quot;);
+            }
+
+            // ✅ 成功：消息已入队并持久化
+            error_log(&quot;🎉 Message successfully persisted to queue: {$messageId}&quot;);
+            return true;
+
+        } catch (Exception $e) {
+            // === 第8层：失败回滚幂等标记（允许重试）===
+            $this-&amp;gt;redis-&amp;gt;del($lockKey);
+            error_log(&quot;❌ Send failed: {$e-&amp;gt;getMessage()} | Order: {$orderId}&quot;);
+            return false;
+        } finally {
+            // 清理资源
+            if ($channel &amp;amp;&amp;amp; $channel-&amp;gt;is_open()) {
+                $channel-&amp;gt;close();
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;调用示例&quot;&gt;调用示例&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$producer = new ReliableRabbitMQProducer();
+$success = $producer-&amp;gt;sendOrderCreated('123456', ['amount' =&amp;gt; 99.9, 'user_id' =&amp;gt; 789]);
+
+if ($success) {
+    echo &quot;消息已可靠投递\n&quot;;
+} else {
+    echo &quot;投递失败，请重试或告警\n&quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;消息持久化&quot;&gt;消息持久化&lt;/h3&gt;
+
+&lt;h3 id=&quot;幂等处理&quot;&gt;幂等处理&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;流程图
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------+     +------------------+     +------------------+
+|   HTTP Client  | --&amp;gt; |   PHP-FPM        | --&amp;gt; |   RabbitMQ       |
+| (并发压测)     |     | (生产者逻辑)      |     | (消息队列)       |
++----------------+     +------------------+     +------------------+
+                           |
+                           | 1. 提取 order_id
+                           v
+                     +------------------+
+                     |   Redis: SET NX  |
+                     | sent:order:X     |
+                     | NX EX 3600       |
+                     +------------------+
+                           |
+                  true → 发送消息
+                          ↳ success → 完成 ✅
+                          ↳ failure → DEL 标记 → 返回错误 ⚠️
+                  false → 返回成功（幂等）✅
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;代码
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function sendOrderCreated(string $orderId, array $data): bool
+{
+  $lockKey = &quot;sent:order:{$orderId}&quot;;
+  $tempKey = &quot;temp:order:{$orderId}&quot;; // 可选：用临时标记
+
+  // 方案 A：直接 SET NX（简单）
+  $isFirst = $this-&amp;gt;redis-&amp;gt;set($lockKey, 1, ['nx', 'ex' =&amp;gt; 3600]);
+
+  if (!$isFirst) {
+      return true; // 幂等
+  }
+
+  // 发送消息
+  try {
+      $this-&amp;gt;doPublish($orderId, $data);
+      return true; // 成功
+  } catch (Exception $e) {
+      // 关键：发送失败，清除标记！
+      $this-&amp;gt;redis-&amp;gt;del($lockKey);
+      error_log(&quot;Publish failed, rollback mark: {$orderId}&quot;);
+      return false;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;h2 id=&quot;️-rabbitmq-消费者防重复消费与幂等处理完整方案&quot;&gt;🛡️ RabbitMQ 消费者防重复消费与幂等处理完整方案&lt;/h2&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;核心思想&lt;/strong&gt;：RabbitMQ 只保证“至少一次”或“至多一次”交付，&lt;strong&gt;不保证“恰好一次”&lt;/strong&gt;。因此，消费者必须具备&lt;strong&gt;识别重复消息、安全忽略重复、保证业务幂等&lt;/strong&gt;的能力，否则将导致资损、数据错乱等严重问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;一为什么必须处理重复消费&quot;&gt;一、为什么必须处理重复消费？&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;原因&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🔁 网络抖动或处理超时&lt;/td&gt;
+      &lt;td&gt;RabbitMQ 未收到 ACK，重投消息&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;💥 消费者崩溃&lt;/td&gt;
+      &lt;td&gt;业务已执行但未 ACK，重启后消息重发&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🧱 手动 ACK 遗漏&lt;/td&gt;
+      &lt;td&gt;代码 Bug 导致忘记 &lt;code class=&quot;highlighter-rouge&quot;&gt;basic_ack()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🔄 集群 HA 切换&lt;/td&gt;
+      &lt;td&gt;镜像队列主从切换可能触发重发&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;📤 生产者重试&lt;/td&gt;
+      &lt;td&gt;网络问题导致同一条消息被发多次&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;👉 &lt;strong&gt;结论：重复消费是分布式系统中的常态，必须设计幂等机制应对。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;二幂等性消费者的生命线&quot;&gt;二、幂等性：消费者的生命线&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;：无论同一条消息被消费多少次，系统的业务状态和最终结果都与只消费一次相同。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;-幂等不是可选项而是生产环境的必选项&quot;&gt;✅ 幂等不是“可选项”，而是&lt;strong&gt;生产环境的必选项&lt;/strong&gt;。&lt;/h4&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;三五大幂等策略按推荐度排序&quot;&gt;三、五大幂等策略（按推荐度排序）&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;方案&lt;/th&gt;
+      &lt;th&gt;原理&lt;/th&gt;
+      &lt;th&gt;适用场景&lt;/th&gt;
+      &lt;th&gt;优点&lt;/th&gt;
+      &lt;th&gt;缺点&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1️⃣ &lt;strong&gt;基于 &lt;code class=&quot;highlighter-rouge&quot;&gt;message_id&lt;/code&gt; + Redis/NX&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;消费前用 &lt;code class=&quot;highlighter-rouge&quot;&gt;SET message_id NX EX&lt;/code&gt; 判断是否已处理&lt;/td&gt;
+      &lt;td&gt;通用场景，尤其异步消息&lt;/td&gt;
+      &lt;td&gt;✅ 简单高效&lt;br /&gt;✅ 分布式友好&lt;br /&gt;✅ 可设置过期&lt;/td&gt;
+      &lt;td&gt;❌ 依赖 Redis 可用性&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2️⃣ &lt;strong&gt;基于业务主键（如 order_id）&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;用业务唯一 ID 判断是否已处理&lt;/td&gt;
+      &lt;td&gt;有明确业务标识的场景&lt;/td&gt;
+      &lt;td&gt;✅ 无需全局 ID&lt;br /&gt;✅ 贴近业务逻辑&lt;/td&gt;
+      &lt;td&gt;❌ 同一业务可能多次合法更新（如状态变更）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3️⃣ &lt;strong&gt;数据库唯一约束&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;插入时依赖 &lt;code class=&quot;highlighter-rouge&quot;&gt;UNIQUE KEY&lt;/code&gt; 报错&lt;/td&gt;
+      &lt;td&gt;数据入库、用户注册等&lt;/td&gt;
+      &lt;td&gt;✅ 强一致性&lt;br /&gt;✅ 不依赖外部缓存&lt;/td&gt;
+      &lt;td&gt;❌ 性能差&lt;br /&gt;❌ 需捕获异常&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4️⃣ &lt;strong&gt;状态机控制&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;业务状态只能单向流转（如：待支付 → 已支付）&lt;/td&gt;
+      &lt;td&gt;有严格状态流转的业务&lt;/td&gt;
+      &lt;td&gt;✅ 天然防重&lt;br /&gt;✅ 无额外存储&lt;/td&gt;
+      &lt;td&gt;❌ 不适用于幂等更新（如多次加积分）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5️⃣ &lt;strong&gt;本地文件或内存标记&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;单机脚本可用 &lt;code class=&quot;highlighter-rouge&quot;&gt;flock()&lt;/code&gt; 或数组缓存&lt;/td&gt;
+      &lt;td&gt;单机、低频场景&lt;/td&gt;
+      &lt;td&gt;✅ 简单&lt;/td&gt;
+      &lt;td&gt;❌ 不支持分布式&lt;br /&gt;❌ 重启丢失&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;✅ &lt;strong&gt;推荐组合&lt;/strong&gt;：&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;常规业务：&lt;strong&gt;方案 1（&lt;code class=&quot;highlighter-rouge&quot;&gt;message_id&lt;/code&gt; + Redis）&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;核心交易：&lt;strong&gt;方案 1 + 方案 3（数据库唯一键）双重保险&lt;/strong&gt;&lt;/li&gt;
+    &lt;li&gt;状态驱动：&lt;strong&gt;方案 4（状态机）为主，辅以方案 1&lt;/strong&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;四消费者开发十大关键实践整合可靠性与可维护性&quot;&gt;四、消费者开发十大关键实践（整合可靠性与可维护性）&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;类别&lt;/th&gt;
+      &lt;th&gt;实践要点&lt;/th&gt;
+      &lt;th&gt;说明&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🔐 &lt;strong&gt;1. 手动 ACK&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;禁用 &lt;code class=&quot;highlighter-rouge&quot;&gt;auto_ack=true&lt;/code&gt;，业务完成后 &lt;code class=&quot;highlighter-rouge&quot;&gt;basic_ack()&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;防止未处理完就确认，避免消息丢失&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;⚖️ &lt;strong&gt;2. 公平分发（QoS）&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;basic_qos(null, 1, null)&lt;/code&gt; 控制未 ACK 消息数&lt;/td&gt;
+      &lt;td&gt;避免某消费者过载，提升负载均衡&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🧼 &lt;strong&gt;3. 优雅关闭&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;捕获 &lt;code class=&quot;highlighter-rouge&quot;&gt;SIGTERM&lt;/code&gt;，停止 &lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt; 并等待当前消息处理完&lt;/td&gt;
+      &lt;td&gt;防止强制退出导致消息重投&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🗑️ &lt;strong&gt;4. 死信队列（DLX）&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;配置 DLX 处理重试超限的消息&lt;/td&gt;
+      &lt;td&gt;避免无限重入队，便于问题排查&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🕒 &lt;strong&gt;5. 控制处理时长&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;避免阻塞操作，设置 &lt;code class=&quot;highlighter-rouge&quot;&gt;read_write_timeout&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;防止心跳超时导致连接断开&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🔁 &lt;strong&gt;6. 重试策略&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;失败后 &lt;code class=&quot;highlighter-rouge&quot;&gt;nack(true)&lt;/code&gt; 重试有限次数（如 3 次）&lt;/td&gt;
+      &lt;td&gt;防死循环，结合 DLX 使用&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;📊 &lt;strong&gt;7. 日志与监控&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;记录 &lt;code class=&quot;highlighter-rouge&quot;&gt;message_id&lt;/code&gt;、处理结果、重试次数&lt;/td&gt;
+      &lt;td&gt;便于追踪问题，支持对账&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🆔 &lt;strong&gt;8. 唯一标识传递&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;消息体必须包含 &lt;code class=&quot;highlighter-rouge&quot;&gt;message_id&lt;/code&gt;（生产者生成）&lt;/td&gt;
+      &lt;td&gt;幂等去重的依据&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🧩 &lt;strong&gt;9. 幂等优先于重试&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;先判断是否已处理，再决定是否执行业务&lt;/td&gt;
+      &lt;td&gt;减少无效重试，提升性能&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;🧪 &lt;strong&gt;10. 压测验证&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;模拟网络抖动、消费者崩溃，验证去重有效性&lt;/td&gt;
+      &lt;td&gt;确保方案在生产环境可靠&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;五完整处理流程以-php-为例&quot;&gt;五、完整处理流程（以 PHP 为例）&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[接收消息]
+     ↓
+[提取 message_id]
+     ↓
+[Redis SET message_id NX EX 86400]
+     ↓
+   ┌─────────────┐
+   │ 已存在？YES  │ → 直接 ACK，跳过业务 ✅
+   └─────────────┘
+   ↓ NO
+[执行业务逻辑]
+     ↓
+[成功] → ACK ✅
+[失败] → 可选：删除 Redis 标记 → NACK（重试或进 DLX）⚠️
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;✅ 关键点：&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SET NX&lt;/code&gt; 是原子操作，防并发重复处理&lt;/li&gt;
+    &lt;li&gt;业务成功后才 ACK，失败可回滚标记允许重试&lt;/li&gt;
+    &lt;li&gt;重试次数超限 → 进 DLX，人工介入&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;六总结构建零资损消费者体系的四大支柱&quot;&gt;六、总结：构建“零资损”消费者体系的四大支柱&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;支柱&lt;/th&gt;
+      &lt;th&gt;内涵&lt;/th&gt;
+      &lt;th&gt;落地动作&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1️⃣ &lt;strong&gt;认知到位&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;接受“重复消费是常态”&lt;/td&gt;
+      &lt;td&gt;设计时默认消息可能重复&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2️⃣ &lt;strong&gt;幂等优先&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;业务层具备去重能力&lt;/td&gt;
+      &lt;td&gt;采用 &lt;code class=&quot;highlighter-rouge&quot;&gt;message_id&lt;/code&gt; + Redis 等方案&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3️⃣ &lt;strong&gt;机制健全&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;ACK、QoS、DLX、监控全覆盖&lt;/td&gt;
+      &lt;td&gt;避免技术性重复（如未 ACK）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4️⃣ &lt;strong&gt;验证充分&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;压测 + 对账 + 监控&lt;/td&gt;
+      &lt;td&gt;确保方案在真实场景中可靠&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;-最终建议&quot;&gt;✅ 最终建议&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;不要依赖 RabbitMQ 保证“只消费一次”&lt;/strong&gt; —— 它没有这个语义。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;不要把“没报错”当成“成功”&lt;/strong&gt; —— 必须 ACK 才算完成。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;不要把“重试”当“容错”&lt;/strong&gt; —— 无幂等的重试是灾难。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;把“幂等”当作和“业务逻辑”同等重要的模块来设计&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;💡 &lt;strong&gt;金句总结&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;在消息驱动的系统中，消费者不是“执行者”，而是“决策者”——它必须判断：这条消息我以前见过吗？我现在该处理吗？处理错了能回滚吗？只有想清楚这三个问题，系统才能真正可靠。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;一五大核心模块系统骨架&quot;&gt;一、五大核心模块（系统骨架）&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;模块&lt;/th&gt;
+      &lt;th&gt;职责&lt;/th&gt;
+      &lt;th&gt;对应代码文件&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1️⃣ &lt;strong&gt;配置管理层&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;统一管理 RabbitMQ、Redis、队列、死信等参数，与环境解耦，支持多环境灵活切换&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;config/rabbitmq.php&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2️⃣ &lt;strong&gt;连接资源管理&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;初始化并维护 RabbitMQ 连接、Channel、Redis 连接池，确保资源生命周期安全、异常自动清理&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseConsumer::initializeRabbitMQ()&lt;/code&gt;&lt;br /&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseConsumer::initializeRedis()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3️⃣ &lt;strong&gt;消息消费引擎&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;实现消费循环、回调分发、手动 ACK/NACK 控制、QoS 公平分发，保障消息可靠投递与负载均衡&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseConsumer::startConsuming()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4️⃣ &lt;strong&gt;业务处理核心&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;抽象业务处理逻辑，内置幂等去重、事务控制、重试机制、死信策略，确保业务执行的准确性和容错性&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseConsumer::onMessage()&lt;/code&gt;&lt;br /&gt;+ 子类 &lt;code class=&quot;highlighter-rouge&quot;&gt;processMessage()&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5️⃣ &lt;strong&gt;运维支撑体系&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;提供结构化日志、监控埋点、优雅关闭（信号处理）、Supervisor 进程托管，保障系统可观测性与高可用&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BaseConsumer::signalHandler()&lt;/code&gt;&lt;br /&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bin/consumer.php&lt;/code&gt;&lt;br /&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;supervisor/*.conf&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一、 配置文件 (config/rabbitmq.php)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+return [
+    // RabbitMQ 连接配置
+    'rabbitmq' =&amp;gt; [
+        'host' =&amp;gt; 'rabbitmq-host',
+        'port' =&amp;gt; 5672,
+        'username' =&amp;gt; 'your_username',
+        'password' =&amp;gt; 'your_password',
+        'vhost' =&amp;gt; '/',
+        'heartbeat' =&amp;gt; 60,
+        'read_write_timeout' =&amp;gt; 60,
+    ],
+    
+    // 队列配置
+    'queues' =&amp;gt; [
+        'order.created' =&amp;gt; [
+            'name' =&amp;gt; 'order.created',
+            'exchange' =&amp;gt; 'orders',
+            'routing_key' =&amp;gt; 'order.created',
+            'durable' =&amp;gt; true,
+            'prefetch' =&amp;gt; 1, // 公平分发
+            'retry_count' =&amp;gt; 3, // 最大重试次数
+            'retry_delay' =&amp;gt; 5000, // 重试延迟(毫秒)
+        ],
+        'payment.success' =&amp;gt; [
+            'name' =&amp;gt; 'payment.success',
+            'exchange' =&amp;gt; 'payments',
+            'routing_key' =&amp;gt; 'payment.success',
+            'durable' =&amp;gt; true,
+            'prefetch' =&amp;gt; 2,
+            'retry_count' =&amp;gt; 5,
+            'retry_delay' =&amp;gt; 10000,
+        ],
+    ],
+    
+    // Redis 配置（用于幂等）
+    'redis' =&amp;gt; [
+        'host' =&amp;gt; 'redis-host',
+        'port' =&amp;gt; 6379,
+        'password' =&amp;gt; '',
+        'database' =&amp;gt; 0,
+        'timeout' =&amp;gt; 3,
+    ],
+    
+    // 死信队列配置
+    'dead_letter' =&amp;gt; [
+        'enabled' =&amp;gt; true,
+        'exchange' =&amp;gt; 'dlx.orders',
+        'queue' =&amp;gt; 'dlx.order.created',
+        'ttl' =&amp;gt; 60000, // 消息在队列中存活时间(毫秒)
+    ],
+];
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;二、 核心消费者类 (app/Consumers/BaseConsumer.php)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+namespace App\Consumers;
+
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
+use Redis;
+use Psr\Log\LoggerInterface;
+
+abstract class BaseConsumer
+{
+    protected $connection;
+    protected $channel;
+    protected $redis;
+    protected $logger;
+    protected $config;
+    
+    // 信号控制
+    protected $shouldStop = false;
+    protected $currentMessage = null;
+    protected $currentStartTime = 0;
+
+    public function __construct(array $config, LoggerInterface $logger)
+    {
+        $this-&amp;gt;config = $config;
+        $this-&amp;gt;logger = $logger;
+        $this-&amp;gt;setupSignalHandlers();
+    }
+
+    /**
+     * 初始化连接和资源
+     */
+    public function initialize(): void
+    {
+        // 初始化 Redis
+        $this-&amp;gt;initializeRedis();
+        
+        // 初始化 RabbitMQ 连接
+        $this-&amp;gt;initializeRabbitMQ();
+    }
+
+    /**
+     * 初始化 Redis
+     */
+    protected function initializeRedis(): void
+    {
+        try {
+            $this-&amp;gt;redis = new Redis();
+            $redisConfig = $this-&amp;gt;config['redis'];
+            
+            if (!$this-&amp;gt;redis-&amp;gt;connect(
+                $redisConfig['host'], 
+                $redisConfig['port'], 
+                $redisConfig['timeout']
+            )) {
+                throw new \Exception(&quot;Redis connection failed&quot;);
+            }
+            
+            if (!empty($redisConfig['password'])) {
+                $this-&amp;gt;redis-&amp;gt;auth($redisConfig['password']);
+            }
+            
+            $this-&amp;gt;redis-&amp;gt;select($redisConfig['database']);
+            
+            $this-&amp;gt;logger-&amp;gt;info(&quot;Redis connected successfully&quot;);
+        } catch (\Exception $e) {
+            $this-&amp;gt;logger-&amp;gt;error(&quot;Redis initialization failed: &quot; . $e-&amp;gt;getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * 初始化 RabbitMQ 连接
+     */
+    protected function initializeRabbitMQ(): void
+    {
+        try {
+            $rabbitConfig = $this-&amp;gt;config['rabbitmq'];
+            
+            $this-&amp;gt;connection = new AMQPStreamConnection(
+                $rabbitConfig['host'],
+                $rabbitConfig['port'],
+                $rabbitConfig['username'],
+                $rabbitConfig['password'],
+                $rabbitConfig['vhost'],
+                false,
+                'AMQPLAIN',
+                null,
+                'en_US',
+                $rabbitConfig['read_write_timeout'],
+                $rabbitConfig['read_write_timeout'],
+                null,
+                false,
+                $rabbitConfig['heartbeat']
+            );
+
+            $this-&amp;gt;channel = $this-&amp;gt;connection-&amp;gt;channel();
+            
+            // 设置 QoS（公平分发）
+            $this-&amp;gt;channel-&amp;gt;basic_qos(null, $this-&amp;gt;getPrefetchCount(), null);
+            
+            $this-&amp;gt;logger-&amp;gt;info(&quot;RabbitMQ connected successfully&quot;);
+        } catch (\Exception $e) {
+            $this-&amp;gt;logger-&amp;gt;error(&quot;RabbitMQ initialization failed: &quot; . $e-&amp;gt;getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * 声明队列和绑定
+     */
+    protected function declareQueue(string $queueName): void
+    {
+        $queueConfig = $this-&amp;gt;config['queues'][$queueName];
+        
+        // 声明死信交换机和队列（如果启用）
+        if ($this-&amp;gt;config['dead_letter']['enabled']) {
+            $this-&amp;gt;declareDeadLetter($queueName);
+        }
+
+        // 声明主队列
+        $args = [];
+        if ($this-&amp;gt;config['dead_letter']['enabled']) {
+            $args['x-dead-letter-exchange'] = $this-&amp;gt;config['dead_letter']['exchange'];
+            $args['x-dead-letter-routing-key'] = $this-&amp;gt;config['dead_letter']['queue'];
+            $args['x-message-ttl'] = $this-&amp;gt;config['dead_letter']['ttl'];
+        }
+
+        $this-&amp;gt;channel-&amp;gt;queue_declare(
+            $queueConfig['name'],
+            false, // passive
+            $queueConfig['durable'], // durable
+            false, // exclusive
+            false, // auto_delete
+            false, // nowait
+            $args // arguments
+        );
+
+        // 声明交换机
+        $this-&amp;gt;channel-&amp;gt;exchange_declare(
+            $queueConfig['exchange'],
+            'direct', // type
+            false, // passive
+            $queueConfig['durable'], // durable
+            false // auto_delete
+        );
+
+        // 绑定队列到交换机
+        $this-&amp;gt;channel-&amp;gt;queue_bind(
+            $queueConfig['name'],
+            $queueConfig['exchange'],
+            $queueConfig['routing_key']
+        );
+
+        $this-&amp;gt;logger-&amp;gt;info(&quot;Queue {$queueName} declared and bound successfully&quot;);
+    }
+
+    /**
+     * 声明死信队列
+     */
+    protected function declareDeadLetter(string $queueName): void
+    {
+        $dlxConfig = $this-&amp;gt;config['dead_letter'];
+        $queueConfig = $this-&amp;gt;config['queues'][$queueName];
+
+        // 声明死信交换机
+        $this-&amp;gt;channel-&amp;gt;exchange_declare(
+            $dlxConfig['exchange'],
+            'direct',
+            false,
+            true,
+            false
+        );
+
+        // 声明死信队列
+        $this-&amp;gt;channel-&amp;gt;queue_declare(
+            $dlxConfig['queue'] . '.' . $queueName,
+            false,
+            true,
+            false,
+            false
+        );
+
+        // 绑定死信队列
+        $this-&amp;gt;channel-&amp;gt;queue_bind(
+            $dlxConfig['queue'] . '.' . $queueName,
+            $dlxConfig['exchange'],
+            $queueConfig['routing_key']
+        );
+    }
+
+    /**
+     * 消息处理函数（子类必须实现）
+     */
+    abstract protected function processMessage(array $data, array $headers): bool;
+
+    /**
+     * 获取消息去重键
+     */
+    protected function getDeduplicationKey(AMQPMessage $message): string
+    {
+        $data = json_decode($message-&amp;gt;getBody(), true);
+        return $data['message_id'] ?? $message-&amp;gt;getDeliveryTag() . '_' . md5($message-&amp;gt;getBody());
+    }
+
+    /**
+     * 检查消息是否已处理（幂等性）
+     */
+    protected function isMessageProcessed(string $deduplicationKey): bool
+    {
+        $key = &quot;processed:message:{$deduplicationKey}&quot;;
+        return $this-&amp;gt;redis-&amp;gt;exists($key);
+    }
+
+    /**
+     * 标记消息已处理
+     */
+    protected function markMessageProcessed(string $deduplicationKey, int $ttl = 86400): void
+    {
+        $key = &quot;processed:message:{$deduplicationKey}&quot;;
+        $this-&amp;gt;redis-&amp;gt;setex($key, $ttl, 1);
+    }
+
+    /**
+     * 消息消费回调
+     */
+    public function onMessage(AMQPMessage $message): void
+    {
+        $this-&amp;gt;currentMessage = $message;
+        $this-&amp;gt;currentStartTime = microtime(true);
+
+        try {
+            // 提取消息内容
+            $data = json_decode($message-&amp;gt;getBody(), true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception(&quot;Invalid JSON: &quot; . json_last_error_msg());
+            }
+
+            $headers = $message-&amp;gt;get_properties();
+            $deduplicationKey = $this-&amp;gt;getDeduplicationKey($message);
+
+            $this-&amp;gt;logger-&amp;gt;info(&quot;Processing message&quot;, [
+                'message_id' =&amp;gt; $data['message_id'] ?? 'unknown',
+                'delivery_tag' =&amp;gt; $message-&amp;gt;getDeliveryTag(),
+                'redelivered' =&amp;gt; $message-&amp;gt;isRedelivered()
+            ]);
+
+            // 幂等性检查
+            if ($this-&amp;gt;isMessageProcessed($deduplicationKey)) {
+                $this-&amp;gt;logger-&amp;gt;info(&quot;Duplicate message detected, skipping&quot;, [
+                    'message_id' =&amp;gt; $data['message_id'] ?? 'unknown'
+                ]);
+                $message-&amp;gt;ack();
+                return;
+            }
+
+            // 业务处理
+            $success = $this-&amp;gt;processMessage($data, $headers);
+
+            if ($success) {
+                // 标记消息已处理
+                $this-&amp;gt;markMessageProcessed($deduplicationKey);
+                
+                // 确认消息
+                $message-&amp;gt;ack();
+                
+                $processingTime = round((microtime(true) - $this-&amp;gt;currentStartTime) * 1000, 2);
+                $this-&amp;gt;logger-&amp;gt;info(&quot;Message processed successfully&quot;, [
+                    'message_id' =&amp;gt; $data['message_id'] ?? 'unknown',
+                    'processing_time_ms' =&amp;gt; $processingTime
+                ]);
+            } else {
+                throw new \Exception(&quot;Business processing failed&quot;);
+            }
+
+        } catch (\Exception $e) {
+            $this-&amp;gt;handleProcessingFailure($message, $e);
+        } finally {
+            $this-&amp;gt;currentMessage = null;
+            $this-&amp;gt;currentStartTime = 0;
+        }
+    }
+
+    /**
+     * 处理处理失败
+     */
+    protected function handleProcessingFailure(AMQPMessage $message, \Exception $e): void
+    {
+        $data = json_decode($message-&amp;gt;getBody(), true);
+        $messageId = $data['message_id'] ?? 'unknown';
+        
+        $processingTime = round((microtime(true) - $this-&amp;gt;currentStartTime) * 1000, 2);
+        
+        $this-&amp;gt;logger-&amp;gt;error(&quot;Message processing failed&quot;, [
+            'message_id' =&amp;gt; $messageId,
+            'error' =&amp;gt; $e-&amp;gt;getMessage(),
+            'processing_time_ms' =&amp;gt; $processingTime,
+            'delivery_tag' =&amp;gt; $message-&amp;gt;getDeliveryTag(),
+            'redelivered' =&amp;gt; $message-&amp;gt;isRedelivered()
+        ]);
+
+        // 根据重试次数决定是否重试或拒绝
+        $retryCount = $this-&amp;gt;getCurrentRetryCount($message);
+        $maxRetries = $this-&amp;gt;getMaxRetryCount();
+
+        if ($retryCount &amp;lt; $maxRetries) {
+            // 重试：重新入队
+            $this-&amp;gt;logger-&amp;gt;info(&quot;Retrying message&quot;, [
+                'message_id' =&amp;gt; $messageId,
+                'retry_count' =&amp;gt; $retryCount + 1,
+                'max_retries' =&amp;gt; $maxRetries
+            ]);
+            
+            // 延迟重试（通过 TTL 实现）
+            $message-&amp;gt;nack(false); // 不重新入队，等待 TTL 后进入死信或重新发布
+        } else {
+            // 达到最大重试次数，拒绝消息（进入死信队列）
+            $this-&amp;gt;logger-&amp;gt;warning(&quot;Max retries exceeded, sending to dead letter&quot;, [
+                'message_id' =&amp;gt; $messageId,
+                'retry_count' =&amp;gt; $retryCount
+            ]);
+            
+            $message-&amp;gt;nack(false); // 拒绝，不重新入队
+        }
+    }
+
+    /**
+     * 获取当前重试次数
+     */
+    protected function getCurrentRetryCount(AMQPMessage $message): int
+    {
+        $headers = $message-&amp;gt;get_properties();
+        $retryCount = $headers['application_headers']['x-retry-count'][1] ?? 0;
+        return (int)$retryCount;
+    }
+
+    /**
+     * 获取最大重试次数
+     */
+    protected function getMaxRetryCount(): int
+    {
+        return $this-&amp;gt;config['queues']['order.created']['retry_count'] ?? 3;
+    }
+
+    /**
+     * 获取预取计数
+     */
+    protected function getPrefetchCount(): int
+    {
+        return $this-&amp;gt;config['queues']['order.created']['prefetch'] ?? 1;
+    }
+
+    /**
+     * 设置信号处理器（优雅关闭）
+     */
+    protected function setupSignalHandlers(): void
+    {
+        pcntl_signal(SIGTERM, [$this, 'signalHandler']);
+        pcntl_signal(SIGINT, [$this, 'signalHandler']);
+        pcntl_signal(SIGHUP, [$this, 'signalHandler']);
+    }
+
+    /**
+     * 信号处理
+     */
+    public function signalHandler(int $signal): void
+    {
+        $this-&amp;gt;logger-&amp;gt;info(&quot;Received signal {$signal}, shutting down gracefully...&quot;);
+        $this-&amp;gt;shouldStop = true;
+    }
+
+    /**
+     * 开始消费
+     */
+    public function startConsuming(string $queueName): void
+    {
+        $this-&amp;gt;declareQueue($queueName);
+
+        $this-&amp;gt;logger-&amp;gt;info(&quot;Starting consumer for queue: {$queueName}&quot;);
+
+        $callback = function (AMQPMessage $message) {
+            // 检查是否需要停止
+            pcntl_signal_dispatch();
+            if ($this-&amp;gt;shouldStop) {
+                $this-&amp;gt;logger-&amp;gt;info(&quot;Stopping consumer due to shutdown signal&quot;);
+                throw new \Exception(&quot;Consumer shutdown requested&quot;);
+            }
+
+            $this-&amp;gt;onMessage($message);
+        };
+
+        $queueConfig = $this-&amp;gt;config['queues'][$queueName];
+        
+        $this-&amp;gt;channel-&amp;gt;basic_consume(
+            $queueConfig['name'],
+            '', // consumer tag
+            false, // no local
+            false, // no ack (we do manual ack)
+            false, // exclusive
+            false, // no wait
+            $callback
+        );
+
+        // 主循环
+        try {
+            while (count($this-&amp;gt;channel-&amp;gt;callbacks) &amp;amp;&amp;amp; !$this-&amp;gt;shouldStop) {
+                $this-&amp;gt;channel-&amp;gt;wait(null, false, 1); // 1秒超时，便于检查停止信号
+                pcntl_signal_dispatch();
+            }
+        } catch (\Exception $e) {
+            $this-&amp;gt;logger-&amp;gt;info(&quot;Consumer stopped: &quot; . $e-&amp;gt;getMessage());
+        }
+
+        $this-&amp;gt;logger-&amp;gt;info(&quot;Consumer stopped gracefully&quot;);
+    }
+
+    /**
+     * 关闭连接
+     */
+    public function close(): void
+    {
+        try {
+            if ($this-&amp;gt;channel &amp;amp;&amp;amp; $this-&amp;gt;channel-&amp;gt;is_open()) {
+                $this-&amp;gt;channel-&amp;gt;close();
+            }
+            if ($this-&amp;gt;connection &amp;amp;&amp;amp; $this-&amp;gt;connection-&amp;gt;isConnected()) {
+                $this-&amp;gt;connection-&amp;gt;close();
+            }
+            if ($this-&amp;gt;redis) {
+                $this-&amp;gt;redis-&amp;gt;close();
+            }
+            $this-&amp;gt;logger-&amp;gt;info(&quot;All connections closed&quot;);
+        } catch (\Exception $e) {
+            $this-&amp;gt;logger-&amp;gt;error(&quot;Error closing connections: &quot; . $e-&amp;gt;getMessage());
+        }
+    }
+
+    public function __destruct()
+    {
+        $this-&amp;gt;close();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;三、 具体业务消费者 (app/Consumers/OrderCreatedConsumer.php)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+namespace App\Consumers;
+
+use Psr\Log\LoggerInterface;
+
+class OrderCreatedConsumer extends BaseConsumer
+{
+    public function __construct(array $config, LoggerInterface $logger)
+    {
+        parent::__construct($config, $logger);
+    }
+
+    /**
+     * 业务消息处理
+     */
+    protected function processMessage(array $data, array $headers): bool
+    {
+        try {
+            $messageId = $data['message_id'] ?? 'unknown';
+            $orderId = $data['order_id'] ?? null;
+            $orderData = $data['data'] ?? [];
+
+            if (!$orderId) {
+                throw new \Exception(&quot;Missing order_id in message&quot;);
+            }
+
+            $this-&amp;gt;logger-&amp;gt;info(&quot;Processing order creation&quot;, [
+                'order_id' =&amp;gt; $orderId,
+                'message_id' =&amp;gt; $messageId
+            ]);
+
+            // 模拟业务处理：创建订单、扣库存、发通知等
+            // 这里应该是你的实际业务逻辑
+            $result = $this-&amp;gt;createOrder($orderId, $orderData);
+            
+            if (!$result) {
+                throw new \Exception(&quot;Order creation failed for order_id: {$orderId}&quot;);
+            }
+
+            // 模拟数据库事务提交
+            $this-&amp;gt;commitTransaction();
+
+            return true;
+
+        } catch (\Exception $e) {
+            $this-&amp;gt;rollbackTransaction();
+            throw $e;
+        }
+    }
+
+    /**
+     * 创建订单业务逻辑
+     */
+    private function createOrder(string $orderId, array $orderData): bool
+    {
+        // 这里实现你的订单创建逻辑
+        // 例如：写入数据库、调用库存服务、发送通知等
+        
+        // 模拟处理时间
+        usleep(rand(100000, 500000)); // 0.1-0.5秒
+        
+        // 模拟偶尔的失败（用于测试重试机制）
+        if (rand(1, 100) &amp;lt;= 5) { // 5% 失败率
+            return false;
+        }
+        
+        $this-&amp;gt;logger-&amp;gt;info(&quot;Order created successfully&quot;, ['order_id' =&amp;gt; $orderId]);
+        return true;
+    }
+
+    /**
+     * 提交事务
+     */
+    private function commitTransaction(): void
+    {
+        // 实现你的事务提交逻辑
+        // 例如：DB::commit() 或其他服务的确认
+    }
+
+    /**
+     * 回滚事务
+     */
+    private function rollbackTransaction(): void
+    {
+        // 实现你的事务回滚逻辑
+        // 例如：DB::rollBack() 或其他服务的取消
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;四、 消费者启动脚本 (bin/consumer.php)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/usr/bin/env php
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;__DIR__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/../vendor/autoload.php'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App\Consumers\OrderCreatedConsumer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Monolog\Logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Monolog\Handler\RotatingFileHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Monolog\Formatter\LineFormatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 加载配置
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;require_once&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;__DIR__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/../config/rabbitmq.php'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 初始化日志
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$logger&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'rabbitmq_consumer'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 文件处理器（按天轮转，保留30天）
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$fileHandler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;RotatingFileHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;__DIR__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/../logs/consumer.log'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 保留天数
+&lt;/span&gt;    &lt;span class=&quot;nx&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;INFO&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$formatter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;LineFormatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;[%datetime%] %channel%.%level_name%: %message% %context% %extra%&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;Y-m-d H:i:s.u&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$fileHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setFormatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$formatter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;pushHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$fileHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 创建消费者实例
+&lt;/span&gt;    &lt;span class=&quot;nv&quot;&gt;$consumer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;OrderCreatedConsumer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// 初始化连接
+&lt;/span&gt;    &lt;span class=&quot;nv&quot;&gt;$consumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// 开始消费（优雅关闭支持）
+&lt;/span&gt;    &lt;span class=&quot;nv&quot;&gt;$consumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;startConsuming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'order.created'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;\Exception&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;critical&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Consumer failed to start: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMessage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'exception'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTraceAsString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;五、 Supervisor 配置 (supervisor/consumer.conf)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[program:rabbitmq-order-consumer]
+process_name=%(program_name)s_%(process_num)02d
+command=/usr/bin/php /path/to/your/project/bin/consumer.php
+directory=/path/to/your/project
+numprocs=2
+autostart=true
+autorestart=true
+startretries=3
+user=www-data
+redirect_stderr=true
+stdout_logfile=/path/to/your/project/logs/supervisor.log
+stopwaitsecs=30
+killasgroup=true
+priority=999
+
+; 环境变量
+environment=APP_ENV=&quot;production&quot;,APP_DEBUG=&quot;false&quot;
+
+; 停止信号（优雅关闭）
+stopsignal=TERM
+stopasgroup=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;-使用方式&quot;&gt;🚀 使用方式&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一、 安装依赖：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;composer require php-amqplib/php-amqplib monolog/monolog predis/predis
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;二、 配置 Supervisor：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo cp supervisor/consumer.conf /etc/supervisor/conf.d/
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start rabbitmq-order-consumer:*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;三、 监控日志：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tail -f logs/consumer.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="rabbitmq" /><summary type="html">消息队列 生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。</summary></entry><entry><title type="html">XHProf性能分析工具。</title><link href="http://localhost:4000/php/2025/12/03/xhprof/" rel="alternate" type="text/html" title="XHProf性能分析工具。" /><published>2025-12-03T00:00:00+08:00</published><updated>2025-12-03T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/12/03/xhprof</id><content type="html" xml:base="http://localhost:4000/php/2025/12/03/xhprof/">&lt;p&gt;XHProf 最初由 Facebook 开源，曾是 PHP 性能分析的标杆工具；如今在社区的持续维护下，已实现对 PHP 8.4 的完整支持，凭借其低开销采样、多维度指标采集（时间、内存、调用栈）和可视化调用图能力，依然是 PHP 开发者在开发调试与生产诊断中进行性能瓶颈定位的高效利器。&lt;/p&gt;
 
 &lt;h2 id=&quot;xhprof2310报告表头&quot;&gt;XHProf2.3.10报告表头&lt;/h2&gt;
 
@@ -114,7 +1374,7 @@ echo &quot;http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;amp;s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;报告表例子&quot;&gt;报告表例子&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/php/xhprof-1.png&quot; /&gt;
-&lt;img src=&quot;/assets/images/php/xhprof-2.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="xhprof" /><summary type="html">XHProf 是一个性能分析分析器。</summary></entry><entry><title type="html">docker 容器化构建php-laravel开发环境</title><link href="http://localhost:4000/php/2025/11/30/php-larvel/" rel="alternate" type="text/html" title="docker 容器化构建php-laravel开发环境" /><published>2025-11-30T00:00:00+08:00</published><updated>2025-11-30T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/11/30/php-larvel</id><content type="html" xml:base="http://localhost:4000/php/2025/11/30/php-larvel/">&lt;h2 id=&quot;构建php-laravel84151-fpm-xdebug镜像&quot;&gt;构建php-laravel:8.4.15.1-fpm-xdebug镜像&lt;/h2&gt;
+&lt;img src=&quot;/assets/images/php/xhprof-2.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="xhprof" /><summary type="html">XHProf 最初由 Facebook 开源，曾是 PHP 性能分析的标杆工具；如今在社区的持续维护下，已实现对 PHP 8.4 的完整支持，凭借其低开销采样、多维度指标采集（时间、内存、调用栈）和可视化调用图能力，依然是 PHP 开发者在开发调试与生产诊断中进行性能瓶颈定位的高效利器。</summary></entry><entry><title type="html">docker 容器化构建php-laravel开发环境</title><link href="http://localhost:4000/php/2025/11/30/php-larvel/" rel="alternate" type="text/html" title="docker 容器化构建php-laravel开发环境" /><published>2025-11-30T00:00:00+08:00</published><updated>2025-11-30T00:00:00+08:00</updated><id>http://localhost:4000/php/2025/11/30/php-larvel</id><content type="html" xml:base="http://localhost:4000/php/2025/11/30/php-larvel/">&lt;h2 id=&quot;构建php-laravel84151-fpm-xdebug镜像&quot;&gt;构建php-laravel:8.4.15.1-fpm-xdebug镜像&lt;/h2&gt;
 &lt;p&gt;使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。&lt;/p&gt;
 &lt;h2 id=&quot;laravel&quot;&gt;laravel&lt;/h2&gt;
 &lt;p&gt;laravel版本是12&lt;/p&gt;
@@ -294,7 +1554,7 @@ curl -X POST &quot;https://dashscope.aliyuncs.com/compatible-mode/v1/chat/comple
 &lt;h2 id=&quot;环境准备&quot;&gt;环境准备&lt;/h2&gt;
 &lt;h3 id=&quot;安装python-39&quot;&gt;安装Python 3.9&lt;/h3&gt;
 &lt;h3 id=&quot;pip安装pytorch&quot;&gt;Pip安装PyTorch&lt;/h3&gt;
-&lt;h3 id=&quot;pip安装hugging-face核心库transformer和datasets&quot;&gt;Pip安装Hugging Face核心库transformer和datasets&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Hugging face</summary></entry><entry><title type="html">mysql面试题</title><link href="http://localhost:4000/2025/10/11/mysql-ms/" rel="alternate" type="text/html" title="mysql面试题" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/11/mysql-ms</id><content type="html" xml:base="http://localhost:4000/2025/10/11/mysql-ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
+&lt;h3 id=&quot;pip安装hugging-face核心库transformer和datasets&quot;&gt;Pip安装Hugging Face核心库transformer和datasets&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Hugging face</summary></entry><entry><title type="html">mysql面试汇总</title><link href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms/" rel="alternate" type="text/html" title="mysql面试汇总" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms</id><content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
 
 &lt;h3 id=&quot;mysql索引用的是什么算法&quot;&gt;Mysql索引用的是什么算法&lt;/h3&gt;
 
@@ -581,7 +1841,77 @@ x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，�
 
 &lt;h3 id=&quot;explain命令有什么用&quot;&gt;Explain命令有什么用&lt;/h3&gt;
 
-&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">MySQL</summary></entry><entry><title type="html">Go Gorm Mysql学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/" rel="alternate" type="text/html" title="Go Gorm Mysql学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-gorm-mysql-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="mysql" /><summary type="html">MySQL</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用例子&quot;&gt;使用例子&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+	&lt;span class=&quot;s2&quot;&gt;&quot;context&quot;&lt;/span&gt;
+	&lt;span class=&quot;s2&quot;&gt;&quot;fmt&quot;&lt;/span&gt;
+	&lt;span class=&quot;s2&quot;&gt;&quot;log&quot;&lt;/span&gt;
+	&lt;span class=&quot;s2&quot;&gt;&quot;time&quot;&lt;/span&gt;
+
+	&lt;span class=&quot;s2&quot;&gt;&quot;github.com/redis/go-redis/v9&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;Addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;     &lt;span class=&quot;s2&quot;&gt;&quot;localhost:16379&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;Password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;CXqwr12_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
+&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect success:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
+&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;set key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
+&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;get key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Del&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
+&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HDel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
+&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HDel deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/redis/go-redis&quot; target=&quot;_blank&quot;&gt;https://github.com/redis/go-redis&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://redis.uptrace.dev/zh/&quot; target=&quot;_blank&quot;&gt;https://redis.uptrace.dev/zh/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&quot; target=&quot;_blank&quot;&gt;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">安装 ``` go get github.com/redis/go-redis/v9</summary></entry><entry><title type="html">Go Gorm Mysql学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/" rel="alternate" type="text/html" title="Go Gorm Mysql学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-gorm-mysql-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get -u gorm.io/gorm
 go get -u gorm.io/driver/sqlite
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -802,77 +2132,7 @@ CREATE TABLE `my_gorm_user` (
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://gorm.io/docs/&quot; target=&quot;_blank&quot;&gt;https://gorm.io/docs/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><category term="go" /><category term="gorm" /><category term="mysql" /><summary type="html">安装 go get -u gorm.io/gorm go get -u gorm.io/driver/sqlite 连接数据库 ``` package main</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;使用例子&quot;&gt;使用例子&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;context&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;fmt&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;log&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;time&quot;&lt;/span&gt;
-
-	&lt;span class=&quot;s2&quot;&gt;&quot;github.com/redis/go-redis/v9&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;     &lt;span class=&quot;s2&quot;&gt;&quot;localhost:16379&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;CXqwr12_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect success:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;set key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;get key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Del&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HDel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HDel deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/redis/go-redis&quot; target=&quot;_blank&quot;&gt;https://github.com/redis/go-redis&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://redis.uptrace.dev/zh/&quot; target=&quot;_blank&quot;&gt;https://redis.uptrace.dev/zh/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&quot; target=&quot;_blank&quot;&gt;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">安装 ``` go get github.com/redis/go-redis/v9</summary></entry><entry><title type="html">Go 语言学习笔记</title><link href="http://localhost:4000/go/2025/09/18/go-study-note/" rel="alternate" type="text/html" title="Go 语言学习笔记" /><published>2025-09-18T00:00:00+08:00</published><updated>2025-09-18T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/18/go-study-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/18/go-study-note/">&lt;h2 id=&quot;数据类型&quot;&gt;数据类型&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><category term="go" /><category term="gorm" /><category term="mysql" /><summary type="html">安装 go get -u gorm.io/gorm go get -u gorm.io/driver/sqlite 连接数据库 ``` package main</summary></entry><entry><title type="html">Go 语言学习笔记</title><link href="http://localhost:4000/go/2025/09/18/go-study-note/" rel="alternate" type="text/html" title="Go 语言学习笔记" /><published>2025-09-18T00:00:00+08:00</published><updated>2025-09-18T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/18/go-study-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/18/go-study-note/">&lt;h2 id=&quot;数据类型&quot;&gt;数据类型&lt;/h2&gt;
 &lt;p&gt;Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。&lt;/p&gt;
 &lt;h3 id=&quot;基础类型&quot;&gt;基础类型&lt;/h3&gt;
 &lt;p&gt;构成程序的基础，不可再拆分，内存占用固定&lt;/p&gt;
@@ -1421,97 +2681,4 @@ type Formatter interface{
 
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;类型断言&quot;&gt;类型断言&lt;/h2&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T\n &quot;, i1) fmt.Printf(&quot;i3 type is %T\n\n &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T\n &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T\n&quot;, cmp2) 零型</summary></entry><entry><title type="html">Redis</title><link href="http://localhost:4000/redis/2025/09/16/redis/" rel="alternate" type="text/html" title="Redis" /><published>2025-09-16T00:00:00+08:00</published><updated>2025-09-16T00:00:00+08:00</updated><id>http://localhost:4000/redis/2025/09/16/redis</id><content type="html" xml:base="http://localhost:4000/redis/2025/09/16/redis/">&lt;h2 id=&quot;redis高频面试题&quot;&gt;Redis高频面试题&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;缓存穿透
-    &lt;ul&gt;
-      &lt;li&gt;问题描述&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;p&gt;当查询Redis中没有数据时，该查询会下沉到数据库层，同时数据库层也没有该数据，当出现大量这种查询（或被恶意攻击）时，接口的访问全部透过Redis访问数据库，而数据库中也没有这些数据，我们称这种现象为“缓存穿透”。&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;解决方案
-        &lt;ol&gt;
-          &lt;li&gt;在业务服务访问层对用户进行校验来判断是不是来自恶意用户的请求，比如对请求参数进行校验和检查一段时间内请求同一个服务的次数。&lt;/li&gt;
-          &lt;li&gt;将数据库层有关数据的键存储到布隆过滤器中，以判断访问的键是否在底层的数据库中。如果在布隆过滤器中则查询缓存，如果缓存没有则再次查询MySQL数据库；如果布隆过滤器中没有，则直接返回我们预先规定好的结果即可。
-我们也可以把布隆过滤器的层级放到缓存下一层，当请求数据的时候先去缓存层获取。如果缓存里面有数据，就直接返回结果；如果缓存没有，就去布隆过滤器判断相关数据的键是否在布隆过滤器中，如果在就继续查询MySQL数据库，如果不存在就直接返回，不在进行数据库层级的查询。&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;缓存击穿
-    &lt;ul&gt;
-      &lt;li&gt;问题描述&lt;/li&gt;
-    &lt;/ul&gt;
-
-    &lt;p&gt;缓存击穿和缓存穿透从名词上很难区分开，他们的区别主要是“穿透”表示底层数据库层没有数据而且缓存层内也没有数据，而“击穿”表示底层数据库有数据但是缓存层内没有数据。&lt;/p&gt;
-    &lt;ul&gt;
-      &lt;li&gt;解决方案
-        &lt;ol&gt;
-          &lt;li&gt;热点键的过期时间设置为永不过期&lt;/li&gt;
-          &lt;li&gt;利用互斥锁保证同一时刻只有一个客户端可以查询底层数据库的数据，一旦查到数据就缓存至Redis内，以避免其他大量请求同时穿过Redis去访问底层数据库。&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;缓存雪崩&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;问题描述
-缓存击穿说的是热点数据过期，缓存雪崩说的是大面积的数据过期。缓存雪崩是指Redis中大量的键几乎同时过期，然后大量并发的查询穿过Redis冲击到底层数据库上，此时数据库的负载压力会增大。相比于缓存击穿，缓存雪崩更容易发生。&lt;/li&gt;
-      &lt;li&gt;解决方案
-        &lt;ol&gt;
-          &lt;li&gt;在可接受的时间范围内随机设置键的过期时间，分撒键的过期时间，以防止大量的键在同一时刻过期。&lt;/li&gt;
-          &lt;li&gt;键的过期时间设置永不过期。
-            &lt;h2 id=&quot;redis-持久化方案&quot;&gt;Redis 持久化方案&lt;/h2&gt;
-          &lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;RDB&lt;/li&gt;
-  &lt;li&gt;AOF&lt;/li&gt;
-  &lt;li&gt;RDB+AOF&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 1. RDB 配置 - 根据你的数据重要性和写入频繁程度调整
-save 900 1                      # 900秒（15分钟）内至少1个key发生变化
-save 300 10                     # 300秒（5分钟）内至少10个key发生变化
-save 60 10000                   # 60秒内至少10000个key发生变化
-dbfilename dump.rdb             # RDB 文件名
-rdbcompression yes               # 开启RDB文件压缩，节省空间
-rdbchecksum yes                 # 开启RDB文件校验，保证数据完整性
-stop-writes-on-bgsave-error yes # 后台保存出错时停止写入，防止数据不一致
-
-# 2. AOF 配置 - 混合持久化的基础，必须开启
-appendonly yes                  # 启用AOF持久化
-appendfilename &quot;appendonly.aof&quot; # AOF文件名
-appendfsync everysec            # 每秒同步，性能与安全的良好平衡
-
-# 3. AOF 重写配置 - 防止AOF文件无限膨胀
-auto-aof-rewrite-percentage 100  # 当前AOF文件比上次重写后大小增长100%时触发
-auto-aof-rewrite-min-size 64mb   # AOF文件最小达到64MB才触发重写
-
-# 4. 启用混合持久化 (Redis 4.0+)
-aof-use-rdb-preamble yes
-
-# 5. 通用配置
-dir /path/to/your/redis/data    # 设置持久化文件存储目录，确保磁盘空间充足
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;redis高可用方案&quot;&gt;Redis高可用方案&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;主从&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;1台主、1台从&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;哨兵模式&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;1台主、2台从、3台哨兵(部署到每台主从)&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;集群模式&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;3太主、3台从&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="Redis" /><summary type="html">Redis高频面试题 缓存穿透 问题描述</summary></entry></feed>
+&lt;h2 id=&quot;类型断言&quot;&gt;类型断言&lt;/h2&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T\n &quot;, i1) fmt.Printf(&quot;i3 type is %T\n\n &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T\n &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T\n&quot;, cmp2) 零型</summary></entry></feed>
