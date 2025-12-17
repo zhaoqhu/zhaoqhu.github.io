@@ -1,4 +1,181 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-05T23:43:07+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Rabbitmq面试汇总</title><link href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/" rel="alternate" type="text/html" title="Rabbitmq面试汇总" /><published>2025-12-05T00:00:00+08:00</published><updated>2025-12-05T00:00:00+08:00</updated><id>http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms</id><content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">&lt;h2 id=&quot;消息队列&quot;&gt;消息队列&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-17T19:56:27+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://localhost:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00+08:00</published><updated>2025-12-17T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://localhost:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+&lt;h3 id=&quot;初始化go模块&quot;&gt;初始化Go模块&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go mod init gin-pprof-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装依赖&quot;&gt;安装依赖&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/gin-contrib/pprof
+go get github.com/gin-gonic/gin
+go get github.com/swaggo/swag/cmd/swag
+go get github.com/swaggo/files
+go get github.com/swaggo/gin-swagger
+go get github.com/swaggo/swag
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;生成swagger-文档&quot;&gt;生成Swagger 文档&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swag init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;运行程序&quot;&gt;运行程序&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go run main.go
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;指标分类与核心说明&quot;&gt;指标分类与核心说明&lt;/h2&gt;
+
+&lt;p&gt;Go &lt;code class=&quot;highlighter-rouge&quot;&gt;net/http/pprof&lt;/code&gt; 暴露的10个性能分析端点，按&lt;strong&gt;分析对象&lt;/strong&gt;分类如下，涵盖内存、CPU、阻塞、并发、线程、执行流程等维度，配合 &lt;code class=&quot;highlighter-rouge&quot;&gt;go tool&lt;/code&gt; 可精准定位性能瓶颈。&lt;/p&gt;
+
+&lt;h2 id=&quot;指标详情表格&quot;&gt;指标详情表格&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;分类&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;指标名称&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;核心用途&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;go tool 分析命令/步骤&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;关键参数/注意事项&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;内存分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;allocs&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;累计内存分配（含已释放对象），记录程序启动以来的&lt;strong&gt;所有内存分配历史&lt;/strong&gt;（字节/对象数）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/allocs&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 默认分析 &lt;code class=&quot;highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt;（累计分配）&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 看累计分配大户&lt;br /&gt;- 结合 &lt;code class=&quot;highlighter-rouge&quot;&gt;heap&lt;/code&gt; 对比当前活跃内存&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;heap&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;堆内存快照（当前&lt;strong&gt;活跃对象&lt;/strong&gt;，未被GC回收的内存），记录实时内存占用。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/heap&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 默认 &lt;code class=&quot;highlighter-rouge&quot;&gt;inuse_space&lt;/code&gt;（当前活跃），用 &lt;code class=&quot;highlighter-rouge&quot;&gt;sample_index=alloc_space&lt;/code&gt; 切换累计分配&lt;br /&gt;- 多次采样后用 &lt;code class=&quot;highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比泄漏&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;CPU分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;profile&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;CPU耗时采样（默认10秒），记录函数&lt;strong&gt;CPU占用时长&lt;/strong&gt;（纳秒级）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/profile?seconds=30&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- &lt;code class=&quot;highlighter-rouge&quot;&gt;seconds=N&lt;/code&gt; 指定采样时长（建议30秒）&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 找CPU热点，&lt;code class=&quot;highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;web&lt;/code&gt; 可视化调用图&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;阻塞分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;阻塞事件采样（channel操作、IO等待等），记录goroutine阻塞&lt;strong&gt;时长/次数&lt;/strong&gt;。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/block?seconds=30&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 需先调用 &lt;code class=&quot;highlighter-rouge&quot;&gt;runtime.SetBlockProfileRate(1)&lt;/code&gt; 启用采样&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 看阻塞热点，&lt;code class=&quot;highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位阻塞代码&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mutex&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;锁竞争事件采样（&lt;code class=&quot;highlighter-rouge&quot;&gt;sync.Mutex&lt;/code&gt;），记录goroutine因锁竞争的&lt;strong&gt;阻塞时长/次数&lt;/strong&gt;。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/mutex?seconds=30&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 需先调用 &lt;code class=&quot;highlighter-rouge&quot;&gt;runtime.SetMutexProfileFraction(1)&lt;/code&gt; 启用采样&lt;br /&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 看锁竞争热点&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;并发分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;goroutine&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;当前所有goroutine的&lt;strong&gt;堆栈跟踪&lt;/strong&gt;（含状态：运行中、阻塞、死锁）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/goroutine&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;curl http://.../goroutine?debug=2 &amp;gt; goroutines.txt&lt;/code&gt; 导出堆栈&lt;br /&gt;- 搜索 &lt;code class=&quot;highlighter-rouge&quot;&gt;chan receive&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;lock&lt;/code&gt; 定位阻塞/泄漏&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;线程分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;threadcreate&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;线程创建事件采样，记录&lt;strong&gt;新线程创建的堆栈&lt;/strong&gt;（含创建耗时）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/threadcreate?seconds=30&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 看线程创建热点&lt;br /&gt;- 适合分析线程创建开销（如频繁创建线程）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;执行流程分析&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;trace&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;执行时序跟踪（goroutine调度、GC、系统调用、请求处理流程），生成&lt;strong&gt;时序日志&lt;/strong&gt;。&lt;/td&gt;
+      &lt;td&gt;1. 下载trace文件：&lt;code class=&quot;highlighter-rouge&quot;&gt;curl -o trace.bin 'http://.../trace?seconds=5'&lt;/code&gt;&lt;br /&gt;2. 分析：&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool trace trace.bin&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 需先下载二进制文件（&lt;code class=&quot;highlighter-rouge&quot;&gt;trace.bin&lt;/code&gt;），再用 &lt;code class=&quot;highlighter-rouge&quot;&gt;go tool trace&lt;/code&gt; 打开&lt;br /&gt;- 可视化界面看甘特图、goroutine分析&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;配置查看&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cmdline&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;程序启动命令行参数（如 &lt;code class=&quot;highlighter-rouge&quot;&gt;./main -port=8080&lt;/code&gt;）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/cmdline&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 直接返回文本，查看启动配置（环境变量、GOMAXPROCS等）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;调试工具&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;symbol&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;符号表查询接口，将&lt;strong&gt;内存地址转换为函数名&lt;/strong&gt;（供调试工具使用）。&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/symbol&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;- 日常分析极少用，仅调试时解析崩溃堆栈中的未知地址&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;关键说明&quot;&gt;关键说明&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-分类逻辑&quot;&gt;1. 分类逻辑&lt;/h3&gt;
+
+&lt;p&gt;按&lt;strong&gt;分析对象&lt;/strong&gt;划分（内存、CPU、阻塞等），便于快速匹配问题类型：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;内存问题&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;heap&lt;/code&gt;（当前泄漏）+ &lt;code class=&quot;highlighter-rouge&quot;&gt;allocs&lt;/code&gt;（累计分配）&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;CPU问题&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;profile&lt;/code&gt;（CPU热点）&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;阻塞/并发问题&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;goroutine&lt;/code&gt;（状态）+ &lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;（阻塞事件）+ &lt;code class=&quot;highlighter-rouge&quot;&gt;mutex&lt;/code&gt;（锁竞争）&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;时序问题&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;trace&lt;/code&gt;（甘特图分析延迟）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;2-通用命令与避坑点&quot;&gt;2. 通用命令与避坑点&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;场景&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;核心命令&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;避坑点&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;内存泄漏定位&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://.../heap&lt;/code&gt; → 多次采样 → &lt;code class=&quot;highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比 → &lt;code class=&quot;highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;/td&gt;
+      &lt;td&gt;默认 &lt;code class=&quot;highlighter-rouge&quot;&gt;inuse_space&lt;/code&gt; 仅看活跃内存，需切 &lt;code class=&quot;highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt; 看累计分配；小泄漏需多次采样&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CPU热点定位&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://.../profile?seconds=30&lt;/code&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;list&lt;/code&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;web&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;采样时长建议30秒（覆盖多轮请求），避免短时波动干扰&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;阻塞事件分析&lt;/td&gt;
+      &lt;td&gt;先 &lt;code class=&quot;highlighter-rouge&quot;&gt;runtime.SetBlockProfileRate(1)&lt;/code&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;go tool pprof http://.../block?seconds=30&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;未启用采样时无数据，需代码中显式开启&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;trace时序分析&lt;/td&gt;
+      &lt;td&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;curl -o trace.bin 'http://.../trace?seconds=5'&lt;/code&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;go tool trace trace.bin&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;需下载二进制文件（非URL直接分析），用可视化界面看甘特图&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;3-核心场景速查&quot;&gt;3. 核心场景速查&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;“内存涨了但heap没反应”&lt;/strong&gt; → 用 &lt;code class=&quot;highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt; 维度 + 多次采样 &lt;code class=&quot;highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;“CPU占用高但不知道哪里慢”&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;profile&lt;/code&gt; 采样 + &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt; 找热点函数&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;“goroutine数量爆炸”&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;goroutine&lt;/code&gt; 导出堆栈 + 搜索 &lt;code class=&quot;highlighter-rouge&quot;&gt;chan receive&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;lock&lt;/code&gt; 定位泄漏源&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;“请求延迟忽高忽低”&lt;/strong&gt; → &lt;code class=&quot;highlighter-rouge&quot;&gt;trace&lt;/code&gt; 甘特图看GC/系统调用与请求的时序重叠&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;实战示例&quot;&gt;实战示例&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/gin-pprof-1.png&quot; width=&quot;100%&quot; /&gt;
+&lt;img src=&quot;/assets/images/go/gin-pprof-2.png&quot; width=&quot;100%&quot; /&gt;
+&lt;img src=&quot;/assets/images/go/gin-pprof-3.png&quot; width=&quot;100%&quot; /&gt;
+&lt;img src=&quot;/assets/images/go/gin-pprof-4.png&quot; width=&quot;100%&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="go" /><category term="Gin" /><category term="pprof" /><summary type="html">ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈 安装 初始化Go模块</summary></entry><entry><title type="html">Rabbitmq面试汇总</title><link href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/" rel="alternate" type="text/html" title="Rabbitmq面试汇总" /><published>2025-12-05T00:00:00+08:00</published><updated>2025-12-05T00:00:00+08:00</updated><id>http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms</id><content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">&lt;h2 id=&quot;消息队列&quot;&gt;消息队列&lt;/h2&gt;
 &lt;p&gt;生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------+      路由       +-------------+      存储      +-------------+
@@ -1493,62 +1670,11 @@ curl -X POST &quot;https://dashscope.aliyuncs.com/compatible-mode/v1/chat/comple
     &quot;model&quot;: &quot;qwen-plus&quot;,
     &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;php在调用阿里云大模型阿里百炼怎么做到流式输出。&quot;}]
 }'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">东城 西城 朝阳 丰台 海淀</summary></entry><entry><title type="html">Wuqing</title><link href="http://localhost:4000/2025/11/04/wuqing/" rel="alternate" type="text/html" title="Wuqing" /><published>2025-11-04T00:00:00+08:00</published><updated>2025-11-04T00:00:00+08:00</updated><id>http://localhost:4000/2025/11/04/wuqing</id><content type="html" xml:base="http://localhost:4000/2025/11/04/wuqing/">&lt;h1 id=&quot;武清商圈&quot;&gt;武清商圈&lt;/h1&gt;
-&lt;h2 id=&quot;佛罗伦萨小镇&quot;&gt;佛罗伦萨小镇&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">东城 西城 朝阳 丰台 海淀</summary></entry><entry><title type="html">Hugging face 学习记录</title><link href="http://localhost:4000/2025/10/21/huggingface/" rel="alternate" type="text/html" title="Hugging face 学习记录" /><published>2025-10-21T00:00:00+08:00</published><updated>2025-10-21T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/21/huggingface</id><content type="html" xml:base="http://localhost:4000/2025/10/21/huggingface/">&lt;h1 id=&quot;hugging-face&quot;&gt;Hugging face&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=佛罗伦萨小镇&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;创意米兰生活广场&quot;&gt;创意米兰生活广场&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=创意米兰生活广场&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;v1汽车世界&quot;&gt;V1汽车世界&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=V1汽车世界&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;威尼都&quot;&gt;威尼都&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=威尼都&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;福源万达广场&quot;&gt;福源万达广场&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=福源万达广场&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;住总大光明中心&quot;&gt;住总大光明中心&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=住总大光明中心&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;友谊商厦&quot;&gt;友谊商厦&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=友谊商厦&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;荔隆时代广场荔隆广场&quot;&gt;荔隆时代广场/荔隆广场&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=荔隆时代广场/荔隆广场&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;瑞安威尼都&quot;&gt;瑞安威尼都&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.zhipin.com/web/geek/jobs?city=101030100&amp;amp;multiBusinessDistrict=120114&amp;amp;query=瑞安威尼都&quot; target=&quot;_blank&quot;&gt;Boss直聘&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">武清商圈 佛罗伦萨小镇</summary></entry><entry><title type="html">Hugging face 学习记录</title><link href="http://localhost:4000/2025/10/21/huggingface/" rel="alternate" type="text/html" title="Hugging face 学习记录" /><published>2025-10-21T00:00:00+08:00</published><updated>2025-10-21T00:00:00+08:00</updated><id>http://localhost:4000/2025/10/21/huggingface</id><content type="html" xml:base="http://localhost:4000/2025/10/21/huggingface/">&lt;h1 id=&quot;hugging-face&quot;&gt;Hugging face&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;hugging face入门教程，可以在自己的macbook pro 15款上学习和练习huggging face吗？&lt;/li&gt;
-  &lt;li&gt;我的macbook pro 15款8+256G的有docker环境，第一部分Huggingface的Python环境可以用docker的python环境吗？&lt;/li&gt;
+  &lt;li&gt;hugging face入门教程，可以在macbook pro 15款上学习和练习huggging face吗？&lt;/li&gt;
+  &lt;li&gt;macbook pro 15款8+256G的有docker环境，第一部分Huggingface的Python环境可以用docker的python环境吗？&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;环境准备&quot;&gt;环境准备&lt;/h2&gt;
