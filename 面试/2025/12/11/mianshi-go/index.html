@@ -1,0 +1,1666 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Go," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Zhao Q.H.'s Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="并发编程问题 并发知识概览">
+<meta name="keywords" content="Go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang面试汇总">
+<meta property="og:url" content="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
+<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:description" content="并发编程问题 并发知识概览">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Golang面试汇总">
+<meta name="twitter:description" content="并发编程问题 并发知识概览">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>Golang面试汇总 | Zhao Q.H.'s Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhao Q.H.'s Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Q.H.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhao Q.H.'s Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Golang面试汇总
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-11T00:00:00+08:00">
+                2025-12-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="">
+                
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/%E9%9D%A2%E8%AF%95" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1 id="并发编程问题">并发编程问题</h1>
+<h2 id="并发知识概览">并发知识概览</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>知识点</th>
+      <th>核心概念</th>
+      <th>问题</th>
+      <th>使用频率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>context</td>
+      <td>上下文控制</td>
+      <td>golang中context使用场景？</td>
+      <td>⭐⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>goroutine</td>
+      <td>轻量级线程</td>
+      <td>golang中怎么确保所有的协程可以执行完？</td>
+      <td>⭐⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>channel</td>
+      <td>通信管道</td>
+      <td>餐厅传菜口</td>
+      <td>⭐⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>sync.WaitGroup</td>
+      <td>等待组</td>
+      <td>golang中怎么确保所有的协程可以执行完？</td>
+      <td>⭐⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td>多路复用</td>
+      <td>golang中select的用法</td>
+      <td>⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>sync.Mutex</td>
+      <td>互斥锁</td>
+      <td>厕所门锁（一次一人）</td>
+      <td>⭐⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>sync.RWMutex</td>
+      <td>读写锁</td>
+      <td>图书馆（多认读，一人写）</td>
+      <td>⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td>atomic</td>
+      <td>原子操作</td>
+      <td>银行柜台</td>
+      <td>⭐⭐</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="1-golang中context使用场景">1. golang中context使用场景？</h2>
+<p>context通过WithCancel（取消）、WithTimeout（超时）控制协程生命周期
+context通过WithValue请求范围的附加信息如TraceID、UserId等元数据。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+	<span class="s2">"context"</span>
+	<span class="s2">"fmt"</span>
+	<span class="s2">"net/http"</span>
+	<span class="s2">"strings"</span>
+	<span class="s2">"sync"</span>
+	<span class="s2">"time"</span>
+
+	<span class="s2">"github.com/gin-gonic/gin"</span> <span class="p">//</span> <span class="err">用</span> <span class="n">Gin</span> <span class="err">模拟</span> <span class="n">HTTP</span> <span class="err">服务（需先安装：</span><span class="n">go</span> <span class="n">get</span> <span class="p">-</span><span class="n">u</span> <span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">gin</span><span class="p">-</span><span class="n">gonic</span><span class="p">/</span><span class="n">gin</span><span class="err">）</span>
+<span class="p">)</span>
+
+<span class="p">//</span> <span class="err">自定义键类型（避免键冲突）</span>
+<span class="n">type</span> <span class="n">ctxKey</span> <span class="k">string</span>
+
+<span class="n">const</span> <span class="p">(</span>
+	<span class="n">KeyTraceID</span> <span class="n">ctxKey</span> <span class="p">=</span> <span class="s2">"traceID"</span> <span class="p">//</span> <span class="err">追踪</span> <span class="n">ID</span> <span class="err">键</span>
+	<span class="n">KeyUserID</span>  <span class="n">ctxKey</span> <span class="p">=</span> <span class="s2">"userID"</span>  <span class="p">//</span> <span class="err">用户</span> <span class="n">ID</span> <span class="err">键</span>
+<span class="p">)</span>
+
+<span class="p">//</span> <span class="err">中间件：注入</span> <span class="n">TraceID</span> <span class="err">和用户身份信息到</span> <span class="n">Context</span>
+<span class="n">func</span> <span class="n">metadataMiddleware</span><span class="p">()</span> <span class="n">gin</span><span class="p">.</span><span class="n">HandlerFunc</span> <span class="p">{</span>
+	<span class="n">return</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">//</span> <span class="m">1.</span> <span class="err">生成</span> <span class="n">TraceID</span><span class="err">（模拟</span> <span class="n">UUID</span><span class="err">，实际可用</span> <span class="n">uuid</span> <span class="err">库）</span>
+		<span class="n">traceID</span> <span class="p">:=</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s2">"trace-%d"</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">UnixNano</span><span class="p">())</span>
+
+		<span class="p">//</span> <span class="m">2.</span> <span class="err">从</span> <span class="n">Header</span> <span class="err">获取</span> <span class="n">Token</span> <span class="err">并解析</span> <span class="n">UserID</span><span class="err">（模拟认证逻辑）</span>
+		<span class="n">authHeader</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">GetHeader</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">)</span>
+		<span class="n">userID</span> <span class="p">:=</span> <span class="m">0</span>
+		<span class="k">if</span> <span class="n">strings</span><span class="p">.</span><span class="n">HasPrefix</span><span class="p">(</span><span class="n">authHeader</span><span class="p">,</span> <span class="s2">"Bearer "</span><span class="p">)</span> <span class="p">{</span>
+			<span class="p">//</span> <span class="err">模拟解析</span> <span class="n">Token</span> <span class="err">得到</span> <span class="n">UserID</span><span class="p">=</span><span class="m">1001</span><span class="err">（实际需用</span> <span class="n">JWT</span> <span class="err">库解析）</span>
+			<span class="n">userID</span> <span class="p">=</span> <span class="m">1001</span>
+		<span class="p">}</span>
+
+		<span class="p">//</span> <span class="m">3.</span> <span class="err">将元数据存入</span> <span class="n">Context</span><span class="err">（链式传递）</span>
+		<span class="n">ctx</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithValue</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Context</span><span class="p">(),</span> <span class="n">KeyTraceID</span><span class="p">,</span> <span class="n">traceID</span><span class="p">)</span>
+		<span class="n">ctx</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithValue</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">KeyUserID</span><span class="p">,</span> <span class="n">userID</span><span class="p">)</span>
+		<span class="n">c</span><span class="p">.</span><span class="n">Request</span> <span class="p">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">WithContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="p">//</span> <span class="err">更新请求的</span> <span class="n">Context</span>
+
+		<span class="n">c</span><span class="p">.</span><span class="k">Next</span><span class="p">()</span> <span class="p">//</span> <span class="err">继续处理请求</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">//</span> <span class="err">处理函数：从</span> <span class="n">Context</span> <span class="err">获取元数据，并启动子协程传递元数据</span>
+<span class="n">func</span> <span class="n">handleRequest</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">ctx</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Context</span><span class="p">()</span>
+
+	<span class="p">//</span> <span class="m">1.</span> <span class="err">从</span> <span class="n">Context</span> <span class="err">获取元数据（</span><span class="n">TraceID</span><span class="err">、</span><span class="n">UserID</span><span class="err">）</span>
+	<span class="n">traceID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyTraceID</span><span class="p">).(</span><span class="k">string</span><span class="p">)</span>
+	<span class="n">userID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyUserID</span><span class="p">).(</span><span class="n">int</span><span class="p">)</span>
+
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"[主协程] TraceID: %s, UserID: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">traceID</span><span class="p">,</span> <span class="n">userID</span><span class="p">)</span>
+
+	<span class="p">//</span> <span class="m">2.</span> <span class="err">启动子协程，传递</span> <span class="n">Context</span><span class="err">（元数据随之传递）</span>
+	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
+	<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+	<span class="n">go</span> <span class="n">func</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span>
+		<span class="p">//</span> <span class="err">子协程从</span> <span class="n">Context</span> <span class="err">获取元数据</span>
+		<span class="n">subTraceID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyTraceID</span><span class="p">).(</span><span class="k">string</span><span class="p">)</span>
+		<span class="n">subUserID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyUserID</span><span class="p">).(</span><span class="n">int</span><span class="p">)</span>
+		<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"[子协程] TraceID: %s, UserID: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">subTraceID</span><span class="p">,</span> <span class="n">subUserID</span><span class="p">)</span>
+	<span class="p">}(</span><span class="n">ctx</span><span class="p">)</span> <span class="p">//</span> <span class="err">传递当前请求的</span> <span class="n">Context</span>
+
+	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span> <span class="p">//</span> <span class="err">等待子协程完成</span>
+	<span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">r</span> <span class="p">:=</span> <span class="n">gin</span><span class="p">.</span><span class="n">Default</span><span class="p">()</span>
+	<span class="n">r</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="n">metadataMiddleware</span><span class="p">())</span>   <span class="p">//</span> <span class="err">全局启用元数据中间件</span>
+	<span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/demo"</span><span class="p">,</span> <span class="n">handleRequest</span><span class="p">)</span> <span class="p">//</span> <span class="err">注册接口</span>
+
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"服务启动：http://localhost:8080/demo"</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"请求示例：curl -H 'Authorization: Bearer token' http://localhost:8080/demo"</span><span class="p">)</span>
+	<span class="n">r</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s2">":8080"</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="2-golang中怎么确保所有的协程可以执行完">2. golang中怎么确保所有的协程可以执行完？</h2>
+<p>通过sync.WaitGroup中的Add()、defer Done()、Wait()来控制。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+	<span class="s2">"context"</span>
+	<span class="s2">"fmt"</span>
+	<span class="s2">"sync"</span>
+	<span class="s2">"time"</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
+	<span class="n">ctx</span><span class="p">,</span> <span class="n">cancel</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithTimeout</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">(),</span> <span class="m">5</span><span class="p">*</span><span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span> <span class="p">//</span> <span class="m">5</span><span class="err">秒超时</span>
+	<span class="n">defer</span> <span class="n">cancel</span><span class="p">()</span>
+
+	<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+	<span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span>
+		<span class="n">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">time</span><span class="p">.</span><span class="n">After</span><span class="p">(</span><span class="m">10</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">):</span> <span class="p">//</span> <span class="err">模拟</span> <span class="m">10</span> <span class="err">秒任务（超时）</span>
+			<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"任务完成"</span><span class="p">)</span>
+		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">():</span> <span class="p">//</span> <span class="err">监听超时信号</span>
+			<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"任务超时:"</span><span class="p">,</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Err</span><span class="p">())</span>
+		<span class="p">}</span>
+	<span class="p">}()</span>
+
+	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span> <span class="p">//</span> <span class="err">等待协程退出（或被取消后退出）</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"主程序结束"</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="3-golang中怎么退出一个协程">3. golang中怎么退出一个协程？</h2>
+<p>父协程通过Context发送Cancel取消信号，子协程通过select监听Done信号退出。
+父协程通过close关闭channel，子协程通过监听channel关闭信息退出。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+	<span class="s2">"context"</span>
+	<span class="s2">"fmt"</span>
+	<span class="s2">"sync"</span>
+	<span class="s2">"time"</span>
+<span class="p">)</span>
+
+<span class="p">//</span> <span class="err">子协程函数：监听</span> <span class="n">Context</span> <span class="err">取消信号退出</span>
+<span class="n">func</span> <span class="n">workerWithContext</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="p">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">id</span> <span class="n">int</span><span class="p">,</span> <span class="n">wg</span> <span class="p">*</span><span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span> <span class="p">//</span> <span class="err">确保协程退出时通知</span> <span class="n">WaitGroup</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 启动</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+
+	<span class="n">for</span> <span class="p">{</span>
+		<span class="n">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">():</span> <span class="p">//</span> <span class="err">监听取消信号（</span><span class="n">Context</span> <span class="err">被取消时，该通道关闭）</span>
+			<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 收到退出信号，原因：%v</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Err</span><span class="p">())</span>
+			<span class="n">return</span> <span class="p">//</span> <span class="err">主动退出协程</span>
+		<span class="n">default</span><span class="p">:</span>
+			<span class="p">//</span> <span class="err">模拟业务逻辑（如处理任务）</span>
+			<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 工作中...（模拟任务）</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+			<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">500</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span> <span class="p">//</span> <span class="err">模拟耗时操作</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
+	<span class="p">//</span> <span class="m">1.</span> <span class="err">创建可取消的</span> <span class="n">Context</span><span class="err">（父</span> <span class="n">Context</span> <span class="err">为</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span><span class="err">）</span>
+	<span class="n">ctx</span><span class="p">,</span> <span class="n">cancel</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithCancel</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">())</span>
+	<span class="n">defer</span> <span class="n">cancel</span><span class="p">()</span> <span class="p">//</span> <span class="err">确保主程序退出时取消</span> <span class="n">Context</span><span class="err">，避免资源泄漏</span>
+
+	<span class="p">//</span> <span class="m">2.</span> <span class="err">启动</span> <span class="m">3</span> <span class="err">个子协程（传递</span> <span class="n">Context</span> <span class="err">和</span> <span class="n">WaitGroup</span><span class="err">）</span>
+	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+		<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+		<span class="n">go</span> <span class="n">workerWithContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">wg</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="p">//</span> <span class="m">3.</span> <span class="err">主协程运行</span> <span class="m">2</span> <span class="err">秒后发送取消信号</span>
+	<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">2</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">===== 主协程发送取消信号 ====="</span><span class="p">)</span>
+	<span class="n">cancel</span><span class="p">()</span> <span class="p">//</span> <span class="err">关闭</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span> <span class="err">通道，所有子协程收到退出信号</span>
+
+	<span class="p">//</span> <span class="m">4.</span> <span class="err">等待所有子协程退出</span>
+	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"===== 所有子协程已退出，主程序结束 ====="</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="4-golang中select的用法">4. golang中select的用法？</h2>
+<p>同时监听多个channel，当多个 case 就绪时，随机选择一个执行，支持 default子句（非阻塞），常与 time.After组，实现超时控制。
+golang中怎么完成一个原子操作？</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+	<span class="s2">"fmt"</span>
+	<span class="s2">"math/rand"</span>
+	<span class="s2">"time"</span>
+<span class="p">)</span>
+
+<span class="n">func</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch</span> <span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="n">name</span> <span class="k">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
+		<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">Duration</span><span class="p">(</span><span class="n">rand</span><span class="p">.</span><span class="n">Intn</span><span class="p">(</span><span class="m">1000</span><span class="p">))</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span> <span class="p">//</span> <span class="err">随机延迟</span>
+		<span class="n">ch</span> <span class="p">&lt;-</span> <span class="n">rand</span><span class="p">.</span><span class="n">Intn</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>                                          <span class="p">//</span> <span class="err">发送随机任务数据</span>
+		<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"%s 发送任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">//</span> <span class="err">任务发送完毕，关闭通道</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">ch1</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+	<span class="n">ch2</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+	<span class="n">ch3</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+
+	<span class="p">//</span> <span class="err">启动</span><span class="m">3</span><span class="err">个任务生成器</span>
+	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch1</span><span class="p">,</span> <span class="s2">"任务源1"</span><span class="p">)</span>
+	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch2</span><span class="p">,</span> <span class="s2">"任务源2"</span><span class="p">)</span>
+	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch3</span><span class="p">,</span> <span class="s2">"任务源3"</span><span class="p">)</span>
+
+	<span class="p">//</span> <span class="err">用</span> <span class="n">select</span> <span class="err">随机选择就绪通道处理任务</span>
+	<span class="n">for</span> <span class="p">{</span>
+		<span class="n">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch1</span><span class="p">:</span>
+			<span class="p">//</span> <span class="err">通道关闭后设为</span> <span class="n">nil</span><span class="err">，避免下次监听</span>
+			<span class="k">if</span> <span class="c1">!ok {
+</span>				<span class="n">ch1</span> <span class="p">=</span> <span class="n">nil</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch1 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch2</span><span class="p">:</span>
+			<span class="k">if</span> <span class="c1">!ok {
+</span>				<span class="n">ch2</span> <span class="p">=</span> <span class="n">nil</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch2 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch3</span><span class="p">:</span>
+			<span class="k">if</span> <span class="c1">!ok {
+</span>				<span class="n">ch3</span> <span class="p">=</span> <span class="n">nil</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch3 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="p">//</span> <span class="err">所有通道都关闭时退出</span>
+		<span class="k">if</span> <span class="n">ch1</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">&amp;&amp;</span> <span class="n">ch2</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">&amp;&amp;</span> <span class="n">ch3</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">{</span>
+			<span class="k">break</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"所有任务处理完毕"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="5-golang中多协程goroutine操作map数据类型会怎么样">5. golang中多协程goroutine操作map数据类型，会怎么样？</h2>
+<p>当多个 goroutine 同时对 map 进行读写操作（尤其是写操作）时，会触发数据竞争（Data Race），导致未定义行为，包括但不限于：
+程序崩溃（panic）（如 fatal error: concurrent map read and map write）；
+解决方法是使用sync.Mutex排他锁或者使用sync.RWMutex。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code>func main() {
+	m := make(map[int]int)
+	var wg sync.WaitGroup
+	var rwmu sync.RWMutex
+
+	// 启动 2 个 goroutine 同时写 map
+	for i := 0; i &lt; 2; i++ {
+		wg.Add(1)
+		go func(idx int) {
+			defer wg.Done()
+			for j := 0; j &lt; 1000; j++ {
+				rwmu.Lock()         // 加锁
+				m[j] = idx*1000 + j // 写操作（并发冲突！）
+				rwmu.Unlock()       // 解锁
+			}
+		}(i)
+	}
+
+	wg.Wait()
+	fmt.Println("map 大小:", len(m)) // 可能永远无法执行到这里
+
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="6-锁类型与并发规则">6. 锁类型与并发规则​</h2>
+<p>sync.Mutex：排他锁（一刀切）
+规则：任何时刻，只有一个 goroutine 能持有锁（无论是读还是写）。
+效果：读写操作完全串行化，避免数据竞争，但读操作之间也无法并行（即使只是读取，也会阻塞其他读）。
+sync.RWMutex：读写锁（分场景放行）
+规则：
+读锁（RLock/RUnlock）：可被多个 goroutine 同时持有（读并行）；
+写锁（Lock/Unlock）：排他性，持有写锁时，其他 goroutine 既不能读也不能写；
+读写互斥：读锁和写锁不能同时存在（读时不能写，写时不能读）。</p>
+
+<p>golang中有缓存和缓存channel区别？</p>
+<h2 id="7-golang中的原子操作">7. golang中的原子操作。</h2>
+<p>sync/atomic
+在 Web 接口开发（尤其是高并发场景）中，原子操作（sync/atomic）凭借无锁高效的特性，常用于简单共享状态的并发读写，避免 mutex带来的性能损耗。结合 Gin 框架.
+场景：接口访问计数器（PV统计）</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="n">import</span> <span class="p">(</span>
+    <span class="s2">"fmt"</span>
+    <span class="s2">"net/http"</span>
+    <span class="s2">"strconv"</span>
+    <span class="s2">"sync/atomic"</span>
+    <span class="s2">"time"</span>
+
+    <span class="s2">"github.com/gin-gonic/gin"</span>
+<span class="p">)</span>
+
+<span class="p">//</span> <span class="err">全局原子计数器（记录总</span> <span class="n">PV</span><span class="err">）</span>
+<span class="n">var</span> <span class="n">totalPV</span> <span class="n">uint64</span>
+
+<span class="p">//</span> <span class="n">PV</span> <span class="err">统计中间件</span>
+<span class="n">func</span> <span class="n">pvMiddleware</span><span class="p">()</span> <span class="n">gin</span><span class="p">.</span><span class="n">HandlerFunc</span> <span class="p">{</span>
+    <span class="n">return</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">//</span> <span class="err">原子自增</span> <span class="n">PV</span><span class="err">（无锁）</span>
+        <span class="n">newPV</span> <span class="p">:=</span> <span class="n">atomic</span><span class="p">.</span><span class="n">AddUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+        <span class="p">//</span> <span class="err">将</span> <span class="n">PV</span> <span class="err">存入上下文（供后续处理使用）</span>
+        <span class="n">c</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="s2">"pv"</span><span class="p">,</span> <span class="n">newPV</span><span class="p">)</span>
+        <span class="n">c</span><span class="p">.</span><span class="k">Next</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">r</span> <span class="p">:=</span> <span class="n">gin</span><span class="p">.</span><span class="n">Default</span><span class="p">()</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="n">pvMiddleware</span><span class="p">())</span> <span class="p">//</span> <span class="err">全局启用</span> <span class="n">PV</span> <span class="err">统计</span>
+
+    <span class="p">//</span> <span class="err">接口：获取实时</span> <span class="n">PV</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/pv"</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">currentPV</span> <span class="p">:=</span> <span class="n">atomic</span><span class="p">.</span><span class="n">LoadUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">)</span> <span class="p">//</span> <span class="err">原子读（避免脏读）</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"total_pv"</span><span class="p">:</span> <span class="n">currentPV</span><span class="p">})</span>
+    <span class="p">})</span>
+
+    <span class="p">//</span> <span class="err">接口：模拟业务请求（触发</span> <span class="n">PV</span> <span class="err">计数）</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/hello"</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pv</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">GetUint64</span><span class="p">(</span><span class="s2">"pv"</span><span class="p">)</span> <span class="p">//</span> <span class="err">从上下文获取当前</span> <span class="n">PV</span>
+        <span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"current_pv"</span><span class="p">:</span> <span class="n">pv</span><span class="p">})</span>
+    <span class="p">})</span>
+
+    <span class="p">//</span> <span class="err">每</span> <span class="m">10</span> <span class="err">秒打印一次</span> <span class="n">PV</span><span class="err">（模拟监控）</span>
+    <span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">ticker</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">NewTicker</span><span class="p">(</span><span class="m">10</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
+        <span class="n">defer</span> <span class="n">ticker</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
+        <span class="n">for</span> <span class="k">range</span> <span class="n">ticker</span><span class="p">.</span><span class="n">C</span> <span class="p">{</span>
+            <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"当前总 PV: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">atomic</span><span class="p">.</span><span class="n">LoadUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+
+    <span class="n">r</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s2">":8080"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div></div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/wechat.gif" alt="Zhao Q.H. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/pay.gif" alt="Zhao Q.H. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/Go" rel="tag"># Go</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/go/2025/12/17/gin-pprof/" rel="next" title="Go pprof 核心指标分析与工具使用指南">
+                <i class="fa fa-chevron-left"></i> Go pprof 核心指标分析与工具使用指南
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/" rel="prev" title="Rabbitmq面试汇总">
+                Rabbitmq面试汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Q.H." />
+          <p class="site-author-name" itemprop="name">Zhao Q.H.</p>
+           
+              <p class="site-description motion-element" itemprop="description">Keep It Simple, Stupid</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaoqhu/zhaoqhu.github.io/issues" target="_blank" title="Issues">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  Issues
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#并发编程问题"> <span class="nav-number">1</span> <span class="nav-text">并发编程问题</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#并发知识概览"> <span class="nav-number">1.1</span> <span class="nav-text">并发知识概览</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#1-golang中context使用场景"> <span class="nav-number">1.2</span> <span class="nav-text">1. golang中context使用场景？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#2-golang中怎么确保所有的协程可以执行完"> <span class="nav-number">1.3</span> <span class="nav-text">2. golang中怎么确保所有的协程可以执行完？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#3-golang中怎么退出一个协程"> <span class="nav-number">1.4</span> <span class="nav-text">3. golang中怎么退出一个协程？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#4-golang中select的用法"> <span class="nav-number">1.5</span> <span class="nav-text">4. golang中select的用法？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#5-golang中多协程goroutine操作map数据类型会怎么样"> <span class="nav-number">1.6</span> <span class="nav-text">5. golang中多协程goroutine操作map数据类型，会怎么样？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#6-锁类型与并发规则"> <span class="nav-number">1.7</span> <span class="nav-text">6. 锁类型与并发规则​</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#7-golang中的原子操作"> <span class="nav-number">1.8</span> <span class="nav-text">7. golang中的原子操作。</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Q.H.</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '6b408abe365ff10490b9',
+        clientSecret: 'a46aa7a0fda5ead2100ddc767dcb83ffaed15392',
+        repo: 'zhaoqhu.github.io',
+        owner: 'zhaoqhu',
+        admin: ['zhaoqhu'],
+        id: '/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/',
+        labels: ['gitalk'],
+        perPage: 50,
+        distractionFreeMode: false
+      });
+      gitalk.render('gitalk-container');
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
