@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-26T20:26:08+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://localhost:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00+08:00</published><updated>2025-12-17T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://localhost:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T13:39:25+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://localhost:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00+08:00</published><updated>2025-12-17T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://localhost:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
 &lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;h3 id=&quot;初始化go模块&quot;&gt;初始化Go模块&lt;/h3&gt;
 
@@ -240,8 +240,8 @@ go get github.com/swaggo/swag
 &lt;/table&gt;
 
 &lt;h2 id=&quot;1-golang中context使用场景&quot;&gt;1. golang中context使用场景？&lt;/h2&gt;
-&lt;p&gt;context通过WithCancel（取消）、WithTimeout（超时）控制协程生命周期
-context通过WithValue请求范围的附加信息如TraceID、UserId等元数据。&lt;/p&gt;
+&lt;p&gt;context通过WithCancel（取消）、WithTimeout（超时）控制协程生命周期。
+context通过WithValue传递请求范围的附加信息如TraceID、UserId等元数据。&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;
 
