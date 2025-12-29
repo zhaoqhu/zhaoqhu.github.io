@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T13:39:25+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://localhost:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00+08:00</published><updated>2025-12-17T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://localhost:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-29T17:41:47+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://localhost:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00+08:00</published><updated>2025-12-17T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://localhost:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
 &lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
 &lt;h3 id=&quot;初始化go模块&quot;&gt;初始化Go模块&lt;/h3&gt;
 
@@ -511,8 +511,39 @@ sync.RWMutex：读写锁（分场景放行）
 写锁（Lock/Unlock）：排他性，持有写锁时，其他 goroutine 既不能读也不能写；
 读写互斥：读锁和写锁不能同时存在（读时不能写，写时不能读）。&lt;/p&gt;
 
-&lt;p&gt;golang中有缓存和缓存channel区别？&lt;/p&gt;
-&lt;h2 id=&quot;7-golang中的原子操作&quot;&gt;7. golang中的原子操作。&lt;/h2&gt;
+&lt;h2 id=&quot;7-golang中无缓冲和有缓冲的channel区别&quot;&gt;7. golang中无缓冲和有缓冲的channel区别？&lt;/h2&gt;
+&lt;p&gt;无缓冲Channel是同步通信，发送接收必须同时就绪，像面对面交接，需要频繁切换goroutine。
+有缓存Channel是异步通信，有内部队列缓存数据，发送仅在队列满时阻塞，接收仅在队列空时阻塞，像投递到信箱。无缓冲用于精确同步和信号通知，有缓冲用于任务队列、流量控制和性能优化。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func unbufferedExample() {
+    ch := make(chan int)  // 无缓冲
+    
+    go func() {
+        fmt.Println(&quot;发送前&quot;)
+        ch &amp;lt;- 42           // 阻塞直到有人接收
+        fmt.Println(&quot;发送后&quot;)
+    }()
+    
+    time.Sleep(time.Second)  // 让发送方等待
+    fmt.Println(&quot;接收前&quot;)
+    fmt.Println(&amp;lt;-ch)        // 解除发送方阻塞
+    fmt.Println(&quot;接收后&quot;)
+}
+// 输出: 发送前 → (等待1秒) → 接收前 → 42 → 接收后 → 发送后
+
+func bufferedExample() {
+    ch := make(chan int, 2)  // 容量2
+    
+    ch &amp;lt;- 1  // 立即成功
+    ch &amp;lt;- 2  // 立即成功
+    fmt.Println(&quot;已发送2个&quot;)
+    
+    ch &amp;lt;- 3  // ❌ 阻塞！缓冲区已满
+    fmt.Println(&quot;这行不会执行&quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;8-golang中的原子操作&quot;&gt;8. golang中的原子操作。&lt;/h2&gt;
 &lt;p&gt;sync/atomic
 在 Web 接口开发（尤其是高并发场景）中，原子操作（sync/atomic）凭借无锁高效的特性，常用于简单共享状态的并发读写，避免 mutex带来的性能损耗。结合 Gin 框架.
 场景：接口访问计数器（PV统计）&lt;/p&gt;

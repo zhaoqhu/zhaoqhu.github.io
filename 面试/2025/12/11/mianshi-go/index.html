@@ -787,8 +787,39 @@ sync.RWMutex：读写锁（分场景放行）
 写锁（Lock/Unlock）：排他性，持有写锁时，其他 goroutine 既不能读也不能写；
 读写互斥：读锁和写锁不能同时存在（读时不能写，写时不能读）。</p>
 
-<p>golang中有缓存和缓存channel区别？</p>
-<h2 id="7-golang中的原子操作">7. golang中的原子操作。</h2>
+<h2 id="7-golang中无缓冲和有缓冲的channel区别">7. golang中无缓冲和有缓冲的channel区别？</h2>
+<p>无缓冲Channel是同步通信，发送接收必须同时就绪，像面对面交接，需要频繁切换goroutine。
+有缓存Channel是异步通信，有内部队列缓存数据，发送仅在队列满时阻塞，接收仅在队列空时阻塞，像投递到信箱。无缓冲用于精确同步和信号通知，有缓冲用于任务队列、流量控制和性能优化。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>func unbufferedExample() {
+    ch := make(chan int)  // 无缓冲
+    
+    go func() {
+        fmt.Println("发送前")
+        ch &lt;- 42           // 阻塞直到有人接收
+        fmt.Println("发送后")
+    }()
+    
+    time.Sleep(time.Second)  // 让发送方等待
+    fmt.Println("接收前")
+    fmt.Println(&lt;-ch)        // 解除发送方阻塞
+    fmt.Println("接收后")
+}
+// 输出: 发送前 → (等待1秒) → 接收前 → 42 → 接收后 → 发送后
+
+func bufferedExample() {
+    ch := make(chan int, 2)  // 容量2
+    
+    ch &lt;- 1  // 立即成功
+    ch &lt;- 2  // 立即成功
+    fmt.Println("已发送2个")
+    
+    ch &lt;- 3  // ❌ 阻塞！缓冲区已满
+    fmt.Println("这行不会执行")
+}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="8-golang中的原子操作">8. golang中的原子操作。</h2>
 <p>sync/atomic
 在 Web 接口开发（尤其是高并发场景）中，原子操作（sync/atomic）凭借无锁高效的特性，常用于简单共享状态的并发读写，避免 mutex带来的性能损耗。结合 Gin 框架.
 场景：接口访问计数器（PV统计）</p>
@@ -1098,7 +1129,7 @@ sync.RWMutex：读写锁（分场景放行）
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#并发编程问题"> <span class="nav-number">1</span> <span class="nav-text">并发编程问题</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#并发知识概览"> <span class="nav-number">1.1</span> <span class="nav-text">并发知识概览</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#1-golang中context使用场景"> <span class="nav-number">1.2</span> <span class="nav-text">1. golang中context使用场景？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#2-golang中怎么确保所有的协程可以执行完"> <span class="nav-number">1.3</span> <span class="nav-text">2. golang中怎么确保所有的协程可以执行完？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#3-golang中怎么退出一个协程"> <span class="nav-number">1.4</span> <span class="nav-text">3. golang中怎么退出一个协程？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#4-golang中select的用法"> <span class="nav-number">1.5</span> <span class="nav-text">4. golang中select的用法？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#5-golang中多协程goroutine操作map数据类型会怎么样"> <span class="nav-number">1.6</span> <span class="nav-text">5. golang中多协程goroutine操作map数据类型，会怎么样？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#6-锁类型与并发规则"> <span class="nav-number">1.7</span> <span class="nav-text">6. 锁类型与并发规则​</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#7-golang中的原子操作"> <span class="nav-number">1.8</span> <span class="nav-text">7. golang中的原子操作。</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#并发编程问题"> <span class="nav-number">1</span> <span class="nav-text">并发编程问题</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#并发知识概览"> <span class="nav-number">1.1</span> <span class="nav-text">并发知识概览</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#1-golang中context使用场景"> <span class="nav-number">1.2</span> <span class="nav-text">1. golang中context使用场景？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#2-golang中怎么确保所有的协程可以执行完"> <span class="nav-number">1.3</span> <span class="nav-text">2. golang中怎么确保所有的协程可以执行完？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#3-golang中怎么退出一个协程"> <span class="nav-number">1.4</span> <span class="nav-text">3. golang中怎么退出一个协程？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#4-golang中select的用法"> <span class="nav-number">1.5</span> <span class="nav-text">4. golang中select的用法？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#5-golang中多协程goroutine操作map数据类型会怎么样"> <span class="nav-number">1.6</span> <span class="nav-text">5. golang中多协程goroutine操作map数据类型，会怎么样？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#6-锁类型与并发规则"> <span class="nav-number">1.7</span> <span class="nav-text">6. 锁类型与并发规则​</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#7-golang中无缓冲和有缓冲的channel区别"> <span class="nav-number">1.8</span> <span class="nav-text">7. golang中无缓冲和有缓冲的channel区别？</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#8-golang中的原子操作"> <span class="nav-number">1.9</span> <span class="nav-text">8. golang中的原子操作。</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
