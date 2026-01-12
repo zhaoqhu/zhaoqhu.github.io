@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="" />
+  <meta name="keywords" content="Python,fastapi," />
 
 
 
@@ -111,17 +111,20 @@
 
 
 
-<meta name="description" content="版本 当前最新版本是6.0">
-<meta name="keywords" content="Jekyll, NexT">
+<meta name="description" content="在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。 python环境 python 版本">
+<meta name="keywords" content="Python, fastapi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis 学习">
-<meta property="og:url" content="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">
+<meta property="og:title" content="FastAPI框架学习">
+<meta property="og:url" content="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">
 <meta property="og:site_name" content="Zhao Q.H.'s Notes">
-<meta property="og:description" content="版本 当前最新版本是6.0">
+<meta property="og:description" content="在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。 python环境 python 版本">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/assets/images/python/fastapi-swagger.png">
+<meta property="og:image" content="/assets/images/python/fastapi-vscode-debug.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis 学习">
-<meta name="twitter:description" content="版本 当前最新版本是6.0">
+<meta name="twitter:title" content="FastAPI框架学习">
+<meta name="twitter:description" content="在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。 python环境 python 版本">
+<meta name="twitter:image" content="/assets/images/python/fastapi-swagger.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +157,7 @@
 
 
 
-  <title>Redis 学习 | Zhao Q.H.'s Notes</title>
+  <title>FastAPI框架学习 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -326,7 +329,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/nosql/redis/2021/01/23/redis-learning/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -346,7 +349,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Redis 学习
+            FastAPI框架学习
           
         </h1>
         
@@ -360,8 +363,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-23T00:00:00+08:00">
-                2021-01-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-01-13T00:00:00+08:00">
+                2026-01-13
               </time>
             
 
@@ -396,20 +399,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/NoSql" itemprop="url" rel="index">
-                    <span itemprop="name">NoSql</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/Redis" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
+                  <a href="/category/#/fastapi" itemprop="url" rel="index">
+                    <span itemprop="name">fastapi</span>
                   </a>
                 </span>
 
@@ -463,319 +454,530 @@
 
 
 
-  <h2 id="版本">版本</h2>
-<p>当前最新版本是6.0</p>
+  <p>在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。</p>
+<h1 id="python环境">python环境</h1>
+<h2 id="python-版本">python 版本</h2>
 
-<h2 id="redis安装">redis安装</h2>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
+Python 3.13.10
+</code></pre></td></tr></tbody></table></div></div>
 
-<p>下载最新的稳定版，
-make
-make PREFIX=/usr/local/redis install
-cd /usr/local/redis/bin #进入redis安装后的binary目录
-ls #查看目录下的命令行工具</p>
+<h2 id="pip版本">pip版本</h2>
 
-<p>redis-benhmark  #redis性能测试工具
-redis-check-aof #检查aof日志的工具
-redis-check-dump #检查rdb日志的工具
-redis-cli #链接用的客户端工具
-redis-server #redis服务进程</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code> pip3 --version
+pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
+</code></pre></td></tr></tbody></table></div></div>
 
-<h2 id="启动">启动</h2>
+<h2 id="python3虚拟环境">python3虚拟环境</h2>
 
-<h3 id="复制redis源码中的配置文件">复制redis源码中的配置文件</h3>
-<p>cd /usr/local/redis
-cp /usr/local/src/redis-2.6.16/redis.conf ./</p>
-<h3 id="启动redis服务">启动redis服务</h3>
-<p>/usr/local/redis/bin/redis-server ./redis.onf</p>
+<ul>
+  <li>创建虚拟环境</li>
+</ul>
 
-<h3 id="redis后台运行服务">redis后台运行服务</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>python3 -m venv venv 
+</code></pre></td></tr></tbody></table></div></div>
 
-<p>修改redis.conf中的daemonize改为yes</p>
+<ul>
+  <li>激活虚拟环境</li>
+</ul>
 
-<h2 id="五大value">五大Value</h2>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>source venv/bin/activate
+</code></pre></td></tr></tbody></table></div></div>
 
-<h3 id="string字符串类型的操作">String字符串类型的操作</h3>
-<p>set key value [ex 秒数][px 毫秒数]</p>
+<ul>
+  <li>在虚拟环境工作</li>
+</ul>
 
-<p>如果 ex 秒数和px 毫秒数，同时使用，则以后面的为准</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code># source ./venv/bin/activate
+# deactivate
+(venv) # pip --version
+pip 25.3 /fastapi/venv/lib/python3.13/site-packages/pip (python 3.13)
+(venv) # python --version
+Python 3.13.10
+</code></pre></td></tr></tbody></table></div></div>
+<ul>
+  <li>退出虚拟环境</li>
+</ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35</pre></td><td class="code"><pre class="highlight"><code>flushdb #清空数据
-set site www.zixue.it
-ttl site #查看生命周期,默认的生命周期是永久
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code># deactivate
+</code></pre></td></tr></tbody></table></div></div>
 
-set search www.baidu.com ex 10 px 6567
+<h2 id="在虚拟环境安装运行fastapi服务工具">在虚拟环境安装运行fastapi服务工具。</h2>
 
-pttl search
-flush db
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install "fastapi[standard]"
+</code></pre></td></tr></tbody></table></div></div>
 
-flushdb #清空数据
-set site www.so.com
-set site www.baidu.com nx# nx的参数表示如果没有这个key才可以执行
-get site #返回结果依然是www.so.com
-set site www.google.com xx #xx的参数表示如果有这个key才可以执行
-get site #返回值是www.google.com
-set abc www.google.com xx#xx表示有这个key才可以执行
+<h3 id="fastapi-命令行工具">fastapi 命令行工具</h3>
 
-mset a aman b bold c controller d diamond
-keys #返回a、b、c、d
-mget a b c#一次获取多个key
+<ul>
+  <li>使用 fastapi工具运行fastapi服务</li>
+</ul>
 
-flushdb
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code># fastapi dev main.py 
+# 命令
+dev      Run a FastAPI app in development mode.
+│ run      Run a FastAPI app in production mode.
+│ deploy   Deploy a FastAPI app to FastAPI Cloud.
+│ login    Login to FastAPI Cloud.
+│ cloud    Manage FastAPI Cloud deployments.
+</code></pre></td></tr></tbody></table></div></div>
 
-set word hello
-get word
-setrange word 2 ??
-get word #返回结果he??o
-set word hello 
-setrange word 6 !
-get world #返回结果hello\x00!
-append word @@
-#getrange key start stop
-set area chinese
-getrange area 1 4 
+<h3 id="uvicorn-命令行工具">uvicorn 命令行工具</h3>
+
+<ul>
+  <li>使用 uvicorn高兴能服务器工具运行fastapi</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>uvicorn main:app --reload
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="vscode运行和调试">VSCode运行和调试</h2>
+
+<ul>
+  <li>vscode/launch.json</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: FastAPI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "python":"/Users/zhaoqinghu/dev_docker/fastapi-1/venv/bin/python3", // 请根据你的虚拟环境路径进行修改
+            "args": [
+                "main:app",
+                "--reload"
+            ],
+            "jinja": true
+        }
+    ]
+}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="fastpai">FASTPAI</h1>
+
+<h2 id="依赖">依赖</h2>
+
+<ul>
+  <li>requirements.txt</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code>annotated-doc==0.0.4
+annotated-types==0.7.0
+anyio==4.12.1
+certifi==2026.1.4
+click==8.3.1
+dnspython==2.8.0
+email-validator==2.3.0
+fastapi==0.128.0
+fastapi-cli==0.0.20
+fastapi-cloud-cli==0.9.0
+fastar==0.8.0
+h11==0.16.0
+httpcore==1.0.9
+httptools==0.7.1
+httpx==0.28.1
+idna==3.11
+Jinja2==3.1.6
+markdown-it-py==4.0.0
+MarkupSafe==3.0.3
+mdurl==0.1.2
+pydantic==2.12.5
+pydantic-extra-types==2.11.0
+pydantic-settings==2.12.0
+pydantic_core==2.41.5
+Pygments==2.19.2
+python-dotenv==1.2.1
+python-multipart==0.0.21
+PyYAML==6.0.3
+rich==14.2.0
+rich-toolkit==0.17.1
+rignore==0.7.6
+sentry-sdk==2.49.0
+shellingham==1.5.4
+starlette==0.50.0
+typer==0.21.1
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+urllib3==2.6.3
+uvicorn==0.40.0
+uvloop==0.22.1
+watchfiles==1.1.1
+websockets==16.0
 
 </code></pre></td></tr></tbody></table></div></div>
-<p>字符串
-数值
-二进制
-help @String</p>
+<ul>
+  <li>安装依赖</li>
+</ul>
 
-<h3 id="list链表">List链表</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install -r requirements.txt
+</code></pre></td></tr></tbody></table></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38</pre></td><td class="code"><pre class="highlight"><code>lpush charlist a
-rpush charlist b
-rpush charlist b
-lpush charlist 0
-lrange charlist 1 2
-lrange charlist 1 3
-lrange charlist 0 3
-lrange charlist 0 -1 #查看所有的链表上的值
-lpop charlist #弹出最左边的值，链表上的值会消失
-rpop charlist #弹出最右边的值，链表上的值会消失
-flushdb #清空所有
-rpush answer a b c a b d a
+<h2 id="将当前虚拟环境的依赖输出到requirementtxt">将当前虚拟环境的依赖输出到requirement.txt。</h2>
 
-lrem answer 1 b#删除链表answer上的一个b
-lrem answer -2 a#从链表answer最后开始删除两个a
-fushdb
-rpush charlist a b c d e f
-lrange charlist 0 -1
-ltrim charlist 2 5
-lindex charlist  0
-lindex charlist 1
-lindex charlist 2
-llen charlist #查看链表的长度
-lrpush num 1 3 6 8 9 #创建一个num链表
-linsert num before 3 2 #在链表num值3的前面添加2
-linsert num after 9 10
-lrange num 0 -1
-linsert num after 99 10
-linsert num after 9 10
-flushdb
-rpush task a b c d
-rpoplpush task job #右边弹出task链表的值d存储到链表d左边
-rpop job 
-brpop job 20 #等待20秒,当收到新值后结束
-lpush job e
-blop job
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip freeze &gt; requirements.txt
+</code></pre></td></tr></tbody></table></div></div>
 
+<h1 id="fastapi基础入门">FastAPI基础入门</h1>
+<h2 id="第一个fastapi程序">第一个FastAPI程序</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>from fastapi import FastAPI
+# 创建FastAPI实例
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"Hello": "World"}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="路由请求">路由请求</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>#@FastAPI请求实例.请求方法("请求路径")
+@app.get("/")
+
+# 访问/hello 响应结果 msg: 你好 FastAPI
+
+@app.get("/hello)
+async def get_hello():
+    return {"msg":"你好 FastAPI"}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="路径参数path">路径参数path</h3>
+<ul>
+  <li>原生注释</li>
+  <li>Path注释</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>@app.get("/book/{id}")
+async def get_book(id: int):
+    return {"id":id,"title":f"这是第{id}本书"}
+@app.get("/new/cat/id/{id}")
+async def get_new_cat_id(id: int=Path(default=...,ge=1,le=100)):
+    return {"id":id,"title":f"新闻分类ID为{id}"}
+
+@app.get("/new/cat/name/{name}")
+async def get_new_cat_name(name: str=Path(default=...,min_length=2,max_length=5)):
+    return {"name":name,"title":f"新闻分类名称为{name}"}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="查询参数">查询参数</h3>
+
+<ul>
+  <li>Query类型注解</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>curl -X 'GET' \
+  'http://127.0.0.1:8000/news/news_list?skip=0&amp;limit=10' \
+  -H 'accept: application/json'
+
+@app.get("/news/news_list")
+async def get_news_list(
+    skip: int=Query(0,description="跳过的记录数",lt=100), 
+    limit: int=Query(10,description="返回的记录数",gt=0,le=50)
+    ):
+    return {"skip": skip, "limit": limit}
 
 </code></pre></td></tr></tbody></table></div></div>
-<h2 id="位图法统计活跃用户3天连续登录">位图法统计活跃用户3天连续登录</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>setbit mon 1000000000 0
-setbit mon 3 1
-setbit mon 5 1
-setbit mon 7 1
 
-set tues 100000000 0
-</code></pre></td></tr></tbody></table></div></div>
-<h3 id="hash">Hash</h3>
+<h3 id="请求体参数">请求体参数</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22</pre></td><td class="code"><pre class="highlight"><code>hset user1 name lisi
-hset user1 age 28
-hset user1 height 175
-hgetall user1
-hmset user2 name wang age 10 height 100
-hgetall user2
-hget user1 name 
-hget user2 name
-hmget user1 name height
-hgetall user1
-hdel user1 age
-hgetall user1
-hlen uesr1
-hlen user2
-hexists user1 age
-hexists user2 age
-hincrby user2 age 1
-hgetall user2
-hget user2 age
-hincrbyfloat user2 age 0.5
-hkeys user2
-hvals user2
-</code></pre></td></tr></tbody></table></div></div>
-<h3 id="set">Set</h3>
-<p>1、无序性 2、确定性 3、唯一性</p>
+<p>在Http协议中，请求体的位置在HTTP请求的消息体(body)中，作用是创建、更新资源携带大量数据，如JSON。请求方法：POST、PUT等。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33</pre></td><td class="code"><pre class="highlight"><code>sadd gender male female
-sadd gender yao yao
-sadd gender yao
-smembers gender #查看gender所有的值
-srem gender yao #删除yao
-srem gender x c #删除失败(integer 0)
-srem gender male x c #成功删除(male)
-spop key #随机删除
-sadd gender a b c d e f 
-spop gender #随机删除无序集合gender里的值
-smembers gender
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code># 导入pydantic中的BaseModel请求体参数和Field注解和验证
+from pydantic import BaseModel,Field
+class User(BaseModel):
+    username: str=Field(default="张三",min_length=2,max_length=10,description="用户名，长度2-10")
+    password: str=Field(min_length=6,max_length=20,description="密码，长度6-20")
 
-srandmember gender
-sismember gender Q #判断某个vlue在某个集合中
-sismember gender f
-scard gender #返回集合中元素的个数
-sadd uuper A B C
-sadd lower a b c
 
-smove upper lower A #移动upper集合中的A到集合lower中
-smembers upper
-smembers lower
-
-sadd lisi a b c d
-sadd wang a b c d e f
-sadd poly a b c d g
-
-sinter lisi wang poly #求交集
-sunion lisi wang poly#求并集
-sdiff lisi wang
-sinter lisi wang poly
-sintersrore result lisi wang poly #求并集存入到result
+@app.post("/register")
+async def register(user: User):
+    return user
 
 </code></pre></td></tr></tbody></table></div></div>
-<h3 id="zset">ZSet</h3>
 
-<p>order set 有序集合</p>
+<h2 id="路由响应">路由响应</h2>
+<p>默认情况下，FastAPI会自动将路径操作函数返回的Python对象(字典、列表、Pydanitc模型等)，经由jsonenable_encode
+转换为JSON兼容格式，并包装为JSONResponse返回。这省去了手动序列化的步骤，让开发者更专注于业务逻辑。如果
+需要返回非JSON数据（如HTML、文件流），FastAPI提供了丰富的响应类型来返回不同数据。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code>flushdb
-zadd class 12 lily 13 lucy 18 lilei 6 poly
-zrange class 0 3#有序的查询出class集合中的前四个人
-zrangebyscore class 13 18 #查询13岁到18岁的人
-zrangebyscore class 1 20 limit 1 2
-zrange class 1 3 withscores
-zrangebyscore class 10 20 withscores #查看分数去某个范围内元素。
-zrange class 0 -1
-zrank class lily
-zrank class poly
-zrank class lilei
-zrank class zhangfei
-zrevrank class lilei
-zrange class 0 -1 withscores
-zremrangebysore class 10 15
-zrange class 0 -1 withscores
-zadd class 12 lily 13 lucy
-zremrangebyrank class 0 1#删除poly 和lily
-zrange class 0 -1 withscores
-zrem class lucy
-zrange class 0 -1 withscores
-zrem class lilei
-zrane class 0 -1 withscores
-zadd ty 25 zhangfei 27 guanyu 28 libei
-zcard ty 
-zadd ty 23 zhaoyun
-zcard ty
-zcoun ty 25 30
-flushdb
-zadd lisi 3 cat 5 dog 6 horse
-zadd wang 5 cat 6 dog 8 horse 1 donckey
-zinterstore result 2 lisi wang
-zrange result 0 -1 
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">响应类型</th>
+      <th style="text-align: left">用途</th>
+      <th style="text-align: left">示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>JSONResponse</strong></td>
+      <td style="text-align: left">默认响应，返回JSON数据</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return JSONResponse({"key": "value"})</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>HTMLResponse</strong></td>
+      <td style="text-align: left">返回HTML内容</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return HTMLResponse(html_content)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>PlainTextResponse</strong></td>
+      <td style="text-align: left">返回纯文本</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return PlainTextResponse("Hello, World!")</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>FileResponse</strong></td>
+      <td style="text-align: left">返回文件以供下载</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return FileResponse("/path/to/file.pdf")</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>StreamingResponse</strong></td>
+      <td style="text-align: left">用于流式传输数据</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return StreamingResponse(some_generator_function)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>RedirectResponse</strong></td>
+      <td style="text-align: left">将客户端重定向到指定URL</td>
+      <td style="text-align: left"><code class="highlighter-rouge">return RedirectResponse(url="https://example.com")</code></td>
+    </tr>
+  </tbody>
+</table>
 
-zinterstore result 2 lisi wang aggregate min
-zrange result 0 -1
-zinterstore result 2 lisi wang aggregate max
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42</pre></td><td class="code"><pre class="highlight"><code>
+# 返回HTML响应
+@app.get("/html",response_class=HTMLResponse)
+async def get_html():
+    html_content="""
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;</span>
+            <span class="nt">&lt;title&gt;</span>FastAPI HTML Response<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;/head&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+            <span class="nt">&lt;h1&gt;</span>Hello, FastAPI!<span class="nt">&lt;/h1&gt;</span>
+            <span class="nt">&lt;p&gt;</span>This is an HTML response.<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+    """
+    return HTMLResponse(content=html_content,status_code=200)
+# 返回文件响应
 
-zinterstore result 2 lisi wang weight 2 1 aggreagate max
-zrange result 0 -1 withscores
+@app.get("/file",response_class=FileResponse)
+async def get_file():
+    file_path="425.jpg"  # 确保该文件存在于项目根目录
+    return FileResponse(path=file_path)
 
-zinterstore result 2 lisi wang weights 2 1 aggregate sum 
-zrange result 0 -1 withscores
-</code></pre></td></tr></tbody></table></div></div>
-<h2 id="redis-事务">redis 事务</h2>
-<p>redis开启事务后，所有的执行语句先放入到队列中，如果想取消可以执行discard命令，但是如果执行exec后，在队列中的语句已经执行成功了，回滚不回来，不支持回滚</p>
+# 自定义响应数据格式
+class News(BaseModel):
+    id: int
+    title: str
+    content: str
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51</pre></td><td class="code"><pre class="highlight"><code>fulshdb
-set wang 200
-set zhao 700
-multi #开启事务
-decrby zhao 100
-incryby wang 100
-exec #执行成功
-multi #开启事务
-decryby zhao 100
-sdfa
-exec 执行错误
-mget zhao wang
-multi #开启事务
-decryby zhao 100
-sadd wang pig
-exec #执行错误
-multi #开启事务
-decrby zhao 100
-incrby wang 100
-discard #取消 
-#买票场景当车票只剩一张时，李四正在买票，redis开启事务，已经把修改车票和修改用户钱数的语句放到队列，还未执行exec，正在此时，王五把这张票买走了。
+@app.get(path="/news/{id}",response_model=News)
+async def get_news(id: int):
+    news_item=News(id=id,title=f"新闻标题{id}",content=f"这是新闻内容{id}")
+    return news_item
 
-flushdb
-set ticket 1
-set lisi 300
-set wang 300
-#李四买票
-multi
-decr ticket
-decrby lisi 100
-#exec尚未执行exec
-
-
-#王五买票成功了。
-decr ticket
-
-get ticket
-
-#李四开启watch买票
-set ticket 1
-watch ticket
-multi
-decr ticket
-decrby lisi 100
-#exec尚未执行，这时王五又执行了
-desc ticket
-get ticket
-
-watch key1 key2 key3#监听多个key
-unwatch #取消监听多个key
+# 自定义异常处理
+@app.get("/items/{item_id}")
+async def read_item(item_id: int):
+    id_list = range(1,6)
+    if item_id not in id_list:
+        raise HTTPException(status_code=404,detail="Item not found")
+    return {"item_id": item_id, "name": f"Item {item_id}"}
 
 </code></pre></td></tr></tbody></table></div></div>
-<h2 id="频道发布与消息订阅">频道发布与消息订阅</h2>
 
-<p>服务端</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>publish news "today is sunshine"
-publish news "still sunshine"
-publish news "away sunshine"
-publish news "thress"
-publish newstop "four"
+<h2 id="中间件">中间件</h2>
+<p>中间件(Middleware)是一个在每次请求进入FastAPI应用时都会被执行的函数。
+它在请求到达实际的路径操作（路由处理函数）之前运行，并且在响应返回给客户端之前在运行一次</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22</pre></td><td class="code"><pre class="highlight"><code>        请求进入            传递请求               传递请求
+        ------&gt;            ------&gt;              ------&gt; 
+客户端             中间件A              中间件B                 路由处理函数
+                                  
+        &lt;------            &lt;------              &lt;------        
+        返回响应             传递响应              返回响应        
+
+# 中间件示例
+# 中间件请求执行顺序是从下到上，响应执行顺序是从上到下
+@app.middleware("http")
+async def add_process_time_header(request, call_next):
+    print("11Processing time header")
+    response = await call_next(request)
+    print("11After response") 
+    return response
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"22Request URL: {request.url}")
+    response = await call_next(request)
+    print(f"22Response status code: {response.status_code}")
+    return response 
 </code></pre></td></tr></tbody></table></div></div>
-<p>客户端1</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>subscribe news
-</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
-<p>客户端2</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>subscribe news
-</code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>psubscribe new*
+
+<h2 id="依赖注入">依赖注入</h2>
+
+<p>使用依赖逐日系统来共享通用逻辑，减少代码重复。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code># 依赖注入
+async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
+    return {"q": q, "skip": skip, "limit": limit}
+
+@app.get("/depends/news_list")
+async def get_news_list(common: dict = Depends(common_parameters)):
+    page = common
+    data = [{"id":1,"title":"新闻1"},{"id":2,"title":"新闻2"}]
+    return {"page": page, "data": data}
+
+@app.get("/depends/user_list")
+async def get_user_list(common = Depends(common_parameters)):
+    page = common
+    data =  [{"id":1,"name":"用户1"},{"id":2,"name":"用户2"}]
+    return {"page": page, "data": data}
 </code></pre></td></tr></tbody></table></div></div>
-<h2 id="redis和memcached相比的独特之处">redis和memcached相比的独特之处</h2>
 
-<p>1、redis可以用来做存储(storage)，而memcached是用来做缓存(cache)，这个特点主要因为其有持久化的功能
-2、存储的数据有“结构”，对于memcached来说，存储的数据，只有1种类型“字符串”，而redis则可以存储字符串、链表、哈希结构、集合、有序集合</p>
+<h2 id="mainpy">main.py</h2>
 
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127</pre></td><td class="code"><pre class="highlight"><code>
+from fastapi import FastAPI , Path, Query, HTTPException, Depends
+from pydantic import BaseModel,Field
+from fastapi.responses import HTMLResponse, FileResponse
+
+app = FastAPI()
+
+# 中间件示例
+# 中间件请求执行顺序是从下到上，响应执行顺序是从上到下
+@app.middleware("http")
+async def add_process_time_header(request, call_next):
+    print("11Processing time header")
+    response = await call_next(request)
+    print("11After response") 
+    return response
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"22Request URL: {request.url}")
+    response = await call_next(request)
+    print(f"22Response status code: {response.status_code}")
+    return response
+
+
+
+
+@app.get("/")
+async def root():
+    return {"Hello": "World"}
+
+@app.get("/hello")
+async def get_hello():
+    return {"msg":"你好 FastAPI"}
+
+# 路径参数
+@app.get("/hello/{name}")
+async def say_hello(name: str):
+    return {"Hello": name}
+# 路径参数注解
+@app.get("/book/{id}")
+async def get_book(id: int):
+    return {"id":id,"title":f"这是第{id}本书"}
+
+# 路径参数加Path注解和验证
+@app.get("/new/cat/id/{id}")
+async def get_new_cat_id(id: int=Path(default=...,ge=1,le=100)):
+    return {"id":id,"title":f"新闻分类ID为{id}"}
+
+@app.get("/new/cat/name/{name}")
+async def get_new_cat_name(name: str=Path(default=...,min_length=2,max_length=5)):
+    return {"name":name,"title":f"新闻分类名称为{name}"}
+
+# 查询参数加Query注解和验证
+@app.get("/news/news_list")
+async def get_news_list(
+    skip: int=Query(0,description="跳过的记录数",lt=100), 
+    limit: int=Query(10,description="返回的记录数",gt=0,le=50)
+    ):
+    return {"skip": skip, "limit": limit}
+
+# 导入pydantic中的BaseModel请求体参数和Field注解和验证
+class User(BaseModel):
+    username: str=Field(default="张三",min_length=2,max_length=10,description="用户名，长度2-10")
+    password: str=Field(min_length=6,max_length=20,description="密码，长度6-20")
+
+
+@app.post("/register")
+async def register(user: User):
+    return user
+
+# 返回HTML响应
+@app.get("/html",response_class=HTMLResponse)
+async def get_html():
+    html_content="""
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;</span>
+            <span class="nt">&lt;title&gt;</span>FastAPI HTML Response<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;/head&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+            <span class="nt">&lt;h1&gt;</span>Hello, FastAPI!<span class="nt">&lt;/h1&gt;</span>
+            <span class="nt">&lt;p&gt;</span>This is an HTML response.<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+    """
+    return HTMLResponse(content=html_content,status_code=200)
+# 返回文件响应
+
+@app.get("/file",response_class=FileResponse)
+async def get_file():
+    file_path="425.jpg"  # 确保该文件存在于项目根目录
+    return FileResponse(path=file_path)
+
+# 自定义响应数据格式
+class News(BaseModel):
+    id: int
+    title: str
+    content: str
+
+@app.get(path="/news/{id}",response_model=News)
+async def get_news(id: int):
+    news_item=News(id=id,title=f"新闻标题{id}",content=f"这是新闻内容{id}")
+    return news_item
+
+# 自定义异常处理
+@app.get("/items/{item_id}")
+async def read_item(item_id: int):
+    id_list = range(1,6)
+    if item_id not in id_list:
+        raise HTTPException(status_code=404,detail="Item not found")
+    return {"item_id": item_id, "name": f"Item {item_id}"}
+
+# 依赖注入
+async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
+    return {"q": q, "skip": skip, "limit": limit}
+
+@app.get("/depends/news_list")
+async def get_news_list(common: dict = Depends(common_parameters)):
+    page = common
+    data = [{"id":1,"title":"新闻1"},{"id":2,"title":"新闻2"}]
+    return {"page": page, "data": data}
+
+@app.get("/depends/user_list")
+async def get_user_list(common = Depends(common_parameters)):
+    page = common
+    data =  [{"id":1,"name":"用户1"},{"id":2,"name":"用户2"}]
+    return {"page": page, "data": data}
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="swagger-api">Swagger API</h2>
+
+<p><img src="/assets/images/python/fastapi-swagger.png" width="100%" /></p>
+
+<h2 id="vscode-debug">VSCode debug</h2>
+
+<p><img src="/assets/images/python/fastapi-vscode-debug.png" width="100%" /></p>
 
 
       
@@ -825,6 +1027,16 @@ publish newstop "four"
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/Python" rel="tag"># Python</a>
+          
+            
+            <a href="/tag/#/fastapi" rel="tag"># fastapi</a>
+          
+        </div>
+      
 
       
       
@@ -837,18 +1049,14 @@ publish newstop "four"
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/redis/nginx/memcached/2021/01/25/Redis-nginx-memchached/" rel="next" title="Redis nginx memcached">
-                <i class="fa fa-chevron-left"></i> Redis nginx memcached
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/php/laravel/2021/01/23/laravel-install/" rel="prev" title="Laravel 安装">
-                Laravel 安装 <i class="fa fa-chevron-right"></i>
+              <a href="/python/2026/01/09/Python-pyenv/" rel="prev" title="Python pyenv版本管理工具">
+                Python pyenv版本管理工具 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1021,7 +1229,7 @@ publish newstop "four"
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#版本"> <span class="nav-number">1</span> <span class="nav-text">版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis安装"> <span class="nav-number">2</span> <span class="nav-text">redis安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#启动"> <span class="nav-number">3</span> <span class="nav-text">启动</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#复制redis源码中的配置文件"> <span class="nav-number">3.1</span> <span class="nav-text">复制redis源码中的配置文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#启动redis服务"> <span class="nav-number">3.2</span> <span class="nav-text">启动redis服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#redis后台运行服务"> <span class="nav-number">3.3</span> <span class="nav-text">redis后台运行服务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#五大value"> <span class="nav-number">4</span> <span class="nav-text">五大Value</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#string字符串类型的操作"> <span class="nav-number">4.1</span> <span class="nav-text">String字符串类型的操作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#list链表"> <span class="nav-number">4.2</span> <span class="nav-text">List链表</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#位图法统计活跃用户3天连续登录"> <span class="nav-number">5</span> <span class="nav-text">位图法统计活跃用户3天连续登录</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#hash"> <span class="nav-number">5.1</span> <span class="nav-text">Hash</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#set"> <span class="nav-number">5.2</span> <span class="nav-text">Set</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#zset"> <span class="nav-number">5.3</span> <span class="nav-text">ZSet</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis-事务"> <span class="nav-number">6</span> <span class="nav-text">redis 事务</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#频道发布与消息订阅"> <span class="nav-number">7</span> <span class="nav-text">频道发布与消息订阅</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#redis和memcached相比的独特之处"> <span class="nav-number">8</span> <span class="nav-text">redis和memcached相比的独特之处</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#python环境"> <span class="nav-number">1</span> <span class="nav-text">python环境</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python-版本"> <span class="nav-number">1.1</span> <span class="nav-text">python 版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#pip版本"> <span class="nav-number">1.2</span> <span class="nav-text">pip版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python3虚拟环境"> <span class="nav-number">1.3</span> <span class="nav-text">python3虚拟环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#在虚拟环境安装运行fastapi服务工具"> <span class="nav-number">1.4</span> <span class="nav-text">在虚拟环境安装运行fastapi服务工具。</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#fastapi-命令行工具"> <span class="nav-number">1.4.1</span> <span class="nav-text">fastapi 命令行工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#uvicorn-命令行工具"> <span class="nav-number">1.4.2</span> <span class="nav-text">uvicorn 命令行工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vscode运行和调试"> <span class="nav-number">1.5</span> <span class="nav-text">VSCode运行和调试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#fastpai"> <span class="nav-number">2</span> <span class="nav-text">FASTPAI</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#依赖"> <span class="nav-number">2.1</span> <span class="nav-text">依赖</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#将当前虚拟环境的依赖输出到requirementtxt"> <span class="nav-number">2.2</span> <span class="nav-text">将当前虚拟环境的依赖输出到requirement.txt。</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#fastapi基础入门"> <span class="nav-number">3</span> <span class="nav-text">FastAPI基础入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#第一个fastapi程序"> <span class="nav-number">3.1</span> <span class="nav-text">第一个FastAPI程序</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#路由请求"> <span class="nav-number">3.2</span> <span class="nav-text">路由请求</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#路径参数path"> <span class="nav-number">3.2.1</span> <span class="nav-text">路径参数path</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#查询参数"> <span class="nav-number">3.2.2</span> <span class="nav-text">查询参数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#请求体参数"> <span class="nav-number">3.2.3</span> <span class="nav-text">请求体参数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#路由响应"> <span class="nav-number">3.3</span> <span class="nav-text">路由响应</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#中间件"> <span class="nav-number">3.4</span> <span class="nav-text">中间件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#依赖注入"> <span class="nav-number">3.5</span> <span class="nav-text">依赖注入</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mainpy"> <span class="nav-number">3.6</span> <span class="nav-text">main.py</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#swagger-api"> <span class="nav-number">3.7</span> <span class="nav-text">Swagger API</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vscode-debug"> <span class="nav-number">3.8</span> <span class="nav-text">VSCode debug</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
@@ -1215,7 +1423,7 @@ publish newstop "four"
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/nosql/redis/2021/01/23/redis-learning/',
+        id: '/fastapi/2026/01/13/Fastapi-learning/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false
