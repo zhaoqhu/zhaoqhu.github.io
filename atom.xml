@@ -1,4 +1,521 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-01-13T01:26:37+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">FastAPI框架学习</title><link href="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/" rel="alternate" type="text/html" title="FastAPI框架学习" /><published>2026-01-13T00:00:00+08:00</published><updated>2026-01-13T00:00:00+08:00</updated><id>http://localhost:4000/fastapi/2026/01/13/Fastapi-learning</id><content type="html" xml:base="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">&lt;p&gt;在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-01-15T14:17:09+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">FastAPI-ORM</title><link href="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/" rel="alternate" type="text/html" title="FastAPI-ORM" /><published>2026-01-15T00:00:00+08:00</published><updated>2026-01-15T00:00:00+08:00</updated><id>http://localhost:4000/fastapi/2026/01/15/fastapi-orm</id><content type="html" xml:base="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/">&lt;p&gt;sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。
+aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.&lt;/p&gt;
+
+&lt;h1 id=&quot;python环境&quot;&gt;python环境&lt;/h1&gt;
+&lt;h2 id=&quot;python-版本&quot;&gt;python 版本&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% python3 --version
+Python 3.13.10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;pip版本&quot;&gt;pip版本&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; pip3 --version
+pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;python3虚拟环境&quot;&gt;python3虚拟环境&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;创建虚拟环境
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -m venv venv 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;激活虚拟环境
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source venv/bin/activate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;在虚拟环境工作&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# source ./venv/bin/activate
+# deactivate
+(venv) # pip --version
+pip 25.3 /fastapi/venv/lib/python3.13/site-packages/pip (python 3.13)
+(venv) # python --version
+Python 3.13.10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;退出虚拟环境
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;deactivate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;在虚拟环境安装运行fastapi服务工具&quot;&gt;在虚拟环境安装运行fastapi服务工具。&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install &quot;fastapi[standard]&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;fastapi-命令行工具&quot;&gt;fastapi 命令行工具&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;使用 fastapi工具运行fastapi服务
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# fastapi dev main.py 
+# 命令
+dev      Run a FastAPI app in development mode.
+│ run      Run a FastAPI app in production mode.
+│ deploy   Deploy a FastAPI app to FastAPI Cloud.
+│ login    Login to FastAPI Cloud.
+│ cloud    Manage FastAPI Cloud deployments.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;uvicorn-命令行工具&quot;&gt;uvicorn 命令行工具&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;使用 uvicorn高兴能服务器工具运行fastapi
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;uvicorn main:app --reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;vscode运行和调试&quot;&gt;VSCode运行和调试&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;vscode/launch.json
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  // 使用 IntelliSense 了解相关属性。 
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  &quot;version&quot;: &quot;0.2.0&quot;,
+  &quot;configurations&quot;: [
+      {
+          &quot;name&quot;: &quot;Python Debugger: FastAPI&quot;,
+          &quot;type&quot;: &quot;debugpy&quot;,
+          &quot;request&quot;: &quot;launch&quot;,
+          &quot;module&quot;: &quot;uvicorn&quot;,
+          &quot;python&quot;:&quot;/Users/zhaoqinghu/dev_docker/fastapi-1/venv/bin/python3&quot;, // 请根据你的虚拟环境路径进行修改
+          &quot;args&quot;: [
+              &quot;main:app&quot;,
+              &quot;--reload&quot;
+          ],
+          &quot;jinja&quot;: true
+      }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;h1 id=&quot;fastpai-orm&quot;&gt;FASTPAI-ORM&lt;/h1&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;orm简介&quot;&gt;ORM简介&lt;/h2&gt;
+&lt;p&gt;ORM(OBJECT-RelationMapping，对象关系映射)是一种编程技术，用于面向对象编程语言和
+关系型数据库之间建立映射。允许开发者通过操作对象的方式和数据交互，而无需直接编写复杂的SQL语句。
+ORM分类&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;排名     ORM工具             特点                         适应场景
+1       SQLAlchemy ORM      功能最强，最灵活，企业级        各类API、微服务、数据应用
+2       Django ORM          封装好、上手快                 Django项目、管理后台
+3       Tortose ORM         全异步                       异步Web服务、高并发API
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;安装sqlalchemy和aiomysql异步数据库驱动&quot;&gt;安装sqlalchemy和aiomysql（异步数据库驱动）&lt;/h2&gt;
+
+&lt;p&gt;FastAPI异步框架必须安装”sqlalchemy[asyncio]”来支持异步。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pypi.org/project/SQLAlchemy/&quot;&gt;sqlalchemy&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pypi.org/project/aiomysql/&quot;&gt;aiomysql&lt;/a&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pip install &quot;sqlalchemy[asyncio]&quot;
+//不支持异步
+# pip install &quot;sqlalchemy&quot;
+# pip install aiomysql             
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;orm-建表&quot;&gt;ORM-建表&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;创建数据库引擎&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+
+ASYNC_DATABASE_URL = &quot;mysql+aiomysql://root:CXqwr12_@localhost:13306/fastapi_first?charset=utf8mb4&quot;
+async_engine = create_async_engine(
+    ASYNC_DATABASE_URL,
+    echo=True,  #可选，输出SQL日志
+    pool_size=10, #连接池大小
+    max_overflow=20, #超出连接池大小外最多创建的连接数
+    pool_timeout=30, #连接池中没有可用连接时，等待获取连接的最长时间
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;定义模型类&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+# 2.定义模型类：基类+表对应的模型类
+# 基类：创建时间、更新时间；书籍表：id、书名、作者、价格、出版社
+
+class Base(DeclarativeBase):
+    create_time: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(),default=func.now(),comment=&quot;创建时间&quot;)
+    update_time: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(), default=func.now(), onupdate=func.now(),comment=&quot;更新时间&quot;)
+class Book(Base):
+    __tablename__ = &quot;books&quot;
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True,comment=&quot;书籍id&quot;)
+    bookname: Mapped[str] = mapped_column(String(255),comment=&quot;书名&quot;)
+    author: Mapped[str] = mapped_column(String(255),comment=&quot;作者&quot;)
+    price: Mapped[float] = mapped_column(Float,comment=&quot;价格&quot;)
+    publisher: Mapped[str] = mapped_column(String(255),comment=&quot;出版社&quot;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;启动应用时建表&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+# 3.定义函数建表 -&amp;gt;FastAPI启动时调用
+async def create_tables():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
+@app.on_event(&quot;startup&quot;)
+async def startup_event():
+    await create_tables()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;orm-在路由中使用&quot;&gt;ORM-在路由中使用&lt;/h2&gt;
+&lt;p&gt;核心：创建依赖项，使用Depends注入到处理函数&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 需求：查询功能的接口，查询图书-&amp;gt;依赖注入：创建依赖获取数据库会话+Depends注入路由处理函数
+AsyncSessionLocal = async_sessionmaker(
+    bind=async_engine, #绑定数据库引擎
+    class_=AsyncSession, #指定会话类
+    expire_on_commit=False #提交后不失效
+)
+# 创建依赖获取数据库会话
+async def get_database():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session #返回数据库会话路由处理函数
+            await session.commit() #提交事务
+        except Exception as e: 
+            await session.rollback() # 有异常回滚
+            raise e
+        finally:
+            await session.close()   #关闭会话
+
+# 路由中使用依赖注入
+@app.get(&quot;/book/books&quot;)
+async def get_book_list(db: AsyncSession = Depends(get_database)):
+    result = await db.execute(
+       select(Book) 
+    )
+    books = result.scalars().all()
+    return books
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;数据库操作---查询&quot;&gt;数据库操作 - 查询&lt;/h2&gt;
+
+&lt;p&gt;核心语句：await db.execute( select(模型类))，返回一个ORM&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;获取所有数据&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scalars().all()
+*获取单条数据
+scalars().first()
+get(模型类,主键值)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;数据库操作---查询条件&quot;&gt;数据库操作 - 查询条件&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;比较判断：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;==|&amp;gt;|&amp;lt;|&amp;gt;=|&amp;lt;=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;orm查询总结&quot;&gt;ORM查询总结&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;select()-&amp;gt;db.execute()-&amp;gt;从对象获取数据-&amp;gt;响应结果
+db.get(模型类，主键值)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;条件查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;比较判断、模糊查询like()、与非查询：&amp;amp; | ~、包含查询：in_()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;聚合查询func&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;count()
+max()
+avg()
+sum()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;分页查询&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;select().offset().limit()
+offset值 = (当前页面-1)*每页数量
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;从ORM对象获取数据的方式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;获取所有数据&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scalars().all()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;获取单条数据&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//提取第一个数据
+scalars.first() 
+//提取一个或null
+scalar_one_or_none()
+//提取标量值(配合聚合查询使用)
+scalar()
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;数据库操作-新增&quot;&gt;数据库操作-新增&lt;/h2&gt;
+
+&lt;p&gt;核心步骤：定义ORM对象-&amp;gt;添加对象到事务: add(对象)-&amp;gt;commit 提交到数据库&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;数据库操作-修改&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;数据库操作-删除&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;面向对象的方式操作数据库不写SQL啦
+企业应用最多、社区最活跃的SQLAlchemy ORM。&lt;/p&gt;
+
+&lt;h2 id=&quot;mainpy&quot;&gt;main.py&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import datetime
+from fastapi import FastAPI , Path, Query, HTTPException, Depends
+from pydantic import BaseModel,Field
+from fastapi.responses import HTMLResponse, FileResponse
+from sqlalchemy import DateTime, Float, String, func, select
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from typing import List
+app = FastAPI()
+
+# 1.创建异步数据库引擎
+ASYNC_DATABASE_URL = &quot;mysql+aiomysql://root:CXqwr12_@localhost:13306/fastapi_first?charset=utf8mb4&quot;
+async_engine = create_async_engine(
+    ASYNC_DATABASE_URL,
+    echo=True,  #可选，输出SQL日志
+    pool_size=10, #连接池大小
+    max_overflow=20, #超出连接池大小外最多创建的连接数
+    pool_timeout=30, #连接池中没有可用连接时，等待获取连接的最长时间
+)
+
+
+
+# 2.定义模型类：基类+表对应的模型类
+# 基类：创建时间、更新时间；书籍表：id、书名、作者、价格、出版社
+
+class Base(DeclarativeBase):
+    create_time: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(),default=func.now(),comment=&quot;创建时间&quot;)
+    update_time: Mapped[datetime] = mapped_column(DateTime, insert_default=func.now(), default=func.now(), onupdate=func.now(),comment=&quot;更新时间&quot;)
+class Book(Base):
+    __tablename__ = &quot;books&quot;
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True,comment=&quot;书籍id&quot;)
+    bookname: Mapped[str] = mapped_column(String(255),comment=&quot;书名&quot;)
+    author: Mapped[str] = mapped_column(String(255),comment=&quot;作者&quot;)
+    price: Mapped[float] = mapped_column(Float,comment=&quot;价格&quot;)
+    publisher: Mapped[str] = mapped_column(String(255),comment=&quot;出版社&quot;)
+
+
+# 3.定义函数建表 -&amp;gt;FastAPI启动时调用
+async def create_tables():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
+@app.on_event(&quot;startup&quot;)
+async def startup_event():
+    await create_tables()
+
+
+
+# 中间件示例
+# 中间件请求执行顺序是从下到上，响应执行顺序是从上到下
+@app.middleware(&quot;http&quot;)
+async def add_process_time_header(request, call_next):
+    print(&quot;11Processing time header&quot;)
+    response = await call_next(request)
+    print(&quot;11After response&quot;) 
+    return response
+
+@app.middleware(&quot;http&quot;)
+async def log_requests(request, call_next):
+    print(f&quot;22Request URL: {request.url}&quot;)
+    response = await call_next(request)
+    print(f&quot;22Response status code: {response.status_code}&quot;)
+    return response
+
+
+
+
+@app.get(&quot;/&quot;)
+async def root():
+    return {&quot;Hello&quot;: &quot;ORM&quot;}
+
+
+# 需求：查询功能的接口，查询图书-&amp;gt;依赖注入：创建依赖获取数据库会话+Depends注入路由处理函数
+AsyncSessionLocal = async_sessionmaker(
+    bind=async_engine, #绑定数据库引擎
+    class_=AsyncSession, #指定会话类
+    expire_on_commit=False #提交后不失效
+)
+# 创建依赖获取数据库会话
+async def get_database():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session #返回数据库会话路由处理函数
+            await session.commit() #提交事务
+        except Exception as e: 
+            await session.rollback() # 有异常回滚
+            raise e
+        finally:
+            await session.close()   #关闭会话
+
+
+# 查询所有书籍
+@app.get(&quot;/book/books&quot;)
+async def get_books(db: AsyncSession = Depends(get_database)):
+    result = await db.execute(select(Book))
+    books = result.scalars().all()
+    return books
+
+
+#  查询单本书籍
+@app.get(&quot;/book/book&quot;)
+async def get_book(db: AsyncSession = Depends(get_database)):
+    # 方式一
+    ##result = await db.execute(select(Book))
+    #book = result.scalars().first()
+    # 方式二
+    book = await db.get(Book, 2)  
+    return book
+
+
+# 通过id查询书籍
+@app.get(&quot;/book/get_book{book_id}&quot;)
+async def get_book(book_id: int, db: AsyncSession = Depends(get_database)):
+    result = await db.execute(select(Book).where(Book.id == book_id))
+    books = result.scalars().one_or_none()
+    return books
+
+
+# 价格大于10的书籍
+@app.get(&quot;/book/search_book/&quot;)
+async def search_books(db: AsyncSession = Depends(get_database)):
+    result = await db.execute(select(Book).where(Book.price &amp;gt; 10))
+    books = result.scalars().all()
+    return books
+
+
+# 模糊查询作者以曹开头的书籍和价格大于等于200的书籍
+@app.get(&quot;/book/search_books_like&quot;)
+async def search_books_like(db: AsyncSession = Depends(get_database)):
+    result = await db.execute(select(Book).where(
+        # &amp;amp; | ~，逻辑与、逻辑或、逻辑非
+        (Book.author.like(&quot;曹%&quot;)) &amp;amp; (Book.price &amp;gt;= 200)
+    ))
+    books = result.scalars().all()
+    return books
+
+# 查询id在指定列表内的书籍
+@app.get(&quot;/book/search_books_in&quot;)
+async def search_books_in(db: AsyncSession = Depends(get_database)):
+    
+    id_list = [1,3,5,7]
+    result = await db.execute(select(Book).where(
+        (Book.id.in_(id_list))
+    ))
+    books = result.scalars().all()
+    return books
+
+# 聚合查询function
+@app.get(&quot;/books/func&quot;)
+async def search_books_in(db: AsyncSession = Depends(get_database)):
+    result = await db.execute(select(func.count(Book.id)))
+    books = result.scalar()
+    return books
+
+
+# 分页查询
+@app.get(&quot;/books/pages&quot;)
+async def search_books_in(page:int = 1,size:int = 1,db: AsyncSession = Depends(get_database)):
+    offset = (page -1)*size
+    limit = size
+    result = await db.execute(select(Book).offset(offset).limit(limit))
+    books = result.scalars().all()
+    return books
+
+
+class BookBase(BaseModel):
+    bookname: str = Field(..., example=&quot;Sample Book&quot;)
+    author: str = Field(..., example=&quot;John Doe&quot;)
+    price: float = Field(..., example=19.99)
+    publisher: str = Field(..., example=&quot;Sample Publisher&quot;)
+
+# 创建单本书籍
+@app.post(&quot;/book/add_book&quot;)
+async def add_book(book: BookBase, db: AsyncSession = Depends(get_database)):
+    db.add(Book(**book.dict()))
+    await db.commit()
+    return {&quot;message&quot;: &quot;Book created successfully&quot;}
+
+
+# 创建多本书籍
+@app.post(&quot;/book/add_books&quot;)
+async def add_books(books: List[BookBase], db: AsyncSession = Depends(get_database)):
+    for book in books:
+        db.add(Book(**book.dict()))
+    await db.commit()
+    return {&quot;message&quot;: &quot;Books created successfully&quot;}
+
+
+# 更新书籍信息
+
+class BookUpdate(BaseModel):
+    bookname: str = Field(..., example=&quot;Updated Book&quot;)
+    author: str = Field(..., example=&quot;Updated Author&quot;)
+    price: float = Field(..., example=29.99)
+    publisher: str = Field(..., example=&quot;Updated Publisher&quot;)
+
+@app.put(&quot;/book/update_book/{book_id}&quot;)
+async def update_book(book_id: int,data: BookUpdate, db: AsyncSession = Depends(get_database)):
+    book = await db.get(Book, book_id)
+
+    if book is None:
+        raise HTTPException(status_code=404, detail=&quot;Book not found&quot;)
+    
+    book.bookname = data.bookname
+    book.author = data.author
+    book.price = data.price
+    book.publisher = data.publisher 
+    await db.commit()
+    return {&quot;message&quot;: &quot;Book updated successfully&quot;}
+
+# 删除书籍
+@app.delete(&quot;/book/delete_book/{book_id}&quot;)
+async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
+    book = await db.get(Book, book_id)
+
+    if book is None:
+        raise HTTPException(status_code=404, detail=&quot;Book not found&quot;)
+    
+    await db.delete(book)
+    await db.commit()
+    return {&quot;message&quot;: &quot;Book deleted successfully&quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="fastapi" /><category term="Python" /><category term="fastapi" /><category term="orm" /><summary type="html">sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。 aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.</summary></entry><entry><title type="html">FastAPI框架学习</title><link href="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/" rel="alternate" type="text/html" title="FastAPI框架学习" /><published>2026-01-13T00:00:00+08:00</published><updated>2026-01-13T00:00:00+08:00</updated><id>http://localhost:4000/fastapi/2026/01/13/Fastapi-learning</id><content type="html" xml:base="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">&lt;p&gt;在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。&lt;/p&gt;
 &lt;h1 id=&quot;python环境&quot;&gt;python环境&lt;/h1&gt;
 &lt;h2 id=&quot;python-版本&quot;&gt;python 版本&lt;/h2&gt;
 
@@ -2927,74 +3444,4 @@ x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，�
 
 &lt;h3 id=&quot;explain命令有什么用&quot;&gt;Explain命令有什么用&lt;/h3&gt;
 
-&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="mysql" /><summary type="html">MySQL</summary></entry><entry><title type="html">Go Redis学习笔记</title><link href="http://localhost:4000/go/2025/09/23/go-redis-note/" rel="alternate" type="text/html" title="Go Redis学习笔记" /><published>2025-09-23T00:00:00+08:00</published><updated>2025-09-23T00:00:00+08:00</updated><id>http://localhost:4000/go/2025/09/23/go-redis-note</id><content type="html" xml:base="http://localhost:4000/go/2025/09/23/go-redis-note/">&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/redis/go-redis/v9
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;使用例子&quot;&gt;使用例子&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;context&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;fmt&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;log&quot;&lt;/span&gt;
-	&lt;span class=&quot;s2&quot;&gt;&quot;time&quot;&lt;/span&gt;
-
-	&lt;span class=&quot;s2&quot;&gt;&quot;github.com/redis/go-redis/v9&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NewClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;     &lt;span class=&quot;s2&quot;&gt;&quot;localhost:16379&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;CXqwr12_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;no&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;          &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DB&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;redis connect success:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;set key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;Set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;redis-go-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;160&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Second&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hash-value3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;panic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;get key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Del&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HDel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;go-redis-hash-key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;field2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;!= nil {
-&lt;/span&gt;		&lt;span class=&quot;nb&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;delete key failed,err:%v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HDel deleted is &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctx&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/redis/go-redis&quot; target=&quot;_blank&quot;&gt;https://github.com/redis/go-redis&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://redis.uptrace.dev/zh/&quot; target=&quot;_blank&quot;&gt;https://redis.uptrace.dev/zh/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&quot; target=&quot;_blank&quot;&gt;https://pkg.go.dev/github.com/redis/go-redis/v9@v9.14.0#section-readme&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="Go" /><summary type="html">安装 ``` go get github.com/redis/go-redis/v9</summary></entry></feed>
+&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="mysql" /><summary type="html">MySQL</summary></entry></feed>
