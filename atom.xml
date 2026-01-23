@@ -1,4 +1,197 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-01-15T14:17:09+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">FastAPI-ORM</title><link href="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/" rel="alternate" type="text/html" title="FastAPI-ORM" /><published>2026-01-15T00:00:00+08:00</published><updated>2026-01-15T00:00:00+08:00</updated><id>http://localhost:4000/fastapi/2026/01/15/fastapi-orm</id><content type="html" xml:base="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/">&lt;p&gt;sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-01-23T14:43:13+08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Python面试</title><link href="http://localhost:4000/python/2026/01/16/python-mianshi/" rel="alternate" type="text/html" title="Python面试" /><published>2026-01-16T00:00:00+08:00</published><updated>2026-01-16T00:00:00+08:00</updated><id>http://localhost:4000/python/2026/01/16/python-mianshi</id><content type="html" xml:base="http://localhost:4000/python/2026/01/16/python-mianshi/">&lt;ul&gt;
+  &lt;li&gt;1.列表List和元组Tuple有什么区别？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;定义方式不一样，列表[]，元组()，定义后列表可以动态改变元素，元组不可以改变元素。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 列表可变
+lst = [1, 2, 3]
+lst.append(4)  # [1, 2, 3, 4]
+
+# 元组不可变
+tup = (1, 2, 3)
+new_tup = tup + (4,)  # 创建新元组 (1, 2, 3, 4)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.装饰器Decorator是什么？如何使用？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在不修改原函数代码的前提下，动态扩展函数功能的工具。使用场景：日志记录、权限校验、性能监控等。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from functools import wraps
+
+def log_decorator(func):
+    @wraps(func)  # 保留原函数元信息
+    def wrapper(*args, **kwargs):
+        print(f&quot;调用 {func.__name__}&quot;)
+        result = func(*args, **kwargs)
+        print(f&quot;{func.__name__} 执行完毕&quot;)
+        return result
+    return wrapper
+
+@log_decorator
+def greet(name):
+    print(f&quot;Hello, {name}!&quot;)
+
+greet(&quot;Alice&quot;)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;2.1 输出
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;调用 greet
+Hello, Alice!
+greet 执行完毕
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;3.生成器Generator是什么？如何使用？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;定义：通过 yield关键字逐次生成值的函数，支持惰性计算（按需生成）。
+优势：节省内存（适合大数据流）、支持状态保持。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 生成器函数
+def count_up_to(n):
+    i = 0
+    while i &amp;lt; n:
+        yield i
+        i += 1
+
+gen = count_up_to(3)
+print(list(gen))  # [0, 1, 2]
+
+# 生成器表达式
+squares = (x**2 for x in range(5))
+print(list(squares))  # [0, 1, 4, 9, 16]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;4.with语句是如何工作的？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;with语句，用于简化资源管理，确保在使用完资源后正确释放。它通常用于文件操作、数据库连接等场景。with语句会自动调用对象的__enter__和__exit__方法。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;with open('example.txt','r') as file:
+    content = file.read()
+    print(content)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;5.*args和**kwargs是什么？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;*args用于接受任意数量的位置参数（非关键字参数），通常以元组形式传递。
+**kwargs用于接收任意数量的关键字参数（键值对形式的参数），通常以字典形式传递。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def func(a, *args, b=2, **kwargs):
+    print(f&quot;a: {a}, args: {args}, b: {b}, kwargs: {kwargs}&quot;)
+
+func(1, 3, 4, b=5, c=6, d=7)
+# 将多个位置参数转换成元组，将多个键值对参数转换成字典。
+# 输出: a: 1, args: (3, 4), b: 5, kwargs: {'c': 6, 'd': 7}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;6.GIL全局解释器锁是什么？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;GIL（Global Interpreter Lock）是CPython解释器中的一个互斥锁，确保同一时间只有一个线程执行Python字节码。&lt;/p&gt;
+
+&lt;p&gt;uvicorn启动四个worker，是4个进程吗？这四个进程中每个进程有一个线程吗？每一个Http请求都会当做是一个协程吗？然后在worker中的线程上执行吗？&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Uvicorn 运行 FastAPI 异步框架通过 多进程模型​ 和 协程调度​ 突破 Python GIL 限制，实现高并发。其核心机制如下
+1. GIL 限制的突破
+多进程并行：
+Uvicorn 通过启动多个 Worker 进程（--workers参数），每个进程拥有独立的 Python 解释器和 GIL，可并行处理 CPU 密集型任务（如模型推理），充分利用多核 CPU。
+异步协程：
+在单线程内，协程通过 async/await实现非阻塞 I/O 操作（如数据库查询），避免线程阻塞，提升 I/O 密集型任务的吞吐量
+
+2.
+1. CPU 密集型任务的局限性
+纯异步无法突破 GIL：若任务涉及大量 CPU 计算（如图像处理），即使使用协程，仍受限于单线程的 GIL。
+解决方案：
+多进程：通过 multiprocessing或 Uvicorn 多 Worker 分配任务到不同进程。
+C 扩展：将计算密集型代码用 C/C++ 编写，绕过 GIL（如 NumPy、Cython）。
+2. 混合并发模型
+from fastapi import FastAPI
+from concurrent.futures import ProcessPoolExecutor
+
+app = FastAPI()
+pool = ProcessPoolExecutor(max_workers=4)
+
+@app.get(&quot;/cpu-heavy&quot;)
+async def cpu_task():
+    # 提交 CPU 密集型任务到进程池
+    result = await app.state.loop.run_in_executor(pool, heavy_computation)
+    return {&quot;result&quot;: result}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;7.__init__和__new__有什么区别？
+在类的实例化时会默认调用__init__和__new__这两个方法，一般情况下不需要重写是吗？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+class Person:
+    def __new__(cls, *args, **kwargs):
+        print(&quot;创建实例&quot;)
+        instance = super().__new__(cls)
+        return instance
+    
+    def __init__(self, name):
+        print(&quot;初始化属性&quot;)
+        self.name = name
+
+p = Person(&quot;Alice&quot;)
+# 输出:
+# 创建实例
+# 初始化属性
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;8.lambda函数是什么？如何使用？
+定义：匿名函数，用于简单逻辑（单行表达式）。
+语法：lambda 参数: 表达式
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 排序字典列表
+students = [{&quot;name&quot;: &quot;Bob&quot;, &quot;age&quot;: 20}, {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 18}]
+students.sort(key=lambda x: x[&quot;age&quot;])
+print(students)  # 按年龄升序排列
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;9.map、filter和reduce函数是什么？如何使用？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;函数​               功能​                                   代码示例​
+
+map                 对可迭代对象每个元素应用函数            list(map(lambda x: x*2, [1,2,3])) → [2,4,6]
+
+
+filter              过滤满足条件的元素                      list(filter(lambda x: x&amp;gt;2, [1,3,5])) → [3,5]
+
+
+reduce              累积计算（需导入 functools）          reduce(lambda a,b: a+b, [1,2,3]) → 6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;10.__slots__是什么？如何使用？&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;定义：限制类的实例属性，减少内存占用。
+语法：在类中定义 &lt;strong&gt;slots&lt;/strong&gt; = (‘attr1’, ‘attr2’)
+优势：
+阻止动态添加未声明的属性。
+内存优化（避免为每个实例创建 &lt;strong&gt;dict&lt;/strong&gt;）。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class Point:
+    __slots__ = ('x', 'y')
+    
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+p = Point(1, 2)
+p.z = 3  # AttributeError: 'Point' object has no attribute 'z'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="python" /><category term="Python" /><category term="面试" /><summary type="html">1.列表List和元组Tuple有什么区别？</summary></entry><entry><title type="html">FastAPI-ORM</title><link href="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/" rel="alternate" type="text/html" title="FastAPI-ORM" /><published>2026-01-15T00:00:00+08:00</published><updated>2026-01-15T00:00:00+08:00</updated><id>http://localhost:4000/fastapi/2026/01/15/fastapi-orm</id><content type="html" xml:base="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/">&lt;p&gt;sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。
 aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.&lt;/p&gt;
 
 &lt;h1 id=&quot;python环境&quot;&gt;python环境&lt;/h1&gt;
@@ -6,9 +199,19 @@ aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高�
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% python3 --version
 Python 3.13.10
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;pip版本&quot;&gt;pip版本&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; pip3 --version
+&lt;h2 id=&quot;pip安装第三发的软件包&quot;&gt;pip安装第三发的软件包&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pip3 --version
 pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
+// 安装软件包（最新版本）
+# pip install openai
+// 安装软件包（指定版本）
+# pip install openai=2.13.0
+// 卸载软件包
+# pip uninstall openai
+// 列出已安装的包
+# pip list
+// 查看包详情
+# pip show openai
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;h2 id=&quot;python3虚拟环境&quot;&gt;python3虚拟环境&lt;/h2&gt;
 
@@ -523,10 +726,19 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
 Python 3.13.10
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;pip版本&quot;&gt;pip版本&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; pip3 --version
+&lt;h2 id=&quot;pip安装第三发的软件包&quot;&gt;pip安装第三发的软件包&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pip3 --version
 pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
+// 安装软件包（最新版本）
+# pip install openai
+// 安装软件包（指定版本）
+# pip install openai=2.13.0
+// 卸载软件包
+# pip uninstall openai
+// 列出已安装的包
+# pip list
+// 查看包详情
+# pip show openai
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;python3虚拟环境&quot;&gt;python3虚拟环境&lt;/h2&gt;
@@ -3157,291 +3369,4 @@ networks:
 &lt;h2 id=&quot;环境准备&quot;&gt;环境准备&lt;/h2&gt;
 &lt;h3 id=&quot;安装python-39&quot;&gt;安装Python 3.9&lt;/h3&gt;
 &lt;h3 id=&quot;pip安装pytorch&quot;&gt;Pip安装PyTorch&lt;/h3&gt;
-&lt;h3 id=&quot;pip安装hugging-face核心库transformer和datasets&quot;&gt;Pip安装Hugging Face核心库transformer和datasets&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Hugging face</summary></entry><entry><title type="html">mysql面试汇总</title><link href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms/" rel="alternate" type="text/html" title="mysql面试汇总" /><published>2025-10-11T00:00:00+08:00</published><updated>2025-10-11T00:00:00+08:00</updated><id>http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms</id><content type="html" xml:base="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/10/11/mysql-ms/">&lt;h2 id=&quot;mysql&quot;&gt;MySQL&lt;/h2&gt;
-
-&lt;h3 id=&quot;mysql索引用的是什么算法&quot;&gt;Mysql索引用的是什么算法&lt;/h3&gt;
-
-&lt;p&gt;Mysql选用的是B+树，B+树主要是查询效率高，时间复杂度是O(logmN)，内部节点可以拥有多个子节点，通常大于2，这使得B+树比二叉树更宽，更矮时间复杂度是O(log2N)有助于减少树的高度，进而减少磁盘I/O操作。
-总结：Mysql中创建索引的目的是为了更快的查询，索引选用B+树的数据结构，这种结构的查找算法的时间复杂度是O(logmN)，查找的效率快，磁盘I/O操作少。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql事务的关键特性&quot;&gt;MySQL事务的关键特性&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;原子性&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;事务是操作的最小单元，要么全成功，要么全回滚。
-原子性是指开启事务后数据库的修改操作要么都成功，要么都失败，回滚到事务之前的状态。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;一致性&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;事务执行前后，数据库从一个合法状态变为另一个合法状态（如转账总金额不变）。&lt;/p&gt;
-
-&lt;p&gt;一致性是指遵守资金守恒原则，例如银行转账操作A账户转出一定的金额给B账户，为了得到一致性这个事务需要确保金额从A减少并在增加。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;隔离性&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;多事务并发时互不干扰，默认隔离级别REPEATABLE READ通过MVCC和间隙锁避免脏读、不可重复读、部分幻读
-隔离性，在并发事务T1和T2都需要更新同一个账户的余额，若没有隔离措施，T1和T2可能会使用同样的金额进行计算，从而导致结果错误。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;持久性&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;mysql事务提交后永久保存，宕机不丢失。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql中锁&quot;&gt;Mysql中锁&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;锁类型&lt;/th&gt;
-      &lt;th&gt;触发方式&lt;/th&gt;
-      &lt;th&gt;作用范围&lt;/th&gt;
-      &lt;th&gt;兼容性&lt;/th&gt;
-      &lt;th&gt;使用场景&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;记录锁（Record Lock）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：&lt;code class=&quot;highlighter-rouge&quot;&gt;UPDATE&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;DELETE&lt;/code&gt; 自动加锁&lt;br /&gt;显式：&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ... FOR UPDATE&lt;/code&gt; 精确匹配唯一索引&lt;/td&gt;
-      &lt;td&gt;索引中的某一行记录&lt;/td&gt;
-      &lt;td&gt;与 X 锁互斥，与 S 锁互斥&lt;/td&gt;
-      &lt;td&gt;精确修改/删除单行数据，如库存扣减、账户余额更新&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;间隙锁（Gap Lock）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：&lt;code class=&quot;highlighter-rouge&quot;&gt;UPDATE&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;DELETE&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ... FOR UPDATE/FOR SHARE&lt;/code&gt; 在 &lt;strong&gt;REPEATABLE READ&lt;/strong&gt; 下执行范围查询（非唯一索引或范围条件）&lt;/td&gt;
-      &lt;td&gt;索引记录之间的间隙（不含记录本身）&lt;/td&gt;
-      &lt;td&gt;阻止其他事务在间隙插入新行；S/X 锁均互斥插入&lt;/td&gt;
-      &lt;td&gt;防止幻读（写时），如锁定某价格区间不允许新增商品&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;临键锁（Next-Key Lock）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：InnoDB 在 &lt;strong&gt;REPEATABLE READ&lt;/strong&gt; 下默认对范围查询加锁（记录锁+间隙锁）&lt;/td&gt;
-      &lt;td&gt;左开右闭区间，如 (10, 20]&lt;/td&gt;
-      &lt;td&gt;阻止插入、修改、删除区间内数据&lt;/td&gt;
-      &lt;td&gt;RR 级别默认防幻读机制，无需手动控制&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;共享锁（S 锁）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;显式：&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ... FOR SHARE&lt;/code&gt;（MySQL 8.0+）&lt;br /&gt;显式：&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ... LOCK IN SHARE MODE&lt;/code&gt;（旧语法）&lt;/td&gt;
-      &lt;td&gt;加在索引记录上&lt;/td&gt;
-      &lt;td&gt;多个 S 锁相容，与 X 锁互斥&lt;/td&gt;
-      &lt;td&gt;读多写少场景，允许多事务同时读但阻止修改，如读取配置表、基础字典数据&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;排他锁（X 锁）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;显式：&lt;code class=&quot;highlighter-rouge&quot;&gt;SELECT ... FOR UPDATE&lt;/code&gt;&lt;br /&gt;隐式：&lt;code class=&quot;highlighter-rouge&quot;&gt;UPDATE&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;DELETE&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;INSERT&lt;/code&gt; 自动加锁&lt;/td&gt;
-      &lt;td&gt;加在索引记录上&lt;/td&gt;
-      &lt;td&gt;与任何 S/X 锁互斥&lt;/td&gt;
-      &lt;td&gt;写冲突严重场景，需独占数据，如订单状态变更、库存扣减、资金转账&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;意向共享锁（IS 锁）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：InnoDB 自动在加行级 S 锁前于表级加 IS 锁&lt;/td&gt;
-      &lt;td&gt;表级&lt;/td&gt;
-      &lt;td&gt;与 IX 锁相容，与表级 X 锁互斥&lt;/td&gt;
-      &lt;td&gt;内部机制，提高表锁与行锁兼容性检查效率，DBA 一般不直接使用&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;意向排他锁（IX 锁）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：InnoDB 自动在加行级 X 锁前于表级加 IX 锁&lt;/td&gt;
-      &lt;td&gt;表级&lt;/td&gt;
-      &lt;td&gt;与 IS 锁相容，与表级 X 锁互斥&lt;/td&gt;
-      &lt;td&gt;内部机制，同上&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;自增锁（AUTO-INC Lock）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：插入含 &lt;code class=&quot;highlighter-rouge&quot;&gt;AUTO_INCREMENT&lt;/code&gt; 列时自动加&lt;/td&gt;
-      &lt;td&gt;表级（语句级或事务级，取决于 &lt;code class=&quot;highlighter-rouge&quot;&gt;innodb_autoinc_lock_mode&lt;/code&gt;）&lt;/td&gt;
-      &lt;td&gt;阻塞其他会话的自增 ID 分配&lt;/td&gt;
-      &lt;td&gt;保证自增主键唯一性，批量插入时可调模式平衡连续性与并发性能&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;元数据锁（MDL 锁）&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;隐式：任何 DML/DDL 操作自动加&lt;/td&gt;
-      &lt;td&gt;表级&lt;/td&gt;
-      &lt;td&gt;读锁（SHARED）相容，写锁（EXCLUSIVE）互斥&lt;/td&gt;
-      &lt;td&gt;防止 DML 与 DDL 并发修改表结构，需注意长事务会阻塞 DDL&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;mysql事务隔离级别&quot;&gt;MySQL事务隔离级别&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;隔离级别&lt;/th&gt;
-      &lt;th&gt;脏读&lt;/th&gt;
-      &lt;th&gt;不可重复读&lt;/th&gt;
-      &lt;th&gt;幻读&lt;/th&gt;
-      &lt;th&gt;MySQL 默认&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;READ UNCOMMITTED&lt;/td&gt;
-      &lt;td&gt;❌ 可能&lt;/td&gt;
-      &lt;td&gt;❌ 可能&lt;/td&gt;
-      &lt;td&gt;❌ 可能&lt;/td&gt;
-      &lt;td&gt;否&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;READ COMMITTED&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;❌ 可能&lt;/td&gt;
-      &lt;td&gt;❌ 可能&lt;/td&gt;
-      &lt;td&gt;否&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;REPEATABLE READ&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;⚠️ 可能（但 InnoDB 通过 MVCC + 间隙锁避免）&lt;/td&gt;
-      &lt;td&gt;✅ 是&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;SERIALIZABLE&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;✅ 避免&lt;/td&gt;
-      &lt;td&gt;否&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;读未提交（READ UNCOMMITTED）
-  A事务可以读取B事务未调教的数据，引发脏读。&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;读已提交（READ COMMITTED）&lt;/p&gt;
-
-    &lt;p&gt;A事务可以读取B事务已提交的数据&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;font color=&quot;red&quot;&gt;可重复读（REPEATABLE READ）&lt;/font&gt;
-    &lt;p&gt;默认的事务隔离级别，事务开启时，不在允许修改操作，可避免脏读，也可以通过在查询时加排它锁避免幻读。&lt;/p&gt;
-    &lt;ol&gt;
-      &lt;li&gt;读幻读​ → 靠 RR 隔离级别 + 普通 SELECT（MVCC 自动处理）。&lt;/li&gt;
-      &lt;li&gt;写幻读​ → 用 SELECT … FOR UPDATE触发 Next-Key Lock（PHP 中就是执行这条 SQL 并开启事务）。&lt;/li&gt;
-      &lt;li&gt;两者结合，即可在业务代码中可靠防止幻读。&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;串行（SERIALIZABLE）&lt;/p&gt;
-
-    &lt;p&gt;串行是最高的隔离级别，可以避免脏读、幻读、可重复读，但是性能太差。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;mysql存储引擎&quot;&gt;MySQL存储引擎&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;InnoDB&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;InnoDB是默认的存储引擎，支持事务、行锁，支持多版本并发控制。&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;MyIsAm&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;MyIsAm在5.5版本之前是默认的选项，不支持事务、行锁，支持表锁。适合读密集应用，数据压缩能力强，适合只读数据存储。&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Memory&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;将所有数据保存在内存中，数据易丢失。&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Archive&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;设计用于存储大量的归档数据，具有高压缩率。只支持Insert和Select操作，非常适合存储日志数据或其他很少需要修改的数据。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql高可用方案&quot;&gt;MySQL高可用方案&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;主从复制&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;适合读密集型应用&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;InnoDB Cluster&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;适合大规模并发写入应用。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql中utf8和utf8mb4的区别&quot;&gt;MySQL中utf8和utf8mb4的区别&lt;/h3&gt;
-
-&lt;p&gt;mysql在5.5.3之后增加了utf8mb4的编码，mb4就是most bytes4，utf8编码最大字符长度为3字节，如果遇到4字节的宽字符就会插入异常。utf8mb4就是most bytes4的意思，专门用来兼容4字节的unicode字符。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql中乐观锁和悲观锁的区别&quot;&gt;MySQL中乐观锁和悲观锁的区别？&lt;/h3&gt;
-
-&lt;p&gt;传统的关系型数据库里边就用到了很多这种锁机制，比如行锁、表锁等，读锁、写锁等。都是在做操作之前先上锁。
-乐观锁和悲观锁主要是为了解决并发事务中的数据一致性问题，他们的设计初衷是为了在多用户或进程同时访问和修改相同数据时，保证数据的一致性和完整性。举例：在秒杀场景下对库存的查询加锁，在这个事务结束前，其他并发事务需要阻塞排队等待。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql索引主要是哪些&quot;&gt;MySQL索引主要是哪些？&lt;/h3&gt;
-
-&lt;p&gt;索引的目的是提高查询效率，索引的类型有唯一索引、普通索引、主键索引、组合索引。唯一索引不可以出现相同的值，可以有Null值。&lt;/p&gt;
-
-&lt;p&gt;索引使用技巧，1.使用短索引，如果有一个char(255)列，可以在前10个或20个字符内做短索引。2.使用like语句%aaa%，不会使用索引，而 “aaa%”可以使用索引。3.where和join的列键索引。&lt;/p&gt;
-
-&lt;h3 id=&quot;组合索引最左匹配原则&quot;&gt;组合索引最左匹配原则？&lt;/h3&gt;
-
-&lt;p&gt;在查询数据时，从联合索引的最左边开始匹配。MySQL会一直向右匹配直到遇到范围查询(&amp;gt;、&amp;lt;、betwwen、like就停止匹配了)，比如索引列(abcd) where a=1 and c=2 and b&amp;gt;5 and d=6，这样c和d都不会用到索引。&lt;/p&gt;
-
-&lt;h3 id=&quot;聚簇索引和非聚簇索引的区别&quot;&gt;聚簇索引和非聚簇索引的区别？&lt;/h3&gt;
-
-&lt;p&gt;MyIsAM存储引擎是非聚簇索引，InnnoDB是聚簇索引。聚簇索引中主键索引存放数据，二级索引存储索引列和主键列。非聚簇索引主键索引和二级索引都存放完整的数据。聚簇索引会额外占用空间，但查询效率高。&lt;/p&gt;
-
-&lt;h3 id=&quot;如何查询一个字段是否命中了索引&quot;&gt;如何查询一个字段是否命中了索引？&lt;/h3&gt;
-
-&lt;p&gt;使用explain分析SQL是否走了索引。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql中的mvcc是什么&quot;&gt;Mysql中的MVCC是什么？&lt;/h3&gt;
-
-&lt;p&gt;多版本并发控制Multiversion concurrency control，多版本并发控制常用的是所，给当前事务DQL加毒素哦，给DML加写锁，这种锁是一种悲观锁的实现方式，会阻塞其他事务，从而影响数据库性能。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql读写分离以及主从同步&quot;&gt;MySQL读写分离以及主从同步。&lt;/h3&gt;
-
-&lt;p&gt;原理，主库将变更写binlog日志，然后从库链接到主库后，从库有一个IO线程将主库的binlog日志拷贝到自己本地，写入一个中继日志，接着从库有一个sql线程从中继日志读取binlog然后执行binlog日志的内容。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql如何保证一致性和持久性&quot;&gt;Mysql如何保证一致性和持久性？&lt;/h3&gt;
-
-&lt;p&gt;Mysql为了保证ACID中的一致性和持久性，使用了WAL(Write A head logging)，先写日志在写磁盘。Redolog就是一张WAL的应用，当数据库忽然断点在重新启动时，Mysql可以通过Redolog还原数据。&lt;/p&gt;
-
-&lt;h3 id=&quot;为什么选b树作为索引结构&quot;&gt;为什么选B+树作为索引结构？&lt;/h3&gt;
-&lt;p&gt;1.非叶子节点仅存索引（键值和指针），支持高效范围查询。2.叶子节点存数据并链表连接天然支持水平扩展理论存储容量仅受磁盘总空间限制。3.B+树的节点（非叶子和叶子）大小设计为磁盘页（16KB）大小，让B+树查询时用最少的I/O定位数据。&lt;/p&gt;
-
-&lt;h3 id=&quot;innnodb的行锁模式&quot;&gt;InnnoDB的行锁模式？&lt;/h3&gt;
-
-&lt;p&gt;1.共享锁(s)，用法lock in share mode又称读锁，2. 排它锁，又称写锁。
-s锁，若事务T对数据对象A加上S锁，其他事务智能对A加S锁，而不能加X锁。
-x锁，若事务T对数据对象加上X锁，事务T可以读A也可以写A，其他事务不能在对A加任何锁，X锁用法for update。&lt;/p&gt;
-
-&lt;h3 id=&quot;哈希hash比树tree更快索引结构为什么设计成树形&quot;&gt;哈希(hash)比树(tree)更快，索引结构为什么设计成树形&lt;/h3&gt;
-
-&lt;p&gt;哈希查询、插入、修改、删除的平均响应时间复杂度都是O(1)，树的平均响应时间复杂度是O(logmN)，哈希只能满足等值查询，不能满足范围和大小查询，其次不可以排序。&lt;/p&gt;
-
-&lt;h3 id=&quot;为什么索引的key长度不能太长&quot;&gt;为什么索引的key长度不能太长。&lt;/h3&gt;
-
-&lt;p&gt;key太长会导致一个页当中能够村昂的key数目变小，间接导致索引树的页数变多，索引层次增加。从而影响查询效率。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql的数据如何恢复到任意时间点&quot;&gt;MySQL的数据如何恢复到任意时间点&lt;/h3&gt;
-
-&lt;p&gt;1.启用二进制日志。2.首先使用最近一次的备份恢复数据库。3.使用mysqlbinlog工具将binlog文件合并，然后使用mysql工具导入已合并的sql文件。&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql为什么加了索引可以加快查询&quot;&gt;Mysql为什么加了索引可以加快查询&lt;/h3&gt;
-
-&lt;p&gt;使用索引后再查询时不用扫描全表来定位。&lt;/p&gt;
-
-&lt;h3 id=&quot;explain命令有什么用&quot;&gt;Explain命令有什么用&lt;/h3&gt;
-
-&lt;p&gt;分析慢查询语句有没有命中索引。&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="mysql" /><summary type="html">MySQL</summary></entry></feed>
+&lt;h3 id=&quot;pip安装hugging-face核心库transformer和datasets&quot;&gt;Pip安装Hugging Face核心库transformer和datasets&lt;/h3&gt;</content><author><name>Zhao Q.H.</name></author><summary type="html">Hugging face</summary></entry></feed>

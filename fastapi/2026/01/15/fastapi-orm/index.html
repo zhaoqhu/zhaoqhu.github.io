@@ -459,9 +459,19 @@ aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高�
 <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
 Python 3.13.10
 </code></pre></td></tr></tbody></table></div></div>
-<h2 id="pip版本">pip版本</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code> pip3 --version
+<h2 id="pip安装第三发的软件包">pip安装第三发的软件包</h2>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code># pip3 --version
 pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
+// 安装软件包（最新版本）
+# pip install openai
+// 安装软件包（指定版本）
+# pip install openai=2.13.0
+// 卸载软件包
+# pip uninstall openai
+// 列出已安装的包
+# pip list
+// 查看包详情
+# pip show openai
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="python3虚拟环境">python3虚拟环境</h2>
 
@@ -1043,6 +1053,10 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/python/2026/01/16/python-mianshi/" rel="next" title="Python面试">
+                <i class="fa fa-chevron-left"></i> Python面试
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
@@ -1134,7 +1148,7 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1156,7 +1170,7 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1223,7 +1237,7 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#python环境"> <span class="nav-number">1</span> <span class="nav-text">python环境</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python-版本"> <span class="nav-number">1.1</span> <span class="nav-text">python 版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#pip版本"> <span class="nav-number">1.2</span> <span class="nav-text">pip版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python3虚拟环境"> <span class="nav-number">1.3</span> <span class="nav-text">python3虚拟环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#在虚拟环境安装运行fastapi服务工具"> <span class="nav-number">1.4</span> <span class="nav-text">在虚拟环境安装运行fastapi服务工具。</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#fastapi-命令行工具"> <span class="nav-number">1.4.1</span> <span class="nav-text">fastapi 命令行工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#uvicorn-命令行工具"> <span class="nav-number">1.4.2</span> <span class="nav-text">uvicorn 命令行工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vscode运行和调试"> <span class="nav-number">1.5</span> <span class="nav-text">VSCode运行和调试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#fastpai-orm"> <span class="nav-number">2</span> <span class="nav-text">FASTPAI-ORM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm简介"> <span class="nav-number">2.1</span> <span class="nav-text">ORM简介</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装sqlalchemy和aiomysql异步数据库驱动"> <span class="nav-number">2.2</span> <span class="nav-text">安装sqlalchemy和aiomysql（异步数据库驱动）</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm-建表"> <span class="nav-number">2.3</span> <span class="nav-text">ORM-建表</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm-在路由中使用"> <span class="nav-number">2.4</span> <span class="nav-text">ORM-在路由中使用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作---查询"> <span class="nav-number">2.5</span> <span class="nav-text">数据库操作 - 查询</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作---查询条件"> <span class="nav-number">2.6</span> <span class="nav-text">数据库操作 - 查询条件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm查询总结"> <span class="nav-number">2.7</span> <span class="nav-text">ORM查询总结</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作-新增"> <span class="nav-number">2.8</span> <span class="nav-text">数据库操作-新增</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#总结"> <span class="nav-number">2.9</span> <span class="nav-text">总结</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mainpy"> <span class="nav-number">2.10</span> <span class="nav-text">main.py</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#python环境"> <span class="nav-number">1</span> <span class="nav-text">python环境</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python-版本"> <span class="nav-number">1.1</span> <span class="nav-text">python 版本</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#pip安装第三发的软件包"> <span class="nav-number">1.2</span> <span class="nav-text">pip安装第三发的软件包</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#python3虚拟环境"> <span class="nav-number">1.3</span> <span class="nav-text">python3虚拟环境</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#在虚拟环境安装运行fastapi服务工具"> <span class="nav-number">1.4</span> <span class="nav-text">在虚拟环境安装运行fastapi服务工具。</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#fastapi-命令行工具"> <span class="nav-number">1.4.1</span> <span class="nav-text">fastapi 命令行工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#uvicorn-命令行工具"> <span class="nav-number">1.4.2</span> <span class="nav-text">uvicorn 命令行工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#vscode运行和调试"> <span class="nav-number">1.5</span> <span class="nav-text">VSCode运行和调试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#fastpai-orm"> <span class="nav-number">2</span> <span class="nav-text">FASTPAI-ORM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm简介"> <span class="nav-number">2.1</span> <span class="nav-text">ORM简介</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装sqlalchemy和aiomysql异步数据库驱动"> <span class="nav-number">2.2</span> <span class="nav-text">安装sqlalchemy和aiomysql（异步数据库驱动）</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm-建表"> <span class="nav-number">2.3</span> <span class="nav-text">ORM-建表</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm-在路由中使用"> <span class="nav-number">2.4</span> <span class="nav-text">ORM-在路由中使用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作---查询"> <span class="nav-number">2.5</span> <span class="nav-text">数据库操作 - 查询</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作---查询条件"> <span class="nav-number">2.6</span> <span class="nav-text">数据库操作 - 查询条件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orm查询总结"> <span class="nav-number">2.7</span> <span class="nav-text">ORM查询总结</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数据库操作-新增"> <span class="nav-number">2.8</span> <span class="nav-text">数据库操作-新增</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#总结"> <span class="nav-number">2.9</span> <span class="nav-text">总结</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mainpy"> <span class="nav-number">2.10</span> <span class="nav-text">main.py</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

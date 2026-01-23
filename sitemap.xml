@@ -201,6 +201,10 @@
 <lastmod>2026-01-15T00:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/python/2026/01/16/python-mianshi/</loc>
+<lastmod>2026-01-16T00:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/2025-09-16-redis/</loc>
 </url>
 <url>
@@ -244,5 +248,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page5/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page6/</loc>
 </url>
 </urlset>
