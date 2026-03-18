@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go 语言学习笔记">
-<meta property="og:url" content="http://localhost:4000/go/2025/09/18/go-study-note/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/go/2025/09/18/go-study-note/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="数据类型 Go 语言中的数据类型可以从不同维度进行分类。按组成结构​​，分为基本类型和复合类型。​​按赋值传递行为​​分为值类型和引用类型。 基础类型 构成程序的基础，不可再拆分，内存占用固定 布尔 var b1 bool b1 = true b2 := false 字符串 string 和 byte[]，string可以直接转换成byte字节切片 var ( str1 string = &quot;hello string&quot; ) str2 := &quot;hello str2&quot; fmt.Println(str1, str2) 整型 11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr var a int = 10 var i1, i2 int = 10, 20 i3 := 30 //默认类型是int fmt.Println(i1, i2, i3) fmt.Printf(&quot;i1 type is %T &quot;, i1) fmt.Printf(&quot;i3 type is %T &quot;, i3) 浮点型 两种内置浮点数类型：float32和float64。 var f1 float32 = 3.14 f2 := 3.14 //默认数据类型是float64 fmt.Println(f1, f2) fmt.Printf(&quot;f2 type is %T &quot;, f2) 复数 var cmp1 complex64 = 1 + 2i cmp2 := 2 + 4i //默认值是complex128 fmt.Println(cmp1, cmp2) fmt.Printf(&quot;cmp2 type is %T &quot;, cmp2) 零型">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/go/2025/09/18/go-study-note/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/go/2025/09/18/go-study-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-18T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-18T00:00:00-05:00">
                 2025-09-18
               </time>
             
@@ -456,13 +456,13 @@
 <h3 id="基础类型">基础类型</h3>
 <p>构成程序的基础，不可再拆分，内存占用固定</p>
 <h4 id="布尔">布尔</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>var b1 bool
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>var b1 bool
 b1 = true
 b2 := false
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="字符串">字符串</h4>
 <p>string 和 byte[]，string可以直接转换成byte字节切片</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>	var (
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>	var (
 		str1 string = "hello string"
 	)
 	str2 := "hello str2"
@@ -470,7 +470,7 @@ b2 := false
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="整型">整型</h4>
 <p>11种内置整数类型：int8、uint8、int16、uint16、int32、uint32、int64、uint64、int、uint和uintptr</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>var a int = 10
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>var a int = 10
 var i1, i2 int = 10, 20
 i3 := 30                  //默认类型是int
 fmt.Println(i1, i2, i3)
@@ -479,20 +479,20 @@ fmt.Printf("i3 type is %T\n\n ", i3)
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="浮点型">浮点型</h4>
 <p>两种内置浮点数类型：float32和float64。</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>var f1 float32 = 3.14
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>var f1 float32 = 3.14
 f2 := 3.14              //默认数据类型是float64
 fmt.Println(f1, f2)
 fmt.Printf("f2 type is %T\n ", f2)
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="复数">复数</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>var cmp1 complex64 = 1 + 2i
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>var cmp1 complex64 = 1 + 2i
 cmp2 := 2 + 4i        //默认值是complex128
 fmt.Println(cmp1, cmp2)
 fmt.Printf("cmp2 type is %T\n", cmp2)
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="零型">零型</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>var (
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>var (
   zb   bool
   zs   string
   zi   int
@@ -523,7 +523,7 @@ false  0 0 (0+0i)
   </li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36</pre></td><td class="code"><pre class="highlight"><code>//数组
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36</pre></td><td class="code"><pre class="highlight"><code>//数组
 var arr = [5]int{1, 2, 3, 4, 5}
 var arr1 [3]int
 var arr2 = [3]int{1, 2, 3}
@@ -568,7 +568,7 @@ for _, val := range arrM3 {
     <ul>
       <li>var 变量名 []类型，不需要指定长度。</li>
       <li>变量名 := make([]int,len,cap)，这种需要合理预估切片容量大小，如果预估过大会造成内存浪费，预估准确会提升性能。
-        <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code>var slice1 []int
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code>var slice1 []int
 slice2 := []int{1, 2, 3}
 var slice3 = make([]int, 0)
 slice4 := make([]int, 0)
@@ -590,7 +590,7 @@ fmt.Println(slice1)
       <li>截取，slice[start:end]，start或者end都可以省略</li>
       <li>复制，copy(目标切片，源切片)，复制覆盖同位置的元素，不会改变切片的长度。</li>
       <li>删除,slice[:2],删除第二个以后所有的元素，slice[2:]，删除第二个和前面的元素
-        <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>slice1 := []int{1, 2, 3}
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>slice1 := []int{1, 2, 3}
 slice2 := []int{4, 5, 6}
 slice1 = append(slice1, 7)
 //slice1 = slice1[:2]
@@ -608,7 +608,7 @@ fmt.Println(slice1, slice2)
   </li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39</pre></td><td class="code"><pre class="highlight"><code>
  //定义一个空集合、映射。
 ma := map[string]int{}
 ma["a"] = 1
@@ -651,7 +651,7 @@ for key, val := range m3 {
 
 <h4 id="函数">函数</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>func sum(a,b int) int{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>func sum(a,b int) int{
   return a+b
 }
 func main(){
@@ -662,7 +662,7 @@ func main(){
 
 <p>函数和方法的区别是方法有一个类型接收者。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>type Age int
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>type Age int
 
 func (age Age) Hello() {
 	fmt.Println("hello", age)
@@ -674,7 +674,7 @@ func main(){
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="结构体">结构体</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>type Book struct {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>type Book struct {
 	Name   string
 	Price  float64
 	Author string
@@ -707,7 +707,7 @@ function main(){
   接口的定义与结构体稍微有些差别，虽然都以type关键字开始，但接口的关键字是interface，表示定义的类型是一个接口。</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>type Stringer interface {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>type Stringer interface {
   String() string
 }
 </code></pre></td></tr></tbody></table></div></div>
@@ -716,7 +716,7 @@ function main(){
   接口的实现者必须是一个具体的类型，以person结构体为例，让它来实现Stringer接口，如下面的代码所示</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>type Stringer interface {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>type Stringer interface {
   String() string
 }
 type Address struct {
@@ -736,7 +736,7 @@ func (p Person) String() string {
 <h4 id="通道">通道</h4>
 <p>​​不要在同一个 goroutine 中，对无缓冲 channel 顺序执行先接收后发送或先发送后接收的操作​​，这会导致该 goroutine 阻塞，从而使后续的配对操作没有机会执行。务必让它们在两个不同的 goroutine 中并发执行。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>func main(){
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>func main(){
 ch3 := make(chan int)
 go func() {
   ch3 &lt;- 100
@@ -777,108 +777,108 @@ return
   <li>slice 切片</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="s2">"fmt"</span>
+import "fmt"
 
-<span class="n">type</span> <span class="n">Person</span> <span class="n">struct</span> <span class="p">{</span>
-    <span class="n">Name</span> <span class="k">string</span>
-    <span class="n">Age</span>  <span class="n">int</span>
-<span class="p">}</span>
+type Person struct {
+    Name string
+    Age  int
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">初始化一个长度为</span> <span class="m">3</span> <span class="err">的</span> <span class="p">*</span><span class="n">Person</span> <span class="err">切片（指针切片）</span>
-    <span class="n">people</span> <span class="p">:=</span> <span class="n">make</span><span class="p">([]*</span><span class="n">Person</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span> <span class="p">//</span> <span class="err">长度和容量均为</span> <span class="m">3</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"初始化后: %v</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">people</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="p">[&lt;</span><span class="n">nil</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="n">nil</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="n">nil</span><span class="p">&gt;]</span>
+func main() {
+    // 使用 make 初始化一个长度为 3 的 *Person 切片（指针切片）
+    people := make([]*Person, 3) // 长度和容量均为 3
+    fmt.Printf("初始化后: %v\n", people) // 输出: [&lt;nil&gt; &lt;nil&gt; &lt;nil&gt;]
 
-    <span class="p">//</span> <span class="err">为切片中的每个指针元素分配具体的</span> <span class="n">Person</span> <span class="err">实例</span>
-    <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">people</span><span class="p">);</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-        <span class="n">people</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">Person</span><span class="p">{</span>
-            <span class="n">Name</span><span class="p">:</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s2">"Person%d"</span><span class="p">,</span> <span class="n">i</span><span class="p">+</span><span class="m">1</span><span class="p">),</span>
-            <span class="n">Age</span><span class="p">:</span>  <span class="m">20</span> <span class="p">+</span> <span class="n">i</span><span class="p">,</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+    // 为切片中的每个指针元素分配具体的 Person 实例
+    for i := 0; i &lt; len(people); i++ {
+        people[i] = &amp;Person{
+            Name: fmt.Sprintf("Person%d", i+1),
+            Age:  20 + i,
+        }
+    }
 
-    <span class="p">//</span> <span class="err">现在可以安全地访问和操作</span>
-    <span class="n">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">people</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"Name: %s, Age: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    // 现在可以安全地访问和操作
+    for _, p := range people {
+        fmt.Printf("Name: %s, Age: %d\n", p.Name, p.Age)
+    }
+}
 </code></pre></td></tr></tbody></table></div></div>
 <ul>
   <li>map集合映射</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="s2">"fmt"</span>
+import "fmt"
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">初始化一个键为</span> <span class="k">string</span><span class="p">,</span> <span class="err">值为</span> <span class="p">*</span><span class="n">int</span> <span class="err">的映射</span>
-    <span class="n">scoreMap</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="k">string</span><span class="p">]*</span><span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span> <span class="p">//</span> <span class="err">初始容量提示为</span> <span class="m">5</span>
+func main() {
+    // 使用 make 初始化一个键为 string, 值为 *int 的映射
+    scoreMap := make(map[string]*int, 5) // 初始容量提示为 5
 
-    <span class="p">//</span> <span class="err">准备一些数据</span>
-    <span class="n">scores</span> <span class="p">:=</span> <span class="p">[]</span><span class="n">int</span><span class="p">{</span><span class="m">100</span><span class="p">,</span> <span class="m">95</span><span class="p">,</span> <span class="m">88</span><span class="p">}</span>
-    <span class="n">names</span> <span class="p">:=</span> <span class="p">[]</span><span class="k">string</span><span class="p">{</span><span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Bob"</span><span class="p">,</span> <span class="s2">"Charlie"</span><span class="p">}</span>
+    // 准备一些数据
+    scores := []int{100, 95, 88}
+    names := []string{"Alice", "Bob", "Charlie"}
 
-    <span class="p">//</span> <span class="err">将指针指向的分数存入映射</span>
-    <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">len</span><span class="p">(</span><span class="n">scores</span><span class="p">);</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-        <span class="p">//</span> <span class="err">注意：不能直接使用</span> <span class="p">&amp;</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="err">如果</span> <span class="n">scores</span> <span class="err">是切片且后续可能修改或扩容</span>
-        <span class="p">//</span> <span class="err">更安全的做法是创建变量的地址，或确保切片不再修改</span>
-        <span class="n">score</span> <span class="p">:=</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">//</span> <span class="err">创建副本，取其地址</span>
-        <span class="n">scoreMap</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="p">=</span> <span class="p">&amp;</span><span class="n">score</span>
-    <span class="p">}</span>
+    // 将指针指向的分数存入映射
+    for i := 0; i &lt; len(scores); i++ {
+        // 注意：不能直接使用 &amp;scores[i] 如果 scores 是切片且后续可能修改或扩容
+        // 更安全的做法是创建变量的地址，或确保切片不再修改
+        score := scores[i] // 创建副本，取其地址
+        scoreMap[names[i]] = &amp;score
+    }
 
-    <span class="p">//</span> <span class="err">遍历映射，打印键和指针指向的值</span>
-    <span class="n">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ptr</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">scoreMap</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"Name: %s, Score: %d (指针地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="p">*</span><span class="n">ptr</span><span class="p">,</span> <span class="n">ptr</span><span class="p">)</span>
-    <span class="p">}</span>
+    // 遍历映射，打印键和指针指向的值
+    for name, ptr := range scoreMap {
+        fmt.Printf("Name: %s, Score: %d (指针地址: %p)\n", name, *ptr, ptr)
+    }
 
-    <span class="p">//</span> <span class="err">通过指针修改映射中的值</span>
-    <span class="k">if</span> <span class="n">ptr</span><span class="p">,</span> <span class="nb">exists</span> <span class="p">:=</span> <span class="n">scoreMap</span><span class="p">[</span><span class="s2">"Alice"</span><span class="p">];</span> <span class="nb">exists</span> <span class="p">{</span>
-        <span class="p">*</span><span class="n">ptr</span> <span class="p">=</span> <span class="m">99</span> <span class="p">//</span> <span class="err">修改</span> <span class="n">Alice</span> <span class="err">的分数</span>
-        <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"修改后 Alice 的分数:"</span><span class="p">,</span> <span class="p">*</span><span class="n">scoreMap</span><span class="p">[</span><span class="s2">"Alice"</span><span class="p">])</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    // 通过指针修改映射中的值
+    if ptr, exists := scoreMap["Alice"]; exists {
+        *ptr = 99 // 修改 Alice 的分数
+        fmt.Println("修改后 Alice 的分数:", *scoreMap["Alice"])
+    }
+}
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>chan 通道</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-    <span class="s2">"fmt"</span>
-    <span class="s2">"time"</span>
-<span class="p">)</span>
+import (
+    "fmt"
+    "time"
+)
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="p">//</span> <span class="err">使用</span> <span class="n">make</span> <span class="err">创建一个能缓冲</span> <span class="m">2</span> <span class="err">个</span> <span class="n">int</span> <span class="err">指针的通道</span>
-    <span class="n">msgChan</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="p">*</span><span class="n">int</span><span class="p">,</span> <span class="m">2</span><span class="p">)</span>
+func main() {
+    // 使用 make 创建一个能缓冲 2 个 int 指针的通道
+    msgChan := make(chan *int, 2)
 
-    <span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
-        <span class="p">//</span> <span class="err">在</span> <span class="n">goroutine</span> <span class="err">中创建一些整数并发送其指针到通道</span>
-        <span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-            <span class="n">num</span> <span class="p">:=</span> <span class="n">i</span> <span class="p">*</span> <span class="m">10</span> <span class="p">//</span> <span class="err">创建整数</span>
-            <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"发送: %d (地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">num</span><span class="p">)</span>
-            <span class="n">msgChan</span> <span class="p">&lt;-</span> <span class="p">&amp;</span><span class="n">num</span> <span class="p">//</span> <span class="err">发送整数的指针到通道</span>
-            <span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">100</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="n">close</span><span class="p">(</span><span class="n">msgChan</span><span class="p">)</span> <span class="p">//</span> <span class="err">发送完毕后关闭通道</span>
-    <span class="p">}()</span>
+    go func() {
+        // 在 goroutine 中创建一些整数并发送其指针到通道
+        for i := 0; i &lt; 3; i++ {
+            num := i * 10 // 创建整数
+            fmt.Printf("发送: %d (地址: %p)\n", num, &amp;num)
+            msgChan &lt;- &amp;num // 发送整数的指针到通道
+            time.Sleep(100 * time.Millisecond)
+        }
+        close(msgChan) // 发送完毕后关闭通道
+    }()
 
-    <span class="p">//</span> <span class="err">从通道接收整数的指针并打印其值</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"接收数据:"</span><span class="p">)</span>
-    <span class="n">for</span> <span class="n">receivedPtr</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">msgChan</span> <span class="p">{</span>
-        <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"接收: %d (来自地址: %p)</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="p">*</span><span class="n">receivedPtr</span><span class="p">,</span> <span class="n">receivedPtr</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    // 从通道接收整数的指针并打印其值
+    fmt.Println("接收数据:")
+    for receivedPtr := range msgChan {
+        fmt.Printf("接收: %d (来自地址: %p)\n", *receivedPtr, receivedPtr)
+    }
+}
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="new">new</h3>
 <p>new函数常用来声明非引用数据类型如基本类型、复合类型的变量。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47</pre></td><td class="code"><pre class="highlight"><code>// 1. 基本数据类型
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47</pre></td><td class="code"><pre class="highlight"><code>// 1. 基本数据类型
 var intPtr *int = new(int)           // *int, 指向 0
 var floatPtr *float64 = new(float64) // *float64, 指向 0.0
 var boolPtr *bool = new(bool)         // *bool, 指向 false
@@ -928,57 +928,57 @@ fmt.Println("从通道接收值:", &lt;-*chanPtr)
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="指针在函数中的应用">指针在函数中的应用</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="s2">"fmt"</span>
+import "fmt"
 
-<span class="p">//</span> <span class="n">increment</span> <span class="err">函数接收一个指向整数的指针，并将其指向的值加</span><span class="m">1</span>
-<span class="n">func</span> <span class="n">increment</span><span class="p">(</span><span class="n">ptr</span> <span class="p">*</span><span class="n">int</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">*</span><span class="n">ptr</span> <span class="p">=</span> <span class="p">*</span><span class="n">ptr</span> <span class="p">+</span> <span class="m">1</span> <span class="p">//</span> <span class="err">通过指针修改原始值</span>
-<span class="p">}</span>
+// increment 函数接收一个指向整数的指针，并将其指向的值加1
+func increment(ptr *int) {
+    *ptr = *ptr + 1 // 通过指针修改原始值
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">count</span> <span class="p">:=</span> <span class="m">10</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"原始值:"</span><span class="p">,</span> <span class="k">count</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">原始值</span><span class="p">:</span> <span class="m">10</span>
+func main() {
+    count := 10
+    fmt.Println("原始值:", count) // 输出: 原始值: 10
     
-    <span class="n">increment</span><span class="p">(&amp;</span><span class="k">count</span><span class="p">)</span>          <span class="p">//</span> <span class="err">传递</span> <span class="k">count</span> <span class="err">的地址</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用后:"</span><span class="p">,</span> <span class="k">count</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用后</span><span class="p">:</span> <span class="m">11</span>
-<span class="p">}</span>
+    increment(&amp;count)          // 传递 count 的地址
+    fmt.Println("调用后:", count) // 输出: 调用后: 11
+}
 </code></pre></td></tr></tbody></table></div></div>
 
 <h3 id="指针在方法中的应用">指针在方法中的应用</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="s2">"fmt"</span>
+import "fmt"
 
-<span class="n">type</span> <span class="n">Person</span> <span class="n">struct</span> <span class="p">{</span>
-    <span class="n">Name</span> <span class="k">string</span>
-    <span class="n">Age</span>  <span class="n">int</span>
-<span class="p">}</span>
+type Person struct {
+    Name string
+    Age  int
+}
 
-<span class="p">//</span> <span class="n">Birthday</span> <span class="err">方法使用指针接收者</span> <span class="p">*</span><span class="n">Person</span><span class="err">，用于增加年龄</span>
-<span class="n">func</span> <span class="p">(</span><span class="n">p</span> <span class="p">*</span><span class="n">Person</span><span class="p">)</span> <span class="n">Birthday</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">++</span> <span class="p">//</span> <span class="err">直接修改接收者</span> <span class="n">p</span> <span class="err">所指向的</span> <span class="n">Person</span> <span class="err">实例的</span> <span class="n">Age</span> <span class="err">字段</span>
-    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"%s 过生日啦！现在年龄是 %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span>
-<span class="p">}</span>
+// Birthday 方法使用指针接收者 *Person，用于增加年龄
+func (p *Person) Birthday() {
+    p.Age++ // 直接修改接收者 p 所指向的 Person 实例的 Age 字段
+    fmt.Printf("%s 过生日啦！现在年龄是 %d\n", p.Name, p.Age)
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">person</span> <span class="p">:=</span> <span class="n">Person</span><span class="p">{</span><span class="n">Name</span><span class="p">:</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="n">Age</span><span class="p">:</span> <span class="m">25</span><span class="p">}</span>
-  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用前:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用前</span><span class="p">:</span> <span class="m">25</span>
+func main() {
+  person := Person{Name: "Alice", Age: 25}
+  fmt.Println("调用前:", person.Age) // 输出: 调用前: 25
   
-  <span class="n">person</span><span class="p">.</span><span class="n">Birthday</span><span class="p">()</span>               <span class="p">//</span> <span class="err">调用方法，</span><span class="n">Go</span> <span class="err">会自动将</span> <span class="n">person</span> <span class="err">的地址传递给指针接收者</span>
-  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"调用后:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">调用后</span><span class="p">:</span> <span class="m">26</span>
+  person.Birthday()               // 调用方法，Go 会自动将 person 的地址传递给指针接收者
+  fmt.Println("调用后:", person.Age) // 输出: 调用后: 26
   
-  <span class="p">//</span> <span class="err">即使你有一个指针变量，调用方式也是一样的（</span><span class="n">Go</span> <span class="err">的语法糖）</span>
-  <span class="n">ptr</span> <span class="p">:=</span> <span class="p">&amp;</span><span class="n">person</span>
-  <span class="n">ptr</span><span class="p">.</span><span class="n">Birthday</span><span class="p">()</span>                  <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="n">Alice</span> <span class="err">过生日啦！现在年龄是</span> <span class="m">27</span>
-  <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"通过指针调用后:"</span><span class="p">,</span> <span class="n">person</span><span class="p">.</span><span class="n">Age</span><span class="p">)</span> <span class="p">//</span> <span class="err">输出</span><span class="p">:</span> <span class="err">通过指针调用后</span><span class="p">:</span> <span class="m">27</span>
-<span class="p">}</span>
+  // 即使你有一个指针变量，调用方式也是一样的（Go 的语法糖）
+  ptr := &amp;person
+  ptr.Birthday()                  // 输出: Alice 过生日啦！现在年龄是 27
+  fmt.Println("通过指针调用后:", person.Age) // 输出: 通过指针调用后: 27
+}
 </code></pre></td></tr></tbody></table></div></div>
 
 <h3 id="号和符号">*号和&amp;符号</h3>
 <p>声明变量为指针变量</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>
 //指针
 intP1 := 100
 var intPointer *int
@@ -988,7 +988,7 @@ fmt.Println(intPointer, *intPointer, intPointer2)
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="type关键字">type关键字</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>//自定义类型（在基本类型基础上），使用大小驼峰，大驼峰代表导出，小驼峰只在包内。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>//自定义类型（在基本类型基础上），使用大小驼峰，大驼峰代表导出，小驼峰只在包内。
 type MyInt int
 type myInt int
 //结构体
@@ -1158,7 +1158,7 @@ type Formatter interface{
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1180,7 +1180,7 @@ type Formatter interface{
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

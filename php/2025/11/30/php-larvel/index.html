@@ -115,8 +115,8 @@
 <meta name="keywords" content="laravel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker 容器化构建php-laravel开发环境">
-<meta property="og:url" content="http://localhost:4000/php/2025/11/30/php-larvel/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/php/2025/11/30/php-larvel/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="构建php-laravel:8.4.15.1-fpm-xdebug镜像 使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。 laravel laravel版本是12 root@bcb209344039:/app/app# php artisan -V Laravel Framework 12.39.0 php 使用 root@bcb209344039:/app/app# php --version PHP 8.4.15 (cli) (built: Nov 20 2025 19:53:54) (NTS) Copyright (c) The PHP Group Built by https://github.com/docker-library/php Zend Engine v4.4.15, Copyright (c) Zend Technologies with Zend OPcache v8.4.15, Copyright (c), by Zend Technologies with Xdebug v3.4.7, Copyright (c) 2002-2025, by Derick Rethans">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="/assets/images/php/laravel-12.png">
@@ -151,7 +151,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/2025/11/30/php-larvel/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/php/2025/11/30/php-larvel/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -363,7 +363,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-11-30T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-11-30T00:00:00-06:00">
                 2025-11-30
               </time>
             
@@ -458,12 +458,12 @@
 <p>使用php8.4.15-fpm镜像作为基础镜像构建8.4.15.1-fpm-xdebug镜像。</p>
 <h2 id="laravel">laravel</h2>
 <p>laravel版本是12</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>root@bcb209344039:/app/app# php artisan -V
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>root@bcb209344039:/app/app# php artisan -V
 Laravel Framework 12.39.0
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="php">php</h2>
 <p>使用</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>root@bcb209344039:/app/app# php --version
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>root@bcb209344039:/app/app# php --version
 PHP 8.4.15 (cli) (built: Nov 20 2025 19:53:54) (NTS)
 Copyright (c) The PHP Group
 Built by https://github.com/docker-library/php
@@ -474,7 +474,7 @@ Zend Engine v4.4.15, Copyright (c) Zend Technologies
 
 <h2 id="docker-compose">docker-compose</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47</pre></td><td class="code"><pre class="highlight"><code>services:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47</pre></td><td class="code"><pre class="highlight"><code>services:
   laravel-svc:
     container_name: laravel-ctr
     build: ./build/
@@ -688,7 +688,7 @@ networks:
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -710,7 +710,7 @@ networks:
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

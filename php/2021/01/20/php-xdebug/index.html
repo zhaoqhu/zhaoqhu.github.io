@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php xdebug安装和调试">
-<meta property="og:url" content="http://localhost:4000/php/2021/01/20/php-xdebug/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/php/2021/01/20/php-xdebug/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="php安装xdebug">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/2021/01/20/php-xdebug/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/php/2021/01/20/php-xdebug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-20T00:00:00-06:00">
                 2021-01-20
               </time>
             
@@ -464,7 +464,7 @@
 <p>xdebug-2.5.5.tgz</p>
 
 <p>解压</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>tar -zxvf xdebug-2.5.5.tgz -C /usr/local/php7-15-modules/
 
 cd xdebug-2.5.5
 
@@ -476,12 +476,12 @@ make install
 <h2 id="配置phpini">配置php.ini</h2>
 <p>查看php.ini文件位置</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>/usr/local/php7-15/bin/php --ini
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>/usr/local/php7-15/bin/php --ini
 </code></pre></td></tr></tbody></table></div></div>
 
 <p>打开并修改</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>;xdebug start
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>;xdebug start
 zend_extension="/usr/local/php7-15/lib/php/extensions/no-debug-non-zts-20160303/xdebug.so"
 xdebug.remote_enable = on #*
 xdebug.remote_autostart = on #*
@@ -498,14 +498,14 @@ xdebug.remote_port=9001
 <h3 id="快捷键打开">快捷键打开</h3>
 <p>打开命令行输入Mac上输入快捷键Command+shift+p，Windows上快捷键Control+shift+p</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Package Control: Install Package
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Package Control: Install Package
 xdebug-client
 </code></pre></td></tr></tbody></table></div></div>
 
 <h3 id="配置sublime-text3">配置sublime text3</h3>
 <p>首选项=&gt;Package Settings=&gt;Package Control=&gt;Xdebug=&gt;Settings-User</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>{
 
 "port": 9001,
 }
@@ -517,7 +517,7 @@ xdebug-client
 <h3 id="配置xdebug-helper">配置Xdebug helper</h3>
 
 <p>IDE key，选其他，输入</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>sublime.xdebug
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>sublime.xdebug
 </code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
 
 <h2 id="firefox安装xdebug-helper插件">Firefox安装Xdebug helper插件</h2>
@@ -527,14 +527,14 @@ xdebug-client
 <h3 id="配置">配置</h3>
 <p>IDE key，选其他，输入</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>sublime.xdebug
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>sublime.xdebug
 </code></pre></td></tr></tbody></table></td></tr></tbody></table></div></div>
 
 <h2 id="检查是否配置成功">检查是否配置成功</h2>
 
 <h3 id="创建indexphp">创建index.php</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 
 var_dump("hello xdebug"); #设置断点
 ?&gt;
@@ -543,7 +543,7 @@ var_dump("hello xdebug"); #设置断点
 
 <p>快捷键打开命令行输入工具Command+shif+p,输入:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Xdebug: Start Debugging
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Xdebug: Start Debugging
 
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="浏览器访问-localhostindexphp">浏览器访问 localhost/index.php</h3>
@@ -552,7 +552,7 @@ var_dump("hello xdebug"); #设置断点
 
 <p>如果控制台有内容输出，证明配置成功</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>$_COOKIE = array[1]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>$_COOKIE = array[1]
 $_COOKIE['XDEBUG_SESSION'] = (string) sublime.xdebug
 $_ENV = array[0]
 $_FILES = array[0]
@@ -565,7 +565,7 @@ $_REQUEST = array[0]
 <h3 id="php-intellisense扩展">php intellisense扩展</h3>
 <h3 id="php-debug扩展">php debug扩展</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>"php.suggest.basic": false,
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>"php.suggest.basic": false,
 "php.validate.executablePath": "/usr/local/php7-15/bin"
 
 </code></pre></td></tr></tbody></table></div></div>
@@ -725,7 +725,7 @@ $_REQUEST = array[0]
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -747,7 +747,7 @@ $_REQUEST = array[0]
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

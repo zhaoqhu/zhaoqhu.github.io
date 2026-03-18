@@ -115,8 +115,8 @@
 <meta name="keywords" content="Python, fastapi, orm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FastAPI-ORM">
-<meta property="og:url" content="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/fastapi/2026/01/15/fastapi-orm/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。 aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/fastapi/2026/01/15/fastapi-orm/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/fastapi/2026/01/15/fastapi-orm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-01-15T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-01-15T00:00:00-06:00">
                 2026-01-15
               </time>
             
@@ -456,11 +456,11 @@ aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高�
 
 <h1 id="python环境">python环境</h1>
 <h2 id="python-版本">python 版本</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
 Python 3.13.10
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="pip安装第三发的软件包">pip安装第三发的软件包</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code># pip3 --version
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code># pip3 --version
 pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
 // 安装软件包（最新版本）
 # pip install openai
@@ -477,17 +477,17 @@ pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/
 
 <ul>
   <li>创建虚拟环境
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>python3 -m venv venv 
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>python3 -m venv venv 
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
   <li>激活虚拟环境
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>source venv/bin/activate
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>source venv/bin/activate
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
   <li>在虚拟环境工作</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code># source ./venv/bin/activate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code># source ./venv/bin/activate
 # deactivate
 (venv) # pip --version
 pip 25.3 /fastapi/venv/lib/python3.13/site-packages/pip (python 3.13)
@@ -496,19 +496,19 @@ Python 3.13.10
 </code></pre></td></tr></tbody></table></div></div>
 <ul>
   <li>退出虚拟环境
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>deactivate
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>deactivate
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
 </ul>
 
 <h2 id="在虚拟环境安装运行fastapi服务工具">在虚拟环境安装运行fastapi服务工具。</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install "fastapi[standard]"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install "fastapi[standard]"
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="fastapi-命令行工具">fastapi 命令行工具</h3>
 
 <ul>
   <li>使用 fastapi工具运行fastapi服务
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code># fastapi dev main.py 
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code># fastapi dev main.py 
 # 命令
 dev      Run a FastAPI app in development mode.
 │ run      Run a FastAPI app in production mode.
@@ -523,7 +523,7 @@ dev      Run a FastAPI app in development mode.
 
 <ul>
   <li>使用 uvicorn高兴能服务器工具运行fastapi
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>uvicorn main:app --reload
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>uvicorn main:app --reload
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
 </ul>
@@ -532,7 +532,7 @@ dev      Run a FastAPI app in development mode.
 
 <ul>
   <li>vscode/launch.json
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>{
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>{
   // 使用 IntelliSense 了解相关属性。 
   // 悬停以查看现有属性的描述。
   // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
@@ -562,7 +562,7 @@ dev      Run a FastAPI app in development mode.
 关系型数据库之间建立映射。允许开发者通过操作对象的方式和数据交互，而无需直接编写复杂的SQL语句。
 ORM分类</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>排名     ORM工具             特点                         适应场景
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>排名     ORM工具             特点                         适应场景
 1       SQLAlchemy ORM      功能最强，最灵活，企业级        各类API、微服务、数据应用
 2       Django ORM          封装好、上手快                 Django项目、管理后台
 3       Tortose ORM         全异步                       异步Web服务、高并发API
@@ -575,7 +575,7 @@ ORM分类</p>
 <ul>
   <li><a href="https://pypi.org/project/SQLAlchemy/">sqlalchemy</a></li>
   <li><a href="https://pypi.org/project/aiomysql/">aiomysql</a>
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code># pip install "sqlalchemy[asyncio]"
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code># pip install "sqlalchemy[asyncio]"
 //不支持异步
 # pip install "sqlalchemy"
 # pip install aiomysql             
@@ -588,7 +588,7 @@ ORM分类</p>
   <li>创建数据库引擎</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 
 ASYNC_DATABASE_URL = "mysql+aiomysql://root:CXqwr12_@localhost:13306/fastapi_first?charset=utf8mb4"
 async_engine = create_async_engine(
@@ -604,7 +604,7 @@ async_engine = create_async_engine(
   <li>定义模型类</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</pre></td><td class="code"><pre class="highlight"><code>from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 # 2.定义模型类：基类+表对应的模型类
 # 基类：创建时间、更新时间；书籍表：id、书名、作者、价格、出版社
@@ -626,7 +626,7 @@ class Book(Base):
   <li>启动应用时建表</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>
 # 3.定义函数建表 -&gt;FastAPI启动时调用
 async def create_tables():
     async with async_engine.begin() as conn:
@@ -640,7 +640,7 @@ async def startup_event():
 <h2 id="orm-在路由中使用">ORM-在路由中使用</h2>
 <p>核心：创建依赖项，使用Depends注入到处理函数</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code># 需求：查询功能的接口，查询图书-&gt;依赖注入：创建依赖获取数据库会话+Depends注入路由处理函数
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code># 需求：查询功能的接口，查询图书-&gt;依赖注入：创建依赖获取数据库会话+Depends注入路由处理函数
 AsyncSessionLocal = async_sessionmaker(
     bind=async_engine, #绑定数据库引擎
     class_=AsyncSession, #指定会话类
@@ -675,7 +675,7 @@ async def get_book_list(db: AsyncSession = Depends(get_database)):
   <li>获取所有数据</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>scalars().all()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>scalars().all()
 *获取单条数据
 scalars().first()
 get(模型类,主键值)
@@ -686,26 +686,26 @@ get(模型类,主键值)
   <li>比较判断：</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>==|&gt;|&lt;|&gt;=|&lt;=
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>==|&gt;|&lt;|&gt;=|&lt;=
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="orm查询总结">ORM查询总结</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>select()-&gt;db.execute()-&gt;从对象获取数据-&gt;响应结果
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>select()-&gt;db.execute()-&gt;从对象获取数据-&gt;响应结果
 db.get(模型类，主键值)
 </code></pre></td></tr></tbody></table></div></div>
 <ul>
   <li>条件查询</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>比较判断、模糊查询like()、与非查询：&amp; | ~、包含查询：in_()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>比较判断、模糊查询like()、与非查询：&amp; | ~、包含查询：in_()
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>聚合查询func</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>count()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>count()
 max()
 avg()
 sum()
@@ -715,7 +715,7 @@ sum()
   <li>分页查询</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>select().offset().limit()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>select().offset().limit()
 offset值 = (当前页面-1)*每页数量
 
 </code></pre></td></tr></tbody></table></div></div>
@@ -725,10 +725,10 @@ offset值 = (当前页面-1)*每页数量
 
 <p>获取所有数据</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>scalars().all()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>scalars().all()
 </code></pre></td></tr></tbody></table></div></div>
 <p>获取单条数据</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>//提取第一个数据
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>//提取第一个数据
 scalars.first() 
 //提取一个或null
 scalar_one_or_none()
@@ -756,7 +756,7 @@ scalar()
 
 <h2 id="mainpy">main.py</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178<br/>179<br/>180<br/>181<br/>182<br/>183<br/>184<br/>185<br/>186<br/>187<br/>188<br/>189<br/>190<br/>191<br/>192<br/>193<br/>194<br/>195<br/>196<br/>197<br/>198<br/>199<br/>200<br/>201<br/>202<br/>203<br/>204<br/>205<br/>206<br/>207<br/>208<br/>209<br/>210<br/>211<br/>212<br/>213<br/>214<br/>215<br/>216<br/>217<br/>218<br/>219<br/>220<br/>221<br/>222</pre></td><td class="code"><pre class="highlight"><code>import datetime
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178<br/>179<br/>180<br/>181<br/>182<br/>183<br/>184<br/>185<br/>186<br/>187<br/>188<br/>189<br/>190<br/>191<br/>192<br/>193<br/>194<br/>195<br/>196<br/>197<br/>198<br/>199<br/>200<br/>201<br/>202<br/>203<br/>204<br/>205<br/>206<br/>207<br/>208<br/>209<br/>210<br/>211<br/>212<br/>213<br/>214<br/>215<br/>216<br/>217<br/>218<br/>219<br/>220<br/>221<br/>222</pre></td><td class="code"><pre class="highlight"><code>import datetime
 from fastapi import FastAPI , Path, Query, HTTPException, Depends
 from pydantic import BaseModel,Field
 from fastapi.responses import HTMLResponse, FileResponse
@@ -1148,7 +1148,7 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1170,7 +1170,7 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

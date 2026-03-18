@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Laravel 安装">
-<meta property="og:url" content="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/php/laravel/2021/01/23/laravel-install/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="Composer全量镜像配置 由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。 推荐使用国内阿里云镜像 ``` composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装 composer config -g –unset repos.packagist #取消配置">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/laravel/2021/01/23/laravel-install/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/php/laravel/2021/01/23/laravel-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-23T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-23T00:00:00-06:00">
                 2021-01-23
               </time>
             
@@ -466,20 +466,20 @@
   <h3 id="composer全量镜像配置">Composer全量镜像配置</h3>
 <p>由于国内用户访问Composer镜像的官方网站，在使用php的包管理工具Composer安装时，可能会下载安装的很慢，或者下载安装失败。
 推荐使用国内阿里云镜像</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ #全局安装
 composer config -g --unset repos.packagist #取消配置
 
 composer config repo.packagist composer https://mirrors.aliyun.com/composer/ #单个项目局部配置
 composer config --unset repos.packagist #单个项目局部取消配置
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="安装最新版本laravel">安装最新版本laravel</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>cd /Users/zhaoqhu/www/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>cd /Users/zhaoqhu/www/
 mkdir laravel_last #创建文件夹
 composer create-project   laravel/laravel  ./  #安装laravel最新版本的框架到当前目录
 php artisan #查看laravel框架的版本，目前的最新版本是8.24.0
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="安装指定版本laravel">安装指定版本laravel</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>cd /Users/zhaoqhu/www/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>cd /Users/zhaoqhu/www/
 mkdir laravel_7_30_4
 composer create-project   laravel/laravel ./   "7.30.*";
 php artisan 
@@ -487,14 +487,14 @@ php artisan
 <h3 id="github下载laravel指定版本压缩包解压安装">Github下载laravel指定版本压缩包解压安装</h3>
 <p>访问Github上对应的版本<a href="https://github.com/laravel/laravel/archive/v7.30.0.zip">https://github.com/laravel/laravel/archive/v7.30.0.zip</a>,然后下载到本地电脑，然后解压，然后进入7.30.0目录</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>unzip v7.30.0 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>unzip v7.30.0 
 cd laravel-7.30.0
 composer install #安装
 php artisan -V #查看版本
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="使用-laravel命令行工具安装">使用 laravel命令行工具安装</h3>
 <p>查看composer的home所在的目录，通过下面的命令，然后找到[home] /Users/zhaoqhu/.composer</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>composer global require laravel/installer #安装laravel命令行工具
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>composer global require laravel/installer #安装laravel命令行工具
 composer config -l #查看composer配置
 cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
  ~/.composer/vendor/bin/laravel new example-app; #安装
@@ -662,7 +662,7 @@ cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -684,7 +684,7 @@ cd ~/.composer/vendor/bin#查看laravel命令行工具是否存在
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

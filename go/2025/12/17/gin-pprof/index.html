@@ -115,8 +115,8 @@
 <meta name="keywords" content="Gin, pprof">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go pprof 核心指标分析与工具使用指南">
-<meta property="og:url" content="http://localhost:4000/go/2025/12/17/gin-pprof/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/go/2025/12/17/gin-pprof/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈 安装 初始化Go模块">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="/assets/images/go/gin-pprof-1.png">
@@ -153,7 +153,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -331,7 +331,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/go/2025/12/17/gin-pprof/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/go/2025/12/17/gin-pprof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -365,7 +365,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-17T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-17T00:00:00-06:00">
                 2025-12-17
               </time>
             
@@ -460,11 +460,11 @@
 <h2 id="安装">安装</h2>
 <h3 id="初始化go模块">初始化Go模块</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go mod init gin-pprof-demo
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go mod init gin-pprof-demo
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="安装依赖">安装依赖</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>go get github.com/gin-contrib/pprof
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>go get github.com/gin-contrib/pprof
 go get github.com/gin-gonic/gin
 go get github.com/swaggo/swag/cmd/swag
 go get github.com/swaggo/files
@@ -474,17 +474,17 @@ go get github.com/swaggo/swag
 
 <h3 id="生成swagger-文档">生成Swagger 文档</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>swag init
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>swag init
 </code></pre></td></tr></tbody></table></div></div>
 
 <h3 id="运行程序">运行程序</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go run main.go
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go run main.go
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="指标分类与核心说明">指标分类与核心说明</h2>
 
-<p>Go <code class="highlighter-rouge">net/http/pprof</code> 暴露的10个性能分析端点，按<strong>分析对象</strong>分类如下，涵盖内存、CPU、阻塞、并发、线程、执行流程等维度，配合 <code class="highlighter-rouge">go tool</code> 可精准定位性能瓶颈。</p>
+<p>Go <code class="language-plaintext highlighter-rouge">net/http/pprof</code> 暴露的10个性能分析端点，按<strong>分析对象</strong>分类如下，涵盖内存、CPU、阻塞、并发、线程、执行流程等维度，配合 <code class="language-plaintext highlighter-rouge">go tool</code> 可精准定位性能瓶颈。</p>
 
 <h2 id="指标详情表格">指标详情表格</h2>
 
@@ -501,72 +501,72 @@ go get github.com/swaggo/swag
   <tbody>
     <tr>
       <td><strong>内存分析</strong></td>
-      <td><code class="highlighter-rouge">allocs</code></td>
+      <td><code class="language-plaintext highlighter-rouge">allocs</code></td>
       <td>累计内存分配（含已释放对象），记录程序启动以来的<strong>所有内存分配历史</strong>（字节/对象数）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/allocs</code></td>
-      <td>- 默认分析 <code class="highlighter-rouge">alloc_space</code>（累计分配）<br />- 用 <code class="highlighter-rouge">top</code> 看累计分配大户<br />- 结合 <code class="highlighter-rouge">heap</code> 对比当前活跃内存</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/allocs</code></td>
+      <td>- 默认分析 <code class="language-plaintext highlighter-rouge">alloc_space</code>（累计分配）<br />- 用 <code class="language-plaintext highlighter-rouge">top</code> 看累计分配大户<br />- 结合 <code class="language-plaintext highlighter-rouge">heap</code> 对比当前活跃内存</td>
     </tr>
     <tr>
       <td> </td>
-      <td><code class="highlighter-rouge">heap</code></td>
+      <td><code class="language-plaintext highlighter-rouge">heap</code></td>
       <td>堆内存快照（当前<strong>活跃对象</strong>，未被GC回收的内存），记录实时内存占用。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/heap</code></td>
-      <td>- 默认 <code class="highlighter-rouge">inuse_space</code>（当前活跃），用 <code class="highlighter-rouge">sample_index=alloc_space</code> 切换累计分配<br />- 多次采样后用 <code class="highlighter-rouge">diff</code> 对比泄漏<br />- 用 <code class="highlighter-rouge">list</code> 定位代码行</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/heap</code></td>
+      <td>- 默认 <code class="language-plaintext highlighter-rouge">inuse_space</code>（当前活跃），用 <code class="language-plaintext highlighter-rouge">sample_index=alloc_space</code> 切换累计分配<br />- 多次采样后用 <code class="language-plaintext highlighter-rouge">diff</code> 对比泄漏<br />- 用 <code class="language-plaintext highlighter-rouge">list</code> 定位代码行</td>
     </tr>
     <tr>
       <td><strong>CPU分析</strong></td>
-      <td><code class="highlighter-rouge">profile</code></td>
+      <td><code class="language-plaintext highlighter-rouge">profile</code></td>
       <td>CPU耗时采样（默认10秒），记录函数<strong>CPU占用时长</strong>（纳秒级）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/profile?seconds=30</code></td>
-      <td>- <code class="highlighter-rouge">seconds=N</code> 指定采样时长（建议30秒）<br />- 用 <code class="highlighter-rouge">top</code> 找CPU热点，<code class="highlighter-rouge">list</code> 定位代码行<br />- 用 <code class="highlighter-rouge">web</code> 可视化调用图</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/profile?seconds=30</code></td>
+      <td>- <code class="language-plaintext highlighter-rouge">seconds=N</code> 指定采样时长（建议30秒）<br />- 用 <code class="language-plaintext highlighter-rouge">top</code> 找CPU热点，<code class="language-plaintext highlighter-rouge">list</code> 定位代码行<br />- 用 <code class="language-plaintext highlighter-rouge">web</code> 可视化调用图</td>
     </tr>
     <tr>
       <td><strong>阻塞分析</strong></td>
-      <td><code class="highlighter-rouge">block</code></td>
+      <td><code class="language-plaintext highlighter-rouge">block</code></td>
       <td>阻塞事件采样（channel操作、IO等待等），记录goroutine阻塞<strong>时长/次数</strong>。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/block?seconds=30</code></td>
-      <td>- 需先调用 <code class="highlighter-rouge">runtime.SetBlockProfileRate(1)</code> 启用采样<br />- 用 <code class="highlighter-rouge">top</code> 看阻塞热点，<code class="highlighter-rouge">list</code> 定位阻塞代码</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/block?seconds=30</code></td>
+      <td>- 需先调用 <code class="language-plaintext highlighter-rouge">runtime.SetBlockProfileRate(1)</code> 启用采样<br />- 用 <code class="language-plaintext highlighter-rouge">top</code> 看阻塞热点，<code class="language-plaintext highlighter-rouge">list</code> 定位阻塞代码</td>
     </tr>
     <tr>
       <td> </td>
-      <td><code class="highlighter-rouge">mutex</code></td>
-      <td>锁竞争事件采样（<code class="highlighter-rouge">sync.Mutex</code>），记录goroutine因锁竞争的<strong>阻塞时长/次数</strong>。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/mutex?seconds=30</code></td>
-      <td>- 需先调用 <code class="highlighter-rouge">runtime.SetMutexProfileFraction(1)</code> 启用采样<br />- 用 <code class="highlighter-rouge">top</code> 看锁竞争热点</td>
+      <td><code class="language-plaintext highlighter-rouge">mutex</code></td>
+      <td>锁竞争事件采样（<code class="language-plaintext highlighter-rouge">sync.Mutex</code>），记录goroutine因锁竞争的<strong>阻塞时长/次数</strong>。</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/mutex?seconds=30</code></td>
+      <td>- 需先调用 <code class="language-plaintext highlighter-rouge">runtime.SetMutexProfileFraction(1)</code> 启用采样<br />- 用 <code class="language-plaintext highlighter-rouge">top</code> 看锁竞争热点</td>
     </tr>
     <tr>
       <td><strong>并发分析</strong></td>
-      <td><code class="highlighter-rouge">goroutine</code></td>
+      <td><code class="language-plaintext highlighter-rouge">goroutine</code></td>
       <td>当前所有goroutine的<strong>堆栈跟踪</strong>（含状态：运行中、阻塞、死锁）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/goroutine</code></td>
-      <td>- 用 <code class="highlighter-rouge">curl http://.../goroutine?debug=2 &gt; goroutines.txt</code> 导出堆栈<br />- 搜索 <code class="highlighter-rouge">chan receive</code>/<code class="highlighter-rouge">lock</code> 定位阻塞/泄漏</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/goroutine</code></td>
+      <td>- 用 <code class="language-plaintext highlighter-rouge">curl http://.../goroutine?debug=2 &gt; goroutines.txt</code> 导出堆栈<br />- 搜索 <code class="language-plaintext highlighter-rouge">chan receive</code>/<code class="language-plaintext highlighter-rouge">lock</code> 定位阻塞/泄漏</td>
     </tr>
     <tr>
       <td><strong>线程分析</strong></td>
-      <td><code class="highlighter-rouge">threadcreate</code></td>
+      <td><code class="language-plaintext highlighter-rouge">threadcreate</code></td>
       <td>线程创建事件采样，记录<strong>新线程创建的堆栈</strong>（含创建耗时）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/threadcreate?seconds=30</code></td>
-      <td>- 用 <code class="highlighter-rouge">top</code> 看线程创建热点<br />- 适合分析线程创建开销（如频繁创建线程）</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/threadcreate?seconds=30</code></td>
+      <td>- 用 <code class="language-plaintext highlighter-rouge">top</code> 看线程创建热点<br />- 适合分析线程创建开销（如频繁创建线程）</td>
     </tr>
     <tr>
       <td><strong>执行流程分析</strong></td>
-      <td><code class="highlighter-rouge">trace</code></td>
+      <td><code class="language-plaintext highlighter-rouge">trace</code></td>
       <td>执行时序跟踪（goroutine调度、GC、系统调用、请求处理流程），生成<strong>时序日志</strong>。</td>
-      <td>1. 下载trace文件：<code class="highlighter-rouge">curl -o trace.bin 'http://.../trace?seconds=5'</code><br />2. 分析：<code class="highlighter-rouge">go tool trace trace.bin</code></td>
-      <td>- 需先下载二进制文件（<code class="highlighter-rouge">trace.bin</code>），再用 <code class="highlighter-rouge">go tool trace</code> 打开<br />- 可视化界面看甘特图、goroutine分析</td>
+      <td>1. 下载trace文件：<code class="language-plaintext highlighter-rouge">curl -o trace.bin 'http://.../trace?seconds=5'</code><br />2. 分析：<code class="language-plaintext highlighter-rouge">go tool trace trace.bin</code></td>
+      <td>- 需先下载二进制文件（<code class="language-plaintext highlighter-rouge">trace.bin</code>），再用 <code class="language-plaintext highlighter-rouge">go tool trace</code> 打开<br />- 可视化界面看甘特图、goroutine分析</td>
     </tr>
     <tr>
       <td><strong>配置查看</strong></td>
-      <td><code class="highlighter-rouge">cmdline</code></td>
-      <td>程序启动命令行参数（如 <code class="highlighter-rouge">./main -port=8080</code>）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/cmdline</code></td>
+      <td><code class="language-plaintext highlighter-rouge">cmdline</code></td>
+      <td>程序启动命令行参数（如 <code class="language-plaintext highlighter-rouge">./main -port=8080</code>）。</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/cmdline</code></td>
       <td>- 直接返回文本，查看启动配置（环境变量、GOMAXPROCS等）</td>
     </tr>
     <tr>
       <td><strong>调试工具</strong></td>
-      <td><code class="highlighter-rouge">symbol</code></td>
+      <td><code class="language-plaintext highlighter-rouge">symbol</code></td>
       <td>符号表查询接口，将<strong>内存地址转换为函数名</strong>（供调试工具使用）。</td>
-      <td><code class="highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/symbol</code></td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://localhost:8080/debug/pprof/symbol</code></td>
       <td>- 日常分析极少用，仅调试时解析崩溃堆栈中的未知地址</td>
     </tr>
   </tbody>
@@ -579,10 +579,10 @@ go get github.com/swaggo/swag
 <p>按<strong>分析对象</strong>划分（内存、CPU、阻塞等），便于快速匹配问题类型：</p>
 
 <ul>
-  <li><strong>内存问题</strong> → <code class="highlighter-rouge">heap</code>（当前泄漏）+ <code class="highlighter-rouge">allocs</code>（累计分配）</li>
-  <li><strong>CPU问题</strong> → <code class="highlighter-rouge">profile</code>（CPU热点）</li>
-  <li><strong>阻塞/并发问题</strong> → <code class="highlighter-rouge">goroutine</code>（状态）+ <code class="highlighter-rouge">block</code>（阻塞事件）+ <code class="highlighter-rouge">mutex</code>（锁竞争）</li>
-  <li><strong>时序问题</strong> → <code class="highlighter-rouge">trace</code>（甘特图分析延迟）</li>
+  <li><strong>内存问题</strong> → <code class="language-plaintext highlighter-rouge">heap</code>（当前泄漏）+ <code class="language-plaintext highlighter-rouge">allocs</code>（累计分配）</li>
+  <li><strong>CPU问题</strong> → <code class="language-plaintext highlighter-rouge">profile</code>（CPU热点）</li>
+  <li><strong>阻塞/并发问题</strong> → <code class="language-plaintext highlighter-rouge">goroutine</code>（状态）+ <code class="language-plaintext highlighter-rouge">block</code>（阻塞事件）+ <code class="language-plaintext highlighter-rouge">mutex</code>（锁竞争）</li>
+  <li><strong>时序问题</strong> → <code class="language-plaintext highlighter-rouge">trace</code>（甘特图分析延迟）</li>
 </ul>
 
 <h3 id="2-通用命令与避坑点">2. 通用命令与避坑点</h3>
@@ -598,22 +598,22 @@ go get github.com/swaggo/swag
   <tbody>
     <tr>
       <td>内存泄漏定位</td>
-      <td><code class="highlighter-rouge">go tool pprof http://.../heap</code> → 多次采样 → <code class="highlighter-rouge">diff</code> 对比 → <code class="highlighter-rouge">list</code> 定位代码行</td>
-      <td>默认 <code class="highlighter-rouge">inuse_space</code> 仅看活跃内存，需切 <code class="highlighter-rouge">alloc_space</code> 看累计分配；小泄漏需多次采样</td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://.../heap</code> → 多次采样 → <code class="language-plaintext highlighter-rouge">diff</code> 对比 → <code class="language-plaintext highlighter-rouge">list</code> 定位代码行</td>
+      <td>默认 <code class="language-plaintext highlighter-rouge">inuse_space</code> 仅看活跃内存，需切 <code class="language-plaintext highlighter-rouge">alloc_space</code> 看累计分配；小泄漏需多次采样</td>
     </tr>
     <tr>
       <td>CPU热点定位</td>
-      <td><code class="highlighter-rouge">go tool pprof http://.../profile?seconds=30</code> → <code class="highlighter-rouge">top</code> → <code class="highlighter-rouge">list</code> → <code class="highlighter-rouge">web</code></td>
+      <td><code class="language-plaintext highlighter-rouge">go tool pprof http://.../profile?seconds=30</code> → <code class="language-plaintext highlighter-rouge">top</code> → <code class="language-plaintext highlighter-rouge">list</code> → <code class="language-plaintext highlighter-rouge">web</code></td>
       <td>采样时长建议30秒（覆盖多轮请求），避免短时波动干扰</td>
     </tr>
     <tr>
       <td>阻塞事件分析</td>
-      <td>先 <code class="highlighter-rouge">runtime.SetBlockProfileRate(1)</code> → <code class="highlighter-rouge">go tool pprof http://.../block?seconds=30</code></td>
+      <td>先 <code class="language-plaintext highlighter-rouge">runtime.SetBlockProfileRate(1)</code> → <code class="language-plaintext highlighter-rouge">go tool pprof http://.../block?seconds=30</code></td>
       <td>未启用采样时无数据，需代码中显式开启</td>
     </tr>
     <tr>
       <td>trace时序分析</td>
-      <td><code class="highlighter-rouge">curl -o trace.bin 'http://.../trace?seconds=5'</code> → <code class="highlighter-rouge">go tool trace trace.bin</code></td>
+      <td><code class="language-plaintext highlighter-rouge">curl -o trace.bin 'http://.../trace?seconds=5'</code> → <code class="language-plaintext highlighter-rouge">go tool trace trace.bin</code></td>
       <td>需下载二进制文件（非URL直接分析），用可视化界面看甘特图</td>
     </tr>
   </tbody>
@@ -622,10 +622,10 @@ go get github.com/swaggo/swag
 <h3 id="3-核心场景速查">3. 核心场景速查</h3>
 
 <ul>
-  <li><strong>“内存涨了但heap没反应”</strong> → 用 <code class="highlighter-rouge">alloc_space</code> 维度 + 多次采样 <code class="highlighter-rouge">diff</code> 对比</li>
-  <li><strong>“CPU占用高但不知道哪里慢”</strong> → <code class="highlighter-rouge">profile</code> 采样 + <code class="highlighter-rouge">top</code> 找热点函数</li>
-  <li><strong>“goroutine数量爆炸”</strong> → <code class="highlighter-rouge">goroutine</code> 导出堆栈 + 搜索 <code class="highlighter-rouge">chan receive</code>/<code class="highlighter-rouge">lock</code> 定位泄漏源</li>
-  <li><strong>“请求延迟忽高忽低”</strong> → <code class="highlighter-rouge">trace</code> 甘特图看GC/系统调用与请求的时序重叠</li>
+  <li><strong>“内存涨了但heap没反应”</strong> → 用 <code class="language-plaintext highlighter-rouge">alloc_space</code> 维度 + 多次采样 <code class="language-plaintext highlighter-rouge">diff</code> 对比</li>
+  <li><strong>“CPU占用高但不知道哪里慢”</strong> → <code class="language-plaintext highlighter-rouge">profile</code> 采样 + <code class="language-plaintext highlighter-rouge">top</code> 找热点函数</li>
+  <li><strong>“goroutine数量爆炸”</strong> → <code class="language-plaintext highlighter-rouge">goroutine</code> 导出堆栈 + 搜索 <code class="language-plaintext highlighter-rouge">chan receive</code>/<code class="language-plaintext highlighter-rouge">lock</code> 定位泄漏源</li>
+  <li><strong>“请求延迟忽高忽低”</strong> → <code class="language-plaintext highlighter-rouge">trace</code> 甘特图看GC/系统调用与请求的时序重叠</li>
 </ul>
 
 <h2 id="实战示例">实战示例</h2>
@@ -801,7 +801,7 @@ go get github.com/swaggo/swag
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -823,7 +823,7 @@ go get github.com/swaggo/swag
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

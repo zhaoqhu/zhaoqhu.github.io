@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="browserify">
-<meta property="og:url" content="http://localhost:4000/node.js/2019/10/08/Browserify-watchify/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/node.js/2019/10/08/Browserify-watchify/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="介绍 Browserify lets you require(‘modules’) in the browser by bundling up all of your dependencies.">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/node.js/2019/10/08/Browserify-watchify/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/node.js/2019/10/08/Browserify-watchify/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-08T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-08T00:00:00-05:00">
                 2019-10-08
               </time>
             
@@ -456,7 +456,7 @@
 
 <h2 id="安装">安装</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ npm install -g browserify
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ npm install -g browserify
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="使用一">使用一</h2>
@@ -464,7 +464,7 @@
   <li>Here is a tutorial on how to use Browserify on the command line to bundle up a simple file called main.js along with all of its dependencies: main.js</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>var unique = require('uniq');
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>var unique = require('uniq');
 
 var data = [1, 2, 2, 3, 4, 5, 5, 5, 6];
 
@@ -474,14 +474,14 @@ console.log(unique(data));
   <li>Install the uniq module with npm:</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>npm install uniq
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>npm install uniq
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>Now recursively bundle up all the required modules starting at main.js into a single file called bundle.js with the browserify command:</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>browserify main.js -o bundle.js
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>browserify main.js -o bundle.js
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
@@ -489,7 +489,7 @@ console.log(unique(data));
 Drop a single &lt;script&gt; tag into your html and you’re done!</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>&lt;script src="bundle.js"&gt;&lt;/script&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>&lt;script src="bundle.js"&gt;&lt;/script&gt;
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="使用二-browserify-watchify-socketio-client-jquery">使用二 browserify, watchify, socket.io-client, jquery、</h2>
@@ -498,7 +498,7 @@ Drop a single &lt;script&gt; tag into your html and you’re done!</li>
   <li>安装browserify , socket.io-client, watchify</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>$ npm i browserify --save-dev
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>$ npm i browserify --save-dev
 
 $ npm install --save socket.io-client
 
@@ -511,7 +511,7 @@ $npm i --save jquery
   <li>package.json</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>{
   "name": "app",
   "version": "1.0.0",
   "description": "",
@@ -531,14 +531,14 @@ $npm i --save jquery
   <li>main.js文件使用require引入js模块</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>执行命令，编译和监控文件</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>$ npm run build
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>$ npm run build
 $ npm run watch
 </code></pre></td></tr></tbody></table></div></div>
 
@@ -701,7 +701,7 @@ $ npm run watch
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -723,7 +723,7 @@ $ npm run watch
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

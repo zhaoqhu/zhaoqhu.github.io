@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 14.04 lts 升级到 16.04 lts">
-<meta property="og:url" content="http://localhost:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="故障描述">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/linux/2019/10/11/ubuntu14.04-lts-to-16.04-lts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00-05:00">
                 2019-10-11
               </time>
             
@@ -466,7 +466,7 @@
 <p>apt: relocation error: version GLIBCXX_3.4.21 not defined in file libstdc++.so.6 with link time reference</p>
 
 <p>解决办法：需要网络可以正常访问外网，执行下面的命令</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>$ wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>$ wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb
 sudo dpkg -i libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb
 
 # I also found this helpful
@@ -475,7 +475,7 @@ $ sudo apt-get -f install
 
 <h2 id="命令行模式切换到图形界面模式">命令行模式切换到图形界面模式</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>$ service lightdm start
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>$ service lightdm start
 
 </code></pre></td></tr></tbody></table></div></div>
 
@@ -642,7 +642,7 @@ $ sudo apt-get -f install
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -664,7 +664,7 @@ $ sudo apt-get -f install
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go Redis学习笔记">
-<meta property="og:url" content="http://localhost:4000/go/2025/09/23/go-redis-note/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/go/2025/09/23/go-redis-note/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="安装 ``` go get github.com/redis/go-redis/v9">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/go/2025/09/23/go-redis-note/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/go/2025/09/23/go-redis-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-23T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-23T00:00:00-05:00">
                 2025-09-23
               </time>
             
@@ -452,67 +452,67 @@
 
 
   <h2 id="安装">安装</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>go get github.com/redis/go-redis/v9
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>go get github.com/redis/go-redis/v9
 
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="使用例子">使用例子</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"fmt"</span>
-	<span class="s2">"log"</span>
-	<span class="s2">"time"</span>
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
 
-	<span class="s2">"github.com/redis/go-redis/v9"</span>
-<span class="p">)</span>
+	"github.com/redis/go-redis/v9"
+)
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">rdb</span> <span class="p">:=</span> <span class="n">redis</span><span class="p">.</span><span class="n">NewClient</span><span class="p">(&amp;</span><span class="n">redis</span><span class="p">.</span><span class="k">Options</span><span class="p">{</span>
-		<span class="n">Addr</span><span class="p">:</span>     <span class="s2">"localhost:16379"</span><span class="p">,</span>
-		<span class="n">Password</span><span class="p">:</span> <span class="s2">"CXqwr12_"</span><span class="p">,</span> <span class="p">//</span> <span class="n">no</span> <span class="n">password</span> <span class="k">set</span>
-		<span class="n">DB</span><span class="p">:</span>       <span class="m">0</span><span class="p">,</span>          <span class="p">//</span> <span class="n">use</span> <span class="n">default</span> <span class="n">DB</span>
-	<span class="p">})</span>
-	<span class="n">var</span> <span class="n">ctx</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span>
-	<span class="n">pong</span><span class="p">,</span> <span class="n">err2</span> <span class="p">:=</span> <span class="n">rdb</span><span class="p">.</span><span class="n">Ping</span><span class="p">(</span><span class="n">ctx</span><span class="p">).</span><span class="n">Result</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err2</span> <span class="c1">!= nil {
-</span>		<span class="p">//</span><span class="n">panic</span><span class="p">(</span><span class="n">err2</span><span class="p">)</span>
-		<span class="nb">log</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"redis connect failed,err:%v"</span><span class="p">,</span> <span class="n">err2</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"redis connect success:"</span><span class="p">,</span> <span class="n">pong</span><span class="p">)</span>
-	<span class="n">err</span> <span class="p">:=</span> <span class="n">rdb</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key"</span><span class="p">,</span> <span class="s2">"redis-go-value"</span><span class="p">,</span> <span class="m">0</span><span class="p">).</span><span class="n">Err</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="p">//</span><span class="n">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-		<span class="nb">log</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"set key failed,err:%v"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key2"</span><span class="p">,</span> <span class="s2">"redis-go-value2"</span><span class="p">,</span> <span class="m">300</span><span class="p">*</span><span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key3"</span><span class="p">,</span> <span class="s2">"redis-go-value3"</span><span class="p">,</span> <span class="m">60</span><span class="p">*</span><span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key4"</span><span class="p">,</span> <span class="s2">"redis-go-value3"</span><span class="p">,</span> <span class="m">160</span><span class="p">*</span><span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="n">HSet</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-hash-key1"</span><span class="p">,</span> <span class="s2">"field1"</span><span class="p">,</span> <span class="s2">"hash-value1"</span><span class="p">)</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="n">HSet</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-hash-key1"</span><span class="p">,</span> <span class="s2">"field2"</span><span class="p">,</span> <span class="s2">"hash-value2"</span><span class="p">)</span>
-	<span class="n">rdb</span><span class="p">.</span><span class="n">HSet</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-hash-key1"</span><span class="p">,</span> <span class="s2">"field3"</span><span class="p">,</span> <span class="s2">"hash-value3"</span><span class="p">)</span>
-	<span class="p">//</span><span class="n">val</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">rdb</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key"</span><span class="p">).</span><span class="n">Result</span><span class="p">()</span>
-	<span class="n">val</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">rdb</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"key"</span><span class="p">).</span><span class="n">Result</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="p">//</span><span class="n">panic</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-		<span class="nb">log</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"get key failed,err:%v"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"key"</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-	<span class="n">deleted</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">rdb</span><span class="p">.</span><span class="n">Del</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-key3"</span><span class="p">,</span> <span class="s2">"go-redis-key2"</span><span class="p">).</span><span class="n">Result</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="nb">log</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"delete key failed,err:%v"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s2">"deleted is "</span><span class="p">,</span> <span class="n">deleted</span><span class="p">)</span>
-	<span class="n">deleted</span><span class="p">,</span> <span class="n">err</span> <span class="p">=</span> <span class="n">rdb</span><span class="p">.</span><span class="n">HDel</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s2">"go-redis-hash-key1"</span><span class="p">,</span> <span class="s2">"field1"</span><span class="p">,</span> <span class="s2">"field2"</span><span class="p">).</span><span class="n">Result</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="nb">log</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"delete key failed,err:%v"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s2">"HDel deleted is "</span><span class="p">,</span> <span class="n">deleted</span><span class="p">)</span>
-	<span class="p">//</span><span class="n">ctx</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span>
+func main() {
+	rdb := redis.NewClient(&amp;redis.Options{
+		Addr:     "localhost:16379",
+		Password: "CXqwr12_", // no password set
+		DB:       0,          // use default DB
+	})
+	var ctx = context.Background()
+	pong, err2 := rdb.Ping(ctx).Result()
+	if err2 != nil {
+		//panic(err2)
+		log.Printf("redis connect failed,err:%v", err2)
+	}
+	fmt.Println("redis connect success:", pong)
+	err := rdb.Set(ctx, "go-redis-key", "redis-go-value", 0).Err()
+	if err != nil {
+		//panic(err)
+		log.Printf("set key failed,err:%v", err)
+	}
+	rdb.Set(ctx, "go-redis-key2", "redis-go-value2", 300*time.Second)
+	rdb.Set(ctx, "go-redis-key3", "redis-go-value3", 60*time.Second)
+	rdb.Set(ctx, "go-redis-key4", "redis-go-value3", 160*time.Second)
+	rdb.HSet(ctx, "go-redis-hash-key1", "field1", "hash-value1")
+	rdb.HSet(ctx, "go-redis-hash-key1", "field2", "hash-value2")
+	rdb.HSet(ctx, "go-redis-hash-key1", "field3", "hash-value3")
+	//val, err := rdb.Get(ctx, "go-redis-key").Result()
+	val, err := rdb.Get(ctx, "key").Result()
+	if err != nil {
+		//panic(err)
+		log.Printf("get key failed,err:%v", err)
+	}
+	fmt.Println("key", val)
+	deleted, err := rdb.Del(ctx, "go-redis-key3", "go-redis-key2").Result()
+	if err != nil {
+		log.Printf("delete key failed,err:%v", err)
+	}
+	fmt.Print("deleted is ", deleted)
+	deleted, err = rdb.HDel(ctx, "go-redis-hash-key1", "field1", "field2").Result()
+	if err != nil {
+		log.Printf("delete key failed,err:%v", err)
+	}
+	fmt.Print("HDel deleted is ", deleted)
+	//ctx := context.Background()
 
-<span class="p">}</span>
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="参考资料">参考资料</h2>
@@ -678,7 +678,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -700,7 +700,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

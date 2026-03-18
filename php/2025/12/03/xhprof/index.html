@@ -115,8 +115,8 @@
 <meta name="keywords" content="xhprof">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XHProf性能分析工具。">
-<meta property="og:url" content="http://localhost:4000/php/2025/12/03/xhprof/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/php/2025/12/03/xhprof/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="XHProf 最初由 Facebook 开源，曾是 PHP 性能分析的标杆工具；如今在社区的持续维护下，已实现对 PHP 8.4 的完整支持，凭借其低开销采样、多维度指标采集（时间、内存、调用栈）和可视化调用图能力，依然是 PHP 开发者在开发调试与生产诊断中进行性能瓶颈定位的高效利器。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="/assets/images/php/xhprof-1.png">
@@ -151,7 +151,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/2025/12/03/xhprof/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/php/2025/12/03/xhprof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -363,7 +363,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-03T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-03T00:00:00-06:00">
                 2025-12-03
               </time>
             
@@ -470,7 +470,7 @@
     <tr>
       <td style="text-align: left"><strong>Function Name</strong></td>
       <td style="text-align: left"><strong>函数名称</strong></td>
-      <td style="text-align: left">被调用的函数或方法的完整名称。例如 <code class="highlighter-rouge">main()</code>, <code class="highlighter-rouge">mysql_query</code>, <code class="highlighter-rouge">UserController::index()</code>。这是识别代码位置的关键。</td>
+      <td style="text-align: left">被调用的函数或方法的完整名称。例如 <code class="language-plaintext highlighter-rouge">main()</code>, <code class="language-plaintext highlighter-rouge">mysql_query</code>, <code class="language-plaintext highlighter-rouge">UserController::index()</code>。这是识别代码位置的关键。</td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>Calls</strong></td>
@@ -490,7 +490,7 @@
     <tr>
       <td style="text-align: left"><strong>IWall%</strong></td>
       <td style="text-align: left"><strong>总耗时占比</strong> <br /><em>(或: 包含实际时间占比)</em></td>
-      <td style="text-align: left">该函数的包含时间占总包含时间的百分比。<br /><strong>重要性</strong>：直观地看出每个函数对总响应时间的“贡献”比例。<code class="highlighter-rouge">main()</code> 函数永远是 100%。</td>
+      <td style="text-align: left">该函数的包含时间占总包含时间的百分比。<br /><strong>重要性</strong>：直观地看出每个函数对总响应时间的“贡献”比例。<code class="language-plaintext highlighter-rouge">main()</code> 函数永远是 100%。</td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>Excl. Wall Time (microsec)</strong></td>
@@ -505,12 +505,12 @@
     <tr>
       <td style="text-align: left"><strong>Incl. CPU (microsecs)</strong></td>
       <td style="text-align: left"><strong>总CPU时间 (微秒)</strong></td>
-      <td style="text-align: left">类似于 <code class="highlighter-rouge">总耗时</code>，但是统计的是CPU实际工作的时间，排除了等待时间（如I/O、网络、sleep）。<br /><strong>重要性</strong>：如果 <code class="highlighter-rouge">总耗时</code> 很高但 <code class="highlighter-rouge">总CPU时间</code> 很低，说明瓶颈可能在I/O或外部服务（数据库、API调用）。</td>
+      <td style="text-align: left">类似于 <code class="language-plaintext highlighter-rouge">总耗时</code>，但是统计的是CPU实际工作的时间，排除了等待时间（如I/O、网络、sleep）。<br /><strong>重要性</strong>：如果 <code class="language-plaintext highlighter-rouge">总耗时</code> 很高但 <code class="language-plaintext highlighter-rouge">总CPU时间</code> 很低，说明瓶颈可能在I/O或外部服务（数据库、API调用）。</td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>Excl. CPU (microsecs)</strong></td>
       <td style="text-align: left"><strong>自身CPU时间 (微秒)</strong></td>
-      <td style="text-align: left">类似于 <code class="highlighter-rouge">自身耗时</code>，是函数自身消耗的纯CPU时间。</td>
+      <td style="text-align: left">类似于 <code class="language-plaintext highlighter-rouge">自身耗时</code>，是函数自身消耗的纯CPU时间。</td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>Incl. MemUse (bytes)</strong></td>
@@ -545,7 +545,7 @@
 
 <h2 id="xhprof使用例子">xhprof使用例子</h2>
 <h3 id="代码">代码</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 
 for ($i = 0; $i &lt;= 1000; $i++) {
@@ -566,7 +566,7 @@ echo "http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;source=xhp
 ?&gt;
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="输出报告链接">输出报告链接</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>http://localhost/xhprof/xhprof_html/index.php?run=t11_4bdf44d21121f&amp;source=xhprof_testing
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>http://localhost/xhprof/xhprof_html/index.php?run=t11_4bdf44d21121f&amp;source=xhprof_testing
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="报告表例子">报告表例子</h2>
 <p><img src="/assets/images/php/xhprof-1.png" />
@@ -734,7 +734,7 @@ echo "http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;source=xhp
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -756,7 +756,7 @@ echo "http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;source=xhp
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

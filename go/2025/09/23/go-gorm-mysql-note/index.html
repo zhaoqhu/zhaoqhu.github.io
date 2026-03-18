@@ -115,11 +115,11 @@
 <meta name="keywords" content="go, gorm, mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go Gorm Mysql学习笔记">
-<meta property="og:url" content="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/go/2025/09/23/go-gorm-mysql-note/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="安装 go get -u gorm.io/gorm go get -u gorm.io/driver/sqlite 连接数据库 ``` package main">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2025-09-23T18:00:00+08:00">
+<meta property="og:updated_time" content="2025-09-23T18:00:00-05:00">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go Gorm Mysql学习笔记">
 <meta name="twitter:description" content="安装 go get -u gorm.io/gorm go get -u gorm.io/driver/sqlite 连接数据库 ``` package main">
@@ -149,7 +149,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -327,7 +327,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/go/2025/09/23/go-gorm-mysql-note/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/go/2025/09/23/go-gorm-mysql-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -361,7 +361,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-23T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-23T00:00:00-05:00">
                 2025-09-23
               </time>
             
@@ -453,29 +453,29 @@
 
 
   <h2 id="安装">安装</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>go get -u gorm.io/gorm
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>go get -u gorm.io/gorm
 go get -u gorm.io/driver/sqlite
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="连接数据库">连接数据库</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"encoding/json"</span>
-	<span class="s2">"fmt"</span>
+import (
+	"context"
+	"encoding/json"
+	"fmt"
 
-	<span class="s2">"gorm.io/driver/mysql"</span>
-	<span class="s2">"gorm.io/gorm"</span>
-<span class="p">)</span>
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
-<span class="n">func</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span> <span class="k">string</span><span class="p">)</span> <span class="p">(*</span><span class="n">gorm</span><span class="p">.</span><span class="n">DB</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">gorm</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">mysql</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">dsn</span><span class="p">),</span> <span class="p">&amp;</span><span class="n">gorm</span><span class="p">.</span><span class="n">Config</span><span class="p">{})</span>
-	<span class="n">return</span> <span class="n">db</span><span class="p">,</span> <span class="n">err</span>
-<span class="p">}</span>
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">dsn</span> <span class="p">:=</span> <span class="s2">"root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span><span class="p">)</span>
-<span class="p">}</span>
+func connectDB(dsn string) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(dsn), &amp;gorm.Config{})
+	return db, err
+}
+func main() {
+	dsn := "root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"
+	db, err := connectDB(dsn)
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 
@@ -488,7 +488,7 @@ go get -u gorm.io/driver/sqlite
   <li>gorm.Model definition</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>// gorm.Model definition
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>// gorm.Model definition
 type Model struct {
   ID        uint           `gorm:"primaryKey"`
   CreatedAt time.Time
@@ -498,43 +498,43 @@ type Model struct {
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="mygormmodeltest模型">myGormModelTest模型</h3>
 <h4 id="定义和执行">定义和执行</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"encoding/json"</span>
-	<span class="s2">"fmt"</span>
+import (
+	"context"
+	"encoding/json"
+	"fmt"
 
-	<span class="s2">"gorm.io/driver/mysql"</span>
-	<span class="s2">"gorm.io/gorm"</span>
-<span class="p">)</span>
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
-<span class="n">type</span> <span class="n">myGormModelTest</span> <span class="n">struct</span> <span class="p">{</span>
-	<span class="n">gorm</span><span class="p">.</span><span class="k">Model</span>
-<span class="p">}</span>
+type myGormModelTest struct {
+	gorm.Model
+}
 
-<span class="n">func</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span> <span class="k">string</span><span class="p">)</span> <span class="p">(*</span><span class="n">gorm</span><span class="p">.</span><span class="n">DB</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">gorm</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">mysql</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">dsn</span><span class="p">),</span> <span class="p">&amp;</span><span class="n">gorm</span><span class="p">.</span><span class="n">Config</span><span class="p">{})</span>
-	<span class="n">return</span> <span class="n">db</span><span class="p">,</span> <span class="n">err</span>
-<span class="p">}</span>
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">dsn</span> <span class="p">:=</span> <span class="s2">"root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span><span class="p">)</span>
-	<span class="n">ctx</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"connect db failed,err:"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-	<span class="n">err</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="s2">"gorm:table_options"</span><span class="p">,</span> <span class="s2">"ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin"</span><span class="p">).</span><span class="n">AutoMigrate</span><span class="p">(</span><span class="n">myGormModelTest</span><span class="p">{})</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"migrate failed,err:"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+func connectDB(dsn string) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(dsn), &amp;gorm.Config{})
+	return db, err
+}
+func main() {
+	dsn := "root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"
+	db, err := connectDB(dsn)
+	ctx := context.Background()
+	if err != nil {
+		fmt.Println("connect db failed,err:", err)
+		return
+	}
+	err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin").AutoMigrate(myGormModelTest{})
+	if err != nil {
+		fmt.Println("migrate failed,err:", err)
+		return
+	}
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="生成数据库表结构是">生成数据库表结构是</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>show create table my_gorm_model_tests
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>show create table my_gorm_model_tests
 CREATE TABLE `my_gorm_model_tests` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `created_at` datetime(3) DEFAULT NULL,
@@ -547,52 +547,52 @@ CREATE TABLE `my_gorm_model_tests` (
 
 <h3 id="user模型">User模型</h3>
 <h4 id="定义和执行-1">定义和执行</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"encoding/json"</span>
-	<span class="s2">"fmt"</span>
+import (
+	"context"
+	"encoding/json"
+	"fmt"
 
-	<span class="s2">"gorm.io/driver/mysql"</span>
-	<span class="s2">"gorm.io/gorm"</span>
-<span class="p">)</span>
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
-<span class="n">type</span> <span class="n">User</span> <span class="n">struct</span> <span class="p">{</span>
-	<span class="n">gorm</span><span class="p">.</span><span class="k">Model</span>
-	<span class="n">UserName</span> <span class="k">string</span> <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:user_name;size:100;not null;default:'';"</span><span class="p">`</span>
-	<span class="n">Age</span>      <span class="n">int</span>    <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:user_age"</span><span class="p">`</span>
-	<span class="n">Email</span>    <span class="k">string</span> <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:user_email"</span><span class="p">`</span>
-	<span class="n">Phone</span>    <span class="k">string</span> <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:user_phone"</span><span class="p">`</span>
-<span class="p">}</span>
+type User struct {
+	gorm.Model
+	UserName string `gorm:"column:user_name;size:100;not null;default:'';"`
+	Age      int    `gorm:"column:user_age"`
+	Email    string `gorm:"column:user_email"`
+	Phone    string `gorm:"column:user_phone"`
+}
 
-<span class="n">func</span> <span class="p">(</span><span class="n">u</span> <span class="p">*</span><span class="n">User</span><span class="p">)</span> <span class="n">TableName</span><span class="p">()</span> <span class="k">string</span> <span class="p">{</span>
-	<span class="n">return</span> <span class="s2">"my_gorm_user"</span>
-<span class="p">}</span>
+func (u *User) TableName() string {
+	return "my_gorm_user"
+}
 
-<span class="n">func</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span> <span class="k">string</span><span class="p">)</span> <span class="p">(*</span><span class="n">gorm</span><span class="p">.</span><span class="n">DB</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">gorm</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">mysql</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">dsn</span><span class="p">),</span> <span class="p">&amp;</span><span class="n">gorm</span><span class="p">.</span><span class="n">Config</span><span class="p">{})</span>
-	<span class="n">return</span> <span class="n">db</span><span class="p">,</span> <span class="n">err</span>
-<span class="p">}</span>
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">dsn</span> <span class="p">:=</span> <span class="s2">"root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span><span class="p">)</span>
-	<span class="n">ctx</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"connect db failed,err:"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-	<span class="p">//</span> <span class="err">使用</span> <span class="n">AutoMigrate</span> <span class="err">进行迁移</span>
-	<span class="n">err</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="s2">"gorm:table_options"</span><span class="p">,</span> <span class="s2">"ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin"</span><span class="p">).</span><span class="n">AutoMigrate</span><span class="p">(&amp;</span><span class="n">User</span><span class="p">{})</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"migrate failed,err:"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+func connectDB(dsn string) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(dsn), &amp;gorm.Config{})
+	return db, err
+}
+func main() {
+	dsn := "root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;collation=utf8mb4_bin&amp;parseTime=True&amp;loc=Local"
+	db, err := connectDB(dsn)
+	ctx := context.Background()
+	if err != nil {
+		fmt.Println("connect db failed,err:", err)
+		return
+	}
+	// 使用 AutoMigrate 进行迁移
+	err = db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin").AutoMigrate(&amp;User{})
+	if err != nil {
+		fmt.Println("migrate failed,err:", err)
+		return
+	}
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h4 id="生成数据库表结构是-1">生成数据库表结构是</h4>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>show create table my_gorm_user
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>show create table my_gorm_user
 CREATE TABLE `my_gorm_user` (
   `user_name` varchar(100) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `user_age` bigint DEFAULT NULL,
@@ -608,64 +608,64 @@ CREATE TABLE `my_gorm_user` (
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="使用例子">使用例子</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"encoding/json"</span>
-	<span class="s2">"fmt"</span>
+import (
+	"encoding/json"
+	"fmt"
 
-	<span class="s2">"gorm.io/driver/mysql"</span>
-	<span class="s2">"gorm.io/gorm"</span>
-<span class="p">)</span>
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
-<span class="n">type</span> <span class="n">OcFileCacheQuery</span> <span class="n">struct</span> <span class="p">{</span>
-	<span class="n">Fileid</span> <span class="n">int</span>    <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:fileid"</span><span class="p">`</span>
-	<span class="n">Name</span>   <span class="k">string</span> <span class="p">`</span><span class="n">gorm</span><span class="s2">"column:name"</span><span class="p">`</span>
-	<span class="n">Path</span>   <span class="k">string</span> <span class="p">`</span><span class="n">gorm</span><span class="p">:</span><span class="s2">"column:path"</span><span class="p">`</span>
-<span class="p">}</span>
+type OcFileCacheQuery struct {
+	Fileid int    `gorm:"column:fileid"`
+	Name   string `gorm"column:name"`
+	Path   string `gorm:"column:path"`
+}
 
-<span class="n">func</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span> <span class="k">string</span><span class="p">)</span> <span class="p">(*</span><span class="n">gorm</span><span class="p">.</span><span class="n">DB</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">gorm</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">mysql</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">dsn</span><span class="p">),</span> <span class="p">&amp;</span><span class="n">gorm</span><span class="p">.</span><span class="n">Config</span><span class="p">{})</span>
-	<span class="n">return</span> <span class="n">db</span><span class="p">,</span> <span class="n">err</span>
-<span class="p">}</span>
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">dsn</span> <span class="p">:=</span> <span class="s2">"root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;parseTime=True&amp;loc=Local"</span>
-	<span class="n">db</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">connectDB</span><span class="p">(</span><span class="n">dsn</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"connect db failed,err:"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-	<span class="n">var</span> <span class="n">fileCacheList</span> <span class="p">[]</span><span class="n">OcFileCacheQuery</span>
-	<span class="n">whereFileId</span> <span class="p">:=</span> <span class="m">10</span>
-	<span class="n">wherePath</span> <span class="p">:=</span> <span class="s2">"files/%"</span>
-	<span class="n">LimitNum</span> <span class="p">:=</span> <span class="m">10</span>
-	<span class="n">db</span><span class="p">.</span><span class="n">Table</span><span class="p">(</span><span class="s2">"oc_filecache"</span><span class="p">).</span>
-		<span class="n">Select</span><span class="p">(</span><span class="s2">"fileid,name,path"</span><span class="p">).</span>
-		<span class="n">Where</span><span class="p">(</span><span class="s2">"fileid &gt; ?"</span><span class="p">,</span> <span class="n">whereFileId</span><span class="p">).</span>
-		<span class="n">Where</span><span class="p">(</span><span class="s2">"path LIKE ?"</span><span class="p">,</span> <span class="n">wherePath</span><span class="p">).</span>
-		<span class="n">Limit</span><span class="p">(</span><span class="n">LimitNum</span><span class="p">).</span>
-		<span class="n">Order</span><span class="p">(</span><span class="s2">"fileid desc"</span><span class="p">).</span>
-		<span class="n">Find</span><span class="p">(&amp;</span><span class="n">fileCacheList</span><span class="p">)</span>
-	<span class="p">//</span> <span class="err">遍历结果</span>
-	<span class="p">//</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"fileCacheList:"</span><span class="p">,</span> <span class="n">fileCacheList</span><span class="p">)</span>
-	<span class="p">//</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"fileCacheList type is %T</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">fileCacheList</span><span class="p">)</span>
-	<span class="p">//</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"len is "</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">fileCacheList</span><span class="p">))</span>
-	<span class="p">//</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"内容如下:"</span><span class="p">)</span>
-	<span class="p">//</span> <span class="n">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">fileCacheList</span> <span class="p">{</span>
-	<span class="p">//</span> 	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-	<span class="p">//</span> <span class="p">}</span>
-	<span class="n">jsonBytes</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">json</span><span class="p">.</span><span class="n">Marshal</span><span class="p">(</span><span class="n">fileCacheList</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"json marshal failed"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-	<span class="p">//</span><span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">jsonBytes</span><span class="p">)</span>
-	<span class="n">jsonStr</span> <span class="p">:=</span> <span class="k">string</span><span class="p">(</span><span class="n">jsonBytes</span><span class="p">)</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">jsonStr</span><span class="p">)</span>
-	<span class="p">//</span><span class="n">fmt</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="n">fileCacheList</span><span class="p">)</span>
-	<span class="p">//</span><span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+func connectDB(dsn string) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(dsn), &amp;gorm.Config{})
+	return db, err
+}
+func main() {
+	dsn := "root:12345678@tcp(127.0.0.1:13301)/nextcloud?charset=utf8mb4&amp;parseTime=True&amp;loc=Local"
+	db, err := connectDB(dsn)
+	if err != nil {
+		fmt.Println("connect db failed,err:", err)
+		return
+	}
+	var fileCacheList []OcFileCacheQuery
+	whereFileId := 10
+	wherePath := "files/%"
+	LimitNum := 10
+	db.Table("oc_filecache").
+		Select("fileid,name,path").
+		Where("fileid &gt; ?", whereFileId).
+		Where("path LIKE ?", wherePath).
+		Limit(LimitNum).
+		Order("fileid desc").
+		Find(&amp;fileCacheList)
+	// 遍历结果
+	// fmt.Println("fileCacheList:", fileCacheList)
+	// fmt.Printf("fileCacheList type is %T\n", fileCacheList)
+	// fmt.Println("len is ", len(fileCacheList))
+	// fmt.Println("内容如下:")
+	// for _, v := range fileCacheList {
+	// 	fmt.Println(v)
+	// }
+	jsonBytes, err := json.Marshal(fileCacheList)
+	if err != nil {
+		fmt.Println("json marshal failed", err)
+		return
+	}
+	//fmt.Println(jsonBytes)
+	jsonStr := string(jsonBytes)
+	fmt.Println(jsonStr)
+	//fmt.Print(fileCacheList)
+	//fmt.Println(db, err)
 
-<span class="p">}</span>
+}
 
 
 </code></pre></td></tr></tbody></table></div></div>
@@ -843,7 +843,7 @@ CREATE TABLE `my_gorm_user` (
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -865,7 +865,7 @@ CREATE TABLE `my_gorm_user` (
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

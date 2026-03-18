@@ -115,8 +115,8 @@
 <meta name="keywords" content="Python, fastapi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FastAPI框架学习">
-<meta property="og:url" content="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/fastapi/2026/01/13/Fastapi-learning/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。 python环境 python 版本">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="/assets/images/python/fastapi-swagger.png">
@@ -151,7 +151,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/fastapi/2026/01/13/Fastapi-learning/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/fastapi/2026/01/13/Fastapi-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -363,7 +363,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-01-13T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-01-13T00:00:00-06:00">
                 2026-01-13
               </time>
             
@@ -458,12 +458,12 @@
 <h1 id="python环境">python环境</h1>
 <h2 id="python-版本">python 版本</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>% python3 --version
 Python 3.13.10
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="pip安装第三发的软件包">pip安装第三发的软件包</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code># pip3 --version
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code># pip3 --version
 pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
 // 安装软件包（最新版本）
 # pip install openai
@@ -483,21 +483,21 @@ pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/
   <li>创建虚拟环境</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>python3 -m venv venv 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>python3 -m venv venv 
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>激活虚拟环境</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>source venv/bin/activate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>source venv/bin/activate
 </code></pre></td></tr></tbody></table></div></div>
 
 <ul>
   <li>在虚拟环境工作</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code># source ./venv/bin/activate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code># source ./venv/bin/activate
 # deactivate
 (venv) # pip --version
 pip 25.3 /fastapi/venv/lib/python3.13/site-packages/pip (python 3.13)
@@ -508,12 +508,12 @@ Python 3.13.10
   <li>退出虚拟环境</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code># deactivate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code># deactivate
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="在虚拟环境安装运行fastapi服务工具">在虚拟环境安装运行fastapi服务工具。</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install "fastapi[standard]"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install "fastapi[standard]"
 </code></pre></td></tr></tbody></table></div></div>
 
 <h3 id="fastapi-命令行工具">fastapi 命令行工具</h3>
@@ -522,7 +522,7 @@ Python 3.13.10
   <li>使用 fastapi工具运行fastapi服务</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code># fastapi dev main.py 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code># fastapi dev main.py 
 # 命令
 dev      Run a FastAPI app in development mode.
 │ run      Run a FastAPI app in production mode.
@@ -537,7 +537,7 @@ dev      Run a FastAPI app in development mode.
   <li>使用 uvicorn高兴能服务器工具运行fastapi</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>uvicorn main:app --reload
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>uvicorn main:app --reload
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="vscode运行和调试">VSCode运行和调试</h2>
@@ -546,7 +546,7 @@ dev      Run a FastAPI app in development mode.
   <li>vscode/launch.json</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20</pre></td><td class="code"><pre class="highlight"><code>{
     // 使用 IntelliSense 了解相关属性。 
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
@@ -576,7 +576,7 @@ dev      Run a FastAPI app in development mode.
   <li>requirements.txt</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code>annotated-doc==0.0.4
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43</pre></td><td class="code"><pre class="highlight"><code>annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
 certifi==2026.1.4
@@ -624,18 +624,18 @@ websockets==16.0
   <li>安装依赖</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install -r requirements.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip install -r requirements.txt
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="将当前虚拟环境的依赖输出到requirementtxt">将当前虚拟环境的依赖输出到requirement.txt。</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip freeze &gt; requirements.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>pip freeze &gt; requirements.txt
 </code></pre></td></tr></tbody></table></div></div>
 
 <h1 id="fastapi基础入门">FastAPI基础入门</h1>
 <h2 id="第一个fastapi程序">第一个FastAPI程序</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>from fastapi import FastAPI
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>from fastapi import FastAPI
 # 创建FastAPI实例
 app = FastAPI()
 
@@ -646,7 +646,7 @@ async def root():
 
 <h2 id="路由请求">路由请求</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>#@FastAPI请求实例.请求方法("请求路径")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>#@FastAPI请求实例.请求方法("请求路径")
 @app.get("/")
 
 # 访问/hello 响应结果 msg: 你好 FastAPI
@@ -662,7 +662,7 @@ async def get_hello():
   <li>Path注释</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>@app.get("/book/{id}")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>@app.get("/book/{id}")
 async def get_book(id: int):
     return {"id":id,"title":f"这是第{id}本书"}
 @app.get("/new/cat/id/{id}")
@@ -680,7 +680,7 @@ async def get_new_cat_name(name: str=Path(default=...,min_length=2,max_length=5)
   <li>Query类型注解</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>curl -X 'GET' \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>curl -X 'GET' \
   'http://127.0.0.1:8000/news/news_list?skip=0&amp;limit=10' \
   -H 'accept: application/json'
 
@@ -697,7 +697,7 @@ async def get_news_list(
 
 <p>在Http协议中，请求体的位置在HTTP请求的消息体(body)中，作用是创建、更新资源携带大量数据，如JSON。请求方法：POST、PUT等。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code># 导入pydantic中的BaseModel请求体参数和Field注解和验证
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code># 导入pydantic中的BaseModel请求体参数和Field注解和验证
 from pydantic import BaseModel,Field
 class User(BaseModel):
     username: str=Field(default="张三",min_length=2,max_length=10,description="用户名，长度2-10")
@@ -727,50 +727,50 @@ async def register(user: User):
     <tr>
       <td style="text-align: left"><strong>JSONResponse</strong></td>
       <td style="text-align: left">默认响应，返回JSON数据</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return JSONResponse({"key": "value"})</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return JSONResponse({"key": "value"})</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>HTMLResponse</strong></td>
       <td style="text-align: left">返回HTML内容</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return HTMLResponse(html_content)</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return HTMLResponse(html_content)</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>PlainTextResponse</strong></td>
       <td style="text-align: left">返回纯文本</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return PlainTextResponse("Hello, World!")</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return PlainTextResponse("Hello, World!")</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>FileResponse</strong></td>
       <td style="text-align: left">返回文件以供下载</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return FileResponse("/path/to/file.pdf")</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return FileResponse("/path/to/file.pdf")</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>StreamingResponse</strong></td>
       <td style="text-align: left">用于流式传输数据</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return StreamingResponse(some_generator_function)</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return StreamingResponse(some_generator_function)</code></td>
     </tr>
     <tr>
       <td style="text-align: left"><strong>RedirectResponse</strong></td>
       <td style="text-align: left">将客户端重定向到指定URL</td>
-      <td style="text-align: left"><code class="highlighter-rouge">return RedirectResponse(url="https://example.com")</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return RedirectResponse(url="https://example.com")</code></td>
     </tr>
   </tbody>
 </table>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42</pre></td><td class="code"><pre class="highlight"><code>
 # 返回HTML响应
 @app.get("/html",response_class=HTMLResponse)
 async def get_html():
     html_content="""
-    <span class="nt">&lt;html&gt;</span>
-        <span class="nt">&lt;head&gt;</span>
-            <span class="nt">&lt;title&gt;</span>FastAPI HTML Response<span class="nt">&lt;/title&gt;</span>
-        <span class="nt">&lt;/head&gt;</span>
-        <span class="nt">&lt;body&gt;</span>
-            <span class="nt">&lt;h1&gt;</span>Hello, FastAPI!<span class="nt">&lt;/h1&gt;</span>
-            <span class="nt">&lt;p&gt;</span>This is an HTML response.<span class="nt">&lt;/p&gt;</span>
-        <span class="nt">&lt;/body&gt;</span>
-    <span class="nt">&lt;/html&gt;</span>
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;FastAPI HTML Response&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Hello, FastAPI!&lt;/h1&gt;
+            &lt;p&gt;This is an HTML response.&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
     """
     return HTMLResponse(content=html_content,status_code=200)
 # 返回文件响应
@@ -805,7 +805,7 @@ async def read_item(item_id: int):
 <p>中间件(Middleware)是一个在每次请求进入FastAPI应用时都会被执行的函数。
 它在请求到达实际的路径操作（路由处理函数）之前运行，并且在响应返回给客户端之前在运行一次</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22</pre></td><td class="code"><pre class="highlight"><code>        请求进入            传递请求               传递请求
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22</pre></td><td class="code"><pre class="highlight"><code>        请求进入            传递请求               传递请求
         ------&gt;            ------&gt;              ------&gt; 
 客户端             中间件A              中间件B                 路由处理函数
                                   
@@ -833,7 +833,7 @@ async def log_requests(request, call_next):
 
 <p>使用依赖逐日系统来共享通用逻辑，减少代码重复。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code># 依赖注入
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code># 依赖注入
 async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
     return {"q": q, "skip": skip, "limit": limit}
 
@@ -852,7 +852,7 @@ async def get_user_list(common = Depends(common_parameters)):
 
 <h2 id="mainpy">main.py</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127</pre></td><td class="code"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127</pre></td><td class="code"><pre class="highlight"><code>
 from fastapi import FastAPI , Path, Query, HTTPException, Depends
 from pydantic import BaseModel,Field
 from fastapi.responses import HTMLResponse, FileResponse
@@ -926,15 +926,15 @@ async def register(user: User):
 @app.get("/html",response_class=HTMLResponse)
 async def get_html():
     html_content="""
-    <span class="nt">&lt;html&gt;</span>
-        <span class="nt">&lt;head&gt;</span>
-            <span class="nt">&lt;title&gt;</span>FastAPI HTML Response<span class="nt">&lt;/title&gt;</span>
-        <span class="nt">&lt;/head&gt;</span>
-        <span class="nt">&lt;body&gt;</span>
-            <span class="nt">&lt;h1&gt;</span>Hello, FastAPI!<span class="nt">&lt;/h1&gt;</span>
-            <span class="nt">&lt;p&gt;</span>This is an HTML response.<span class="nt">&lt;/p&gt;</span>
-        <span class="nt">&lt;/body&gt;</span>
-    <span class="nt">&lt;/html&gt;</span>
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;FastAPI HTML Response&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Hello, FastAPI!&lt;/h1&gt;
+            &lt;p&gt;This is an HTML response.&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
     """
     return HTMLResponse(content=html_content,status_code=200)
 # 返回文件响应
@@ -1153,7 +1153,7 @@ async def get_user_list(common = Depends(common_parameters)):
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1175,7 +1175,7 @@ async def get_user_list(common = Depends(common_parameters)):
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql 分区学习">
-<meta property="og:url" content="http://localhost:4000/mysql/2021/01/14/mysql-partition/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/mysql/2021/01/14/mysql-partition/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="MySQL的分区-1 什么是分区 所谓分区就是将一个表分解成多个区块进行操作和保存，从而降低每次操作的数据，提高性能。而对应用来说是透明的，从逻辑上看是只有一个表（这里跟分库分表的访问不一样），但在物理上这个表可能是有多个物理分区组成的，每个分区都是一个独立的对象，可以进行独立处理。">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/mysql/2021/01/14/mysql-partition/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/mysql/2021/01/14/mysql-partition/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-14T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-14T00:00:00-06:00">
                 2021-01-14
               </time>
             
@@ -492,7 +492,7 @@
 
 <h2 id="创建分区">创建分区</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>1:Range分区
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19</pre></td><td class="code"><pre class="highlight"><code>1:Range分区
 CREATE TABLE tbl_users(
 	uuid INT NOT NULL,
 	customerId VARCHAR(20),
@@ -515,7 +515,7 @@ insert into tbl_users value(20,'id20','a','s20','t20','');
 <p>1-2、RANGE columns</p>
 
 <p>固定值格式的字段比如时间</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users3(
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users3(
 	uuid INT NOT NULL,
 	customerId VARCHAR(20),
 	pwd VARCHAR(20),
@@ -559,7 +559,7 @@ tbl_users#p3.ibd</p>
 <p>2：List分区</p>
 
 <p>按类型分区</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_user2(
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_user2(
 	uuid INT NOT NULL,
 	customerId VARCHAR(20),
 	pwd VARCHAR(20),
@@ -581,7 +581,7 @@ PARTITION BY LIST(uuid){
 HASH分区主要用来确保数据在预先确定数目的分区中平均分布。在RANGE和LIST分区中，必须明确指定一个给定的列值或列值集合以指定应该保存在哪个分区中：而在HASH分区中，MySQL自动完成这些工作，要做的只是基于将要被哈希的列值指定一个表达式，以及指定被分区的表将要被分割成的分区数量，如：</p>
 
 <p>应用场景：运动员参赛时，年龄会在固定的区间</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
 	uuid INT NOT NULL,
 	customerId VARCHAR(20),
 	pwd VARCHAR(20),
@@ -602,7 +602,7 @@ insert into tbl_users value(20,'id20','a','s20','t20','');
 <p>3.1： 线性Hash</p>
 
 <p>4：Key分区</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>CREATE TABLE tbl_users4(
 	uuid INT NOT NULL,
 	customerId VARCHAR(20),
 	pwd VARCHAR(20),
@@ -809,7 +809,7 @@ EXT3(最大文件大小：2TB，最大文件极限：仅受文件系统大小限
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -831,7 +831,7 @@ EXT3(最大文件大小：2TB，最大文件极限：仅受文件系统大小限
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

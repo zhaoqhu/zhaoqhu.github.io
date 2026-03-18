@@ -115,8 +115,8 @@
 <meta name="keywords" content="Go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang面试汇总">
-<meta property="og:url" content="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="并发编程问题 并发知识概览">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/%E9%9D%A2%E8%AF%95/2025/12/11/mianshi-go/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-11T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-11T00:00:00-06:00">
                 2025-12-11
               </time>
             
@@ -519,234 +519,234 @@
 <p>context通过WithCancel（取消）、WithTimeout（超时）控制协程生命周期。
 context通过WithValue传递请求范围的附加信息如TraceID、UserId等元数据。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"fmt"</span>
-	<span class="s2">"net/http"</span>
-	<span class="s2">"strings"</span>
-	<span class="s2">"sync"</span>
-	<span class="s2">"time"</span>
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"strings"
+	"sync"
+	"time"
 
-	<span class="s2">"github.com/gin-gonic/gin"</span> <span class="p">//</span> <span class="err">用</span> <span class="n">Gin</span> <span class="err">模拟</span> <span class="n">HTTP</span> <span class="err">服务（需先安装：</span><span class="n">go</span> <span class="n">get</span> <span class="p">-</span><span class="n">u</span> <span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">gin</span><span class="p">-</span><span class="n">gonic</span><span class="p">/</span><span class="n">gin</span><span class="err">）</span>
-<span class="p">)</span>
+	"github.com/gin-gonic/gin" // 用 Gin 模拟 HTTP 服务（需先安装：go get -u github.com/gin-gonic/gin）
+)
 
-<span class="p">//</span> <span class="err">自定义键类型（避免键冲突）</span>
-<span class="n">type</span> <span class="n">ctxKey</span> <span class="k">string</span>
+// 自定义键类型（避免键冲突）
+type ctxKey string
 
-<span class="n">const</span> <span class="p">(</span>
-	<span class="n">KeyTraceID</span> <span class="n">ctxKey</span> <span class="p">=</span> <span class="s2">"traceID"</span> <span class="p">//</span> <span class="err">追踪</span> <span class="n">ID</span> <span class="err">键</span>
-	<span class="n">KeyUserID</span>  <span class="n">ctxKey</span> <span class="p">=</span> <span class="s2">"userID"</span>  <span class="p">//</span> <span class="err">用户</span> <span class="n">ID</span> <span class="err">键</span>
-<span class="p">)</span>
+const (
+	KeyTraceID ctxKey = "traceID" // 追踪 ID 键
+	KeyUserID  ctxKey = "userID"  // 用户 ID 键
+)
 
-<span class="p">//</span> <span class="err">中间件：注入</span> <span class="n">TraceID</span> <span class="err">和用户身份信息到</span> <span class="n">Context</span>
-<span class="n">func</span> <span class="n">metadataMiddleware</span><span class="p">()</span> <span class="n">gin</span><span class="p">.</span><span class="n">HandlerFunc</span> <span class="p">{</span>
-	<span class="n">return</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-		<span class="p">//</span> <span class="m">1.</span> <span class="err">生成</span> <span class="n">TraceID</span><span class="err">（模拟</span> <span class="n">UUID</span><span class="err">，实际可用</span> <span class="n">uuid</span> <span class="err">库）</span>
-		<span class="n">traceID</span> <span class="p">:=</span> <span class="n">fmt</span><span class="p">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s2">"trace-%d"</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">Now</span><span class="p">().</span><span class="n">UnixNano</span><span class="p">())</span>
+// 中间件：注入 TraceID 和用户身份信息到 Context
+func metadataMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 1. 生成 TraceID（模拟 UUID，实际可用 uuid 库）
+		traceID := fmt.Sprintf("trace-%d", time.Now().UnixNano())
 
-		<span class="p">//</span> <span class="m">2.</span> <span class="err">从</span> <span class="n">Header</span> <span class="err">获取</span> <span class="n">Token</span> <span class="err">并解析</span> <span class="n">UserID</span><span class="err">（模拟认证逻辑）</span>
-		<span class="n">authHeader</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">GetHeader</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">)</span>
-		<span class="n">userID</span> <span class="p">:=</span> <span class="m">0</span>
-		<span class="k">if</span> <span class="n">strings</span><span class="p">.</span><span class="n">HasPrefix</span><span class="p">(</span><span class="n">authHeader</span><span class="p">,</span> <span class="s2">"Bearer "</span><span class="p">)</span> <span class="p">{</span>
-			<span class="p">//</span> <span class="err">模拟解析</span> <span class="n">Token</span> <span class="err">得到</span> <span class="n">UserID</span><span class="p">=</span><span class="m">1001</span><span class="err">（实际需用</span> <span class="n">JWT</span> <span class="err">库解析）</span>
-			<span class="n">userID</span> <span class="p">=</span> <span class="m">1001</span>
-		<span class="p">}</span>
+		// 2. 从 Header 获取 Token 并解析 UserID（模拟认证逻辑）
+		authHeader := c.GetHeader("Authorization")
+		userID := 0
+		if strings.HasPrefix(authHeader, "Bearer ") {
+			// 模拟解析 Token 得到 UserID=1001（实际需用 JWT 库解析）
+			userID = 1001
+		}
 
-		<span class="p">//</span> <span class="m">3.</span> <span class="err">将元数据存入</span> <span class="n">Context</span><span class="err">（链式传递）</span>
-		<span class="n">ctx</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithValue</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Context</span><span class="p">(),</span> <span class="n">KeyTraceID</span><span class="p">,</span> <span class="n">traceID</span><span class="p">)</span>
-		<span class="n">ctx</span> <span class="p">=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithValue</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">KeyUserID</span><span class="p">,</span> <span class="n">userID</span><span class="p">)</span>
-		<span class="n">c</span><span class="p">.</span><span class="n">Request</span> <span class="p">=</span> <span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">WithContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="p">//</span> <span class="err">更新请求的</span> <span class="n">Context</span>
+		// 3. 将元数据存入 Context（链式传递）
+		ctx := context.WithValue(c.Request.Context(), KeyTraceID, traceID)
+		ctx = context.WithValue(ctx, KeyUserID, userID)
+		c.Request = c.Request.WithContext(ctx) // 更新请求的 Context
 
-		<span class="n">c</span><span class="p">.</span><span class="k">Next</span><span class="p">()</span> <span class="p">//</span> <span class="err">继续处理请求</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+		c.Next() // 继续处理请求
+	}
+}
 
-<span class="p">//</span> <span class="err">处理函数：从</span> <span class="n">Context</span> <span class="err">获取元数据，并启动子协程传递元数据</span>
-<span class="n">func</span> <span class="n">handleRequest</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">ctx</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">Request</span><span class="p">.</span><span class="n">Context</span><span class="p">()</span>
+// 处理函数：从 Context 获取元数据，并启动子协程传递元数据
+func handleRequest(c *gin.Context) {
+	ctx := c.Request.Context()
 
-	<span class="p">//</span> <span class="m">1.</span> <span class="err">从</span> <span class="n">Context</span> <span class="err">获取元数据（</span><span class="n">TraceID</span><span class="err">、</span><span class="n">UserID</span><span class="err">）</span>
-	<span class="n">traceID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyTraceID</span><span class="p">).(</span><span class="k">string</span><span class="p">)</span>
-	<span class="n">userID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyUserID</span><span class="p">).(</span><span class="n">int</span><span class="p">)</span>
+	// 1. 从 Context 获取元数据（TraceID、UserID）
+	traceID := ctx.Value(KeyTraceID).(string)
+	userID := ctx.Value(KeyUserID).(int)
 
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"[主协程] TraceID: %s, UserID: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">traceID</span><span class="p">,</span> <span class="n">userID</span><span class="p">)</span>
+	fmt.Printf("[主协程] TraceID: %s, UserID: %d\n", traceID, userID)
 
-	<span class="p">//</span> <span class="m">2.</span> <span class="err">启动子协程，传递</span> <span class="n">Context</span><span class="err">（元数据随之传递）</span>
-	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
-	<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-	<span class="n">go</span> <span class="n">func</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-		<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span>
-		<span class="p">//</span> <span class="err">子协程从</span> <span class="n">Context</span> <span class="err">获取元数据</span>
-		<span class="n">subTraceID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyTraceID</span><span class="p">).(</span><span class="k">string</span><span class="p">)</span>
-		<span class="n">subUserID</span> <span class="p">:=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Value</span><span class="p">(</span><span class="n">KeyUserID</span><span class="p">).(</span><span class="n">int</span><span class="p">)</span>
-		<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"[子协程] TraceID: %s, UserID: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">subTraceID</span><span class="p">,</span> <span class="n">subUserID</span><span class="p">)</span>
-	<span class="p">}(</span><span class="n">ctx</span><span class="p">)</span> <span class="p">//</span> <span class="err">传递当前请求的</span> <span class="n">Context</span>
+	// 2. 启动子协程，传递 Context（元数据随之传递）
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func(ctx context.Context) {
+		defer wg.Done()
+		// 子协程从 Context 获取元数据
+		subTraceID := ctx.Value(KeyTraceID).(string)
+		subUserID := ctx.Value(KeyUserID).(int)
+		fmt.Printf("[子协程] TraceID: %s, UserID: %d\n", subTraceID, subUserID)
+	}(ctx) // 传递当前请求的 Context
 
-	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span> <span class="p">//</span> <span class="err">等待子协程完成</span>
-	<span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"success"</span><span class="p">})</span>
-<span class="p">}</span>
+	wg.Wait() // 等待子协程完成
+	c.JSON(http.StatusOK, gin.H{"status": "success"})
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">r</span> <span class="p">:=</span> <span class="n">gin</span><span class="p">.</span><span class="n">Default</span><span class="p">()</span>
-	<span class="n">r</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="n">metadataMiddleware</span><span class="p">())</span>   <span class="p">//</span> <span class="err">全局启用元数据中间件</span>
-	<span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/demo"</span><span class="p">,</span> <span class="n">handleRequest</span><span class="p">)</span> <span class="p">//</span> <span class="err">注册接口</span>
+func main() {
+	r := gin.Default()
+	r.Use(metadataMiddleware())   // 全局启用元数据中间件
+	r.GET("/demo", handleRequest) // 注册接口
 
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"服务启动：http://localhost:8080/demo"</span><span class="p">)</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"请求示例：curl -H 'Authorization: Bearer token' http://localhost:8080/demo"</span><span class="p">)</span>
-	<span class="n">r</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s2">":8080"</span><span class="p">)</span>
-<span class="p">}</span>
+	fmt.Println("服务启动：http://localhost:8080/demo")
+	fmt.Println("请求示例：curl -H 'Authorization: Bearer token' http://localhost:8080/demo")
+	r.Run(":8080")
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="2-golang中怎么确保所有的协程可以执行完">2. golang中怎么确保所有的协程可以执行完？</h2>
 <p>通过sync.WaitGroup中的Add()、defer Done()、Wait()来控制。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"fmt"</span>
-	<span class="s2">"sync"</span>
-	<span class="s2">"time"</span>
-<span class="p">)</span>
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
-	<span class="n">ctx</span><span class="p">,</span> <span class="n">cancel</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithTimeout</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">(),</span> <span class="m">5</span><span class="p">*</span><span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span> <span class="p">//</span> <span class="m">5</span><span class="err">秒超时</span>
-	<span class="n">defer</span> <span class="n">cancel</span><span class="p">()</span>
+func main() {
+	var wg sync.WaitGroup
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // 5秒超时
+	defer cancel()
 
-	<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-	<span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
-		<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span>
-		<span class="n">select</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">time</span><span class="p">.</span><span class="n">After</span><span class="p">(</span><span class="m">10</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">):</span> <span class="p">//</span> <span class="err">模拟</span> <span class="m">10</span> <span class="err">秒任务（超时）</span>
-			<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"任务完成"</span><span class="p">)</span>
-		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">():</span> <span class="p">//</span> <span class="err">监听超时信号</span>
-			<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"任务超时:"</span><span class="p">,</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Err</span><span class="p">())</span>
-		<span class="p">}</span>
-	<span class="p">}()</span>
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		select {
+		case &lt;-time.After(10 * time.Second): // 模拟 10 秒任务（超时）
+			fmt.Println("任务完成")
+		case &lt;-ctx.Done(): // 监听超时信号
+			fmt.Println("任务超时:", ctx.Err())
+		}
+	}()
 
-	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span> <span class="p">//</span> <span class="err">等待协程退出（或被取消后退出）</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"主程序结束"</span><span class="p">)</span>
-<span class="p">}</span>
+	wg.Wait() // 等待协程退出（或被取消后退出）
+	fmt.Println("主程序结束")
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="3-golang中怎么退出一个协程">3. golang中怎么退出一个协程？</h2>
 <p>父协程通过Context发送Cancel取消信号，子协程通过select监听Done信号退出。
 父协程通过close关闭channel，子协程通过监听channel关闭信息退出。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"context"</span>
-	<span class="s2">"fmt"</span>
-	<span class="s2">"sync"</span>
-	<span class="s2">"time"</span>
-<span class="p">)</span>
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
 
-<span class="p">//</span> <span class="err">子协程函数：监听</span> <span class="n">Context</span> <span class="err">取消信号退出</span>
-<span class="n">func</span> <span class="n">workerWithContext</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="p">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">id</span> <span class="n">int</span><span class="p">,</span> <span class="n">wg</span> <span class="p">*</span><span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">defer</span> <span class="n">wg</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span> <span class="p">//</span> <span class="err">确保协程退出时通知</span> <span class="n">WaitGroup</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 启动</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+// 子协程函数：监听 Context 取消信号退出
+func workerWithContext(ctx context.Context, id int, wg *sync.WaitGroup) {
+	defer wg.Done() // 确保协程退出时通知 WaitGroup
+	fmt.Printf("协程 %d 启动\n", id)
 
-	<span class="n">for</span> <span class="p">{</span>
-		<span class="n">select</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="p">&lt;-</span><span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">():</span> <span class="p">//</span> <span class="err">监听取消信号（</span><span class="n">Context</span> <span class="err">被取消时，该通道关闭）</span>
-			<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 收到退出信号，原因：%v</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Err</span><span class="p">())</span>
-			<span class="n">return</span> <span class="p">//</span> <span class="err">主动退出协程</span>
-		<span class="n">default</span><span class="p">:</span>
-			<span class="p">//</span> <span class="err">模拟业务逻辑（如处理任务）</span>
-			<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"协程 %d 工作中...（模拟任务）</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
-			<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">500</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span> <span class="p">//</span> <span class="err">模拟耗时操作</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-<span class="p">}</span>
+	for {
+		select {
+		case &lt;-ctx.Done(): // 监听取消信号（Context 被取消时，该通道关闭）
+			fmt.Printf("协程 %d 收到退出信号，原因：%v\n", id, ctx.Err())
+			return // 主动退出协程
+		default:
+			// 模拟业务逻辑（如处理任务）
+			fmt.Printf("协程 %d 工作中...（模拟任务）\n", id)
+			time.Sleep(500 * time.Millisecond) // 模拟耗时操作
+		}
+	}
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">var</span> <span class="n">wg</span> <span class="n">sync</span><span class="p">.</span><span class="n">WaitGroup</span>
-	<span class="p">//</span> <span class="m">1.</span> <span class="err">创建可取消的</span> <span class="n">Context</span><span class="err">（父</span> <span class="n">Context</span> <span class="err">为</span> <span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">()</span><span class="err">）</span>
-	<span class="n">ctx</span><span class="p">,</span> <span class="n">cancel</span> <span class="p">:=</span> <span class="n">context</span><span class="p">.</span><span class="n">WithCancel</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">Background</span><span class="p">())</span>
-	<span class="n">defer</span> <span class="n">cancel</span><span class="p">()</span> <span class="p">//</span> <span class="err">确保主程序退出时取消</span> <span class="n">Context</span><span class="err">，避免资源泄漏</span>
+func main() {
+	var wg sync.WaitGroup
+	// 1. 创建可取消的 Context（父 Context 为 context.Background()）
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel() // 确保主程序退出时取消 Context，避免资源泄漏
 
-	<span class="p">//</span> <span class="m">2.</span> <span class="err">启动</span> <span class="m">3</span> <span class="err">个子协程（传递</span> <span class="n">Context</span> <span class="err">和</span> <span class="n">WaitGroup</span><span class="err">）</span>
-	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-		<span class="n">wg</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-		<span class="n">go</span> <span class="n">workerWithContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">wg</span><span class="p">)</span>
-	<span class="p">}</span>
+	// 2. 启动 3 个子协程（传递 Context 和 WaitGroup）
+	for i := 1; i &lt;= 3; i++ {
+		wg.Add(1)
+		go workerWithContext(ctx, i, &amp;wg)
+	}
 
-	<span class="p">//</span> <span class="m">3.</span> <span class="err">主协程运行</span> <span class="m">2</span> <span class="err">秒后发送取消信号</span>
-	<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">2</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">===== 主协程发送取消信号 ====="</span><span class="p">)</span>
-	<span class="n">cancel</span><span class="p">()</span> <span class="p">//</span> <span class="err">关闭</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Done</span><span class="p">()</span> <span class="err">通道，所有子协程收到退出信号</span>
+	// 3. 主协程运行 2 秒后发送取消信号
+	time.Sleep(2 * time.Second)
+	fmt.Println("\n===== 主协程发送取消信号 =====")
+	cancel() // 关闭 ctx.Done() 通道，所有子协程收到退出信号
 
-	<span class="p">//</span> <span class="m">4.</span> <span class="err">等待所有子协程退出</span>
-	<span class="n">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"===== 所有子协程已退出，主程序结束 ====="</span><span class="p">)</span>
-<span class="p">}</span>
+	// 4. 等待所有子协程退出
+	wg.Wait()
+	fmt.Println("===== 所有子协程已退出，主程序结束 =====")
+}
 
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="4-golang中select的用法">4. golang中select的用法？</h2>
 <p>同时监听多个channel，当多个 case 就绪时，随机选择一个执行，支持 default子句（非阻塞），常与 time.After组，实现超时控制。
 golang中怎么完成一个原子操作？</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"fmt"</span>
-	<span class="s2">"math/rand"</span>
-	<span class="s2">"time"</span>
-<span class="p">)</span>
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
 
-<span class="n">func</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch</span> <span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="n">name</span> <span class="k">string</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-		<span class="n">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">Duration</span><span class="p">(</span><span class="n">rand</span><span class="p">.</span><span class="n">Intn</span><span class="p">(</span><span class="m">1000</span><span class="p">))</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span> <span class="p">//</span> <span class="err">随机延迟</span>
-		<span class="n">ch</span> <span class="p">&lt;-</span> <span class="n">rand</span><span class="p">.</span><span class="n">Intn</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>                                          <span class="p">//</span> <span class="err">发送随机任务数据</span>
-		<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"%s 发送任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">close</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">//</span> <span class="err">任务发送完毕，关闭通道</span>
-<span class="p">}</span>
+func taskGen(ch chan int, name string) {
+	for i := 0; i &lt; 3; i++ {
+		time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond) // 随机延迟
+		ch &lt;- rand.Intn(100)                                          // 发送随机任务数据
+		fmt.Printf("%s 发送任务: %d\n", name, i)
+	}
+	close(ch) // 任务发送完毕，关闭通道
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">ch1</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
-	<span class="n">ch2</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
-	<span class="n">ch3</span> <span class="p">:=</span> <span class="n">make</span><span class="p">(</span><span class="n">chan</span> <span class="n">int</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span>
+func main() {
+	ch1 := make(chan int, 5)
+	ch2 := make(chan int, 5)
+	ch3 := make(chan int, 5)
 
-	<span class="p">//</span> <span class="err">启动</span><span class="m">3</span><span class="err">个任务生成器</span>
-	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch1</span><span class="p">,</span> <span class="s2">"任务源1"</span><span class="p">)</span>
-	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch2</span><span class="p">,</span> <span class="s2">"任务源2"</span><span class="p">)</span>
-	<span class="n">go</span> <span class="n">taskGen</span><span class="p">(</span><span class="n">ch3</span><span class="p">,</span> <span class="s2">"任务源3"</span><span class="p">)</span>
+	// 启动3个任务生成器
+	go taskGen(ch1, "任务源1")
+	go taskGen(ch2, "任务源2")
+	go taskGen(ch3, "任务源3")
 
-	<span class="p">//</span> <span class="err">用</span> <span class="n">select</span> <span class="err">随机选择就绪通道处理任务</span>
-	<span class="n">for</span> <span class="p">{</span>
-		<span class="n">select</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch1</span><span class="p">:</span>
-			<span class="p">//</span> <span class="err">通道关闭后设为</span> <span class="n">nil</span><span class="err">，避免下次监听</span>
-			<span class="k">if</span> <span class="c1">!ok {
-</span>				<span class="n">ch1</span> <span class="p">=</span> <span class="n">nil</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch1 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch2</span><span class="p">:</span>
-			<span class="k">if</span> <span class="c1">!ok {
-</span>				<span class="n">ch2</span> <span class="p">=</span> <span class="n">nil</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch2 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="k">case</span> <span class="n">data</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="p">&lt;-</span><span class="n">ch3</span><span class="p">:</span>
-			<span class="k">if</span> <span class="c1">!ok {
-</span>				<span class="n">ch3</span> <span class="p">=</span> <span class="n">nil</span>
-			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-				<span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"处理 ch3 任务: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-		<span class="p">//</span> <span class="err">所有通道都关闭时退出</span>
-		<span class="k">if</span> <span class="n">ch1</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">&amp;&amp;</span> <span class="n">ch2</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">&amp;&amp;</span> <span class="n">ch3</span> <span class="p">==</span> <span class="n">nil</span> <span class="p">{</span>
-			<span class="k">break</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="s2">"所有任务处理完毕"</span><span class="p">)</span>
-<span class="p">}</span>
+	// 用 select 随机选择就绪通道处理任务
+	for {
+		select {
+		case data, ok := &lt;-ch1:
+			// 通道关闭后设为 nil，避免下次监听
+			if !ok {
+				ch1 = nil
+			} else {
+				fmt.Printf("处理 ch1 任务: %d\n", data)
+			}
+		case data, ok := &lt;-ch2:
+			if !ok {
+				ch2 = nil
+			} else {
+				fmt.Printf("处理 ch2 任务: %d\n", data)
+			}
+		case data, ok := &lt;-ch3:
+			if !ok {
+				ch3 = nil
+			} else {
+				fmt.Printf("处理 ch3 任务: %d\n", data)
+			}
+		}
+		// 所有通道都关闭时退出
+		if ch1 == nil &amp;&amp; ch2 == nil &amp;&amp; ch3 == nil {
+			break
+		}
+	}
+	fmt.Println("所有任务处理完毕")
+}
 </code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="5-golang中多协程goroutine操作map数据类型会怎么样">5. golang中多协程goroutine操作map数据类型，会怎么样？</h2>
@@ -754,7 +754,7 @@ golang中怎么完成一个原子操作？</p>
 程序崩溃（panic）（如 fatal error: concurrent map read and map write）；
 解决方法是使用sync.Mutex排他锁或者使用sync.RWMutex。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code>func main() {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code>func main() {
 	m := make(map[int]int)
 	var wg sync.WaitGroup
 	var rwmu sync.RWMutex
@@ -791,7 +791,7 @@ sync.RWMutex：读写锁（分场景放行）
 <p>无缓冲Channel是同步通信，发送接收必须同时就绪，像面对面交接，需要频繁切换goroutine。
 有缓存Channel是异步通信，有内部队列缓存数据，发送仅在队列满时阻塞，接收仅在队列空时阻塞，像投递到信箱。无缓冲用于精确同步和信号通知，有缓冲用于任务队列、流量控制和性能优化。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>func unbufferedExample() {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>func unbufferedExample() {
     ch := make(chan int)  // 无缓冲
     
     go func() {
@@ -823,59 +823,59 @@ func bufferedExample() {
 <p>sync/atomic
 在 Web 接口开发（尤其是高并发场景）中，原子操作（sync/atomic）凭借无锁高效的特性，常用于简单共享状态的并发读写，避免 mutex带来的性能损耗。结合 Gin 框架.
 场景：接口访问计数器（PV统计）</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53</pre></td><td class="code"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53</pre></td><td class="code"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-    <span class="s2">"fmt"</span>
-    <span class="s2">"net/http"</span>
-    <span class="s2">"strconv"</span>
-    <span class="s2">"sync/atomic"</span>
-    <span class="s2">"time"</span>
+import (
+    "fmt"
+    "net/http"
+    "strconv"
+    "sync/atomic"
+    "time"
 
-    <span class="s2">"github.com/gin-gonic/gin"</span>
-<span class="p">)</span>
+    "github.com/gin-gonic/gin"
+)
 
-<span class="p">//</span> <span class="err">全局原子计数器（记录总</span> <span class="n">PV</span><span class="err">）</span>
-<span class="n">var</span> <span class="n">totalPV</span> <span class="n">uint64</span>
+// 全局原子计数器（记录总 PV）
+var totalPV uint64
 
-<span class="p">//</span> <span class="n">PV</span> <span class="err">统计中间件</span>
-<span class="n">func</span> <span class="n">pvMiddleware</span><span class="p">()</span> <span class="n">gin</span><span class="p">.</span><span class="n">HandlerFunc</span> <span class="p">{</span>
-    <span class="n">return</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">//</span> <span class="err">原子自增</span> <span class="n">PV</span><span class="err">（无锁）</span>
-        <span class="n">newPV</span> <span class="p">:=</span> <span class="n">atomic</span><span class="p">.</span><span class="n">AddUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
-        <span class="p">//</span> <span class="err">将</span> <span class="n">PV</span> <span class="err">存入上下文（供后续处理使用）</span>
-        <span class="n">c</span><span class="p">.</span><span class="k">Set</span><span class="p">(</span><span class="s2">"pv"</span><span class="p">,</span> <span class="n">newPV</span><span class="p">)</span>
-        <span class="n">c</span><span class="p">.</span><span class="k">Next</span><span class="p">()</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+// PV 统计中间件
+func pvMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        // 原子自增 PV（无锁）
+        newPV := atomic.AddUint64(&amp;totalPV, 1)
+        // 将 PV 存入上下文（供后续处理使用）
+        c.Set("pv", newPV)
+        c.Next()
+    }
+}
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">r</span> <span class="p">:=</span> <span class="n">gin</span><span class="p">.</span><span class="n">Default</span><span class="p">()</span>
-    <span class="n">r</span><span class="p">.</span><span class="n">Use</span><span class="p">(</span><span class="n">pvMiddleware</span><span class="p">())</span> <span class="p">//</span> <span class="err">全局启用</span> <span class="n">PV</span> <span class="err">统计</span>
+func main() {
+    r := gin.Default()
+    r.Use(pvMiddleware()) // 全局启用 PV 统计
 
-    <span class="p">//</span> <span class="err">接口：获取实时</span> <span class="n">PV</span>
-    <span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/pv"</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">currentPV</span> <span class="p">:=</span> <span class="n">atomic</span><span class="p">.</span><span class="n">LoadUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">)</span> <span class="p">//</span> <span class="err">原子读（避免脏读）</span>
-        <span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"total_pv"</span><span class="p">:</span> <span class="n">currentPV</span><span class="p">})</span>
-    <span class="p">})</span>
+    // 接口：获取实时 PV
+    r.GET("/pv", func(c *gin.Context) {
+        currentPV := atomic.LoadUint64(&amp;totalPV) // 原子读（避免脏读）
+        c.JSON(http.StatusOK, gin.H{"total_pv": currentPV})
+    })
 
-    <span class="p">//</span> <span class="err">接口：模拟业务请求（触发</span> <span class="n">PV</span> <span class="err">计数）</span>
-    <span class="n">r</span><span class="p">.</span><span class="n">GET</span><span class="p">(</span><span class="s2">"/hello"</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span> <span class="p">*</span><span class="n">gin</span><span class="p">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">pv</span> <span class="p">:=</span> <span class="n">c</span><span class="p">.</span><span class="n">GetUint64</span><span class="p">(</span><span class="s2">"pv"</span><span class="p">)</span> <span class="p">//</span> <span class="err">从上下文获取当前</span> <span class="n">PV</span>
-        <span class="n">c</span><span class="p">.</span><span class="n">JSON</span><span class="p">(</span><span class="n">http</span><span class="p">.</span><span class="n">StatusOK</span><span class="p">,</span> <span class="n">gin</span><span class="p">.</span><span class="n">H</span><span class="p">{</span><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"current_pv"</span><span class="p">:</span> <span class="n">pv</span><span class="p">})</span>
-    <span class="p">})</span>
+    // 接口：模拟业务请求（触发 PV 计数）
+    r.GET("/hello", func(c *gin.Context) {
+        pv := c.GetUint64("pv") // 从上下文获取当前 PV
+        c.JSON(http.StatusOK, gin.H{"message": "hello", "current_pv": pv})
+    })
 
-    <span class="p">//</span> <span class="err">每</span> <span class="m">10</span> <span class="err">秒打印一次</span> <span class="n">PV</span><span class="err">（模拟监控）</span>
-    <span class="n">go</span> <span class="n">func</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">ticker</span> <span class="p">:=</span> <span class="n">time</span><span class="p">.</span><span class="n">NewTicker</span><span class="p">(</span><span class="m">10</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Second</span><span class="p">)</span>
-        <span class="n">defer</span> <span class="n">ticker</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
-        <span class="n">for</span> <span class="k">range</span> <span class="n">ticker</span><span class="p">.</span><span class="n">C</span> <span class="p">{</span>
-            <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s2">"当前总 PV: %d</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">atomic</span><span class="p">.</span><span class="n">LoadUint64</span><span class="p">(&amp;</span><span class="n">totalPV</span><span class="p">))</span>
-        <span class="p">}</span>
-    <span class="p">}()</span>
+    // 每 10 秒打印一次 PV（模拟监控）
+    go func() {
+        ticker := time.NewTicker(10 * time.Second)
+        defer ticker.Stop()
+        for range ticker.C {
+            fmt.Printf("当前总 PV: %d\n", atomic.LoadUint64(&amp;totalPV))
+        }
+    }()
 
-    <span class="n">r</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s2">":8080"</span><span class="p">)</span>
-<span class="p">}</span>
+    r.Run(":8080")
+}
 </code></pre></td></tr></tbody></table></div></div>
 
 
@@ -1040,7 +1040,7 @@ func bufferedExample() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1062,7 +1062,7 @@ func bufferedExample() {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

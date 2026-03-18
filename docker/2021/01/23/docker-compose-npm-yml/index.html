@@ -115,8 +115,8 @@
 <meta name="keywords" content="Jekyll, NexT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用docker-compose.yml创建lnmp环境">
-<meta property="og:url" content="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/docker/2021/01/23/docker-compose-npm-yml/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="创建docker-compose.yml文件 version: &quot;3&quot; services: nginx: image: nginx:alpine ports: - 80:80 volumes: - ./html:/usr/share/nginx/html - ./nginx/nginx.conf:/etc/nginx/nginx.conf php: image: devilbox/php-fpm:8.0-work-release-0.123 volumes: - ./html:/var/www/html mysql: image: mysql:5.6 environment: - MYSQL_ROOT_PASSWORD=123456 启动 docker-compose up -d 参考资料 https://github.com/bobo132/docker-compose-demo-1">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/docker/2021/01/23/docker-compose-npm-yml/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/docker/2021/01/23/docker-compose-npm-yml/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-23T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-23T00:00:00-06:00">
                 2021-01-23
               </time>
             
@@ -452,7 +452,7 @@
 
 
   <h2 id="创建docker-composeyml文件">创建docker-compose.yml文件</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>version: "3"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>version: "3"
 services:
   nginx:
     image: nginx:alpine
@@ -471,7 +471,7 @@ services:
     - MYSQL_ROOT_PASSWORD=123456
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="启动">启动</h2>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>docker-compose up -d
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>docker-compose up -d
 </code></pre></td></tr></tbody></table></div></div>
 <h2 id="参考资料">参考资料</h2>
 <p><a href="https://github.com/bobo132/docker-compose-demo-1">https://github.com/bobo132/docker-compose-demo-1</a></p>
@@ -631,7 +631,7 @@ services:
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -653,7 +653,7 @@ services:
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -115,8 +115,8 @@
 <meta name="keywords" content="rabbitmq">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rabbitmq面试汇总">
-<meta property="og:url" content="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">
-<meta property="og:site_name" content="Zhao Q.H.'s Notes">
+<meta property="og:url" content="http://0.0.0.0:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">
+<meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="消息队列 生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
 
 
 
-  <link rel="canonical" href="http://localhost:4000/"/>
+  <link rel="canonical" href="http://0.0.0.0:4000/"/>
 
 
 
@@ -326,7 +326,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/%E9%9D%A2%E8%AF%95/2025/12/05/rabbitmq-ms/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -360,7 +360,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-05T00:00:00+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-12-05T00:00:00-06:00">
                 2025-12-05
               </time>
             
@@ -454,7 +454,7 @@
   <h2 id="消息队列">消息队列</h2>
 <p>生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>+----------------+      路由       +-------------+      存储      +-------------+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>+----------------+      路由       +-------------+      存储      +-------------+
 | 生产者发送消息 | -------------&gt; | 交换机路由  | -------------&gt; | 队列存储消息 |
 +----------------+               +-------------+               +-------------+
                                        ↑
@@ -481,17 +481,17 @@
   <tbody>
     <tr>
       <td>1️⃣ 幂等控制</td>
-      <td>Redis <code class="highlighter-rouge">SET NX</code></td>
+      <td>Redis <code class="language-plaintext highlighter-rouge">SET NX</code></td>
       <td>防止并发压测导致重复发送</td>
     </tr>
     <tr>
       <td>2️⃣ 持久化</td>
-      <td><code class="highlighter-rouge">delivery_mode=2</code> + <code class="highlighter-rouge">durable=true</code></td>
+      <td><code class="language-plaintext highlighter-rouge">delivery_mode=2</code> + <code class="language-plaintext highlighter-rouge">durable=true</code></td>
       <td>防止 Broker 重启丢消息</td>
     </tr>
     <tr>
       <td>3️⃣ Publisher Confirms</td>
-      <td><code class="highlighter-rouge">ack</code>/<code class="highlighter-rouge">nack</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ack</code>/<code class="language-plaintext highlighter-rouge">nack</code></td>
       <td>确认消息被 Broker 接收并持久化</td>
     </tr>
     <tr>
@@ -510,7 +510,7 @@
 <h3 id="生产环境中生产者的标准答案">生产环境中生产者的标准答案</h3>
 <p>没有一个 basic_publish()能保证消息入队，但“持久化 + confirms + mandatory + return + 幂等 + 重试”的组合拳，可以让消息丢失概率低于 0.001%，达到工业级可靠性</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 require_once __DIR__ . '/vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -648,7 +648,7 @@ class ReliableRabbitMQProducer
 }
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="调用示例">调用示例</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>$producer = new ReliableRabbitMQProducer();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>$producer = new ReliableRabbitMQProducer();
 $success = $producer-&gt;sendOrderCreated('123456', ['amount' =&gt; 99.9, 'user_id' =&gt; 789]);
 
 if ($success) {
@@ -662,7 +662,7 @@ if ($success) {
 <h3 id="幂等处理">幂等处理</h3>
 <ul>
   <li>流程图
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>+----------------+     +------------------+     +------------------+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>+----------------+     +------------------+     +------------------+
 |   HTTP Client  | --&gt; |   PHP-FPM        | --&gt; |   RabbitMQ       |
 | (并发压测)     |     | (生产者逻辑)      |     | (消息队列)       |
 +----------------+     +------------------+     +------------------+
@@ -682,7 +682,7 @@ if ($success) {
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
   <li>代码
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23</pre></td><td class="code"><pre class="highlight"><code>public function sendOrderCreated(string $orderId, array $data): bool
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23</pre></td><td class="code"><pre class="highlight"><code>public function sendOrderCreated(string $orderId, array $data): bool
 {
   $lockKey = "sent:order:{$orderId}";
   $tempKey = "temp:order:{$orderId}"; // 可选：用临时标记
@@ -736,7 +736,7 @@ if ($success) {
     </tr>
     <tr>
       <td>🧱 手动 ACK 遗漏</td>
-      <td>代码 Bug 导致忘记 <code class="highlighter-rouge">basic_ack()</code></td>
+      <td>代码 Bug 导致忘记 <code class="language-plaintext highlighter-rouge">basic_ack()</code></td>
     </tr>
     <tr>
       <td>🔄 集群 HA 切换</td>
@@ -777,8 +777,8 @@ if ($success) {
   </thead>
   <tbody>
     <tr>
-      <td>1️⃣ <strong>基于 <code class="highlighter-rouge">message_id</code> + Redis/NX</strong></td>
-      <td>消费前用 <code class="highlighter-rouge">SET message_id NX EX</code> 判断是否已处理</td>
+      <td>1️⃣ <strong>基于 <code class="language-plaintext highlighter-rouge">message_id</code> + Redis/NX</strong></td>
+      <td>消费前用 <code class="language-plaintext highlighter-rouge">SET message_id NX EX</code> 判断是否已处理</td>
       <td>通用场景，尤其异步消息</td>
       <td>✅ 简单高效<br />✅ 分布式友好<br />✅ 可设置过期</td>
       <td>❌ 依赖 Redis 可用性</td>
@@ -792,7 +792,7 @@ if ($success) {
     </tr>
     <tr>
       <td>3️⃣ <strong>数据库唯一约束</strong></td>
-      <td>插入时依赖 <code class="highlighter-rouge">UNIQUE KEY</code> 报错</td>
+      <td>插入时依赖 <code class="language-plaintext highlighter-rouge">UNIQUE KEY</code> 报错</td>
       <td>数据入库、用户注册等</td>
       <td>✅ 强一致性<br />✅ 不依赖外部缓存</td>
       <td>❌ 性能差<br />❌ 需捕获异常</td>
@@ -806,7 +806,7 @@ if ($success) {
     </tr>
     <tr>
       <td>5️⃣ <strong>本地文件或内存标记</strong></td>
-      <td>单机脚本可用 <code class="highlighter-rouge">flock()</code> 或数组缓存</td>
+      <td>单机脚本可用 <code class="language-plaintext highlighter-rouge">flock()</code> 或数组缓存</td>
       <td>单机、低频场景</td>
       <td>✅ 简单</td>
       <td>❌ 不支持分布式<br />❌ 重启丢失</td>
@@ -817,7 +817,7 @@ if ($success) {
 <blockquote>
   <p>✅ <strong>推荐组合</strong>：</p>
   <ul>
-    <li>常规业务：<strong>方案 1（<code class="highlighter-rouge">message_id</code> + Redis）</strong></li>
+    <li>常规业务：<strong>方案 1（<code class="language-plaintext highlighter-rouge">message_id</code> + Redis）</strong></li>
     <li>核心交易：<strong>方案 1 + 方案 3（数据库唯一键）双重保险</strong></li>
     <li>状态驱动：<strong>方案 4（状态机）为主，辅以方案 1</strong></li>
   </ul>
@@ -838,17 +838,17 @@ if ($success) {
   <tbody>
     <tr>
       <td>🔐 <strong>1. 手动 ACK</strong></td>
-      <td>禁用 <code class="highlighter-rouge">auto_ack=true</code>，业务完成后 <code class="highlighter-rouge">basic_ack()</code></td>
+      <td>禁用 <code class="language-plaintext highlighter-rouge">auto_ack=true</code>，业务完成后 <code class="language-plaintext highlighter-rouge">basic_ack()</code></td>
       <td>防止未处理完就确认，避免消息丢失</td>
     </tr>
     <tr>
       <td>⚖️ <strong>2. 公平分发（QoS）</strong></td>
-      <td><code class="highlighter-rouge">basic_qos(null, 1, null)</code> 控制未 ACK 消息数</td>
+      <td><code class="language-plaintext highlighter-rouge">basic_qos(null, 1, null)</code> 控制未 ACK 消息数</td>
       <td>避免某消费者过载，提升负载均衡</td>
     </tr>
     <tr>
       <td>🧼 <strong>3. 优雅关闭</strong></td>
-      <td>捕获 <code class="highlighter-rouge">SIGTERM</code>，停止 <code class="highlighter-rouge">wait()</code> 并等待当前消息处理完</td>
+      <td>捕获 <code class="language-plaintext highlighter-rouge">SIGTERM</code>，停止 <code class="language-plaintext highlighter-rouge">wait()</code> 并等待当前消息处理完</td>
       <td>防止强制退出导致消息重投</td>
     </tr>
     <tr>
@@ -858,22 +858,22 @@ if ($success) {
     </tr>
     <tr>
       <td>🕒 <strong>5. 控制处理时长</strong></td>
-      <td>避免阻塞操作，设置 <code class="highlighter-rouge">read_write_timeout</code></td>
+      <td>避免阻塞操作，设置 <code class="language-plaintext highlighter-rouge">read_write_timeout</code></td>
       <td>防止心跳超时导致连接断开</td>
     </tr>
     <tr>
       <td>🔁 <strong>6. 重试策略</strong></td>
-      <td>失败后 <code class="highlighter-rouge">nack(true)</code> 重试有限次数（如 3 次）</td>
+      <td>失败后 <code class="language-plaintext highlighter-rouge">nack(true)</code> 重试有限次数（如 3 次）</td>
       <td>防死循环，结合 DLX 使用</td>
     </tr>
     <tr>
       <td>📊 <strong>7. 日志与监控</strong></td>
-      <td>记录 <code class="highlighter-rouge">message_id</code>、处理结果、重试次数</td>
+      <td>记录 <code class="language-plaintext highlighter-rouge">message_id</code>、处理结果、重试次数</td>
       <td>便于追踪问题，支持对账</td>
     </tr>
     <tr>
       <td>🆔 <strong>8. 唯一标识传递</strong></td>
-      <td>消息体必须包含 <code class="highlighter-rouge">message_id</code>（生产者生成）</td>
+      <td>消息体必须包含 <code class="language-plaintext highlighter-rouge">message_id</code>（生产者生成）</td>
       <td>幂等去重的依据</td>
     </tr>
     <tr>
@@ -892,7 +892,7 @@ if ($success) {
 <hr />
 
 <h3 id="五完整处理流程以-php-为例">五、完整处理流程（以 PHP 为例）</h3>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>[接收消息]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>[接收消息]
      ↓
 [提取 message_id]
      ↓
@@ -912,7 +912,7 @@ if ($success) {
 <blockquote>
   <p>✅ 关键点：</p>
   <ul>
-    <li><code class="highlighter-rouge">SET NX</code> 是原子操作，防并发重复处理</li>
+    <li><code class="language-plaintext highlighter-rouge">SET NX</code> 是原子操作，防并发重复处理</li>
     <li>业务成功后才 ACK，失败可回滚标记允许重试</li>
     <li>重试次数超限 → 进 DLX，人工介入</li>
   </ul>
@@ -939,7 +939,7 @@ if ($success) {
     <tr>
       <td>2️⃣ <strong>幂等优先</strong></td>
       <td>业务层具备去重能力</td>
-      <td>采用 <code class="highlighter-rouge">message_id</code> + Redis 等方案</td>
+      <td>采用 <code class="language-plaintext highlighter-rouge">message_id</code> + Redis 等方案</td>
     </tr>
     <tr>
       <td>3️⃣ <strong>机制健全</strong></td>
@@ -986,27 +986,27 @@ if ($success) {
     <tr>
       <td>1️⃣ <strong>配置管理层</strong></td>
       <td>统一管理 RabbitMQ、Redis、队列、死信等参数，与环境解耦，支持多环境灵活切换</td>
-      <td><code class="highlighter-rouge">config/rabbitmq.php</code></td>
+      <td><code class="language-plaintext highlighter-rouge">config/rabbitmq.php</code></td>
     </tr>
     <tr>
       <td>2️⃣ <strong>连接资源管理</strong></td>
       <td>初始化并维护 RabbitMQ 连接、Channel、Redis 连接池，确保资源生命周期安全、异常自动清理</td>
-      <td><code class="highlighter-rouge">BaseConsumer::initializeRabbitMQ()</code><br /><code class="highlighter-rouge">BaseConsumer::initializeRedis()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">BaseConsumer::initializeRabbitMQ()</code><br /><code class="language-plaintext highlighter-rouge">BaseConsumer::initializeRedis()</code></td>
     </tr>
     <tr>
       <td>3️⃣ <strong>消息消费引擎</strong></td>
       <td>实现消费循环、回调分发、手动 ACK/NACK 控制、QoS 公平分发，保障消息可靠投递与负载均衡</td>
-      <td><code class="highlighter-rouge">BaseConsumer::startConsuming()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">BaseConsumer::startConsuming()</code></td>
     </tr>
     <tr>
       <td>4️⃣ <strong>业务处理核心</strong></td>
       <td>抽象业务处理逻辑，内置幂等去重、事务控制、重试机制、死信策略，确保业务执行的准确性和容错性</td>
-      <td><code class="highlighter-rouge">BaseConsumer::onMessage()</code><br />+ 子类 <code class="highlighter-rouge">processMessage()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">BaseConsumer::onMessage()</code><br />+ 子类 <code class="language-plaintext highlighter-rouge">processMessage()</code></td>
     </tr>
     <tr>
       <td>5️⃣ <strong>运维支撑体系</strong></td>
       <td>提供结构化日志、监控埋点、优雅关闭（信号处理）、Supervisor 进程托管，保障系统可观测性与高可用</td>
-      <td><code class="highlighter-rouge">BaseConsumer::signalHandler()</code><br /><code class="highlighter-rouge">bin/consumer.php</code><br /><code class="highlighter-rouge">supervisor/*.conf</code></td>
+      <td><code class="language-plaintext highlighter-rouge">BaseConsumer::signalHandler()</code><br /><code class="language-plaintext highlighter-rouge">bin/consumer.php</code><br /><code class="language-plaintext highlighter-rouge">supervisor/*.conf</code></td>
     </tr>
   </tbody>
 </table>
@@ -1015,7 +1015,7 @@ if ($success) {
   <li>一、 配置文件 (config/rabbitmq.php)</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 return [
     // RabbitMQ 连接配置
     'rabbitmq' =&gt; [
@@ -1073,7 +1073,7 @@ return [
   <li>二、 核心消费者类 (app/Consumers/BaseConsumer.php)</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178<br/>179<br/>180<br/>181<br/>182<br/>183<br/>184<br/>185<br/>186<br/>187<br/>188<br/>189<br/>190<br/>191<br/>192<br/>193<br/>194<br/>195<br/>196<br/>197<br/>198<br/>199<br/>200<br/>201<br/>202<br/>203<br/>204<br/>205<br/>206<br/>207<br/>208<br/>209<br/>210<br/>211<br/>212<br/>213<br/>214<br/>215<br/>216<br/>217<br/>218<br/>219<br/>220<br/>221<br/>222<br/>223<br/>224<br/>225<br/>226<br/>227<br/>228<br/>229<br/>230<br/>231<br/>232<br/>233<br/>234<br/>235<br/>236<br/>237<br/>238<br/>239<br/>240<br/>241<br/>242<br/>243<br/>244<br/>245<br/>246<br/>247<br/>248<br/>249<br/>250<br/>251<br/>252<br/>253<br/>254<br/>255<br/>256<br/>257<br/>258<br/>259<br/>260<br/>261<br/>262<br/>263<br/>264<br/>265<br/>266<br/>267<br/>268<br/>269<br/>270<br/>271<br/>272<br/>273<br/>274<br/>275<br/>276<br/>277<br/>278<br/>279<br/>280<br/>281<br/>282<br/>283<br/>284<br/>285<br/>286<br/>287<br/>288<br/>289<br/>290<br/>291<br/>292<br/>293<br/>294<br/>295<br/>296<br/>297<br/>298<br/>299<br/>300<br/>301<br/>302<br/>303<br/>304<br/>305<br/>306<br/>307<br/>308<br/>309<br/>310<br/>311<br/>312<br/>313<br/>314<br/>315<br/>316<br/>317<br/>318<br/>319<br/>320<br/>321<br/>322<br/>323<br/>324<br/>325<br/>326<br/>327<br/>328<br/>329<br/>330<br/>331<br/>332<br/>333<br/>334<br/>335<br/>336<br/>337<br/>338<br/>339<br/>340<br/>341<br/>342<br/>343<br/>344<br/>345<br/>346<br/>347<br/>348<br/>349<br/>350<br/>351<br/>352<br/>353<br/>354<br/>355<br/>356<br/>357<br/>358<br/>359<br/>360<br/>361<br/>362<br/>363<br/>364<br/>365<br/>366<br/>367<br/>368<br/>369<br/>370<br/>371<br/>372<br/>373<br/>374<br/>375<br/>376<br/>377<br/>378<br/>379<br/>380<br/>381<br/>382<br/>383<br/>384<br/>385<br/>386<br/>387<br/>388<br/>389<br/>390<br/>391<br/>392<br/>393<br/>394<br/>395<br/>396<br/>397<br/>398<br/>399<br/>400<br/>401<br/>402<br/>403<br/>404<br/>405<br/>406<br/>407<br/>408<br/>409<br/>410<br/>411<br/>412<br/>413<br/>414<br/>415<br/>416<br/>417<br/>418<br/>419<br/>420<br/>421<br/>422<br/>423<br/>424<br/>425<br/>426<br/>427<br/>428<br/>429<br/>430<br/>431<br/>432<br/>433<br/>434<br/>435<br/>436<br/>437<br/>438<br/>439<br/>440<br/>441<br/>442</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178<br/>179<br/>180<br/>181<br/>182<br/>183<br/>184<br/>185<br/>186<br/>187<br/>188<br/>189<br/>190<br/>191<br/>192<br/>193<br/>194<br/>195<br/>196<br/>197<br/>198<br/>199<br/>200<br/>201<br/>202<br/>203<br/>204<br/>205<br/>206<br/>207<br/>208<br/>209<br/>210<br/>211<br/>212<br/>213<br/>214<br/>215<br/>216<br/>217<br/>218<br/>219<br/>220<br/>221<br/>222<br/>223<br/>224<br/>225<br/>226<br/>227<br/>228<br/>229<br/>230<br/>231<br/>232<br/>233<br/>234<br/>235<br/>236<br/>237<br/>238<br/>239<br/>240<br/>241<br/>242<br/>243<br/>244<br/>245<br/>246<br/>247<br/>248<br/>249<br/>250<br/>251<br/>252<br/>253<br/>254<br/>255<br/>256<br/>257<br/>258<br/>259<br/>260<br/>261<br/>262<br/>263<br/>264<br/>265<br/>266<br/>267<br/>268<br/>269<br/>270<br/>271<br/>272<br/>273<br/>274<br/>275<br/>276<br/>277<br/>278<br/>279<br/>280<br/>281<br/>282<br/>283<br/>284<br/>285<br/>286<br/>287<br/>288<br/>289<br/>290<br/>291<br/>292<br/>293<br/>294<br/>295<br/>296<br/>297<br/>298<br/>299<br/>300<br/>301<br/>302<br/>303<br/>304<br/>305<br/>306<br/>307<br/>308<br/>309<br/>310<br/>311<br/>312<br/>313<br/>314<br/>315<br/>316<br/>317<br/>318<br/>319<br/>320<br/>321<br/>322<br/>323<br/>324<br/>325<br/>326<br/>327<br/>328<br/>329<br/>330<br/>331<br/>332<br/>333<br/>334<br/>335<br/>336<br/>337<br/>338<br/>339<br/>340<br/>341<br/>342<br/>343<br/>344<br/>345<br/>346<br/>347<br/>348<br/>349<br/>350<br/>351<br/>352<br/>353<br/>354<br/>355<br/>356<br/>357<br/>358<br/>359<br/>360<br/>361<br/>362<br/>363<br/>364<br/>365<br/>366<br/>367<br/>368<br/>369<br/>370<br/>371<br/>372<br/>373<br/>374<br/>375<br/>376<br/>377<br/>378<br/>379<br/>380<br/>381<br/>382<br/>383<br/>384<br/>385<br/>386<br/>387<br/>388<br/>389<br/>390<br/>391<br/>392<br/>393<br/>394<br/>395<br/>396<br/>397<br/>398<br/>399<br/>400<br/>401<br/>402<br/>403<br/>404<br/>405<br/>406<br/>407<br/>408<br/>409<br/>410<br/>411<br/>412<br/>413<br/>414<br/>415<br/>416<br/>417<br/>418<br/>419<br/>420<br/>421<br/>422<br/>423<br/>424<br/>425<br/>426<br/>427<br/>428<br/>429<br/>430<br/>431<br/>432<br/>433<br/>434<br/>435<br/>436<br/>437<br/>438<br/>439<br/>440<br/>441<br/>442</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 namespace App\Consumers;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -1521,7 +1521,7 @@ abstract class BaseConsumer
   <li>三、 具体业务消费者 (app/Consumers/OrderCreatedConsumer.php)</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 namespace App\Consumers;
 
 use Psr\Log\LoggerInterface;
@@ -1615,57 +1615,57 @@ class OrderCreatedConsumer extends BaseConsumer
   <li>四、 消费者启动脚本 (bin/consumer.php)</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45</pre></td><td class="code"><pre class="highlight"><code>#!/usr/bin/env php
-<span class="cp">&lt;?php</span>
-<span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../vendor/autoload.php'</span><span class="p">;</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45</pre></td><td class="code"><pre class="highlight"><code>#!/usr/bin/env php
+&lt;?php
+require_once __DIR__ . '/../vendor/autoload.php';
 
-<span class="k">use</span> <span class="nx">App\Consumers\OrderCreatedConsumer</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">Monolog\Logger</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">Monolog\Handler\RotatingFileHandler</span><span class="p">;</span>
-<span class="k">use</span> <span class="nx">Monolog\Formatter\LineFormatter</span><span class="p">;</span>
+use App\Consumers\OrderCreatedConsumer;
+use Monolog\Logger;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Formatter\LineFormatter;
 
-<span class="c1">// 加载配置
-</span><span class="nv">$config</span> <span class="o">=</span> <span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../config/rabbitmq.php'</span><span class="p">;</span>
+// 加载配置
+$config = require_once __DIR__ . '/../config/rabbitmq.php';
 
-<span class="c1">// 初始化日志
-</span><span class="nv">$logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Logger</span><span class="p">(</span><span class="s1">'rabbitmq_consumer'</span><span class="p">);</span>
+// 初始化日志
+$logger = new Logger('rabbitmq_consumer');
 
-<span class="c1">// 文件处理器（按天轮转，保留30天）
-</span><span class="nv">$fileHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RotatingFileHandler</span><span class="p">(</span>
-    <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../logs/consumer.log'</span><span class="p">,</span>
-    <span class="mi">30</span><span class="p">,</span> <span class="c1">// 保留天数
-</span>    <span class="nx">Logger</span><span class="o">::</span><span class="na">INFO</span>
-<span class="p">);</span>
+// 文件处理器（按天轮转，保留30天）
+$fileHandler = new RotatingFileHandler(
+    __DIR__ . '/../logs/consumer.log',
+    30, // 保留天数
+    Logger::INFO
+);
 
-<span class="nv">$formatter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LineFormatter</span><span class="p">(</span>
-    <span class="s2">"[%datetime%] %channel%.%level_name%: %message% %context% %extra%</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
-    <span class="s2">"Y-m-d H:i:s.u"</span>
-<span class="p">);</span>
-<span class="nv">$fileHandler</span><span class="o">-&gt;</span><span class="na">setFormatter</span><span class="p">(</span><span class="nv">$formatter</span><span class="p">);</span>
-<span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">pushHandler</span><span class="p">(</span><span class="nv">$fileHandler</span><span class="p">);</span>
+$formatter = new LineFormatter(
+    "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
+    "Y-m-d H:i:s.u"
+);
+$fileHandler-&gt;setFormatter($formatter);
+$logger-&gt;pushHandler($fileHandler);
 
-<span class="k">try</span> <span class="p">{</span>
-    <span class="c1">// 创建消费者实例
-</span>    <span class="nv">$consumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">OrderCreatedConsumer</span><span class="p">(</span><span class="nv">$config</span><span class="p">,</span> <span class="nv">$logger</span><span class="p">);</span>
+try {
+    // 创建消费者实例
+    $consumer = new OrderCreatedConsumer($config, $logger);
     
-    <span class="c1">// 初始化连接
-</span>    <span class="nv">$consumer</span><span class="o">-&gt;</span><span class="na">initialize</span><span class="p">();</span>
+    // 初始化连接
+    $consumer-&gt;initialize();
     
-    <span class="c1">// 开始消费（优雅关闭支持）
-</span>    <span class="nv">$consumer</span><span class="o">-&gt;</span><span class="na">startConsuming</span><span class="p">(</span><span class="s1">'order.created'</span><span class="p">);</span>
+    // 开始消费（优雅关闭支持）
+    $consumer-&gt;startConsuming('order.created');
     
-<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">critical</span><span class="p">(</span><span class="s2">"Consumer failed to start: "</span> <span class="o">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">(),</span> <span class="p">[</span>
-        <span class="s1">'exception'</span> <span class="o">=&gt;</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getTraceAsString</span><span class="p">()</span>
-    <span class="p">]);</span>
-    <span class="k">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="p">}</span>
+} catch (\Exception $e) {
+    $logger-&gt;critical("Consumer failed to start: " . $e-&gt;getMessage(), [
+        'exception' =&gt; $e-&gt;getTraceAsString()
+    ]);
+    exit(1);
+}
 </code></pre></td></tr></tbody></table></div></div>
 <ul>
   <li>五、 Supervisor 配置 (supervisor/consumer.conf)</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code>[program:rabbitmq-order-consumer]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code>[program:rabbitmq-order-consumer]
 process_name=%(program_name)s_%(process_num)02d
 command=/usr/bin/php /path/to/your/project/bin/consumer.php
 directory=/path/to/your/project
@@ -1694,13 +1694,13 @@ stopasgroup=true
   <li>一、 安装依赖：</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>composer require php-amqplib/php-amqplib monolog/monolog predis/predis
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>composer require php-amqplib/php-amqplib monolog/monolog predis/predis
 </code></pre></td></tr></tbody></table></div></div>
 <ul>
   <li>二、 配置 Supervisor：</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>sudo cp supervisor/consumer.conf /etc/supervisor/conf.d/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>sudo cp supervisor/consumer.conf /etc/supervisor/conf.d/
 sudo supervisorctl reread
 sudo supervisorctl update
 sudo supervisorctl start rabbitmq-order-consumer:*
@@ -1710,7 +1710,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
   <li>三、 监控日志：</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>tail -f logs/consumer.log
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>tail -f logs/consumer.log
 </code></pre></td></tr></tbody></table></div></div>
 
 
@@ -1875,7 +1875,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1897,7 +1897,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
