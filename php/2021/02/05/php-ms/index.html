@@ -484,6 +484,201 @@ Library类型的项目，需要把composer.lock文件提交到版本库中
 9、CSRF攻击是因为没有对用户输入进行转义导致的
 14、为了避免XSS攻击，需要在写入数据库前对其转义，从数据库读取后反转义</p>
 
+<h2 id="迪拜cggame">迪拜cggame</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code>迪拜：cggame
+职位描述
+1.负责公司游戏产品、原型、内部系统等的服务端架构设计和开发工作。
+2.后端语言：php,后面需要转golang
+职位要求
+1.大专及以上学历，3-7年后端开发经验。
+2.有良好的编码习惯，善用单元测试和自动化测试，熟悉 DevOps 工作流程，精通 git。
+3.熟练使用常用后端组件：关系型数据库、Redis、Rabbit/Kafka、Elasticsearch,NoSQL数据库等，了解这些组件的整体原理、最佳实践、适用范围。
+4.熟悉容器技术的原理和最佳实践；熟悉微服务架构，以及常见的后端架构设计范式。
+5.熟悉后端常见的安全风险及防护措施。
+6.有一定的 To B 产品经验
+7.热爱技术，钻研本质，终身学习，在工作中不被经验束缚，从第一性原理出发思考问题
+</code></pre></td></tr></tbody></table></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61<br/>62<br/>63<br/>64<br/>65<br/>66<br/>67<br/>68<br/>69<br/>70<br/>71<br/>72<br/>73<br/>74<br/>75<br/>76<br/>77<br/>78<br/>79<br/>80<br/>81<br/>82<br/>83<br/>84<br/>85<br/>86<br/>87<br/>88<br/>89<br/>90<br/>91<br/>92<br/>93<br/>94<br/>95<br/>96<br/>97<br/>98<br/>99<br/>100<br/>101<br/>102<br/>103<br/>104<br/>105<br/>106<br/>107<br/>108<br/>109<br/>110<br/>111<br/>112<br/>113<br/>114<br/>115<br/>116<br/>117<br/>118<br/>119<br/>120<br/>121<br/>122<br/>123<br/>124<br/>125<br/>126<br/>127<br/>128<br/>129<br/>130<br/>131<br/>132<br/>133<br/>134<br/>135<br/>136<br/>137<br/>138<br/>139<br/>140<br/>141<br/>142<br/>143<br/>144<br/>145<br/>146<br/>147<br/>148<br/>149<br/>150<br/>151<br/>152<br/>153<br/>154<br/>155<br/>156<br/>157<br/>158<br/>159<br/>160<br/>161<br/>162<br/>163<br/>164<br/>165<br/>166<br/>167<br/>168<br/>169<br/>170<br/>171<br/>172<br/>173<br/>174<br/>175<br/>176<br/>177<br/>178</pre></td><td class="code"><pre class="highlight"><code>PHP面试参考题目：
+1. ThinkPHP的中间件的作用是什么?
+中间件的作用是处理HTTP请求到达控制器之前或者返回给客户端信息之前的处理，比如RBAC权限认证、JWT校验、日志记录、压缩响应头、添加Http头(Access-Control-Allow-Origin等)
+2. 如何解决跨域（一定要说JWT）
+情况一：项目依赖session时
+如果后端项目是多台服务器集群，首先将session存储在redis中，然后通过redis的session共享。
+然后通过nginx反向代理，将/api/xxx 映射到后端服务器的 /api/xxx。
+
+情况二：项目不依赖session时，可以使用JWT，JWT是一种跨域认证的解决方案。
+3. mysql的四大特性
+ACID：
+原子性：事务中的所有sql操作要么全部完成，要么全部不执行。
+一致性：事务执行前后，数据库必须保持一致性状态。
+隔离性：多个事务并发执行时，彼此之间互不干扰，通过锁机制、MVCC（多版本并发控制）实现
+持久性：事务一旦提交，对数据库的修改就是永久性的
+
+4. PHP的try catch捕获异常中的错误原理
+可捕获：通过throw语句主动抛出的Exception对象和Throwable对象。
+5. TP接口遇到报错 你要怎么处理 处理步骤
+找到系统的运行日志，使用tail -f 查看日志的信息，然后分析错误信息，然后定位问题，然后解决。
+6. 如何使用非阻塞 IO 处理高并发场景？
+传统的php-fpm项目是同步阻塞IO，如果接口中有多个查询操作，会导致大量请求阻塞，造成服务器负载过高。
+如果使用hyperf（协程+IO多路复用）这样的高性能异步非阻塞框架，可以异步非阻塞处理查询商品、更新库存、创建订单等操作，从而提升接口吞吐量。
+7. 有关php的函数和方法有什么区别
+函数定义方式不依赖类，方法定义方式依赖类，函数可以直接调用，方法需要通过对象来调用。
+8. 服务器分布 高并发怎么处理？
+静态资源使用CDN加速，
+后端服务器使用LVS/Nginx做负载均衡
+高并发使用异步消息队列处理，hyperf协程框架处理高并发。
+
+用户输入域名
+    ↓
+DNS解析（可能返回CDN的IP，也可能返回LB的IP）
+    ↓
+① 静态资源请求 → CDN边缘节点（命中则直接返回，未命中回源到源站）
+② API请求    → 负载均衡器（CLB/Nginx）→ 后端某台服务
+    ↓
+浏览器渲染页面
+
+
+9. 线上出现问题如何快速定位？
+根据页面返回的错误信息，如果接口返回504错误则认为是php-fpm执行超时，如果是502错误则认为是php-fpm挂掉了，如果是500错误则认为是代码错误。然后根据thinkphp的运行日志，查看错误信息，然后定位问题。
+10. ThinkPHP鉴权
+用户通过接口获取JWT，然后通过 http header bearer token 使用中间件校验JWT鉴权，然后根据用户身份做RBAC鉴权。
+
+11. 未使用过协程框架/消息队列/es等，
+12. mysql乐观锁悲观锁也不了解
+乐观锁（Optimistic Lock）
+1️⃣ 是什么？
+我不锁数据，更新时看有没有被别人改过。
+✅ 通过 版本号 / 时间戳​ 实现。
+$res = Db::name('product')
+    -&gt;where('id', 1)
+    -&gt;where('version', $product['version'])
+    -&gt;update([
+        'stock' =&gt; $product['stock'] - 1,
+        'version' =&gt; $product['version'] + 1
+    ]);
+
+if ($res === 0) {
+    // 更新失败，说明被别人改过了
+    return json(['code' =&gt; 409, 'msg' =&gt; '请重试']);
+}
+悲观锁，在操作数据前，先锁定这条数据。依赖事务和where条件必须是命中主键索引或唯一索引，并且用=条件这个是锁的行为是行锁。
+如果where条件是命中主键索引或唯一索引，但是使用非=条件，那么锁的行为是间隙锁。
+如果where条件命中的是普通索引，那么锁的行为是间隙锁。
+如果where条件没有命中索引，那么锁的行为是表锁。
+Db::startTrans();
+try {
+    $product = Db::name('product')
+        -&gt;lock(true)
+        -&gt;find(1);
+
+    if ($product['stock'] &gt; 0) {
+        Db::name('product')
+            -&gt;where('id', 1)
+            -&gt;dec('stock')
+            -&gt;update();
+    }
+
+    Db::commit(); // 提交时才释放锁
+} catch (\Exception $e) {
+    Db::rollback();
+}
+
+13. php常用设计模式也没说到细节
+
+
+13.1 单例模式（Singleton）—— 最常用
+对象只想创建一次，节省资源。
+场景：数据库连接、Redis 连接、日志对象。
+
+13.2 工厂模式（Factory）--解耦创建逻辑
+创建逻辑复杂，不方便维护。
+场景：支付（支付宝 / 微信）
+支付方式
+interface PayInterface {
+    public function pay();
+}
+
+class AliPay implements PayInterface {
+    public function pay() {
+        echo "支付宝支付";
+    }
+}
+
+class WechatPay implements PayInterface {
+    public function pay() {
+        echo "微信支付";
+    }
+}
+工厂类
+class PayFactory {
+    public static function create($type): PayInterface {
+        switch ($type) {
+            case 'ali':
+                return new AliPay();
+            case 'wechat':
+                return new WechatPay();
+            default:
+                throw new Exception("不支持的支付方式");
+        }
+    }
+}
+使用
+$pay = PayFactory::create('ali');
+$pay-&gt;pay();
+
+13.3 注册器模式（Registry）—— 全局存取
+
+场景：全局配置、全局用户信息。
+class Registry {
+    private static $data = [];
+
+    public static function set($key, $value) {
+        self::$data[$key] = $value;
+    }
+
+    public static function get($key) {
+        return self::$data[$key] ?? null;
+    }
+}
+使用 
+Registry::set('uid', 1001);
+$uid = Registry::get('uid');
+13.4 观察者模式（Observer）—— 解耦事件
+一个动作触发多个行为，不修改原代码，扩展新行为
+事件
+class UserRegister {
+    private $observers = [];
+
+    public function attach($observer) {
+        $this-&gt;observers[] = $observer;
+    }
+
+    public function notify() {
+        foreach ($this-&gt;observers as $observer) {
+            $observer-&gt;update();
+        }
+    }
+}
+观察者
+class SendEmail {
+    public function update() {
+        echo "发送邮件\n";
+    }
+}
+
+class AddPoints {
+    public function update() {
+        echo "增加积分\n";
+    }
+}
+使用
+$register = new UserRegister();
+$register-&gt;attach(new SendEmail());
+$register-&gt;attach(new AddPoints());
+$register-&gt;notify();
+</code></pre></td></tr></tbody></table></div></div>
+
 
       
     </div>
@@ -728,7 +923,7 @@ Library类型的项目，需要把composer.lock文件提交到版本库中
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#线程和进程的区别"> <span class="nav-number">1</span> <span class="nav-text">线程和进程的区别</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#线程和进程的区别"> <span class="nav-number">1</span> <span class="nav-text">线程和进程的区别</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#迪拜cggame"> <span class="nav-number">2</span> <span class="nav-text">迪拜cggame</span> </a> </li>
     </ol>
   </div>
             
