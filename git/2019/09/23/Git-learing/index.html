@@ -506,35 +506,51 @@ git commit -m "新的提交信息" --amend
 <h3 id="一台计算机配置一个github账户ssh密钥">一台计算机配置一个Github账户SSH密钥</h3>
 
 <ul>
-  <li>执行下面的shell命令列出已存在的SSH密钥
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ls -al ~/.ssh
-</code></pre></td></tr></tbody></table></div>    </div>
-    <p>如果.ssh目录下不为空可能包含以下文件，说明本地计算机已经存在SSH密钥,否则本地计算机尚未生成SSH密钥：
+  <li>执行下面的shell命令列出已存在的SSH密钥</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ls -al ~/.ssh
+</code></pre></td></tr></tbody></table></div></div>
+<p>如果.ssh目录下不为空可能包含以下文件，说明本地计算机已经存在SSH密钥,否则本地计算机尚未生成SSH密钥：
  id_dsa.pub，id_ecdsa.pub，id_ed25519.pub，id_rsa.pub</p>
-  </li>
-  <li>生成新的SSH密钥
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code> $ ssh-keygen
-</code></pre></td></tr></tbody></table></div>    </div>
-    <p>如果~/.ssh目录下没有文件，生成新的SSH密钥，按回车键几次后生成了id_rsa.pub，id_dsa.pub</p>
-  </li>
-  <li>复制id_rsa.pub这个文件里的内容添加到gihub账户，可以使用下面的命令也可以直接用编辑器或者VIM打开*.pub文件进行Copy
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ clip &lt; ~/.ssh/id_rsa.pub
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
+
+<ul>
+  <li>生成新的SSH密钥</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>   $ ssh-keygen
+</code></pre></td></tr></tbody></table></div></div>
+<p>如果~/.ssh目录下没有文件，生成新的SSH密钥，按回车键几次后生成了id_rsa.pub，id_dsa.pub</p>
+<ul>
+  <li>复制id_rsa.pub这个文件里的内容添加到gihub账户，可以使用下面的命令也可以直接用编辑器或者VIM打开*.pub文件进行Copy</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ clip &lt; ~/.ssh/id_rsa.pub
+</code></pre></td></tr></tbody></table></div></div>
+<ul>
   <li>添加到Github账户
  Github账户=&gt;settings=&gt;SSH and GPG Keys=&gt;New SSH Key</li>
-  <li>使用下方的命令，测试账号配置是否成功
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ssh -T git@github.com
-</code></pre></td></tr></tbody></table></div>    </div>
-    <h3 id="一台计算机配置多个github账户ssh密钥">一台计算机配置多个Github账户SSH密钥</h3>
-  </li>
-  <li>本地计算机生成SSH密钥
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ssh-keygen  -t rsa    -f ~/.ssh/github_zhaoqhu   -C "zhaoqhu@gmail.com"
-</code></pre></td></tr></tbody></table></div>    </div>
-    <p>ssh-keygen -t 密钥类型  -f 密钥文件路径及名称  -C 备注信息</p>
-  </li>
-  <li>检查~/.ssh目录下是否有config文件，添加一下内容
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>#Github account one
+  <li>使用下方的命令，测试账号配置是否成功</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ssh -T git@github.com
+</code></pre></td></tr></tbody></table></div></div>
+<h3 id="一台计算机配置多个github账户ssh密钥">一台计算机配置多个Github账户SSH密钥</h3>
+
+<ul>
+  <li>本地计算机生成SSH密钥</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ssh-keygen  -t rsa    -f ~/.ssh/github_zhaoqhu   -C "zhaoqhu@gmail.com"
+</code></pre></td></tr></tbody></table></div></div>
+
+<p>ssh-keygen -t 密钥类型  -f 密钥文件路径及名称  -C 备注信息</p>
+
+<ul>
+  <li>检查~/.ssh目录下是否有config文件，添加一下内容</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8</pre></td><td class="code"><pre class="highlight"><code>#Github account one
 Host git.github.com
 HostName github.com
 IdentityFile ~/.ssh/id_rsa
@@ -542,17 +558,20 @@ IdentityFile ~/.ssh/id_rsa
 Host zhaoqhu.github.com
 HostName github.com
 IdentityFile ~/.ssh/github_zhaoqhu
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
+</code></pre></td></tr></tbody></table></div></div>
+
+<ul>
   <li>复制~/.ssh目录下的github_zhaoqhu.pub文件里的内容=》githu帐号=&gt;settings=&gt;SSH and GPG Keys=&gt;New SSH Key</li>
   <li>测试帐号配置是否成功</li>
 </ul>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ ssh -T git@zhaoqhu.github.com
 </code></pre></td></tr></tbody></table></div></div>
+
 <h2 id="管理远程仓库"><a href="https://help.github.com/cn/articles/managing-remote-repositories">管理远程仓库</a></h2>
 
 <h3 id="查看远程仓库">查看远程仓库</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>$ git remote -v
 </code></pre></td></tr></tbody></table></div></div>
 <h3 id="添加远程仓库">添加远程仓库</h3>
@@ -817,6 +836,25 @@ fix:合并4
 <table><tr><td style="background-color: #ffdce0 ; border: 1px solid #d73a49;">注：git rebase 操作应该只用于本地尚未提交到远程仓库的 commit，一旦 push 到远端仓库，则不再允许修改 commit，否则可能会给其他开发者带来很多麻烦。尤其是多人协作时，千万要注意。
 。</td></tr></table>
 
+<h2 id="github-的-22-端口越来越不稳定">GitHub 的 22 端口越来越不稳定</h2>
+<h3 id="配置config文件">配置config文件</h3>
+<p>~/.ssh/config</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  IdentityFile ~/.ssh/id_rsa
+  AddKeysToAgent yes
+  UseKeychain yes
+</code></pre></td></tr></tbody></table></div></div>
+<h3 id="测试">测试</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>chmod 600 ~/.ssh/config
+ssh -T git@github.com
+git pull
+</code></pre></td></tr></tbody></table></div></div>
+
 <h2 id="github-page">github page</h2>
 <ul>
   <li><a href="https://scriptedtea.com/tech/deployment/">How to Build a Static Jekyll Site with Github Pages</a>
@@ -1075,7 +1113,7 @@ fix:合并4
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#知识点"> <span class="nav-number">1</span> <span class="nav-text">知识点</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装git"> <span class="nav-number">2</span> <span class="nav-text">安装Git</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置用户信息"> <span class="nav-number">3</span> <span class="nav-text">配置用户信息</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#全局配置"> <span class="nav-number">3.1</span> <span class="nav-text">全局配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#局部配置"> <span class="nav-number">3.2</span> <span class="nav-text">局部配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建本地git仓库"> <span class="nav-number">4</span> <span class="nav-text">创建本地Git仓库</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#git-commit提交"> <span class="nav-number">5</span> <span class="nav-text">git Commit提交</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用ssh连接到github"> <span class="nav-number">6</span> <span class="nav-text">使用SSH连接到GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一台计算机配置一个github账户ssh密钥"> <span class="nav-number">6.1</span> <span class="nav-text">一台计算机配置一个Github账户SSH密钥</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一台计算机配置多个github账户ssh密钥"> <span class="nav-number">6.2</span> <span class="nav-text">一台计算机配置多个Github账户SSH密钥</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#管理远程仓库"> <span class="nav-number">7</span> <span class="nav-text">管理远程仓库</a</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#查看远程仓库"> <span class="nav-number">7.1</span> <span class="nav-text">查看远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#添加远程仓库"> <span class="nav-number">7.2</span> <span class="nav-text">添加远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重命名远程仓库"> <span class="nav-number">7.3</span> <span class="nav-text">重命名远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#删除远程"> <span class="nav-number">7.4</span> <span class="nav-text">删除远程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#修改远程仓库url"> <span class="nav-number">7.5</span> <span class="nav-text">修改远程仓库URL</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#git设置忽略目录和文件"> <span class="nav-number">7.6</span> <span class="nav-text">git设置忽略目录和文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#合并commit"> <span class="nav-number">8</span> <span class="nav-text">合并Commit</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#github-page"> <span class="nav-number">9</span> <span class="nav-text">github page</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">10</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#知识点"> <span class="nav-number">1</span> <span class="nav-text">知识点</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装git"> <span class="nav-number">2</span> <span class="nav-text">安装Git</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置用户信息"> <span class="nav-number">3</span> <span class="nav-text">配置用户信息</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#全局配置"> <span class="nav-number">3.1</span> <span class="nav-text">全局配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#局部配置"> <span class="nav-number">3.2</span> <span class="nav-text">局部配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建本地git仓库"> <span class="nav-number">4</span> <span class="nav-text">创建本地Git仓库</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#git-commit提交"> <span class="nav-number">5</span> <span class="nav-text">git Commit提交</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用ssh连接到github"> <span class="nav-number">6</span> <span class="nav-text">使用SSH连接到GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一台计算机配置一个github账户ssh密钥"> <span class="nav-number">6.1</span> <span class="nav-text">一台计算机配置一个Github账户SSH密钥</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一台计算机配置多个github账户ssh密钥"> <span class="nav-number">6.2</span> <span class="nav-text">一台计算机配置多个Github账户SSH密钥</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#管理远程仓库"> <span class="nav-number">7</span> <span class="nav-text">管理远程仓库</a</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#查看远程仓库"> <span class="nav-number">7.1</span> <span class="nav-text">查看远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#添加远程仓库"> <span class="nav-number">7.2</span> <span class="nav-text">添加远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#重命名远程仓库"> <span class="nav-number">7.3</span> <span class="nav-text">重命名远程仓库</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#删除远程"> <span class="nav-number">7.4</span> <span class="nav-text">删除远程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#修改远程仓库url"> <span class="nav-number">7.5</span> <span class="nav-text">修改远程仓库URL</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#git设置忽略目录和文件"> <span class="nav-number">7.6</span> <span class="nav-text">git设置忽略目录和文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#合并commit"> <span class="nav-number">8</span> <span class="nav-text">合并Commit</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#github-的-22-端口越来越不稳定"> <span class="nav-number">9</span> <span class="nav-text">GitHub 的 22 端口越来越不稳定</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置config文件"> <span class="nav-number">9.1</span> <span class="nav-text">配置config文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#测试"> <span class="nav-number">9.2</span> <span class="nav-text">测试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#github-page"> <span class="nav-number">10</span> <span class="nav-text">github page</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#参考资料"> <span class="nav-number">11</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             
