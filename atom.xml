@@ -1,4 +1,252 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-06T11:55:12-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicode/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-07T00:25:41-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段</title><link href="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/" rel="alternate" type="text/html" title="高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段" /><published>2026-05-07T00:00:00-05:00</published><updated>2026-05-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs</id><content type="html" xml:base="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/">&lt;h1 id=&quot;高并发的设计&quot;&gt;高并发的设计&lt;/h1&gt;
+
+&lt;p&gt;LVS/LB 在更底层做分发，Nginx/网关做七层治理，真正“分布式”的主体实现在应用层（代码/架构）和数据层（存储/缓存/MQ）。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;你要做的事情&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;主要落在哪（常见做法）&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;典型技术&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;扛大流量、四层负载均衡&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;网络层/传输层（L4）&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;LVS&lt;/strong&gt;、HAProxy(tcp)、硬件LB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;接入层限流/路由/SSL卸载/七层转发&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;应用层（L7）&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Nginx&lt;/strong&gt;、API Gateway（Kong/Apisix…）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Web服务器水平扩容&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;应用层&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;PHP-FPM横向扩容、多实例&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;分布式能力（缓存/队列/数据库拆分/微服务）&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;应用层 + 数据层&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Redis/Memcached、RabbitMQ/Kafka、MySQL分库分表/读写分离、微服务RPC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;远程机器间通信&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;传输层&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;TCP/UDP（由框架/中间件使用）&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;高并发的系统设计&quot;&gt;高并发的系统设计&lt;/h1&gt;
+
+&lt;h1 id=&quot;限流nginx层&quot;&gt;限流（Nginx层）&lt;/h1&gt;
+
+&lt;p&gt;限制每个IP每秒最多访问2次
+效果：超过限制的请求直接返回 503，PHP 根本不知道有这回事。&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;limit_req_zone $binary_remote_addr zone=one:10m rate=2r/s;
+
+location /api/ {
+    limit_req zone=one burst=5 nodelay;
+    proxy_pass http://php_backend;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;熔断gophp应用层&quot;&gt;熔断（Go/PHP应用层）&lt;/h1&gt;
+&lt;p&gt;调用支付接口连续失败5次，暂停调用30秒，防止下游故障拖死整个系统。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$key = &apos;pay:fail:count&apos;;
+$threshold = 5;      // 连续失败 5 次
+$coolDown = 30;      // 熔断 30 秒
+
+$redis = new Redis();
+$redis-&amp;gt;connect(&apos;127.0.0.1&apos;, 6379);
+
+// 检查是否熔断
+if ($redis-&amp;gt;get(&apos;pay:circuit:open&apos;)) {
+    echo json_encode([&apos;code&apos; =&amp;gt; 500, &apos;msg&apos; =&amp;gt; &apos;支付服务暂不可用&apos;]);
+    return;
+}
+
+try {
+    $result = call_payment_api();
+
+    if ($result[&apos;success&apos;]) {
+        $redis-&amp;gt;del($key);
+        echo json_encode([&apos;code&apos; =&amp;gt; 0]);
+    } else {
+        throw new Exception();
+    }
+} catch (Exception $e) {
+    $fails = $redis-&amp;gt;incr($key);
+    if ($fails &amp;gt;= $threshold) {
+        $redis-&amp;gt;setex(&apos;pay:circuit:open&apos;, $coolDown, 1);
+    }
+    echo json_encode([&apos;code&apos; =&amp;gt; 500]);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;降级nginxshellphp应用层&quot;&gt;降级（Nginx/SHELL/Php应用层）&lt;/h1&gt;
+&lt;p&gt;nginx 层：stub_status 只允许本机访问，防止被外部滥用。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# /etc/nginx/conf.d/status.conf
+server {
+    listen 127.0.0.1:80;
+    server_name localhost;
+
+    location /nginx_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;返回值&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Active connections: 3
+server accepts handled requests
+ 10 10 15
+Reading: 1 Writing: 1 Waiting: 1
+指标	正常	偏忙	危险（考虑降级）
+Writing​	&amp;lt; 100	100~300	≥ 500（中小机）​
+Active connections​	&amp;lt; 1000	1000~3000	≥ 80% of worker_connections​
+Writing / Active 占比​	&amp;lt; 10%	10%~30%	&amp;gt; 40%​
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;如果Writing值和Active connections值很大，则说明需要降级。&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ==============================
+# 全局配置
+# ==============================
+user nginx;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 10240;
+    use epoll;
+    multi_accept on;
+}
+
+# ==============================
+# HTTP 核心配置
+# ==============================
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    # ---------- 日志 ----------
+    log_format main
+        &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+        &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+        &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    access_log /var/log/nginx/access.log main buffer=32k flush=5s;
+    error_log  /var/log/nginx/error.log warn;
+
+    # ---------- 基础优化 ----------
+    sendfile           on;
+    tcp_nopush         on;
+    tcp_nodelay        on;
+    keepalive_timeout  65;
+    types_hash_max_size 2048;
+
+    # ---------- 安全 ----------
+    server_tokens off;
+
+    # ---------- Gzip ----------
+    gzip on;
+    gzip_comp_level 5;
+    gzip_min_length 1k;
+    gzip_types
+        text/plain
+        text/css
+        application/json
+        application/javascript
+        text/xml
+        application/xml
+        application/xml+rss
+        text/javascript;
+
+    # ---------- 限速（防刷） ----------
+    limit_req_zone $binary_remote_addr zone=req_limit:10m rate=10r/s;
+
+    # ==========================
+    # 站点：HTTP（强制 HTTPS）
+    # ==========================
+    server {
+        listen 80;
+        server_name example.com www.example.com;
+
+        # HTTP 跳转 HTTPS
+        return 301 https://$host$request_uri;
+    }
+
+    # ==========================
+    # 站点：HTTPS（生产用）
+    # ==========================
+    server {
+        listen 443 ssl http2;
+        server_name example.com www.example.com;
+
+        root /var/www/example.com;
+        index index.html index.htm index.php;
+
+        # ---------- SSL ----------
+        ssl_certificate     /etc/nginx/ssl/example.com/fullchain.pem;
+        ssl_certificate_key /etc/nginx/ssl/example.com/privkey.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
+
+        # ---------- 安全头 ----------
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection &quot;1; mode=block&quot;;
+
+        # ---------- 限速 ----------
+        limit_req zone=req_limit burst=20 nodelay;
+
+        # ---------- 静态资源缓存 ----------
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+            expires 30d;
+            add_header Cache-Control &quot;public, immutable&quot;;
+            access_log off;
+        }
+
+        # ---------- 主路由 ----------
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        # ---------- PHP（如需要） ----------
+        # location ~ \.php$ {
+        #     fastcgi_pass unix:/run/php/php-fpm.sock;
+        #     fastcgi_index index.php;
+        #     include fastcgi_params;
+        # }
+
+        # ---------- 禁止隐藏文件 ----------
+        location ~ /\. {
+            deny all;
+            access_log off;
+            log_not_found off;
+        }
+    }
+
+    # ==========================
+    # Nginx 状态监控（仅本地）
+    # ==========================
+    server {
+        listen 127.0.0.1:80;
+        server_name localhost;
+
+        location /nginx_status {
+            stub_status;
+            allow 127.0.0.1;
+            deny all;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicode/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
 &lt;p&gt;claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境准备&quot;&gt;环境准备&lt;/h1&gt;
@@ -3392,120 +3640,4 @@ sudo supervisorctl start rabbitmq-order-consumer:*
 &lt;/ul&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tail -f logs/consumer.log
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="rabbitmq" /><summary type="html">消息队列 生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。</summary></entry><entry><title type="html">XHProf性能分析工具。</title><link href="http://0.0.0.0:4000/php/2025/12/03/xhprof/" rel="alternate" type="text/html" title="XHProf性能分析工具。" /><published>2025-12-03T00:00:00-06:00</published><updated>2025-12-03T00:00:00-06:00</updated><id>http://0.0.0.0:4000/php/2025/12/03/xhprof</id><content type="html" xml:base="http://0.0.0.0:4000/php/2025/12/03/xhprof/">&lt;p&gt;XHProf 最初由 Facebook 开源，曾是 PHP 性能分析的标杆工具；如今在社区的持续维护下，已实现对 PHP 8.4 的完整支持，凭借其低开销采样、多维度指标采集（时间、内存、调用栈）和可视化调用图能力，依然是 PHP 开发者在开发调试与生产诊断中进行性能瓶颈定位的高效利器。&lt;/p&gt;
-
-&lt;h2 id=&quot;xhprof2310报告表头&quot;&gt;XHProf2.3.10报告表头&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;英文表头&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;中文解释&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;详细说明与重要性&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Function Name&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;函数名称&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;被调用的函数或方法的完整名称。例如 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main()&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql_query&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UserController::index()&lt;/code&gt;。这是识别代码位置的关键。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Calls&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;调用次数&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;该函数在此次请求中被调用的总次数。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：如果一个函数被调用了成千上万次（例如循环内），即使单次很快，累积起来也可能成为性能瓶颈。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Calls%&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;调用次数占比&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;该函数的调用次数占总调用次数的百分比。&lt;br /&gt;&lt;strong&gt;用途&lt;/strong&gt;：帮助识别哪些函数是程序的主要执行路径。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. Wall Time (microsec)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总耗时 (微秒)&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 包含实际时间)&lt;/em&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;核心指标&lt;/strong&gt;。指函数从开始到结束的总耗时，&lt;strong&gt;包括其内部调用的所有子函数的时间&lt;/strong&gt;。&lt;br /&gt;单位：微秒 (1秒 = 1,000,000 微秒)。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：用于定位哪个大的功能模块最耗时。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;IWall%&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总耗时占比&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 包含实际时间占比)&lt;/em&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;该函数的包含时间占总包含时间的百分比。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：直观地看出每个函数对总响应时间的“贡献”比例。&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main()&lt;/code&gt; 函数永远是 100%。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. Wall Time (microsec)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身耗时 (微秒)&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 独占实际时间)&lt;/em&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;另一个核心指标&lt;/strong&gt;。指函数自身的执行时间，&lt;strong&gt;不包括其内部调用的任何子函数的时间&lt;/strong&gt;。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：这是&lt;strong&gt;优化的关键&lt;/strong&gt;！如果这个值很高，说明函数自身的逻辑（算法、循环、计算）需要优化。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;EWall%&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身耗时占比&lt;/strong&gt; &lt;br /&gt;&lt;em&gt;(或: 独占实际时间占比)&lt;/em&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;该函数的独占时间占总时间的百分比。&lt;br /&gt;&lt;strong&gt;用途&lt;/strong&gt;：辅助判断函数自身逻辑的耗时占比。但通常我们更关注绝对值。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. CPU (microsecs)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;总CPU时间 (微秒)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;类似于 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;总耗时&lt;/code&gt;，但是统计的是CPU实际工作的时间，排除了等待时间（如I/O、网络、sleep）。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：如果 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;总耗时&lt;/code&gt; 很高但 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;总CPU时间&lt;/code&gt; 很低，说明瓶颈可能在I/O或外部服务（数据库、API调用）。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. CPU (microsecs)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;自身CPU时间 (微秒)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;类似于 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;自身耗时&lt;/code&gt;，是函数自身消耗的纯CPU时间。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. MemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;包含内存占用 (字节)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;函数执行过程中分配的内存总量，包括其子函数分配的内存。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. MemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;独占内存占用 (字节)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;函数自身直接分配的内存量，不包括子函数。&lt;br /&gt;&lt;strong&gt;重要性&lt;/strong&gt;：用于发现内存泄漏或大对象分配的热点。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Incl. PeakMemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;包含峰值内存 (字节)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;在函数执行期间，整个进程达到的内存使用峰值，包括子函数的影响。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Excl. PeakMemUse (bytes)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;独占峰值内存 (字节)&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;在函数自身执行栈帧内达到的内存峰值。&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;xhprof扩展地址&quot;&gt;xhprof扩展地址&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://pecl.php.net/package/xhprof&quot;&gt;https://pecl.php.net/package/xhprof&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;xhprof代码地址&quot;&gt;xhprof代码地址&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/longxinH/xhprof&quot;&gt;https://github.com/longxinH/xhprof&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;xhprof使用例子&quot;&gt;xhprof使用例子&lt;/h2&gt;
-&lt;h3 id=&quot;代码&quot;&gt;代码&lt;/h3&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
-xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
-
-for ($i = 0; $i &amp;lt;= 1000; $i++) {
-    $a = $i * $i;
-}
-
-$xhprof_data = xhprof_disable();
-
-$XHPROF_ROOT = &quot;/tools/xhprof/&quot;;
-include_once $XHPROF_ROOT . &quot;/xhprof_lib/utils/xhprof_lib.php&quot;;
-include_once $XHPROF_ROOT . &quot;/xhprof_lib/utils/xhprof_runs.php&quot;;
-
-$xhprof_runs = new XHProfRuns_Default();
-$run_id = $xhprof_runs-&amp;gt;save_run($xhprof_data, &quot;xhprof_testing&quot;);
-
-echo &quot;http://localhost/xhprof/xhprof_html/index.php?run={$run_id}&amp;amp;source=xhprof_testing\n&quot;;
-
-?&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;输出报告链接&quot;&gt;输出报告链接&lt;/h3&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://localhost/xhprof/xhprof_html/index.php?run=t11_4bdf44d21121f&amp;amp;source=xhprof_testing
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;报告表例子&quot;&gt;报告表例子&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/php/xhprof-1.png&quot; /&gt;
-&lt;img src=&quot;/assets/images/php/xhprof-2.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="xhprof" /><summary type="html">XHProf 最初由 Facebook 开源，曾是 PHP 性能分析的标杆工具；如今在社区的持续维护下，已实现对 PHP 8.4 的完整支持，凭借其低开销采样、多维度指标采集（时间、内存、调用栈）和可视化调用图能力，依然是 PHP 开发者在开发调试与生产诊断中进行性能瓶颈定位的高效利器。</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="面试" /><category term="rabbitmq" /><summary type="html">消息队列 生产者将消息发往交换机，交换机依据路由规则和绑定关系将消息投递到指定队列；队列持久化存储消息，消费者监听队列获取消息，处理完成后发送 ACK，RabbitMQ 确认后删除消息 —— 形成一条完整、可靠、可控的消息流转链路。</summary></entry></feed>
