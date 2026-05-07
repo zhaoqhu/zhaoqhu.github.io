@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="AICode," />
+  <meta name="keywords" content="AICoding," />
 
 
 
@@ -112,10 +112,10 @@
 
 
 <meta name="description" content="介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。">
-<meta name="keywords" content="AICode">
+<meta name="keywords" content="AICoding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac VS Code 集成 claude-code 教程">
-<meta property="og:url" content="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/">
+<meta property="og:url" content="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">
 <meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
 <meta property="og:description" content="介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。">
 <meta property="og:locale" content="zh-Hans">
@@ -126,6 +126,11 @@
 <meta property="og:image" content="/assets/images/go/claude-code-ccswitch-apikey-edit.png">
 <meta property="og:image" content="/assets/images/go/claude-code-test.png">
 <meta property="og:image" content="/assets/images/go/claude-code-api-pay.png">
+<meta property="og:image" content="/assets/images/go/claude-code-bailian.png">
+<meta property="og:image" content="/assets/images/go/claude-code-bailian-2.png">
+<meta property="og:image" content="/assets/images/go/claude-code-bailian-3.png">
+<meta property="og:image" content="/assets/images/go/claude-code-bailian-4.png">
+<meta property="og:image" content="/assets/images/go/claude-code-bailian-5.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac VS Code 集成 claude-code 教程">
 <meta name="twitter:description" content="介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。">
@@ -334,7 +339,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Q.H.">
@@ -404,8 +409,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/AICode" itemprop="url" rel="index">
-                    <span itemprop="name">AICode</span>
+                  <a href="/category/#/AICoding" itemprop="url" rel="index">
+                    <span itemprop="name">AICoding</span>
                   </a>
                 </span>
 
@@ -514,6 +519,34 @@ EOF
 <p>claude-code 默认安装在nvm的node目录下，为了方便使用，我们可以创建一个软链接到/usr/local/bin目录。</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>ln -s /Users/zhaoqinghu/.nvm/versions/node/v23.2.0/bin/claude /usr/local/bin/claude
 </code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="配置claude-code">配置Claude-code</h2>
+<p>配置文件所在位置</p>
+<ul>
+  <li>~/.claude.json
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code> // hasCompletedOnboarding: true是一个“免登录开关”，作用是欺骗 Claude Code 已走过新手引导，从而跳过官方的账号强制绑定流程，让你能直接用第三方 API（如百炼）干活
+ {
+  "hasCompletedOnboarding": true, 
+ }
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>~/.claude/settings.json</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code> {
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://dashscope.aliyuncs.com/apps/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "sk-your-api-key",
+    "ANTHROPIC_MODEL": "qwen3.5-plus",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3.5-plus",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3.5-plus",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3.5-plus"
+  },
+  "theme": "dark",
+  "includeCoAuthoredBy": false
+}
+</code></pre></td></tr></tbody></table></div></div>
+
 <h1 id="在vs-code中安装claude-code插件">在VS Code中安装claude-code插件</h1>
 
 <ol>
@@ -525,14 +558,16 @@ EOF
 
 <h1 id="配置cc-switch对接deepseek大模型">配置cc-switch，对接DeepSeek大模型</h1>
 <h2 id="登录deepseek账号获取api-key">登录DeepSeek账号，获取API Key</h2>
-<p>[https://platform.deepseek.com/api_keys][https://platform.deepseek.com/api_keys]
+<p><a href="https://platform.deepseek.com/api_keys">https://platform.deepseek.com/api_keys</a>
 <img src="/assets/images/go/claude-code-deepseek.png" /></p>
 
 <h2 id="打开cc-switch配置deepseek-api">打开cc-switch，配置DeepSeek API</h2>
 <h3 id="添加选择deepseek供应商模型输入api-key">添加，选择DeepSeek供应商模型，输入API Key。</h3>
 <p><img src="/assets/images/go/claude-code-ccswitch-add.png" />
 <img src="/assets/images/go/claude-code-ccswitch-add-2.png" /></p>
+
 <h3 id="编辑">编辑</h3>
+
 <p><img src="/assets/images/go/claude-code-ccswitch-apikey-edit.png" /></p>
 
 <h1 id="在vscode中测试claude-code">在VSCode中测试Claude Code</h1>
@@ -543,6 +578,20 @@ EOF
 <h1 id="查看claude-code消费详情">查看claude-code消费详情</h1>
 
 <p><img src="/assets/images/go/claude-code-api-pay.png" /></p>
+
+<h1 id="配置cc-switch对接百炼大模型">配置cc-switch，对接百炼大模型</h1>
+<h2 id="登录百炼账号选择模型获取api-key">登录百炼账号，选择模型，获取API Key</h2>
+<p><a href="https://bailian.console.aliyun.com/cn-beijing?tab=model#/model-usage">https://bailian.console.aliyun.com/cn-beijing?tab=model#/model-usage</a>
+<img src="/assets/images/go/claude-code-bailian.png" />
+<a href="https://bailian.console.aliyun.com/cn-beijing?tab=model#/api-key">https://bailian.console.aliyun.com/cn-beijing?tab=model#/api-key</a>
+<img src="/assets/images/go/claude-code-bailian-2.png" /></p>
+
+<h2 id="配置cc-switch">配置cc-switch</h2>
+<p><img src="/assets/images/go/claude-code-bailian-3.png" />
+<img src="/assets/images/go/claude-code-bailian-4.png" /></p>
+
+<h2 id="在终端测试claude-code">在终端测试claude-code</h2>
+<p><img src="/assets/images/go/claude-code-bailian-5.png" /></p>
 
 
       
@@ -595,7 +644,7 @@ EOF
         <div class="post-tags">
           
             
-            <a href="/tag/#/AICode" rel="tag"># AICode</a>
+            <a href="/tag/#/AICoding" rel="tag"># AICoding</a>
           
         </div>
       
@@ -795,7 +844,7 @@ EOF
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#介绍"> <span class="nav-number">1</span> <span class="nav-text">介绍</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#环境准备"> <span class="nav-number">2</span> <span class="nav-text">环境准备</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装vs-code"> <span class="nav-number">2.1</span> <span class="nav-text">安装VS Code</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装cc-switch"> <span class="nav-number">2.2</span> <span class="nav-text">安装cc-switch</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装nodejs"> <span class="nav-number">2.3</span> <span class="nav-text">安装Node.js</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装nvm"> <span class="nav-number">2.3.1</span> <span class="nav-text">安装nvm</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置nvm环境变量"> <span class="nav-number">2.3.2</span> <span class="nav-text">配置nvm环境变量</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装nodejs-1"> <span class="nav-number">2.3.3</span> <span class="nav-text">安装Node.js</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#验证nodejs版本"> <span class="nav-number">2.3.4</span> <span class="nav-text">验证Node.js版本</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#安装claude-code"> <span class="nav-number">3</span> <span class="nav-text">安装claude-code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#执行安装命令"> <span class="nav-number">3.1</span> <span class="nav-text">执行安装命令</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#查看安装位置"> <span class="nav-number">3.2</span> <span class="nav-text">查看安装位置</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#claude创建软连接"> <span class="nav-number">3.3</span> <span class="nav-text">claude创建软连接</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#在vs-code中安装claude-code插件"> <span class="nav-number">4</span> <span class="nav-text">在VS Code中安装claude-code插件</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#配置cc-switch对接deepseek大模型"> <span class="nav-number">5</span> <span class="nav-text">配置cc-switch，对接DeepSeek大模型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#登录deepseek账号获取api-key"> <span class="nav-number">5.1</span> <span class="nav-text">登录DeepSeek账号，获取API Key</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#打开cc-switch配置deepseek-api"> <span class="nav-number">5.2</span> <span class="nav-text">打开cc-switch，配置DeepSeek API</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#添加选择deepseek供应商模型输入api-key"> <span class="nav-number">5.2.1</span> <span class="nav-text">添加，选择DeepSeek供应商模型，输入API Key。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#编辑"> <span class="nav-number">5.2.2</span> <span class="nav-text">编辑</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#在vscode中测试claude-code"> <span class="nav-number">6</span> <span class="nav-text">在VSCode中测试Claude Code</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#查看claude-code消费详情"> <span class="nav-number">7</span> <span class="nav-text">查看claude-code消费详情</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#介绍"> <span class="nav-number">1</span> <span class="nav-text">介绍</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#环境准备"> <span class="nav-number">2</span> <span class="nav-text">环境准备</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装vs-code"> <span class="nav-number">2.1</span> <span class="nav-text">安装VS Code</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装cc-switch"> <span class="nav-number">2.2</span> <span class="nav-text">安装cc-switch</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装nodejs"> <span class="nav-number">2.3</span> <span class="nav-text">安装Node.js</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装nvm"> <span class="nav-number">2.3.1</span> <span class="nav-text">安装nvm</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#配置nvm环境变量"> <span class="nav-number">2.3.2</span> <span class="nav-text">配置nvm环境变量</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#安装nodejs-1"> <span class="nav-number">2.3.3</span> <span class="nav-text">安装Node.js</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#验证nodejs版本"> <span class="nav-number">2.3.4</span> <span class="nav-text">验证Node.js版本</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#安装claude-code"> <span class="nav-number">3</span> <span class="nav-text">安装claude-code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#执行安装命令"> <span class="nav-number">3.1</span> <span class="nav-text">执行安装命令</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#查看安装位置"> <span class="nav-number">3.2</span> <span class="nav-text">查看安装位置</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#claude创建软连接"> <span class="nav-number">3.3</span> <span class="nav-text">claude创建软连接</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置claude-code"> <span class="nav-number">3.4</span> <span class="nav-text">配置Claude-code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#在vs-code中安装claude-code插件"> <span class="nav-number">4</span> <span class="nav-text">在VS Code中安装claude-code插件</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#配置cc-switch对接deepseek大模型"> <span class="nav-number">5</span> <span class="nav-text">配置cc-switch，对接DeepSeek大模型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#登录deepseek账号获取api-key"> <span class="nav-number">5.1</span> <span class="nav-text">登录DeepSeek账号，获取API Key</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#打开cc-switch配置deepseek-api"> <span class="nav-number">5.2</span> <span class="nav-text">打开cc-switch，配置DeepSeek API</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#添加选择deepseek供应商模型输入api-key"> <span class="nav-number">5.2.1</span> <span class="nav-text">添加，选择DeepSeek供应商模型，输入API Key。</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#编辑"> <span class="nav-number">5.2.2</span> <span class="nav-text">编辑</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#在vscode中测试claude-code"> <span class="nav-number">6</span> <span class="nav-text">在VSCode中测试Claude Code</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#查看claude-code消费详情"> <span class="nav-number">7</span> <span class="nav-text">查看claude-code消费详情</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#配置cc-switch对接百炼大模型"> <span class="nav-number">8</span> <span class="nav-text">配置cc-switch，对接百炼大模型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#登录百炼账号选择模型获取api-key"> <span class="nav-number">8.1</span> <span class="nav-text">登录百炼账号，选择模型，获取API Key</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置cc-switch"> <span class="nav-number">8.2</span> <span class="nav-text">配置cc-switch</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#在终端测试claude-code"> <span class="nav-number">8.3</span> <span class="nav-text">在终端测试claude-code</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
@@ -989,7 +1038,7 @@ EOF
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/aicode/2026/05/06/claude-code/',
+        id: '/aicoding/2026/05/06/claude-code/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-07T00:25:41-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段</title><link href="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/" rel="alternate" type="text/html" title="高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段" /><published>2026-05-07T00:00:00-05:00</published><updated>2026-05-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs</id><content type="html" xml:base="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/">&lt;h1 id=&quot;高并发的设计&quot;&gt;高并发的设计&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-07T14:59:44-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段</title><link href="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/" rel="alternate" type="text/html" title="高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段" /><published>2026-05-07T00:00:00-05:00</published><updated>2026-05-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs</id><content type="html" xml:base="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/">&lt;h1 id=&quot;高并发的设计&quot;&gt;高并发的设计&lt;/h1&gt;
 
 &lt;p&gt;LVS/LB 在更底层做分发，Nginx/网关做七层治理，真正“分布式”的主体实现在应用层（代码/架构）和数据层（存储/缓存/MQ）。&lt;/p&gt;
 
@@ -246,7 +246,7 @@ http {
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicode/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicode/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
 &lt;p&gt;claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境准备&quot;&gt;环境准备&lt;/h1&gt;
@@ -301,6 +301,34 @@ EOF
 &lt;p&gt;claude-code 默认安装在nvm的node目录下，为了方便使用，我们可以创建一个软链接到/usr/local/bin目录。&lt;/p&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ln -s /Users/zhaoqinghu/.nvm/versions/node/v23.2.0/bin/claude /usr/local/bin/claude
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;配置claude-code&quot;&gt;配置Claude-code&lt;/h2&gt;
+&lt;p&gt;配置文件所在位置&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;~/.claude.json
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; // hasCompletedOnboarding: true是一个“免登录开关”，作用是欺骗 Claude Code 已走过新手引导，从而跳过官方的账号强制绑定流程，让你能直接用第三方 API（如百炼）干活
+ {
+  &quot;hasCompletedOnboarding&quot;: true, 
+ }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;~/.claude/settings.json&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; {
+  &quot;env&quot;: {
+    &quot;ANTHROPIC_BASE_URL&quot;: &quot;https://dashscope.aliyuncs.com/apps/anthropic&quot;,
+    &quot;ANTHROPIC_AUTH_TOKEN&quot;: &quot;sk-your-api-key&quot;,
+    &quot;ANTHROPIC_MODEL&quot;: &quot;qwen3.5-plus&quot;,
+    &quot;ANTHROPIC_DEFAULT_HAIKU_MODEL&quot;: &quot;qwen3.5-plus&quot;,
+    &quot;ANTHROPIC_DEFAULT_SONNET_MODEL&quot;: &quot;qwen3.5-plus&quot;,
+    &quot;ANTHROPIC_DEFAULT_OPUS_MODEL&quot;: &quot;qwen3.5-plus&quot;
+  },
+  &quot;theme&quot;: &quot;dark&quot;,
+  &quot;includeCoAuthoredBy&quot;: false
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;h1 id=&quot;在vs-code中安装claude-code插件&quot;&gt;在VS Code中安装claude-code插件&lt;/h1&gt;
 
 &lt;ol&gt;
@@ -312,14 +340,16 @@ EOF
 
 &lt;h1 id=&quot;配置cc-switch对接deepseek大模型&quot;&gt;配置cc-switch，对接DeepSeek大模型&lt;/h1&gt;
 &lt;h2 id=&quot;登录deepseek账号获取api-key&quot;&gt;登录DeepSeek账号，获取API Key&lt;/h2&gt;
-&lt;p&gt;[https://platform.deepseek.com/api_keys][https://platform.deepseek.com/api_keys]
+&lt;p&gt;&lt;a href=&quot;https://platform.deepseek.com/api_keys&quot;&gt;https://platform.deepseek.com/api_keys&lt;/a&gt;
 &lt;img src=&quot;/assets/images/go/claude-code-deepseek.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;打开cc-switch配置deepseek-api&quot;&gt;打开cc-switch，配置DeepSeek API&lt;/h2&gt;
 &lt;h3 id=&quot;添加选择deepseek供应商模型输入api-key&quot;&gt;添加，选择DeepSeek供应商模型，输入API Key。&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-ccswitch-add.png&quot; /&gt;
 &lt;img src=&quot;/assets/images/go/claude-code-ccswitch-add-2.png&quot; /&gt;&lt;/p&gt;
+
 &lt;h3 id=&quot;编辑&quot;&gt;编辑&lt;/h3&gt;
+
 &lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-ccswitch-apikey-edit.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;在vscode中测试claude-code&quot;&gt;在VSCode中测试Claude Code&lt;/h1&gt;
@@ -329,7 +359,21 @@ EOF
 
 &lt;h1 id=&quot;查看claude-code消费详情&quot;&gt;查看claude-code消费详情&lt;/h1&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-api-pay.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICode" /><category term="AICode" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-api-pay.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;配置cc-switch对接百炼大模型&quot;&gt;配置cc-switch，对接百炼大模型&lt;/h1&gt;
+&lt;h2 id=&quot;登录百炼账号选择模型获取api-key&quot;&gt;登录百炼账号，选择模型，获取API Key&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://bailian.console.aliyun.com/cn-beijing?tab=model#/model-usage&quot;&gt;https://bailian.console.aliyun.com/cn-beijing?tab=model#/model-usage&lt;/a&gt;
+&lt;img src=&quot;/assets/images/go/claude-code-bailian.png&quot; /&gt;
+&lt;a href=&quot;https://bailian.console.aliyun.com/cn-beijing?tab=model#/api-key&quot;&gt;https://bailian.console.aliyun.com/cn-beijing?tab=model#/api-key&lt;/a&gt;
+&lt;img src=&quot;/assets/images/go/claude-code-bailian-2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;配置cc-switch&quot;&gt;配置cc-switch&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-3.png&quot; /&gt;
+&lt;img src=&quot;/assets/images/go/claude-code-bailian-4.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;在终端测试claude-code&quot;&gt;在终端测试claude-code&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-5.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
 
 &lt;h2 id=&quot;一新项目从零开始&quot;&gt;一、新项目（从零开始）&lt;/h2&gt;
 
