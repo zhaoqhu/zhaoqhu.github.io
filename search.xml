@@ -38,7 +38,7 @@
     <entry>
       <title><![CDATA[claude-code 使用技巧]]></title>
       <url>/aicoding/2026/05/06/claude-code-skills/</url>
-      <content type="text"><![CDATA[Claude Code三种模式使用快捷键 Shift + Tab 切换三种模式  模式一 ?for shortcuts 修改文件前一定询问用户  模式二 accept edits on 自动修改文件  模式三 plan mode on 只讨论，不修改文件命令命令 / 参数	说明/clear	清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。/compact	压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。/cost 花费	查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	/logout /login 登出 / 登录	退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。/model 模型	  切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。/status	状态  查看当前CC的状态/doctor	检测  检测CC的安装状态]]></content>
+      <content type="text"><![CDATA[Claude Code三种模式使用快捷键 Shift + Tab 切换三种模式  模式一 ?for shortcuts 修改文件前一定询问用户  模式二 accept edits on 自动修改文件  模式三 plan mode on 只讨论，不修改文件命令命令 	            说明/clear            清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。/compact	        压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。/cost 花费	      查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	/logout /login 	  退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。/model 模型	      切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。/status	状态      查看当前CC的状态/doctor	检测      检测CC的安装状态]]></content>
       <categories>
         
           <category> AICoding </category>
