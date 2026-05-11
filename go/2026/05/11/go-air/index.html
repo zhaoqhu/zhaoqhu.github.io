@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Jekyll, NexT" />
+  <meta name="keywords" content="go," />
 
 
 
@@ -111,17 +111,19 @@
 
 
 
-<meta name="description" content="Keep It Simple, Stupid">
-<meta name="keywords" content="Jekyll, NexT">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zhao Q.H.&apos;s Notes">
-<meta property="og:url" content="http://0.0.0.0:4000/tags/">
+<meta name="description" content="使用场景 在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go air代码热重启">
+<meta property="og:url" content="http://0.0.0.0:4000/go/2026/05/11/go-air/">
 <meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
-<meta property="og:description" content="Keep It Simple, Stupid">
+<meta property="og:description" content="使用场景 在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/assets/images/go/gin-air-debug.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhao Q.H.&apos;s Notes">
-<meta name="twitter:description" content="Keep It Simple, Stupid">
+<meta name="twitter:title" content="Go air代码热重启">
+<meta name="twitter:description" content="使用场景 在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。">
+<meta name="twitter:image" content="/assets/images/go/gin-air-debug.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +156,7 @@
 
 
 
-  <title>              标签 | Zhao Q.H.'s Notes      </title>
+  <title>Go air代码热重启 | Zhao Q.H.'s Notes</title>
   
 
 
@@ -314,42 +316,392 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+
 <div id="posts" class="posts-expand">
-<header class="post-header">
+  
+  
 
-	<h1 class="post-title" itemprop="name headline">
-    
-      标签
-    
-  </h1>
-
-
-
-</header>
+  
 
   
   
-    <div class="tag-cloud">
-      <div class="tag-cloud-title">
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://0.0.0.0:4000/go/2026/05/11/go-air/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Q.H.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhao Q.H.'s Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
           
-            目前共计 22 个标签
           
-      </div>
-      <div class="tag-cloud-tags">
+            Go air代码热重启
+          
+        </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-05-11T00:00:00-05:00">
+                2026-05-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="">
+                
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/go" itemprop="url" rel="index">
+                    <span itemprop="name">go</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
-        
-        
-        
-        
-        
+  
+  
 
 
 
-        <a href="/tag/#/Git" style="font-size: 12.0px;color: rgb(204,204,204)">Git</a> <a href="/tag/#/mysql" style="font-size: 24.0px;color: rgb(79,79,79)">mysql</a> <a href="/tag/#/videojs" style="font-size: 12.0px;color: rgb(204,204,204)">videojs</a> <a href="/tag/#/mediasoup" style="font-size: 12.0px;color: rgb(204,204,204)">mediasoup</a> <a href="/tag/#/PHP" style="font-size: 12.0px;color: rgb(204,204,204)">PHP</a> <a href="/tag/#/go" style="font-size: 24.0px;color: rgb(79,79,79)">go</a> <a href="/tag/#/gorm" style="font-size: 12.0px;color: rgb(204,204,204)">gorm</a> <a href="/tag/#/laravel" style="font-size: 12.0px;color: rgb(204,204,204)">laravel</a> <a href="/tag/#/xhprof" style="font-size: 12.0px;color: rgb(204,204,204)">xhprof</a> <a href="/tag/#/rabbitmq" style="font-size: 12.0px;color: rgb(204,204,204)">rabbitmq</a> <a href="/tag/#/Go" style="font-size: 12.0px;color: rgb(204,204,204)">Go</a> <a href="/tag/#/Gin" style="font-size: 12.0px;color: rgb(204,204,204)">Gin</a> <a href="/tag/#/pprof" style="font-size: 12.0px;color: rgb(204,204,204)">pprof</a> <a href="/tag/#/Python" style="font-size: 30.0px;color: rgb(17,17,17)">Python</a> <a href="/tag/#/pyenv" style="font-size: 12.0px;color: rgb(204,204,204)">pyenv</a> <a href="/tag/#/fastapi" style="font-size: 18.0px;color: rgb(142,142,142)">fastapi</a> <a href="/tag/#/orm" style="font-size: 12.0px;color: rgb(204,204,204)">orm</a> <a href="/tag/#/%E9%9D%A2%E8%AF%95" style="font-size: 12.0px;color: rgb(204,204,204)">面试</a> <a href="/tag/#/mod" style="font-size: 12.0px;color: rgb(204,204,204)">mod</a> <a href="/tag/#/AICoding" style="font-size: 18.0px;color: rgb(142,142,142)">AICoding</a> <a href="/tag/#/%E9%AB%98%E5%B9%B6%E5%8F%91" style="font-size: 12.0px;color: rgb(204,204,204)">高并发</a> <a href="/tag/#/k8s" style="font-size: 12.0px;color: rgb(204,204,204)">k8s</a>
-      </div>
+
+
+
+
+
+
+
+
+
+  <h1 id="使用场景">使用场景</h1>
+<p>在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。</p>
+
+<h1 id="项目中的maingo">项目中的main.go</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code>package main
+
+import "github.com/gin-gonic/gin"
+
+func main() {
+	router := gin.Default()
+	router.GET("/ping", func(c *gin.Context) {
+		id := c.Query("id")
+		name := c.Query("name")
+		c.JSON(200, gin.H{
+			"id":      id,
+			"name":    name,
+			"message": "pong8",
+		})
+	})
+	router.Run() // listens on 0.0.0.0:8080 by default
+}
+
+</code></pre></td></tr></tbody></table></div></div>
+<h1 id="使用air工具">使用air工具</h1>
+<h2 id="安装air">安装air</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go install github.com/air-verse/air@latest
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="创建airtoml配置文件">创建air.toml配置文件</h2>
+<ul>
+  <li>在项目中执行air init命令
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>air init
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>修改生成的air.toml文件，将build下的full_bin字段改为使用dlv启动程序并开启headless调试模式</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42<br/>43<br/>44<br/>45<br/>46<br/>47<br/>48<br/>49<br/>50<br/>51<br/>52<br/>53<br/>54<br/>55<br/>56<br/>57<br/>58<br/>59<br/>60<br/>61</pre></td><td class="code"><pre class="highlight"><code>#:schema https://json.schemastore.org/any.json
+
+env_files = []
+root = "."
+testdata_dir = "testdata"
+tmp_dir = "tmp"
+
+[build]
+  args_bin = []
+  bin = "./tmp/main"
+  cmd = "go build -o ./tmp/main ."
+  delay = 1000
+  entrypoint = ["./tmp/main"]
+  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
+  exclude_file = []
+  exclude_regex = ["_test.go"]
+  exclude_unchanged = false
+  follow_symlink = false
+  #full_bin = ""
+  # 核心魔法：使用 dlv 启动程序，并开启 headless 调试模式，监听 2345 端口
+  full_bin = "dlv exec ./tmp/main --listen=:2345 --headless=true --api-version=2 --accept-multiclient --continue"
+  ignore_dangerous_root_dir = false
+  include_dir = []
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  include_file = []
+  kill_delay = "0s"
+  log = "build-errors.log"
+  poll = false
+  poll_interval = 0
+  post_cmd = []
+  pre_cmd = []
+  rerun = false
+  rerun_delay = 500
+  send_interrupt = false
+  stop_on_error = false
+
+[color]
+  app = ""
+  build = "yellow"
+  main = "magenta"
+  runner = "green"
+  watcher = "cyan"
+
+[log]
+  main_only = false
+  silent = false
+  time = false
+
+[misc]
+  clean_on_exit = false
+
+[proxy]
+  app_port = 0
+  app_start_timeout = 0
+  enabled = false
+  proxy_port = 0
+
+[screen]
+  clear_on_rebuild = false
+  keep_scroll = true
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="运行air工具">运行air工具</h2>
+<ul>
+  <li>在项目根目录下执行air命令
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>air
+</code></pre></td></tr></tbody></table></div>    </div>
+    <h1 id="使用dlv调试">使用dlv调试</h1>
+  </li>
+</ul>
+
+<h2 id="安装dlv工具">安装dlv工具</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code>go install github.com/go-delve/delve/cmd/dlv@latest
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="配置vscode">配置Vscode</h1>
+<h2 id="创建launchjson文件">创建launch.json文件</h2>
+<h2 id="配置launchjson">配置launch.json</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34</pre></td><td class="code"><pre class="highlight"><code>{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Air (Remote)",
+            "type": "go",
+            "request": "attach",
+            "mode": "remote",
+            "remotePath": "${workspaceFolder}",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "program": "${workspaceFolder}",
+            "trace": "verbose",
+            "showLog": true
+        },
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}"
+        }
+    ]
+}
+</code></pre></td></tr></tbody></table></div></div>
+
+<h2 id="调试">调试</h2>
+<ul>
+  <li>运行air工具，并打开Vscode</li>
+  <li>在Vscode中选择Attach to Air (Remote)配置，然后点击调试按钮</li>
+  <li>此时Vscode会连接到air工具启动的dlv调试服务，并可以开始进行代码调试</li>
+</ul>
+
+<p><img src="/assets/images/go/gin-air-debug.png" width="100%" /></p>
+
+
+      
     </div>
-  
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/assets/images/wechat.gif" alt="Zhao Q.H. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/assets/images/pay.gif" alt="Zhao Q.H. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/go" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/k8s/2026/05/08/k8s/" rel="prev" title="kubernetes k8s 学习">
+                kubernetes k8s 学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
 </div>
 
 
@@ -358,6 +710,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="gitalk-container"></div>
+    
+  </div>
+
 
         </div>
         
@@ -375,10 +733,30 @@
     <div class="sidebar-inner">
 
       
+        
+        
+        
+
+
+
+
+
+
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -462,6 +840,34 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#使用场景"> <span class="nav-number">1</span> <span class="nav-text">使用场景</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#项目中的maingo"> <span class="nav-number">2</span> <span class="nav-text">项目中的main.go</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#使用air工具"> <span class="nav-number">3</span> <span class="nav-text">使用air工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装air"> <span class="nav-number">3.1</span> <span class="nav-text">安装air</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建airtoml配置文件"> <span class="nav-number">3.2</span> <span class="nav-text">创建air.toml配置文件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#运行air工具"> <span class="nav-number">3.3</span> <span class="nav-text">运行air工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#使用dlv调试"> <span class="nav-number">4</span> <span class="nav-text">使用dlv调试</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#安装dlv工具"> <span class="nav-number">4.1</span> <span class="nav-text">安装dlv工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#配置vscode"> <span class="nav-number">5</span> <span class="nav-text">配置Vscode</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#创建launchjson文件"> <span class="nav-number">5.1</span> <span class="nav-text">创建launch.json文件</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置launchjson"> <span class="nav-number">5.2</span> <span class="nav-text">配置launch.json</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#调试"> <span class="nav-number">5.3</span> <span class="nav-text">调试</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -648,7 +1054,7 @@
         repo: 'zhaoqhu.github.io',
         owner: 'zhaoqhu',
         admin: ['zhaoqhu'],
-        id: '/tags/',
+        id: '/go/2026/05/11/go-air/',
         labels: ['gitalk'],
         perPage: 50,
         distractionFreeMode: false

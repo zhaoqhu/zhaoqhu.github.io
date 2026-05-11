@@ -903,7 +903,7 @@ node2    Ready    &lt;none&gt;          3m    v1.28.0
   <li>检查内核参数是否正确配置</li>
 </ul>
 
-<h1 id="资源类型">资源类型</h1>
+<h1 id="nginx容器服务的资源类型">nginx容器服务的资源类型</h1>
 <p>在k8s中有一个nginx容器要对外提供服务80和443服务</p>
 
 <ul>
@@ -931,47 +931,48 @@ spec:
         - containerPort: 80
         - containerPort: 443
 </code></pre></td></tr></tbody></table></div></div>
+
 <ul>
-  <li>Service：服务，用于定义 Pod 的访问方式。
-```
-apiVersion: v1
-kind: Service
-metadata:
-name: nginx-service
-spec:
-type: NodePort  # 或 LoadBalancer（云平台）
-selector:
-  app: nginx
-ports:
-    <ul>
-      <li>name: http
-port: 80
-targetPort: 80
-nodePort: 30080    # 节点端口范围 30000-32767</li>
-      <li>name: https
-port: 443
-targetPort: 443
-nodePort: 30443
-```</li>
-    </ul>
-  </li>
-  <li>使用方式
-```
-    <h1 id="部署">部署</h1>
-    <p>kubectl apply -f nginx-deployment.yaml
-kubectl apply -f nginx-service.yaml</p>
-  </li>
+  <li>Service：服务，用于定义 Pod 的访问方式。</li>
 </ul>
 
-<h1 id="查看">查看</h1>
-<p>kubectl get deployments
-kubectl get services
-kubectl get pods</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: NodePort  # 或 LoadBalancer（云平台）
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080    # 节点端口范围 30000-32767
+    - name: https
+      port: 443
+      targetPort: 443
+      nodePort: 30443
+</code></pre></td></tr></tbody></table></div></div>
 
-<h1 id="访问">访问</h1>
-<h1 id="浏览器访问-http30080">浏览器访问: http://<节点IP>:30080</节点IP></h1>
-<h1 id="浏览器访问-https30443">浏览器访问: https://<节点IP>:30443</节点IP></h1>
-<p>```</p>
+<ul>
+  <li>使用方式</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code># 部署
+
+kubectl apply -f nginx-deployment.yaml
+kubectl apply -f nginx-service.yaml
+
+# 查看
+kubectl get deployments
+kubectl get services
+kubectl get pods
+
+# 访问
+# 浏览器访问: http://&lt;节点IP&gt;:30080
+# 浏览器访问: https://&lt;节点IP&gt;:30443
+</code></pre></td></tr></tbody></table></div></div>
 
 
       
@@ -1039,6 +1040,10 @@ kubectl get pods</p>
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/go/2026/05/11/go-air/" rel="next" title="Go air代码热重启">
+                <i class="fa fa-chevron-left"></i> Go air代码热重启
+              </a>
             
           </div>
 
@@ -1131,7 +1136,7 @@ kubectl get pods</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1220,7 +1225,7 @@ kubectl get pods</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#单机环境安装"> <span class="nav-number">1</span> <span class="nav-text">单机环境安装</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#集群环境安装"> <span class="nav-number">2</span> <span class="nav-text">集群环境安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#前置准备"> <span class="nav-number">2.1</span> <span class="nav-text">前置准备</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#所有节点通用配置两种方式都需要"> <span class="nav-number">2.1.1</span> <span class="nav-text">所有节点通用配置（两种方式都需要）</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#master-节点安装"> <span class="nav-number">2.2</span> <span class="nav-text">Master 节点安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#node-节点安装"> <span class="nav-number">2.3</span> <span class="nav-text">Node 节点安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#验证集群状态"> <span class="nav-number">2.4</span> <span class="nav-text">验证集群状态</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置节点角色和标签"> <span class="nav-number">2.5</span> <span class="nav-text">配置节点角色和标签</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用-kubeadm-部署集群命令行方式"> <span class="nav-number">2.6</span> <span class="nav-text">使用 kubeadm 部署集群（命令行方式）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#master-节点初始化"> <span class="nav-number">2.6.1</span> <span class="nav-text">Master 节点初始化</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#node-节点加入集群"> <span class="nav-number">2.6.2</span> <span class="nav-text">Node 节点加入集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#验证集群"> <span class="nav-number">2.6.3</span> <span class="nav-text">验证集群</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#两种方式对比"> <span class="nav-number">2.7</span> <span class="nav-text">两种方式对比</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#常见问题"> <span class="nav-number">2.8</span> <span class="nav-text">常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#资源类型"> <span class="nav-number">3</span> <span class="nav-text">资源类型</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#部署"> <span class="nav-number">4</span> <span class="nav-text">部署</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#查看"> <span class="nav-number">5</span> <span class="nav-text">查看</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#访问"> <span class="nav-number">6</span> <span class="nav-text">访问</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#浏览器访问-http30080"> <span class="nav-number">7</span> <span class="nav-text">浏览器访问: http://:30080</节点IP</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#浏览器访问-https30443"> <span class="nav-number">8</span> <span class="nav-text">浏览器访问: https://:30443</节点IP</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#单机环境安装"> <span class="nav-number">1</span> <span class="nav-text">单机环境安装</span> </a> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#集群环境安装"> <span class="nav-number">2</span> <span class="nav-text">集群环境安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#前置准备"> <span class="nav-number">2.1</span> <span class="nav-text">前置准备</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#所有节点通用配置两种方式都需要"> <span class="nav-number">2.1.1</span> <span class="nav-text">所有节点通用配置（两种方式都需要）</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#master-节点安装"> <span class="nav-number">2.2</span> <span class="nav-text">Master 节点安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#node-节点安装"> <span class="nav-number">2.3</span> <span class="nav-text">Node 节点安装</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#验证集群状态"> <span class="nav-number">2.4</span> <span class="nav-text">验证集群状态</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#配置节点角色和标签"> <span class="nav-number">2.5</span> <span class="nav-text">配置节点角色和标签</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用-kubeadm-部署集群命令行方式"> <span class="nav-number">2.6</span> <span class="nav-text">使用 kubeadm 部署集群（命令行方式）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#master-节点初始化"> <span class="nav-number">2.6.1</span> <span class="nav-text">Master 节点初始化</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#node-节点加入集群"> <span class="nav-number">2.6.2</span> <span class="nav-text">Node 节点加入集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#验证集群"> <span class="nav-number">2.6.3</span> <span class="nav-text">验证集群</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#两种方式对比"> <span class="nav-number">2.7</span> <span class="nav-text">两种方式对比</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#常见问题"> <span class="nav-number">2.8</span> <span class="nav-text">常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#nginx容器服务的资源类型"> <span class="nav-number">3</span> <span class="nav-text">nginx容器服务的资源类型</span> </a> </li>
     </ol>
   </div>
             

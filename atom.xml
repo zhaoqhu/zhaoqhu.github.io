@@ -1,4 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-08T01:57:15-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">kubernetes k8s 学习</title><link href="http://0.0.0.0:4000/k8s/2026/05/08/k8s/" rel="alternate" type="text/html" title="kubernetes k8s 学习" /><published>2026-05-08T00:00:00-05:00</published><updated>2026-05-08T00:00:00-05:00</updated><id>http://0.0.0.0:4000/k8s/2026/05/08/k8s</id><content type="html" xml:base="http://0.0.0.0:4000/k8s/2026/05/08/k8s/">&lt;h1 id=&quot;单机环境安装&quot;&gt;单机环境安装&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-11T03:48:19-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go air代码热重启</title><link href="http://0.0.0.0:4000/go/2026/05/11/go-air/" rel="alternate" type="text/html" title="Go air代码热重启" /><published>2026-05-11T00:00:00-05:00</published><updated>2026-05-11T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/05/11/go-air</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/05/11/go-air/">&lt;h1 id=&quot;使用场景&quot;&gt;使用场景&lt;/h1&gt;
+&lt;p&gt;在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。&lt;/p&gt;
+
+&lt;h1 id=&quot;项目中的maingo&quot;&gt;项目中的main.go&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package main
+
+import &quot;github.com/gin-gonic/gin&quot;
+
+func main() {
+	router := gin.Default()
+	router.GET(&quot;/ping&quot;, func(c *gin.Context) {
+		id := c.Query(&quot;id&quot;)
+		name := c.Query(&quot;name&quot;)
+		c.JSON(200, gin.H{
+			&quot;id&quot;:      id,
+			&quot;name&quot;:    name,
+			&quot;message&quot;: &quot;pong8&quot;,
+		})
+	})
+	router.Run() // listens on 0.0.0.0:8080 by default
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;使用air工具&quot;&gt;使用air工具&lt;/h1&gt;
+&lt;h2 id=&quot;安装air&quot;&gt;安装air&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go install github.com/air-verse/air@latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;创建airtoml配置文件&quot;&gt;创建air.toml配置文件&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;在项目中执行air init命令
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;air init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;修改生成的air.toml文件，将build下的full_bin字段改为使用dlv启动程序并开启headless调试模式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#:schema https://json.schemastore.org/any.json
+
+env_files = []
+root = &quot;.&quot;
+testdata_dir = &quot;testdata&quot;
+tmp_dir = &quot;tmp&quot;
+
+[build]
+  args_bin = []
+  bin = &quot;./tmp/main&quot;
+  cmd = &quot;go build -o ./tmp/main .&quot;
+  delay = 1000
+  entrypoint = [&quot;./tmp/main&quot;]
+  exclude_dir = [&quot;assets&quot;, &quot;tmp&quot;, &quot;vendor&quot;, &quot;testdata&quot;]
+  exclude_file = []
+  exclude_regex = [&quot;_test.go&quot;]
+  exclude_unchanged = false
+  follow_symlink = false
+  #full_bin = &quot;&quot;
+  # 核心魔法：使用 dlv 启动程序，并开启 headless 调试模式，监听 2345 端口
+  full_bin = &quot;dlv exec ./tmp/main --listen=:2345 --headless=true --api-version=2 --accept-multiclient --continue&quot;
+  ignore_dangerous_root_dir = false
+  include_dir = []
+  include_ext = [&quot;go&quot;, &quot;tpl&quot;, &quot;tmpl&quot;, &quot;html&quot;]
+  include_file = []
+  kill_delay = &quot;0s&quot;
+  log = &quot;build-errors.log&quot;
+  poll = false
+  poll_interval = 0
+  post_cmd = []
+  pre_cmd = []
+  rerun = false
+  rerun_delay = 500
+  send_interrupt = false
+  stop_on_error = false
+
+[color]
+  app = &quot;&quot;
+  build = &quot;yellow&quot;
+  main = &quot;magenta&quot;
+  runner = &quot;green&quot;
+  watcher = &quot;cyan&quot;
+
+[log]
+  main_only = false
+  silent = false
+  time = false
+
+[misc]
+  clean_on_exit = false
+
+[proxy]
+  app_port = 0
+  app_start_timeout = 0
+  enabled = false
+  proxy_port = 0
+
+[screen]
+  clear_on_rebuild = false
+  keep_scroll = true
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;运行air工具&quot;&gt;运行air工具&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;在项目根目录下执行air命令
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;air
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;h1 id=&quot;使用dlv调试&quot;&gt;使用dlv调试&lt;/h1&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;安装dlv工具&quot;&gt;安装dlv工具&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go install github.com/go-delve/delve/cmd/dlv@latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;配置vscode&quot;&gt;配置Vscode&lt;/h1&gt;
+&lt;h2 id=&quot;创建launchjson文件&quot;&gt;创建launch.json文件&lt;/h2&gt;
+&lt;h2 id=&quot;配置launchjson&quot;&gt;配置launch.json&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;Attach to Air (Remote)&quot;,
+            &quot;type&quot;: &quot;go&quot;,
+            &quot;request&quot;: &quot;attach&quot;,
+            &quot;mode&quot;: &quot;remote&quot;,
+            &quot;remotePath&quot;: &quot;${workspaceFolder}&quot;,
+            &quot;port&quot;: 2345,
+            &quot;host&quot;: &quot;127.0.0.1&quot;,
+            &quot;program&quot;: &quot;${workspaceFolder}&quot;,
+            &quot;trace&quot;: &quot;verbose&quot;,
+            &quot;showLog&quot;: true
+        },
+        {
+            &quot;name&quot;: &quot;Launch Package&quot;,
+            &quot;type&quot;: &quot;go&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;mode&quot;: &quot;auto&quot;,
+            &quot;program&quot;: &quot;${workspaceFolder}&quot;
+        },
+        {
+            &quot;name&quot;: &quot;Launch Package&quot;,
+            &quot;type&quot;: &quot;go&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;mode&quot;: &quot;auto&quot;,
+            &quot;program&quot;: &quot;${fileDirname}&quot;
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;调试&quot;&gt;调试&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;运行air工具，并打开Vscode&lt;/li&gt;
+  &lt;li&gt;在Vscode中选择Attach to Air (Remote)配置，然后点击调试按钮&lt;/li&gt;
+  &lt;li&gt;此时Vscode会连接到air工具启动的dlv调试服务，并可以开始进行代码调试&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/gin-air-debug.png&quot; width=&quot;100%&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="go" /><category term="go" /><summary type="html">使用场景 在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。</summary></entry><entry><title type="html">kubernetes k8s 学习</title><link href="http://0.0.0.0:4000/k8s/2026/05/08/k8s/" rel="alternate" type="text/html" title="kubernetes k8s 学习" /><published>2026-05-08T00:00:00-05:00</published><updated>2026-05-08T00:00:00-05:00</updated><id>http://0.0.0.0:4000/k8s/2026/05/08/k8s</id><content type="html" xml:base="http://0.0.0.0:4000/k8s/2026/05/08/k8s/">&lt;h1 id=&quot;单机环境安装&quot;&gt;单机环境安装&lt;/h1&gt;
 &lt;p&gt;首先，我们开始准备Kubemctes的安装和相关镜像下载，本书建议采用VirtualBox或者’Mware Workstation在本机虚拟一个64位的CentOS7虚拟机作为学习环境，虚拟机采用NAT的网络模式以便能够连接外网，然后按照以下步骤快速安装Kubermnetes。&lt;/p&gt;
 
 &lt;ul&gt;
@@ -450,7 +608,7 @@ node2    Ready    &amp;lt;none&amp;gt;          3m    v1.28.0
   &lt;li&gt;检查内核参数是否正确配置&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;资源类型&quot;&gt;资源类型&lt;/h1&gt;
+&lt;h1 id=&quot;nginx容器服务的资源类型&quot;&gt;nginx容器服务的资源类型&lt;/h1&gt;
 &lt;p&gt;在k8s中有一个nginx容器要对外提供服务80和443服务&lt;/p&gt;
 
 &lt;ul&gt;
@@ -478,47 +636,48 @@ spec:
         - containerPort: 80
         - containerPort: 443
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Service：服务，用于定义 Pod 的访问方式。
-```
-apiVersion: v1
-kind: Service
-metadata:
-name: nginx-service
-spec:
-type: NodePort  # 或 LoadBalancer（云平台）
-selector:
-  app: nginx
-ports:
-    &lt;ul&gt;
-      &lt;li&gt;name: http
-port: 80
-targetPort: 80
-nodePort: 30080    # 节点端口范围 30000-32767&lt;/li&gt;
-      &lt;li&gt;name: https
-port: 443
-targetPort: 443
-nodePort: 30443
-```&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;使用方式
-```
-    &lt;h1 id=&quot;部署&quot;&gt;部署&lt;/h1&gt;
-    &lt;p&gt;kubectl apply -f nginx-deployment.yaml
-kubectl apply -f nginx-service.yaml&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Service：服务，用于定义 Pod 的访问方式。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;查看&quot;&gt;查看&lt;/h1&gt;
-&lt;p&gt;kubectl get deployments
-kubectl get services
-kubectl get pods&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: NodePort  # 或 LoadBalancer（云平台）
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080    # 节点端口范围 30000-32767
+    - name: https
+      port: 443
+      targetPort: 443
+      nodePort: 30443
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;访问&quot;&gt;访问&lt;/h1&gt;
-&lt;h1 id=&quot;浏览器访问-http30080&quot;&gt;浏览器访问: http://&lt;节点IP&gt;:30080&lt;/节点IP&gt;&lt;/h1&gt;
-&lt;h1 id=&quot;浏览器访问-https30443&quot;&gt;浏览器访问: https://&lt;节点IP&gt;:30443&lt;/节点IP&gt;&lt;/h1&gt;
-&lt;p&gt;```&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="k8s" /><category term="k8s" /><summary type="html">单机环境安装 首先，我们开始准备Kubemctes的安装和相关镜像下载，本书建议采用VirtualBox或者’Mware Workstation在本机虚拟一个64位的CentOS7虚拟机作为学习环境，虚拟机采用NAT的网络模式以便能够连接外网，然后按照以下步骤快速安装Kubermnetes。</summary></entry><entry><title type="html">高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段</title><link href="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/" rel="alternate" type="text/html" title="高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段" /><published>2026-05-07T00:00:00-05:00</published><updated>2026-05-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs</id><content type="html" xml:base="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/">&lt;h1 id=&quot;高并发的设计&quot;&gt;高并发的设计&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;使用方式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 部署
+
+kubectl apply -f nginx-deployment.yaml
+kubectl apply -f nginx-service.yaml
+
+# 查看
+kubectl get deployments
+kubectl get services
+kubectl get pods
+
+# 访问
+# 浏览器访问: http://&amp;lt;节点IP&amp;gt;:30080
+# 浏览器访问: https://&amp;lt;节点IP&amp;gt;:30443
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="k8s" /><category term="k8s" /><summary type="html">单机环境安装 首先，我们开始准备Kubemctes的安装和相关镜像下载，本书建议采用VirtualBox或者’Mware Workstation在本机虚拟一个64位的CentOS7虚拟机作为学习环境，虚拟机采用NAT的网络模式以便能够连接外网，然后按照以下步骤快速安装Kubermnetes。</summary></entry><entry><title type="html">高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段</title><link href="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/" rel="alternate" type="text/html" title="高并发系统的设计或优化经验，了解限流、熔断、降级等常稳定性保障手段" /><published>2026-05-07T00:00:00-05:00</published><updated>2026-05-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs</id><content type="html" xml:base="http://0.0.0.0:4000/%E9%AB%98%E5%B9%B6%E5%8F%91/2026/05/07/lvs/">&lt;h1 id=&quot;高并发的设计&quot;&gt;高并发的设计&lt;/h1&gt;
 
 &lt;p&gt;LVS/LB 在更底层做分发，Nginx/网关做七层治理，真正“分布式”的主体实现在应用层（代码/架构）和数据层（存储/缓存/MQ）。&lt;/p&gt;
 
@@ -766,7 +925,25 @@ http {
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">claude-code 使用技巧</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/" rel="alternate" type="text/html" title="claude-code 使用技巧" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/">&lt;h1 id=&quot;claude-code三种模式&quot;&gt;Claude Code三种模式&lt;/h1&gt;
+&lt;p&gt;使用快捷键 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift + Tab&lt;/code&gt; 切换三种模式&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;模式一 ?for shortcuts 修改文件前一定询问用户&lt;/li&gt;
+  &lt;li&gt;模式二 accept edits on 自动修改文件&lt;/li&gt;
+  &lt;li&gt;模式三 plan mode on 只讨论，不修改文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;命令&quot;&gt;命令&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;命令 	            说明
+/clear            清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。
+/compact	        压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。
+/cost 花费	      查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	
+/logout /login 	  退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。
+/model 模型	      切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。
+/status	状态      查看当前CC的状态
+/doctor	检测      检测CC的安装状态
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">Claude Code三种模式 使用快捷键 Shift + Tab 切换三种模式 模式一 ?for shortcuts 修改文件前一定询问用户 模式二 accept edits on 自动修改文件 模式三 plan mode on 只讨论，不修改文件</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
 &lt;p&gt;claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境准备&quot;&gt;环境准备&lt;/h1&gt;
@@ -893,25 +1070,7 @@ EOF
 &lt;img src=&quot;/assets/images/go/claude-code-bailian-4.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;在终端测试claude-code&quot;&gt;在终端测试claude-code&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-5.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">claude-code 使用技巧</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/" rel="alternate" type="text/html" title="claude-code 使用技巧" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/">&lt;h1 id=&quot;claude-code三种模式&quot;&gt;Claude Code三种模式&lt;/h1&gt;
-&lt;p&gt;使用快捷键 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift + Tab&lt;/code&gt; 切换三种模式&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;模式一 ?for shortcuts 修改文件前一定询问用户&lt;/li&gt;
-  &lt;li&gt;模式二 accept edits on 自动修改文件&lt;/li&gt;
-  &lt;li&gt;模式三 plan mode on 只讨论，不修改文件&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;命令&quot;&gt;命令&lt;/h1&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;命令 	            说明
-/clear            清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。
-/compact	        压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。
-/cost 花费	      查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	
-/logout /login 	  退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。
-/model 模型	      切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。
-/status	状态      查看当前CC的状态
-/doctor	检测      检测CC的安装状态
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">Claude Code三种模式 使用快捷键 Shift + Tab 切换三种模式 模式一 ?for shortcuts 修改文件前一定询问用户 模式二 accept edits on 自动修改文件 模式三 plan mode on 只讨论，不修改文件</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-5.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
 
 &lt;h2 id=&quot;一新项目从零开始&quot;&gt;一、新项目（从零开始）&lt;/h2&gt;
 
@@ -2360,181 +2519,4 @@ pyenv global 3.10.2
 python --version
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="python" /><category term="Python" /><category term="pyenv" /><summary type="html">pyenv 是一个非常流行的 Python 版本管理工具，它允许你在同一系统上安装和管理多个 Python 版本。以下是如何在你的系统上安装和使用 pyenv 的步骤。</summary></entry><entry><title type="html">Go pprof 核心指标分析与工具使用指南</title><link href="http://0.0.0.0:4000/go/2025/12/17/gin-pprof/" rel="alternate" type="text/html" title="Go pprof 核心指标分析与工具使用指南" /><published>2025-12-17T00:00:00-06:00</published><updated>2025-12-17T00:00:00-06:00</updated><id>http://0.0.0.0:4000/go/2025/12/17/gin-pprof</id><content type="html" xml:base="http://0.0.0.0:4000/go/2025/12/17/gin-pprof/">&lt;p&gt;ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈&lt;/p&gt;
-&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
-&lt;h3 id=&quot;初始化go模块&quot;&gt;初始化Go模块&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go mod init gin-pprof-demo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;安装依赖&quot;&gt;安装依赖&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go get github.com/gin-contrib/pprof
-go get github.com/gin-gonic/gin
-go get github.com/swaggo/swag/cmd/swag
-go get github.com/swaggo/files
-go get github.com/swaggo/gin-swagger
-go get github.com/swaggo/swag
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;生成swagger-文档&quot;&gt;生成Swagger 文档&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swag init
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;运行程序&quot;&gt;运行程序&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;go run main.go
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;指标分类与核心说明&quot;&gt;指标分类与核心说明&lt;/h2&gt;
-
-&lt;p&gt;Go &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;net/http/pprof&lt;/code&gt; 暴露的10个性能分析端点，按&lt;strong&gt;分析对象&lt;/strong&gt;分类如下，涵盖内存、CPU、阻塞、并发、线程、执行流程等维度，配合 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool&lt;/code&gt; 可精准定位性能瓶颈。&lt;/p&gt;
-
-&lt;h2 id=&quot;指标详情表格&quot;&gt;指标详情表格&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;&lt;strong&gt;分类&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;指标名称&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;核心用途&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;go tool 分析命令/步骤&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;关键参数/注意事项&lt;/strong&gt;&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;内存分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allocs&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;累计内存分配（含已释放对象），记录程序启动以来的&lt;strong&gt;所有内存分配历史&lt;/strong&gt;（字节/对象数）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/allocs&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 默认分析 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt;（累计分配）&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 看累计分配大户&lt;br /&gt;- 结合 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;heap&lt;/code&gt; 对比当前活跃内存&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;heap&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;堆内存快照（当前&lt;strong&gt;活跃对象&lt;/strong&gt;，未被GC回收的内存），记录实时内存占用。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/heap&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 默认 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inuse_space&lt;/code&gt;（当前活跃），用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sample_index=alloc_space&lt;/code&gt; 切换累计分配&lt;br /&gt;- 多次采样后用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比泄漏&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;CPU分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;CPU耗时采样（默认10秒），记录函数&lt;strong&gt;CPU占用时长&lt;/strong&gt;（纳秒级）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/profile?seconds=30&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;seconds=N&lt;/code&gt; 指定采样时长（建议30秒）&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 找CPU热点，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;web&lt;/code&gt; 可视化调用图&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;阻塞分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;block&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;阻塞事件采样（channel操作、IO等待等），记录goroutine阻塞&lt;strong&gt;时长/次数&lt;/strong&gt;。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/block?seconds=30&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 需先调用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runtime.SetBlockProfileRate(1)&lt;/code&gt; 启用采样&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 看阻塞热点，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位阻塞代码&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mutex&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;锁竞争事件采样（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sync.Mutex&lt;/code&gt;），记录goroutine因锁竞争的&lt;strong&gt;阻塞时长/次数&lt;/strong&gt;。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/mutex?seconds=30&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 需先调用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runtime.SetMutexProfileFraction(1)&lt;/code&gt; 启用采样&lt;br /&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 看锁竞争热点&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;并发分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;goroutine&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;当前所有goroutine的&lt;strong&gt;堆栈跟踪&lt;/strong&gt;（含状态：运行中、阻塞、死锁）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/goroutine&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl http://.../goroutine?debug=2 &amp;gt; goroutines.txt&lt;/code&gt; 导出堆栈&lt;br /&gt;- 搜索 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chan receive&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lock&lt;/code&gt; 定位阻塞/泄漏&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;线程分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;threadcreate&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;线程创建事件采样，记录&lt;strong&gt;新线程创建的堆栈&lt;/strong&gt;（含创建耗时）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/threadcreate?seconds=30&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 看线程创建热点&lt;br /&gt;- 适合分析线程创建开销（如频繁创建线程）&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;执行流程分析&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trace&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;执行时序跟踪（goroutine调度、GC、系统调用、请求处理流程），生成&lt;strong&gt;时序日志&lt;/strong&gt;。&lt;/td&gt;
-      &lt;td&gt;1. 下载trace文件：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl -o trace.bin &apos;http://.../trace?seconds=5&apos;&lt;/code&gt;&lt;br /&gt;2. 分析：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool trace trace.bin&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 需先下载二进制文件（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trace.bin&lt;/code&gt;），再用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool trace&lt;/code&gt; 打开&lt;br /&gt;- 可视化界面看甘特图、goroutine分析&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;配置查看&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cmdline&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;程序启动命令行参数（如 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./main -port=8080&lt;/code&gt;）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/cmdline&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 直接返回文本，查看启动配置（环境变量、GOMAXPROCS等）&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;调试工具&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;symbol&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;符号表查询接口，将&lt;strong&gt;内存地址转换为函数名&lt;/strong&gt;（供调试工具使用）。&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://localhost:8080/debug/pprof/symbol&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;- 日常分析极少用，仅调试时解析崩溃堆栈中的未知地址&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;关键说明&quot;&gt;关键说明&lt;/h2&gt;
-
-&lt;h3 id=&quot;1-分类逻辑&quot;&gt;1. 分类逻辑&lt;/h3&gt;
-
-&lt;p&gt;按&lt;strong&gt;分析对象&lt;/strong&gt;划分（内存、CPU、阻塞等），便于快速匹配问题类型：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;内存问题&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;heap&lt;/code&gt;（当前泄漏）+ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allocs&lt;/code&gt;（累计分配）&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;CPU问题&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile&lt;/code&gt;（CPU热点）&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;阻塞/并发问题&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;goroutine&lt;/code&gt;（状态）+ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;block&lt;/code&gt;（阻塞事件）+ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mutex&lt;/code&gt;（锁竞争）&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;时序问题&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trace&lt;/code&gt;（甘特图分析延迟）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;2-通用命令与避坑点&quot;&gt;2. 通用命令与避坑点&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;&lt;strong&gt;场景&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;核心命令&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;避坑点&lt;/strong&gt;&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;内存泄漏定位&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://.../heap&lt;/code&gt; → 多次采样 → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比 → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list&lt;/code&gt; 定位代码行&lt;/td&gt;
-      &lt;td&gt;默认 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inuse_space&lt;/code&gt; 仅看活跃内存，需切 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt; 看累计分配；小泄漏需多次采样&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;CPU热点定位&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://.../profile?seconds=30&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;web&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;采样时长建议30秒（覆盖多轮请求），避免短时波动干扰&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;阻塞事件分析&lt;/td&gt;
-      &lt;td&gt;先 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;runtime.SetBlockProfileRate(1)&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool pprof http://.../block?seconds=30&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;未启用采样时无数据，需代码中显式开启&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;trace时序分析&lt;/td&gt;
-      &lt;td&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl -o trace.bin &apos;http://.../trace?seconds=5&apos;&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;go tool trace trace.bin&lt;/code&gt;&lt;/td&gt;
-      &lt;td&gt;需下载二进制文件（非URL直接分析），用可视化界面看甘特图&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;3-核心场景速查&quot;&gt;3. 核心场景速查&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;“内存涨了但heap没反应”&lt;/strong&gt; → 用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alloc_space&lt;/code&gt; 维度 + 多次采样 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;diff&lt;/code&gt; 对比&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;“CPU占用高但不知道哪里慢”&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile&lt;/code&gt; 采样 + &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top&lt;/code&gt; 找热点函数&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;“goroutine数量爆炸”&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;goroutine&lt;/code&gt; 导出堆栈 + 搜索 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chan receive&lt;/code&gt;/&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lock&lt;/code&gt; 定位泄漏源&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;“请求延迟忽高忽低”&lt;/strong&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;trace&lt;/code&gt; 甘特图看GC/系统调用与请求的时序重叠&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;实战示例&quot;&gt;实战示例&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/gin-pprof-1.png&quot; width=&quot;100%&quot; /&gt;
-&lt;img src=&quot;/assets/images/go/gin-pprof-2.png&quot; width=&quot;100%&quot; /&gt;
-&lt;img src=&quot;/assets/images/go/gin-pprof-3.png&quot; width=&quot;100%&quot; /&gt;
-&lt;img src=&quot;/assets/images/go/gin-pprof-4.png&quot; width=&quot;100%&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="go" /><category term="Gin" /><category term="pprof" /><summary type="html">ginpprof是Gin中间件，集成pprof，暴露/debug/pprof端点，支持CPU、内存、阻塞分析，助定位瓶颈 安装 初始化Go模块</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="python" /><category term="Python" /><category term="pyenv" /><summary type="html">pyenv 是一个非常流行的 Python 版本管理工具，它允许你在同一系统上安装和管理多个 Python 版本。以下是如何在你的系统上安装和使用 pyenv 的步骤。</summary></entry></feed>
