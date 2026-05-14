@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-14T03:28:35-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">秒杀功能设计</title><link href="http://0.0.0.0:4000/php/2026/05/12/seckill/" rel="alternate" type="text/html" title="秒杀功能设计" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/php/2026/05/12/seckill</id><content type="html" xml:base="http://0.0.0.0:4000/php/2026/05/12/seckill/">&lt;h1 id=&quot;第一步初始化库存initphp&quot;&gt;第一步：初始化库存(init.php)&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-14T06:52:35-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">秒杀功能设计</title><link href="http://0.0.0.0:4000/php/2026/05/12/seckill/" rel="alternate" type="text/html" title="秒杀功能设计" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/php/2026/05/12/seckill</id><content type="html" xml:base="http://0.0.0.0:4000/php/2026/05/12/seckill/">&lt;h1 id=&quot;第一步初始化库存initphp&quot;&gt;第一步：初始化库存(init.php)&lt;/h1&gt;
 &lt;p&gt;活动开始前执行一次，把库存怼进Redis。&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
@@ -412,7 +412,8 @@ tmp_dir = &quot;tmp&quot;
 [build]
   args_bin = []
   bin = &quot;./tmp/main&quot;
-  cmd = &quot;go build -o ./tmp/main .&quot;
+  # cmd = &quot;go build -o ./tmp/main .&quot;
+  cmd = &quot;go build -gcflags=&apos;all=-N -l&apos; -o  ./tmp/main .&quot;
   delay = 1000
   entrypoint = [&quot;./tmp/main&quot;]
   exclude_dir = [&quot;assets&quot;, &quot;tmp&quot;, &quot;vendor&quot;, &quot;testdata&quot;]
