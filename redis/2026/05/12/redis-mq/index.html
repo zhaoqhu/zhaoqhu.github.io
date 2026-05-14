@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。">
+<meta name="description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。 在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？ 一、整体架构">
 <meta name="keywords" content="redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis 延迟队列">
 <meta property="og:url" content="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/">
 <meta property="og:site_name" content="Zhao Q.H.&apos;s Notes">
-<meta property="og:description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。">
+<meta property="og:description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。 在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？ 一、整体架构">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis 延迟队列">
-<meta name="twitter:description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。">
+<meta name="twitter:description" content="我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。 在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？ 一、整体架构">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -451,25 +451,23 @@
 
 
 
-  <p>我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。</p>
-
+  <p>我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。
+在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？</p>
 <h1 id="一整体架构">一、整体架构</h1>
-<ul>
-  <li>在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>用户下单
- ↓
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code>用户下单
+   ↓
 [producer.php] 写入 ZSet（时间轮） + Stream（消息仓库）
- ↓
+   ↓
 [scheduler.php] 每1秒扫描 ZSet，把到期任务推送到 Ready List
- ↓
+   ↓
 [consumer.php] 从 Ready List 取任务执行
- ↓
+   ↓
 成功 → 确认删除
 失败 → 重试（最多3次）→ 死信队列
-</code></pre></td></tr></tbody></table></div>    </div>
-    <h1 id="二准备工作redis连接">二、准备工作（Redis连接）</h1>
-  </li>
-</ul>
+</code></pre></td></tr></tbody></table></div></div>
+
+<h1 id="二准备工作redis连接">二、准备工作（Redis连接）</h1>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
 // common.php - 公共函数
@@ -529,51 +527,50 @@ echo "消息ID：{$message_id}\n";
 
 <h1 id="四-调度器schedulerphp-核心大脑">四、 调度器（scheduler.php）-核心大脑</h1>
 
-<ul>
-  <li>多任务执行，会有并发风险（可以用lua脚本优化或者分布式锁来优化）
-```
-&lt;?php
-require ‘common.php’;</li>
-</ul>
+<p>多任务执行，会有并发风险（可以用lua脚本优化或者分布式锁来优化）</p>
 
-<p>$redis = redis_connect();</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29<br/>30<br/>31<br/>32<br/>33<br/>34<br/>35<br/>36<br/>37<br/>38<br/>39<br/>40<br/>41<br/>42</pre></td><td class="code"><pre class="highlight"><code>&lt;?php
+require 'common.php';
 
-<p>echo “调度器启动，每1秒扫描一次…\n”;</p>
+$redis = redis_connect();
 
-<p>while (true) {
+echo "调度器启动，每1秒扫描一次...\n";
+
+while (true) {
     // 1. 从 ZSet 取出当前时间之前的所有到期任务
     $now = time();
-    $due_tasks = $redis-&gt;zRangeByScore(‘delay_timer’, 0, $now, [‘limit’ =&gt; [0, 100]]);</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code>if (!empty($due_tasks)) {
-    foreach ($due_tasks as $order_id) {
-        echo "发现到期任务：{$order_id}\n";
-        
-        // 2. 从 Stream 获取订单详情
-        $stream_data = $redis-&gt;xRange('delay_stream', '-', '+', 100);
-        
-        foreach ($stream_data as $msg_id =&gt; $data) {
-            if ($data['order_id'] == $order_id) {
-                // 3. 将任务推送到 Ready List（就绪队列）
-                $redis-&gt;lPush('ready_queue', json_encode([
-                    'order_id' =&gt; $order_id,
-                    'message_id' =&gt; $msg_id,
-                    'data' =&gt; $data['data'],
-                    'retry_count' =&gt; $data['retry_count']
-                ]));
-                
-                echo "任务已推送到就绪队列\n";
-                break;
+    $due_tasks = $redis-&gt;zRangeByScore('delay_timer', 0, $now, ['limit' =&gt; [0, 100]]);
+    
+    if (!empty($due_tasks)) {
+        foreach ($due_tasks as $order_id) {
+            echo "发现到期任务：{$order_id}\n";
+            
+            // 2. 从 Stream 获取订单详情
+            $stream_data = $redis-&gt;xRange('delay_stream', '-', '+', 100);
+            
+            foreach ($stream_data as $msg_id =&gt; $data) {
+                if ($data['order_id'] == $order_id) {
+                    // 3. 将任务推送到 Ready List（就绪队列）
+                    $redis-&gt;lPush('ready_queue', json_encode([
+                        'order_id' =&gt; $order_id,
+                        'message_id' =&gt; $msg_id,
+                        'data' =&gt; $data['data'],
+                        'retry_count' =&gt; $data['retry_count']
+                    ]));
+                    
+                    echo "任务已推送到就绪队列\n";
+                    break;
+                }
             }
+            
+            // 4. 从 ZSet 中删除已处理的任务
+            $redis-&gt;zRem('delay_timer', $order_id);
         }
-        
-        // 4. 从 ZSet 中删除已处理的任务
-        $redis-&gt;zRem('delay_timer', $order_id);
     }
+    
+    // 5. 休息1秒，避免CPU空转
+    sleep(1);
 }
-
-// 5. 休息1秒，避免CPU空转
-sleep(1); } ```
 </code></pre></td></tr></tbody></table></div></div>
 
 <h1 id="五消费者consumerphp-执行任务">五、消费者（consumer.php）-执行任务</h1>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-14T03:17:15-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">秒杀功能设计</title><link href="http://0.0.0.0:4000/php/2026/05/12/seckill/" rel="alternate" type="text/html" title="秒杀功能设计" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/php/2026/05/12/seckill</id><content type="html" xml:base="http://0.0.0.0:4000/php/2026/05/12/seckill/">&lt;h1 id=&quot;第一步初始化库存initphp&quot;&gt;第一步：初始化库存(init.php)&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-14T03:28:35-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">秒杀功能设计</title><link href="http://0.0.0.0:4000/php/2026/05/12/seckill/" rel="alternate" type="text/html" title="秒杀功能设计" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/php/2026/05/12/seckill</id><content type="html" xml:base="http://0.0.0.0:4000/php/2026/05/12/seckill/">&lt;h1 id=&quot;第一步初始化库存initphp&quot;&gt;第一步：初始化库存(init.php)&lt;/h1&gt;
 &lt;p&gt;活动开始前执行一次，把库存怼进Redis。&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
@@ -104,25 +104,23 @@ while (true) {
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="秒杀" /><summary type="html">第一步：初始化库存(init.php) 活动开始前执行一次，把库存怼进Redis。</summary></entry><entry><title type="html">Redis 延迟队列</title><link href="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/" rel="alternate" type="text/html" title="Redis 延迟队列" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/redis/2026/05/12/redis-mq</id><content type="html" xml:base="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/">&lt;p&gt;我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="秒杀" /><summary type="html">第一步：初始化库存(init.php) 活动开始前执行一次，把库存怼进Redis。</summary></entry><entry><title type="html">Redis 延迟队列</title><link href="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/" rel="alternate" type="text/html" title="Redis 延迟队列" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/redis/2026/05/12/redis-mq</id><content type="html" xml:base="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/">&lt;p&gt;我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。
+在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？&lt;/p&gt;
 &lt;h1 id=&quot;一整体架构&quot;&gt;一、整体架构&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;用户下单
- ↓
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;用户下单
+   ↓
 [producer.php] 写入 ZSet（时间轮） + Stream（消息仓库）
- ↓
+   ↓
 [scheduler.php] 每1秒扫描 ZSet，把到期任务推送到 Ready List
- ↓
+   ↓
 [consumer.php] 从 Ready List 取任务执行
- ↓
+   ↓
 成功 → 确认删除
 失败 → 重试（最多3次）→ 死信队列
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;h1 id=&quot;二准备工作redis连接&quot;&gt;二、准备工作（Redis连接）&lt;/h1&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;二准备工作redis连接&quot;&gt;二、准备工作（Redis连接）&lt;/h1&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
 // common.php - 公共函数
@@ -182,51 +180,50 @@ echo &quot;消息ID：{$message_id}\n&quot;;
 
 &lt;h1 id=&quot;四-调度器schedulerphp-核心大脑&quot;&gt;四、 调度器（scheduler.php）-核心大脑&lt;/h1&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;多任务执行，会有并发风险（可以用lua脚本优化或者分布式锁来优化）
-```
-&amp;lt;?php
-require ‘common.php’;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;多任务执行，会有并发风险（可以用lua脚本优化或者分布式锁来优化）&lt;/p&gt;
 
-&lt;p&gt;$redis = redis_connect();&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+require &apos;common.php&apos;;
 
-&lt;p&gt;echo “调度器启动，每1秒扫描一次…\n”;&lt;/p&gt;
+$redis = redis_connect();
 
-&lt;p&gt;while (true) {
+echo &quot;调度器启动，每1秒扫描一次...\n&quot;;
+
+while (true) {
     // 1. 从 ZSet 取出当前时间之前的所有到期任务
     $now = time();
-    $due_tasks = $redis-&amp;gt;zRangeByScore(‘delay_timer’, 0, $now, [‘limit’ =&amp;gt; [0, 100]]);&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (!empty($due_tasks)) {
-    foreach ($due_tasks as $order_id) {
-        echo &quot;发现到期任务：{$order_id}\n&quot;;
-        
-        // 2. 从 Stream 获取订单详情
-        $stream_data = $redis-&amp;gt;xRange(&apos;delay_stream&apos;, &apos;-&apos;, &apos;+&apos;, 100);
-        
-        foreach ($stream_data as $msg_id =&amp;gt; $data) {
-            if ($data[&apos;order_id&apos;] == $order_id) {
-                // 3. 将任务推送到 Ready List（就绪队列）
-                $redis-&amp;gt;lPush(&apos;ready_queue&apos;, json_encode([
-                    &apos;order_id&apos; =&amp;gt; $order_id,
-                    &apos;message_id&apos; =&amp;gt; $msg_id,
-                    &apos;data&apos; =&amp;gt; $data[&apos;data&apos;],
-                    &apos;retry_count&apos; =&amp;gt; $data[&apos;retry_count&apos;]
-                ]));
-                
-                echo &quot;任务已推送到就绪队列\n&quot;;
-                break;
+    $due_tasks = $redis-&amp;gt;zRangeByScore(&apos;delay_timer&apos;, 0, $now, [&apos;limit&apos; =&amp;gt; [0, 100]]);
+    
+    if (!empty($due_tasks)) {
+        foreach ($due_tasks as $order_id) {
+            echo &quot;发现到期任务：{$order_id}\n&quot;;
+            
+            // 2. 从 Stream 获取订单详情
+            $stream_data = $redis-&amp;gt;xRange(&apos;delay_stream&apos;, &apos;-&apos;, &apos;+&apos;, 100);
+            
+            foreach ($stream_data as $msg_id =&amp;gt; $data) {
+                if ($data[&apos;order_id&apos;] == $order_id) {
+                    // 3. 将任务推送到 Ready List（就绪队列）
+                    $redis-&amp;gt;lPush(&apos;ready_queue&apos;, json_encode([
+                        &apos;order_id&apos; =&amp;gt; $order_id,
+                        &apos;message_id&apos; =&amp;gt; $msg_id,
+                        &apos;data&apos; =&amp;gt; $data[&apos;data&apos;],
+                        &apos;retry_count&apos; =&amp;gt; $data[&apos;retry_count&apos;]
+                    ]));
+                    
+                    echo &quot;任务已推送到就绪队列\n&quot;;
+                    break;
+                }
             }
+            
+            // 4. 从 ZSet 中删除已处理的任务
+            $redis-&amp;gt;zRem(&apos;delay_timer&apos;, $order_id);
         }
-        
-        // 4. 从 ZSet 中删除已处理的任务
-        $redis-&amp;gt;zRem(&apos;delay_timer&apos;, $order_id);
     }
+    
+    // 5. 休息1秒，避免CPU空转
+    sleep(1);
 }
-
-// 5. 休息1秒，避免CPU空转
-sleep(1); } ```
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;五消费者consumerphp-执行任务&quot;&gt;五、消费者（consumer.php）-执行任务&lt;/h1&gt;
@@ -368,7 +365,7 @@ php consumer.php
 php producer.php
 5. 查看监控 （终端4）
 php monitor.php
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="redis" /><category term="redis" /><summary type="html">我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。</summary></entry><entry><title type="html">Go air代码热重启</title><link href="http://0.0.0.0:4000/go/2026/05/11/go-air/" rel="alternate" type="text/html" title="Go air代码热重启" /><published>2026-05-11T00:00:00-05:00</published><updated>2026-05-11T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/05/11/go-air</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/05/11/go-air/">&lt;h1 id=&quot;使用场景&quot;&gt;使用场景&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="redis" /><category term="redis" /><summary type="html">我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。 在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？ 一、整体架构</summary></entry><entry><title type="html">Go air代码热重启</title><link href="http://0.0.0.0:4000/go/2026/05/11/go-air/" rel="alternate" type="text/html" title="Go air代码热重启" /><published>2026-05-11T00:00:00-05:00</published><updated>2026-05-11T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/05/11/go-air</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/05/11/go-air/">&lt;h1 id=&quot;使用场景&quot;&gt;使用场景&lt;/h1&gt;
 &lt;p&gt;在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。&lt;/p&gt;
 
 &lt;h1 id=&quot;项目中的maingo&quot;&gt;项目中的main.go&lt;/h1&gt;
