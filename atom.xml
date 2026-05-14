@@ -1,4 +1,374 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-11T03:48:19-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">Go air代码热重启</title><link href="http://0.0.0.0:4000/go/2026/05/11/go-air/" rel="alternate" type="text/html" title="Go air代码热重启" /><published>2026-05-11T00:00:00-05:00</published><updated>2026-05-11T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/05/11/go-air</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/05/11/go-air/">&lt;h1 id=&quot;使用场景&quot;&gt;使用场景&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="http://0.0.0.0:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-05-14T03:17:15-05:00</updated><id>http://0.0.0.0:4000/atom.xml</id><title type="html">Zhao Q.H.’s Notes</title><subtitle>Keep It Simple, Stupid</subtitle><author><name>Zhao Q.H.</name></author><entry><title type="html">秒杀功能设计</title><link href="http://0.0.0.0:4000/php/2026/05/12/seckill/" rel="alternate" type="text/html" title="秒杀功能设计" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/php/2026/05/12/seckill</id><content type="html" xml:base="http://0.0.0.0:4000/php/2026/05/12/seckill/">&lt;h1 id=&quot;第一步初始化库存initphp&quot;&gt;第一步：初始化库存(init.php)&lt;/h1&gt;
+&lt;p&gt;活动开始前执行一次，把库存怼进Redis。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+$redis = new Redis();
+$redis-&amp;gt;connect(&apos;127.0.0.1&apos;, 6379);
+
+// 1. 商品库存 Key
+$stockKey = &apos;seckill:product:1001:stock&apos;;
+// 2. 成功抢购的用户集合 Key
+$userSetKey = &apos;seckill:product:1001:users&apos;;
+// 3. 订单队列 Key (用于异步写入数据库)
+$orderListKey = &apos;seckill:orders:list&apos;;
+
+// 初始化库存为 100
+$redis-&amp;gt;set($stockKey, 100);
+// 清空旧数据
+$redis-&amp;gt;del($userSetKey);
+$redis-&amp;gt;del($orderListKey);
+
+echo &quot;秒杀初始化完成，库存设置为 100。\n&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id=&quot;第二步秒杀逻辑seckillphp&quot;&gt;第二步：秒杀逻辑(seckill.php)&lt;/h1&gt;
+
+&lt;p&gt;这是用户点击“抢购”时访问的接口。这是整套系统的核心，没有任何Lua，全是基础命令。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;第一层SETNX用户锁，挡住同一用户重复请求。&lt;/li&gt;
+  &lt;li&gt;DECR原子扣减，挡住超卖&lt;/li&gt;
+  &lt;li&gt;SADD用户去重，挡住一人多单&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+$redis = new Redis();
+$redis-&amp;gt;connect(&apos;127.0.0.1&apos;, 6379);
+
+$userId = $_GET[&apos;user_id&apos;] ?? &apos;user_&apos; . mt_rand(1000, 9999);
+$stockKey = &apos;seckill:product:1001:stock&apos;;
+$userSetKey = &apos;seckill:product:1001:users&apos;;
+$orderListKey = &apos;seckill:product:1001:orders&apos;; // 订单队列 Key
+
+// 1. 【前置限制】用 SETNX 挡住 99% 的无效请求（关键！）
+$lockKey = &apos;seckill:lock:&apos; . $userId;
+$locked = $redis-&amp;gt;set($lockKey, 1, [&apos;nx&apos;, &apos;ex&apos; =&amp;gt; 5]);
+if (!$locked) {
+    die(json_encode([&apos;code&apos; =&amp;gt; 400, &apos;msg&apos; =&amp;gt; &apos;请勿重复提交&apos;]));
+}
+
+// 2. 【库存限制】原子扣减（此时只剩少量请求）
+$remainStock = $redis-&amp;gt;decr($stockKey);
+if ($remainStock &amp;lt; 0) {
+    $redis-&amp;gt;incr($stockKey); // 回滚
+    $redis-&amp;gt;del($lockKey);   // 释放锁
+    die(json_encode([&apos;code&apos; =&amp;gt; 400, &apos;msg&apos; =&amp;gt; &apos;库存不足&apos;]));
+}
+
+// 3. 【用户限制】Set 去重（双重保险）
+$added = $redis-&amp;gt;sAdd($userSetKey, $userId);
+if (!$added) {
+    $redis-&amp;gt;incr($stockKey); // 回滚库存
+    $redis-&amp;gt;del($lockKey);
+    die(json_encode([&apos;code&apos; =&amp;gt; 400, &apos;msg&apos; =&amp;gt; &apos;重复抢购&apos;]));
+}
+
+// 4. 异步下单
+$redis-&amp;gt;lPush(&apos;seckill:orders&apos;, json_encode([&apos;user_id&apos; =&amp;gt; $userId]));
+$redis-&amp;gt;del($lockKey); // 释放锁
+
+echo json_encode([&apos;code&apos; =&amp;gt; 200, &apos;msg&apos; =&amp;gt; &apos;秒杀成功&apos;]);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;第三部异步下单脚本workerphp&quot;&gt;第三部：异步下单脚本（worker.php）&lt;/h1&gt;
+&lt;p&gt;这是一个常驻后台的脚本（可以用 nohub php worker.php &amp;amp; 运行）,负责把Redis里的订单写入MySQL。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+$redis = new Redis();
+$redis-&amp;gt;connect(&apos;127.0.0.1&apos;, 6379);
+
+// 连接数据库（PDO）
+$pdo = new PDO(&apos;mysql:host=localhost;dbname=test&apos;, &apos;root&apos;, &apos;password&apos;);
+
+$orderListKey = &apos;seckill:product:1001:orders&apos;;
+
+echo &quot;订单处理 Worker 启动...\n&quot;;
+
+while (true) {
+    // 1. 阻塞式取出订单（没有订单就等着，不消耗 CPU）
+    $orderJson = $redis-&amp;gt;brPop([$orderListKey], 30);
+    
+    if ($orderJson) {
+        $order = json_decode($orderJson[1], true);
+        $userId = $order[&apos;user_id&apos;];
+        
+        try {
+            // 2. 写入数据库
+            $sql = &quot;INSERT INTO orders (user_id, product_id, create_time) VALUES (?, ?, ?)&quot;;
+            $stmt = $pdo-&amp;gt;prepare($sql);
+            $stmt-&amp;gt;execute([$userId, $order[&apos;product_id&apos;], date(&apos;Y-m-d H:i:s&apos;)]);
+            
+            echo &quot;[&quot; . date(&apos;H:i:s&apos;) . &quot;] 订单入库成功: User {$userId}\n&quot;;
+        } catch (Exception $e) {
+            // 3. 入库失败处理（这里简单打印，实际应记录日志或报警）
+            echo &quot;[&quot; . date(&apos;H:i:s&apos;) . &quot;] 订单入库失败: &quot; . $e-&amp;gt;getMessage() . &quot;\n&quot;;
+            // 可选：把失败的订单重新放回队列，或者写入死信队列
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="php" /><category term="秒杀" /><summary type="html">第一步：初始化库存(init.php) 活动开始前执行一次，把库存怼进Redis。</summary></entry><entry><title type="html">Redis 延迟队列</title><link href="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/" rel="alternate" type="text/html" title="Redis 延迟队列" /><published>2026-05-12T00:00:00-05:00</published><updated>2026-05-12T00:00:00-05:00</updated><id>http://0.0.0.0:4000/redis/2026/05/12/redis-mq</id><content type="html" xml:base="http://0.0.0.0:4000/redis/2026/05/12/redis-mq/">&lt;p&gt;我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。&lt;/p&gt;
+
+&lt;h1 id=&quot;一整体架构&quot;&gt;一、整体架构&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;在并发请求时，Redis如何保证不同数据类型的数据的原子性呢？
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;用户下单
+ ↓
+[producer.php] 写入 ZSet（时间轮） + Stream（消息仓库）
+ ↓
+[scheduler.php] 每1秒扫描 ZSet，把到期任务推送到 Ready List
+ ↓
+[consumer.php] 从 Ready List 取任务执行
+ ↓
+成功 → 确认删除
+失败 → 重试（最多3次）→ 死信队列
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;h1 id=&quot;二准备工作redis连接&quot;&gt;二、准备工作（Redis连接）&lt;/h1&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+// common.php - 公共函数
+function redis_connect() {
+    $redis = new Redis();
+    $redis-&amp;gt;connect(&apos;127.0.0.1&apos;, 6379);
+    return $redis;
+}
+
+// 订单数据
+function create_order($order_id, $user_id, $amount) {
+    return json_encode([
+        &apos;order_id&apos; =&amp;gt; $order_id,
+        &apos;user_id&apos; =&amp;gt; $user_id,
+        &apos;amount&apos; =&amp;gt; $amount,
+        &apos;create_time&apos; =&amp;gt; time()
+    ]);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;三生产者producerphp-下单时写入&quot;&gt;三、生产者（producer.php）-下单时写入&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+require &apos;common.php&apos;;
+
+$redis = redis_connect();
+
+// 模拟下单
+$order_id = &apos;ORD&apos; . time() . rand(1000, 9999);
+$user_id = 1001;
+$amount = 99.9;
+$delay_seconds = 1800; // 30分钟后关闭
+
+echo &quot;下单成功，订单号：{$order_id}\n&quot;;
+
+// 1. 写入 ZSet（时间轮）：score 是执行时间戳
+$execute_at = time() + $delay_seconds;
+$redis-&amp;gt;zAdd(&apos;delay_timer&apos;, $execute_at, $order_id);
+
+// 2. 写入 Stream（消息仓库）：存储完整订单数据
+$message_id = $redis-&amp;gt;xAdd(
+    &apos;delay_stream&apos;,
+    &apos;*&apos;,  // 自动生成消息ID
+    [
+        &apos;order_id&apos; =&amp;gt; $order_id,
+        &apos;data&apos; =&amp;gt; create_order($order_id, $user_id, $amount),
+        &apos;retry_count&apos; =&amp;gt; 0,
+        &apos;execute_at&apos; =&amp;gt; $execute_at
+    ]
+);
+
+echo &quot;延迟任务已设置，将在30分钟后执行\n&quot;;
+echo &quot;ZSet 键：delay_timer\n&quot;;
+echo &quot;Stream 键：delay_stream\n&quot;;
+echo &quot;消息ID：{$message_id}\n&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;四-调度器schedulerphp-核心大脑&quot;&gt;四、 调度器（scheduler.php）-核心大脑&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;多任务执行，会有并发风险（可以用lua脚本优化或者分布式锁来优化）
+```
+&amp;lt;?php
+require ‘common.php’;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;$redis = redis_connect();&lt;/p&gt;
+
+&lt;p&gt;echo “调度器启动，每1秒扫描一次…\n”;&lt;/p&gt;
+
+&lt;p&gt;while (true) {
+    // 1. 从 ZSet 取出当前时间之前的所有到期任务
+    $now = time();
+    $due_tasks = $redis-&amp;gt;zRangeByScore(‘delay_timer’, 0, $now, [‘limit’ =&amp;gt; [0, 100]]);&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if (!empty($due_tasks)) {
+    foreach ($due_tasks as $order_id) {
+        echo &quot;发现到期任务：{$order_id}\n&quot;;
+        
+        // 2. 从 Stream 获取订单详情
+        $stream_data = $redis-&amp;gt;xRange(&apos;delay_stream&apos;, &apos;-&apos;, &apos;+&apos;, 100);
+        
+        foreach ($stream_data as $msg_id =&amp;gt; $data) {
+            if ($data[&apos;order_id&apos;] == $order_id) {
+                // 3. 将任务推送到 Ready List（就绪队列）
+                $redis-&amp;gt;lPush(&apos;ready_queue&apos;, json_encode([
+                    &apos;order_id&apos; =&amp;gt; $order_id,
+                    &apos;message_id&apos; =&amp;gt; $msg_id,
+                    &apos;data&apos; =&amp;gt; $data[&apos;data&apos;],
+                    &apos;retry_count&apos; =&amp;gt; $data[&apos;retry_count&apos;]
+                ]));
+                
+                echo &quot;任务已推送到就绪队列\n&quot;;
+                break;
+            }
+        }
+        
+        // 4. 从 ZSet 中删除已处理的任务
+        $redis-&amp;gt;zRem(&apos;delay_timer&apos;, $order_id);
+    }
+}
+
+// 5. 休息1秒，避免CPU空转
+sleep(1); } ```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;五消费者consumerphp-执行任务&quot;&gt;五、消费者（consumer.php）-执行任务&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+require &apos;common.php&apos;;
+
+$redis = redis_connect();
+
+echo &quot;消费者启动，等待任务...\n&quot;;
+
+while (true) {
+    // 1. 从 Ready List 阻塞获取任务
+    $task_json = $redis-&amp;gt;brPop([&apos;ready_queue&apos;], 30);
+    
+    if ($task_json) {
+        $task = json_decode($task_json[1], true);
+        $order_id = $task[&apos;order_id&apos;];
+        $retry_count = $task[&apos;retry_count&apos;];
+        
+        echo &quot;开始处理订单：{$order_id}（第{$retry_count}次尝试）\n&quot;;
+        
+        try {
+            // 2. 执行关闭订单逻辑
+            $result = close_order($order_id);
+            
+            if ($result) {
+                echo &quot;订单 {$order_id} 关闭成功\n&quot;;
+                
+                // 3. 成功：从 Stream 删除消息
+                $redis-&amp;gt;xDel(&apos;delay_stream&apos;, [$task[&apos;message_id&apos;]]);
+                echo &quot;Stream 消息已清理\n&quot;;
+            } else {
+                throw new Exception(&quot;关闭订单失败&quot;);
+            }
+        } catch (Exception $e) {
+            echo &quot;处理失败：{$e-&amp;gt;getMessage()}\n&quot;;
+            
+            // 4. 失败：重试机制
+            if ($retry_count &amp;lt; 3) {
+                $new_retry = $retry_count + 1;
+                $delay = pow(2, $new_retry); // 2秒、4秒、8秒...
+                
+                echo &quot;将在 {$delay} 秒后重试\n&quot;;
+                
+                // 更新 Stream 中的重试次数
+                $redis-&amp;gt;xAdd(&apos;delay_stream&apos;, $task[&apos;message_id&apos;], [
+                    &apos;order_id&apos; =&amp;gt; $order_id,
+                    &apos;data&apos; =&amp;gt; $task[&apos;data&apos;],
+                    &apos;retry_count&apos; =&amp;gt; $new_retry,
+                    &apos;execute_at&apos; =&amp;gt; time() + $delay
+                ]);
+                
+                // 重新加入 ZSet（延迟重试）
+                $redis-&amp;gt;zAdd(&apos;delay_timer&apos;, time() + $delay, $order_id);
+            } else {
+                // 5. 超过最大重试次数，进入死信队列
+                echo &quot;任务 {$order_id} 进入死信队列\n&quot;;
+                $redis-&amp;gt;lPush(&apos;dead_letter_queue&apos;, json_encode([
+                    &apos;order_id&apos; =&amp;gt; $order_id,
+                    &apos;error&apos; =&amp;gt; $e-&amp;gt;getMessage(),
+                    &apos;final_retry&apos; =&amp;gt; $retry_count
+                ]));
+                
+                // 从 Stream 删除
+                $redis-&amp;gt;xDel(&apos;delay_stream&apos;, [$task[&apos;message_id&apos;]]);
+            }
+        }
+    }
+}
+
+// 模拟关闭订单的函数
+function close_order($order_id) {
+    // 这里写实际的关闭订单逻辑
+    // 比如更新数据库订单状态为已关闭
+    
+    // 模拟 90% 成功率
+    $success = rand(1, 10) &amp;lt;= 9;
+    
+    if ($success) {
+        // 更新数据库...
+        return true;
+    } else {
+        return false;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;六监控脚本monitorphp-查看状态&quot;&gt;六、监控脚本（monitor.php）-查看状态&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
+require &apos;common.php&apos;;
+
+$redis = redis_connect();
+
+echo &quot;=== 延迟队列监控 ===\n&quot;;
+echo &quot;时间：&quot; . date(&apos;Y-m-d H:i:s&apos;) . &quot;\n\n&quot;;
+
+// 1. 待处理任务（ZSet）
+$pending = $redis-&amp;gt;zCard(&apos;delay_timer&apos;);
+echo &quot;待处理任务数：{$pending}\n&quot;;
+
+// 2. 就绪队列（List）
+$ready = $redis-&amp;gt;lLen(&apos;ready_queue&apos;);
+echo &quot;就绪队列任务数：{$ready}\n&quot;;
+
+// 3. Stream 消息数
+$stream_info = $redis-&amp;gt;xInfo(&apos;STREAM&apos;, &apos;delay_stream&apos;);
+echo &quot;Stream 消息数：{$stream_info[&apos;length&apos;]}\n&quot;;
+
+// 4. 死信队列
+$dead = $redis-&amp;gt;lLen(&apos;dead_letter_queue&apos;);
+echo &quot;死信队列任务数：{$dead}\n\n&quot;;
+
+// 5. 查看具体内容
+echo &quot;=== 待处理任务（前5个）===\n&quot;;
+$tasks = $redis-&amp;gt;zRange(&apos;delay_timer&apos;, 0, 4, true);
+foreach ($tasks as $order_id =&amp;gt; $timestamp) {
+    echo &quot;订单：{$order_id}，执行时间：&quot; . date(&apos;H:i:s&apos;, $timestamp) . &quot;\n&quot;;
+}
+
+echo &quot;\n=== 死信队列（前3个）===\n&quot;;
+$dead_tasks = $redis-&amp;gt;lRange(&apos;dead_letter_queue&apos;, 0, 2);
+foreach ($dead_tasks as $task) {
+    $data = json_decode($task, true);
+    echo &quot;订单：{$data[&apos;order_id&apos;]}，错误：{$data[&apos;error&apos;]}\n&quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;七测试步骤一步一步来&quot;&gt;七、测试步骤（一步一步来）&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 启动 Redis 服务器
+redis-server
+2. 启动调度器（终端1）
+php scheduler.php
+3. 启动消费者 （终端2）
+php consumer.php
+4. 模拟下单 （终端3）
+php producer.php
+5. 查看监控 （终端4）
+php monitor.php
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="redis" /><category term="redis" /><summary type="html">我用最接地气的 PHP-FPM 面向过程代码，一步步演示如何用 Redis 实现高可靠延迟队列。</summary></entry><entry><title type="html">Go air代码热重启</title><link href="http://0.0.0.0:4000/go/2026/05/11/go-air/" rel="alternate" type="text/html" title="Go air代码热重启" /><published>2026-05-11T00:00:00-05:00</published><updated>2026-05-11T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/05/11/go-air</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/05/11/go-air/">&lt;h1 id=&quot;使用场景&quot;&gt;使用场景&lt;/h1&gt;
 &lt;p&gt;在使用Gin web框架服务时，我们希望能够实现代码的热重启功能，即在修改了源代码后不需要手动停止服务再重新启动。然后可以使用Vscode中的远程调试模式来调试代码。&lt;/p&gt;
 
 &lt;h1 id=&quot;项目中的maingo&quot;&gt;项目中的main.go&lt;/h1&gt;
@@ -925,25 +1295,7 @@ http {
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">claude-code 使用技巧</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/" rel="alternate" type="text/html" title="claude-code 使用技巧" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/">&lt;h1 id=&quot;claude-code三种模式&quot;&gt;Claude Code三种模式&lt;/h1&gt;
-&lt;p&gt;使用快捷键 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift + Tab&lt;/code&gt; 切换三种模式&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;模式一 ?for shortcuts 修改文件前一定询问用户&lt;/li&gt;
-  &lt;li&gt;模式二 accept edits on 自动修改文件&lt;/li&gt;
-  &lt;li&gt;模式三 plan mode on 只讨论，不修改文件&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;命令&quot;&gt;命令&lt;/h1&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;命令 	            说明
-/clear            清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。
-/compact	        压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。
-/cost 花费	      查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	
-/logout /login 	  退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。
-/model 模型	      切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。
-/status	状态      查看当前CC的状态
-/doctor	检测      检测CC的安装状态
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">Claude Code三种模式 使用快捷键 Shift + Tab 切换三种模式 模式一 ?for shortcuts 修改文件前一定询问用户 模式二 accept edits on 自动修改文件 模式三 plan mode on 只讨论，不修改文件</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="高并发" /><category term="高并发" /><summary type="html">高并发的设计</summary></entry><entry><title type="html">Mac VS Code 集成 claude-code 教程</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/" rel="alternate" type="text/html" title="Mac VS Code 集成 claude-code 教程" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code/">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
 &lt;p&gt;claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境准备&quot;&gt;环境准备&lt;/h1&gt;
@@ -1070,7 +1422,25 @@ EOF
 &lt;img src=&quot;/assets/images/go/claude-code-bailian-4.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;在终端测试claude-code&quot;&gt;在终端测试claude-code&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-5.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/go/claude-code-bailian-5.png&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">介绍 claude-code 是一款强大的终端智能开发工具，能在 VS Code 中为我们提供实时的代码辅助、问题解答和逻辑优化能力。但官方默认对接 Anthropic 的 Claude 模型，存在网络访问、账号注册、付费等诸多门槛。本文将手把手教你完成 claude-code 的安装、VS Code 插件配置，并重点讲解如何通过 cc-switch 对接国内 DeepSeek 大模型，享受更便宜、更快速的本地化智能开发体验。</summary></entry><entry><title type="html">claude-code 使用技巧</title><link href="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/" rel="alternate" type="text/html" title="claude-code 使用技巧" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills</id><content type="html" xml:base="http://0.0.0.0:4000/aicoding/2026/05/06/claude-code-skills/">&lt;h1 id=&quot;claude-code三种模式&quot;&gt;Claude Code三种模式&lt;/h1&gt;
+&lt;p&gt;使用快捷键 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift + Tab&lt;/code&gt; 切换三种模式&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;模式一 ?for shortcuts 修改文件前一定询问用户&lt;/li&gt;
+  &lt;li&gt;模式二 accept edits on 自动修改文件&lt;/li&gt;
+  &lt;li&gt;模式三 plan mode on 只讨论，不修改文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;命令&quot;&gt;命令&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;命令 	            说明
+/clear            清空当前上下文。当你切换了开发任务，或想彻底重置对话状态时非常有用。
+/compact	        压缩对话历史。将冗长的历史记录提炼为核心摘要，既保留了上下文，又释放了 Token 窗口空间。
+/cost 花费	      查看当前对话的 Token 消耗情况。这对于监控成本或优化对话长度非常有帮助。	
+/logout /login 	  退出当前会话，或重新登录。这对于切换用户或在多个账户间工作非常方便。
+/model 模型	      切换当前使用的 AI 模型。这对于尝试不同的模型，以获得最佳性能非常有用。
+/status	状态      查看当前CC的状态
+/doctor	检测      检测CC的安装状态
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="AICoding" /><category term="AICoding" /><summary type="html">Claude Code三种模式 使用快捷键 Shift + Tab 切换三种模式 模式一 ?for shortcuts 修改文件前一定询问用户 模式二 accept edits on 自动修改文件 模式三 plan mode on 只讨论，不修改文件</summary></entry><entry><title type="html">Go Modules 使用指南总结：新项目 vs 已有项目</title><link href="http://0.0.0.0:4000/go/2026/03/18/go-mod/" rel="alternate" type="text/html" title="Go Modules 使用指南总结：新项目 vs 已有项目" /><published>2026-03-18T00:00:00-05:00</published><updated>2026-03-18T00:00:00-05:00</updated><id>http://0.0.0.0:4000/go/2026/03/18/go-mod</id><content type="html" xml:base="http://0.0.0.0:4000/go/2026/03/18/go-mod/">&lt;p&gt;Go Modules 使用指南总结：新项目 vs 已有项目&lt;/p&gt;
 
 &lt;h2 id=&quot;一新项目从零开始&quot;&gt;一、新项目（从零开始）&lt;/h2&gt;
 
@@ -1926,597 +2296,4 @@ async def delete_book(book_id: int, db: AsyncSession = Depends(get_database)):
     await db.delete(book)
     await db.commit()
     return {&quot;message&quot;: &quot;Book deleted successfully&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="fastapi" /><category term="Python" /><category term="fastapi" /><category term="orm" /><summary type="html">sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。 aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.</summary></entry><entry><title type="html">FastAPI框架学习</title><link href="http://0.0.0.0:4000/fastapi/2026/01/13/Fastapi-learning/" rel="alternate" type="text/html" title="FastAPI框架学习" /><published>2026-01-13T00:00:00-06:00</published><updated>2026-01-13T00:00:00-06:00</updated><id>http://0.0.0.0:4000/fastapi/2026/01/13/Fastapi-learning</id><content type="html" xml:base="http://0.0.0.0:4000/fastapi/2026/01/13/Fastapi-learning/">&lt;p&gt;在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。&lt;/p&gt;
-&lt;h1 id=&quot;python环境&quot;&gt;python环境&lt;/h1&gt;
-&lt;h2 id=&quot;python-版本&quot;&gt;python 版本&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% python3 --version
-Python 3.13.10
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;pip安装第三发的软件包&quot;&gt;pip安装第三发的软件包&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# pip3 --version
-pip 25.3 from /Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/pip (python 3.13)
-// 安装软件包（最新版本）
-# pip install openai
-// 安装软件包（指定版本）
-# pip install openai=2.13.0
-// 卸载软件包
-# pip uninstall openai
-// 列出已安装的包
-# pip list
-// 查看包详情
-# pip show openai
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;python3虚拟环境&quot;&gt;python3虚拟环境&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;创建虚拟环境&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 -m venv venv 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;激活虚拟环境&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source venv/bin/activate
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;在虚拟环境工作&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# source ./venv/bin/activate
-# deactivate
-(venv) # pip --version
-pip 25.3 /fastapi/venv/lib/python3.13/site-packages/pip (python 3.13)
-(venv) # python --version
-Python 3.13.10
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;退出虚拟环境&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# deactivate
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;在虚拟环境安装运行fastapi服务工具&quot;&gt;在虚拟环境安装运行fastapi服务工具。&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install &quot;fastapi[standard]&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;fastapi-命令行工具&quot;&gt;fastapi 命令行工具&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;使用 fastapi工具运行fastapi服务&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# fastapi dev main.py 
-# 命令
-dev      Run a FastAPI app in development mode.
-│ run      Run a FastAPI app in production mode.
-│ deploy   Deploy a FastAPI app to FastAPI Cloud.
-│ login    Login to FastAPI Cloud.
-│ cloud    Manage FastAPI Cloud deployments.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;uvicorn-命令行工具&quot;&gt;uvicorn 命令行工具&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;使用 uvicorn高兴能服务器工具运行fastapi&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;uvicorn main:app --reload
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;vscode运行和调试&quot;&gt;VSCode运行和调试&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;vscode/launch.json&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    &quot;version&quot;: &quot;0.2.0&quot;,
-    &quot;configurations&quot;: [
-        {
-            &quot;name&quot;: &quot;Python Debugger: FastAPI&quot;,
-            &quot;type&quot;: &quot;debugpy&quot;,
-            &quot;request&quot;: &quot;launch&quot;,
-            &quot;module&quot;: &quot;uvicorn&quot;,
-            &quot;python&quot;:&quot;/Users/zhaoqinghu/dev_docker/fastapi-1/venv/bin/python3&quot;, // 请根据你的虚拟环境路径进行修改
-            &quot;args&quot;: [
-                &quot;main:app&quot;,
-                &quot;--reload&quot;
-            ],
-            &quot;jinja&quot;: true
-        }
-    ]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;fastpai&quot;&gt;FASTPAI&lt;/h1&gt;
-
-&lt;h2 id=&quot;依赖&quot;&gt;依赖&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;requirements.txt&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;annotated-doc==0.0.4
-annotated-types==0.7.0
-anyio==4.12.1
-certifi==2026.1.4
-click==8.3.1
-dnspython==2.8.0
-email-validator==2.3.0
-fastapi==0.128.0
-fastapi-cli==0.0.20
-fastapi-cloud-cli==0.9.0
-fastar==0.8.0
-h11==0.16.0
-httpcore==1.0.9
-httptools==0.7.1
-httpx==0.28.1
-idna==3.11
-Jinja2==3.1.6
-markdown-it-py==4.0.0
-MarkupSafe==3.0.3
-mdurl==0.1.2
-pydantic==2.12.5
-pydantic-extra-types==2.11.0
-pydantic-settings==2.12.0
-pydantic_core==2.41.5
-Pygments==2.19.2
-python-dotenv==1.2.1
-python-multipart==0.0.21
-PyYAML==6.0.3
-rich==14.2.0
-rich-toolkit==0.17.1
-rignore==0.7.6
-sentry-sdk==2.49.0
-shellingham==1.5.4
-starlette==0.50.0
-typer==0.21.1
-typing-inspection==0.4.2
-typing_extensions==4.15.0
-urllib3==2.6.3
-uvicorn==0.40.0
-uvloop==0.22.1
-watchfiles==1.1.1
-websockets==16.0
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;安装依赖&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install -r requirements.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;将当前虚拟环境的依赖输出到requirementtxt&quot;&gt;将当前虚拟环境的依赖输出到requirement.txt。&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip freeze &amp;gt; requirements.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;fastapi基础入门&quot;&gt;FastAPI基础入门&lt;/h1&gt;
-&lt;h2 id=&quot;第一个fastapi程序&quot;&gt;第一个FastAPI程序&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from fastapi import FastAPI
-# 创建FastAPI实例
-app = FastAPI()
-
-@app.get(&quot;/&quot;)
-async def root():
-    return {&quot;Hello&quot;: &quot;World&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;路由请求&quot;&gt;路由请求&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#@FastAPI请求实例.请求方法(&quot;请求路径&quot;)
-@app.get(&quot;/&quot;)
-
-# 访问/hello 响应结果 msg: 你好 FastAPI
-
-@app.get(&quot;/hello)
-async def get_hello():
-    return {&quot;msg&quot;:&quot;你好 FastAPI&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;路径参数path&quot;&gt;路径参数path&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;原生注释&lt;/li&gt;
-  &lt;li&gt;Path注释&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@app.get(&quot;/book/{id}&quot;)
-async def get_book(id: int):
-    return {&quot;id&quot;:id,&quot;title&quot;:f&quot;这是第{id}本书&quot;}
-@app.get(&quot;/new/cat/id/{id}&quot;)
-async def get_new_cat_id(id: int=Path(default=...,ge=1,le=100)):
-    return {&quot;id&quot;:id,&quot;title&quot;:f&quot;新闻分类ID为{id}&quot;}
-
-@app.get(&quot;/new/cat/name/{name}&quot;)
-async def get_new_cat_name(name: str=Path(default=...,min_length=2,max_length=5)):
-    return {&quot;name&quot;:name,&quot;title&quot;:f&quot;新闻分类名称为{name}&quot;}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;查询参数&quot;&gt;查询参数&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Query类型注解&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -X &apos;GET&apos; \
-  &apos;http://127.0.0.1:8000/news/news_list?skip=0&amp;amp;limit=10&apos; \
-  -H &apos;accept: application/json&apos;
-
-@app.get(&quot;/news/news_list&quot;)
-async def get_news_list(
-    skip: int=Query(0,description=&quot;跳过的记录数&quot;,lt=100), 
-    limit: int=Query(10,description=&quot;返回的记录数&quot;,gt=0,le=50)
-    ):
-    return {&quot;skip&quot;: skip, &quot;limit&quot;: limit}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;请求体参数&quot;&gt;请求体参数&lt;/h3&gt;
-
-&lt;p&gt;在Http协议中，请求体的位置在HTTP请求的消息体(body)中，作用是创建、更新资源携带大量数据，如JSON。请求方法：POST、PUT等。&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 导入pydantic中的BaseModel请求体参数和Field注解和验证
-from pydantic import BaseModel,Field
-class User(BaseModel):
-    username: str=Field(default=&quot;张三&quot;,min_length=2,max_length=10,description=&quot;用户名，长度2-10&quot;)
-    password: str=Field(min_length=6,max_length=20,description=&quot;密码，长度6-20&quot;)
-
-
-@app.post(&quot;/register&quot;)
-async def register(user: User):
-    return user
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;路由响应&quot;&gt;路由响应&lt;/h2&gt;
-&lt;p&gt;默认情况下，FastAPI会自动将路径操作函数返回的Python对象(字典、列表、Pydanitc模型等)，经由jsonenable_encode
-转换为JSON兼容格式，并包装为JSONResponse返回。这省去了手动序列化的步骤，让开发者更专注于业务逻辑。如果
-需要返回非JSON数据（如HTML、文件流），FastAPI提供了丰富的响应类型来返回不同数据。&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;响应类型&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;用途&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;示例&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;JSONResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;默认响应，返回JSON数据&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return JSONResponse({&quot;key&quot;: &quot;value&quot;})&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;HTMLResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;返回HTML内容&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return HTMLResponse(html_content)&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;PlainTextResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;返回纯文本&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return PlainTextResponse(&quot;Hello, World!&quot;)&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;FileResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;返回文件以供下载&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return FileResponse(&quot;/path/to/file.pdf&quot;)&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;StreamingResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;用于流式传输数据&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return StreamingResponse(some_generator_function)&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;RedirectResponse&lt;/strong&gt;&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;将客户端重定向到指定URL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return RedirectResponse(url=&quot;https://example.com&quot;)&lt;/code&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-# 返回HTML响应
-@app.get(&quot;/html&quot;,response_class=HTMLResponse)
-async def get_html():
-    html_content=&quot;&quot;&quot;
-    &amp;lt;html&amp;gt;
-        &amp;lt;head&amp;gt;
-            &amp;lt;title&amp;gt;FastAPI HTML Response&amp;lt;/title&amp;gt;
-        &amp;lt;/head&amp;gt;
-        &amp;lt;body&amp;gt;
-            &amp;lt;h1&amp;gt;Hello, FastAPI!&amp;lt;/h1&amp;gt;
-            &amp;lt;p&amp;gt;This is an HTML response.&amp;lt;/p&amp;gt;
-        &amp;lt;/body&amp;gt;
-    &amp;lt;/html&amp;gt;
-    &quot;&quot;&quot;
-    return HTMLResponse(content=html_content,status_code=200)
-# 返回文件响应
-
-@app.get(&quot;/file&quot;,response_class=FileResponse)
-async def get_file():
-    file_path=&quot;425.jpg&quot;  # 确保该文件存在于项目根目录
-    return FileResponse(path=file_path)
-
-# 自定义响应数据格式
-class News(BaseModel):
-    id: int
-    title: str
-    content: str
-
-@app.get(path=&quot;/news/{id}&quot;,response_model=News)
-async def get_news(id: int):
-    news_item=News(id=id,title=f&quot;新闻标题{id}&quot;,content=f&quot;这是新闻内容{id}&quot;)
-    return news_item
-
-# 自定义异常处理
-@app.get(&quot;/items/{item_id}&quot;)
-async def read_item(item_id: int):
-    id_list = range(1,6)
-    if item_id not in id_list:
-        raise HTTPException(status_code=404,detail=&quot;Item not found&quot;)
-    return {&quot;item_id&quot;: item_id, &quot;name&quot;: f&quot;Item {item_id}&quot;}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;中间件&quot;&gt;中间件&lt;/h2&gt;
-&lt;p&gt;中间件(Middleware)是一个在每次请求进入FastAPI应用时都会被执行的函数。
-它在请求到达实际的路径操作（路由处理函数）之前运行，并且在响应返回给客户端之前在运行一次&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        请求进入            传递请求               传递请求
-        ------&amp;gt;            ------&amp;gt;              ------&amp;gt; 
-客户端             中间件A              中间件B                 路由处理函数
-                                  
-        &amp;lt;------            &amp;lt;------              &amp;lt;------        
-        返回响应             传递响应              返回响应        
-
-# 中间件示例
-# 中间件请求执行顺序是从下到上，响应执行顺序是从上到下
-@app.middleware(&quot;http&quot;)
-async def add_process_time_header(request, call_next):
-    print(&quot;11Processing time header&quot;)
-    response = await call_next(request)
-    print(&quot;11After response&quot;) 
-    return response
-
-@app.middleware(&quot;http&quot;)
-async def log_requests(request, call_next):
-    print(f&quot;22Request URL: {request.url}&quot;)
-    response = await call_next(request)
-    print(f&quot;22Response status code: {response.status_code}&quot;)
-    return response 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;依赖注入&quot;&gt;依赖注入&lt;/h2&gt;
-
-&lt;p&gt;使用依赖逐日系统来共享通用逻辑，减少代码重复。&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 依赖注入
-async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
-    return {&quot;q&quot;: q, &quot;skip&quot;: skip, &quot;limit&quot;: limit}
-
-@app.get(&quot;/depends/news_list&quot;)
-async def get_news_list(common: dict = Depends(common_parameters)):
-    page = common
-    data = [{&quot;id&quot;:1,&quot;title&quot;:&quot;新闻1&quot;},{&quot;id&quot;:2,&quot;title&quot;:&quot;新闻2&quot;}]
-    return {&quot;page&quot;: page, &quot;data&quot;: data}
-
-@app.get(&quot;/depends/user_list&quot;)
-async def get_user_list(common = Depends(common_parameters)):
-    page = common
-    data =  [{&quot;id&quot;:1,&quot;name&quot;:&quot;用户1&quot;},{&quot;id&quot;:2,&quot;name&quot;:&quot;用户2&quot;}]
-    return {&quot;page&quot;: page, &quot;data&quot;: data}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;mainpy&quot;&gt;main.py&lt;/h2&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-from fastapi import FastAPI , Path, Query, HTTPException, Depends
-from pydantic import BaseModel,Field
-from fastapi.responses import HTMLResponse, FileResponse
-
-app = FastAPI()
-
-# 中间件示例
-# 中间件请求执行顺序是从下到上，响应执行顺序是从上到下
-@app.middleware(&quot;http&quot;)
-async def add_process_time_header(request, call_next):
-    print(&quot;11Processing time header&quot;)
-    response = await call_next(request)
-    print(&quot;11After response&quot;) 
-    return response
-
-@app.middleware(&quot;http&quot;)
-async def log_requests(request, call_next):
-    print(f&quot;22Request URL: {request.url}&quot;)
-    response = await call_next(request)
-    print(f&quot;22Response status code: {response.status_code}&quot;)
-    return response
-
-
-
-
-@app.get(&quot;/&quot;)
-async def root():
-    return {&quot;Hello&quot;: &quot;World&quot;}
-
-@app.get(&quot;/hello&quot;)
-async def get_hello():
-    return {&quot;msg&quot;:&quot;你好 FastAPI&quot;}
-
-# 路径参数
-@app.get(&quot;/hello/{name}&quot;)
-async def say_hello(name: str):
-    return {&quot;Hello&quot;: name}
-# 路径参数注解
-@app.get(&quot;/book/{id}&quot;)
-async def get_book(id: int):
-    return {&quot;id&quot;:id,&quot;title&quot;:f&quot;这是第{id}本书&quot;}
-
-# 路径参数加Path注解和验证
-@app.get(&quot;/new/cat/id/{id}&quot;)
-async def get_new_cat_id(id: int=Path(default=...,ge=1,le=100)):
-    return {&quot;id&quot;:id,&quot;title&quot;:f&quot;新闻分类ID为{id}&quot;}
-
-@app.get(&quot;/new/cat/name/{name}&quot;)
-async def get_new_cat_name(name: str=Path(default=...,min_length=2,max_length=5)):
-    return {&quot;name&quot;:name,&quot;title&quot;:f&quot;新闻分类名称为{name}&quot;}
-
-# 查询参数加Query注解和验证
-@app.get(&quot;/news/news_list&quot;)
-async def get_news_list(
-    skip: int=Query(0,description=&quot;跳过的记录数&quot;,lt=100), 
-    limit: int=Query(10,description=&quot;返回的记录数&quot;,gt=0,le=50)
-    ):
-    return {&quot;skip&quot;: skip, &quot;limit&quot;: limit}
-
-# 导入pydantic中的BaseModel请求体参数和Field注解和验证
-class User(BaseModel):
-    username: str=Field(default=&quot;张三&quot;,min_length=2,max_length=10,description=&quot;用户名，长度2-10&quot;)
-    password: str=Field(min_length=6,max_length=20,description=&quot;密码，长度6-20&quot;)
-
-
-@app.post(&quot;/register&quot;)
-async def register(user: User):
-    return user
-
-# 返回HTML响应
-@app.get(&quot;/html&quot;,response_class=HTMLResponse)
-async def get_html():
-    html_content=&quot;&quot;&quot;
-    &amp;lt;html&amp;gt;
-        &amp;lt;head&amp;gt;
-            &amp;lt;title&amp;gt;FastAPI HTML Response&amp;lt;/title&amp;gt;
-        &amp;lt;/head&amp;gt;
-        &amp;lt;body&amp;gt;
-            &amp;lt;h1&amp;gt;Hello, FastAPI!&amp;lt;/h1&amp;gt;
-            &amp;lt;p&amp;gt;This is an HTML response.&amp;lt;/p&amp;gt;
-        &amp;lt;/body&amp;gt;
-    &amp;lt;/html&amp;gt;
-    &quot;&quot;&quot;
-    return HTMLResponse(content=html_content,status_code=200)
-# 返回文件响应
-
-@app.get(&quot;/file&quot;,response_class=FileResponse)
-async def get_file():
-    file_path=&quot;425.jpg&quot;  # 确保该文件存在于项目根目录
-    return FileResponse(path=file_path)
-
-# 自定义响应数据格式
-class News(BaseModel):
-    id: int
-    title: str
-    content: str
-
-@app.get(path=&quot;/news/{id}&quot;,response_model=News)
-async def get_news(id: int):
-    news_item=News(id=id,title=f&quot;新闻标题{id}&quot;,content=f&quot;这是新闻内容{id}&quot;)
-    return news_item
-
-# 自定义异常处理
-@app.get(&quot;/items/{item_id}&quot;)
-async def read_item(item_id: int):
-    id_list = range(1,6)
-    if item_id not in id_list:
-        raise HTTPException(status_code=404,detail=&quot;Item not found&quot;)
-    return {&quot;item_id&quot;: item_id, &quot;name&quot;: f&quot;Item {item_id}&quot;}
-
-# 依赖注入
-async def common_parameters(q: str = None, skip: int = 0, limit: int = 10):
-    return {&quot;q&quot;: q, &quot;skip&quot;: skip, &quot;limit&quot;: limit}
-
-@app.get(&quot;/depends/news_list&quot;)
-async def get_news_list(common: dict = Depends(common_parameters)):
-    page = common
-    data = [{&quot;id&quot;:1,&quot;title&quot;:&quot;新闻1&quot;},{&quot;id&quot;:2,&quot;title&quot;:&quot;新闻2&quot;}]
-    return {&quot;page&quot;: page, &quot;data&quot;: data}
-
-@app.get(&quot;/depends/user_list&quot;)
-async def get_user_list(common = Depends(common_parameters)):
-    page = common
-    data =  [{&quot;id&quot;:1,&quot;name&quot;:&quot;用户1&quot;},{&quot;id&quot;:2,&quot;name&quot;:&quot;用户2&quot;}]
-    return {&quot;page&quot;: page, &quot;data&quot;: data}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;swagger-api&quot;&gt;Swagger API&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/python/fastapi-swagger.png&quot; width=&quot;100%&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;vscode-debug&quot;&gt;VSCode debug&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/python/fastapi-vscode-debug.png&quot; width=&quot;100%&quot; /&gt;&lt;/p&gt;</content><author><name>Zhao Q.H.</name></author><category term="fastapi" /><category term="Python" /><category term="fastapi" /><summary type="html">在python3.13.10虚拟环境中使用fastapi cli 工具和uvicorn服务运行工具来运行FastAPI项目。 python环境 python 版本</summary></entry><entry><title type="html">Python pyenv版本管理工具</title><link href="http://0.0.0.0:4000/python/2026/01/09/Python-pyenv/" rel="alternate" type="text/html" title="Python pyenv版本管理工具" /><published>2026-01-09T00:00:00-06:00</published><updated>2026-01-09T00:00:00-06:00</updated><id>http://0.0.0.0:4000/python/2026/01/09/Python-pyenv</id><content type="html" xml:base="http://0.0.0.0:4000/python/2026/01/09/Python-pyenv/">&lt;p&gt;pyenv 是一个非常流行的 Python 版本管理工具，它允许你在同一系统上安装和管理多个 Python 版本。以下是如何在你的系统上安装和使用 pyenv 的步骤。&lt;/p&gt;
-
-&lt;h2 id=&quot;安装-pyenv&quot;&gt;安装 pyenv&lt;/h2&gt;
-&lt;h3 id=&quot;linux-deb&quot;&gt;Linux deb&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;步骤1：安装依赖项
-在安装 pyenv 之前，需要安装一些依赖项。你可以使用以下命令安装这些依赖项：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt update
-sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;步骤2：安装 pyenv
-使用 curl 或 wget 安装 pyenv：
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
-curl https://pyenv.run | bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;或者：&lt;/p&gt;
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
-wget -qO- https://pyenv.run | bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;步骤3：配置 shell 环境
-在你的 ~/.bashrc 或 ~/.zshrc 文件中添加以下内容，以便在启动 shell 时自动加载 pyenv：
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
-export PATH=&quot;$HOME/.pyenv/bin:$PATH&quot;
-eval &quot;$(pyenv init --path)&quot;
-eval &quot;$(pyenv init -)&quot;
-eval &quot;$(pyenv virtualenv-init -)&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;然后重新加载 shell 配置文件：
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
-source ~/.bashrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;或者&lt;/p&gt;
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;source ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;h2 id=&quot;使用-pyenv&quot;&gt;使用 pyenv&lt;/h2&gt;
-  &lt;/li&gt;
-  &lt;li&gt;步骤1：安装 Python 版本
-安装一个指定的 Python 版本，例如 Python 3.10.2：
-```
-bash
-pyenv install 3.10.2&lt;/li&gt;
-  &lt;li&gt;步骤2：设置全局 Python 版本
-设置全局使用的 Python 版本：
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-    &lt;p&gt;bash
-pyenv global 3.10.2
-```&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;步骤3：验证安装
-验证安装的 Python 版本：
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash
-python --version
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Zhao Q.H.</name></author><category term="python" /><category term="Python" /><category term="pyenv" /><summary type="html">pyenv 是一个非常流行的 Python 版本管理工具，它允许你在同一系统上安装和管理多个 Python 版本。以下是如何在你的系统上安装和使用 pyenv 的步骤。</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Zhao Q.H.</name></author><category term="fastapi" /><category term="Python" /><category term="fastapi" /><category term="orm" /><summary type="html">sqlalchemy[asyncio]异步的SQLAlchemy是Python的一个开源SQL工具包和对象关系映射（ORM）框架，用于简化数据库操作。 aiomysql是一个基于Python asyncio的异步MySQL客户端库，用于在高并发场景下提升数据库访问性能.</summary></entry></feed>

@@ -465,6 +465,133 @@
 +----------------+                   +-------------+
 
 </code></pre></td></tr></tbody></table></div></div>
+<h2 id="问题">问题</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code>在并发的场景下，rabbitmq的消息如何做到的原子性？rabbitmq的消息中，生产者会把同一条消息多次放到队列吗？如果是消费者，在并发消费时会有重复消费吗？
+答：单条消息级别：publish → broker → consume → ack是原子的。
+生产者RabbitMQ不会，代码可能会造成（重试/bug）导致同一条消息多次放入队列。
+消费者过个并发消费时，不会同时消费一条消息，但是如果消息因未ack，或者nack(request=true)时，这条消息就会重新进入队列，等待下次消费。
+
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="消息的生命周期">消息的生命周期</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</pre></td><td class="code"><pre class="highlight"><code>生产者放消息
+   ↓
+【Ready】←──────────────────────┐
+   ↓ 消费者拿走                   │
+【Unacked】                       │
+ ├ ACK           → 删除（完事）
+ ├ NACK(requeue) → 回【Ready】
+ ├ REJECT(requeue=false)
+ │    ├ 有 DLX → 进【死信队列】（在那里又是 Ready）
+ │    └ 无 DLX → 扔掉
+ └ 消费者断线    → 回【Ready】
+
+【Ready】时：
+ ├ TTL 到 → 有 DLX → 死信队列
+ ├ 队列满踢头 → 有 DLX → 死信队列
+ └ 都没配 DLX → 直接扔
+
+ 名词	人话
+Ready	在队列里等被拿
+Unacked	已被你拿去处理，还没给结果
+ACK	我干完了，删掉
+NACK(requeue=true)	重来，回 Ready
+REJECT(requeue=false)	不处理了 → 死信 或 丢弃
+TTL	消息最多活多久（Ready 阶段）
+DLX	收"死掉的消息"的交换机
+DLQ	专门存死信的普通队列
+</code></pre></td></tr></tbody></table></div></div>
+<h2 id="队列的分类">队列的分类</h2>
+<h3 id="普通队列">普通队列</h3>
+<h3 id="死信队列">死信队列</h3>
+<p>声明死信交换机 &amp; 关单队列</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23</pre></td><td class="code"><pre class="highlight"><code>// 死信交换机
+$channel-&gt;exchange_declare(
+    'order.dlx.exchange',
+    'direct',
+    false,
+    true,
+    false
+);
+
+// 关单队列（消费者监听这里）
+$channel-&gt;queue_declare(
+    'order.close.queue',
+    false,
+    true,
+    false,
+    false
+);
+
+$channel-&gt;queue_bind(
+    'order.close.queue',
+    'order.dlx.exchange',
+    'order.close'
+);
+</code></pre></td></tr></tbody></table></div></div>
+<h3 id="延时队列">延时队列</h3>
+
+<p>用 TTL+DLX 模拟</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code>$channel-&gt;exchange_declare(
+    'order.delay.exchange',
+    'direct',
+    false,
+    true,
+    false
+);
+
+$channel-&gt;queue_declare(
+    'order.delay.queue',
+    false,
+    true,
+    false,
+    false,
+    false,
+    new AMQPTable([
+        'x-dead-letter-exchange' =&gt; 'order.dlx.exchange',   // 死信交换机
+        'x-dead-letter-routing-key' =&gt; 'order.close',       // 死信路由
+        'x-message-ttl' =&gt; 30 * 60 * 1000 // 30分钟（毫秒）
+    ])
+);
+
+$channel-&gt;queue_bind(
+    'order.delay.queue',
+    'order.delay.exchange',
+    'order.delay'
+);
+</code></pre></td></tr></tbody></table></div></div>
+
+<h3 id="优先级队列">优先级队列</h3>
+
+<p>声明优先级队列</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>$channel-&gt;queue_declare(
+    'priority.queue',
+    false,
+    true,
+    false,
+    false,
+    false,
+    new AMQPTable([
+        'x-max-priority' =&gt; 10 // 0~10
+    ])
+);
+</code></pre></td></tr></tbody></table></div></div>
+<p>发送不同优先级的消息</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code>$high = new AMQPMessage('VIP订单', [
+    'priority' =&gt; 10
+]);
+$low = new AMQPMessage('普通订单', [
+    'priority' =&gt; 1
+]);
+
+$channel-&gt;basic_publish($high, '', 'priority.queue');
+$channel-&gt;basic_publish($low, '', 'priority.queue');
+</code></pre></td></tr></tbody></table></div></div>
 
 <h2 id="生产者">生产者</h2>
 
@@ -1875,7 +2002,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1886,7 +2013,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1897,7 +2024,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1964,7 +2091,7 @@ sudo supervisorctl start rabbitmq-order-consumer:*
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息队列"> <span class="nav-number">1</span> <span class="nav-text">消息队列</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#生产者"> <span class="nav-number">2</span> <span class="nav-text">生产者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-如何确保几乎-100不丢-5-层防护详解"> <span class="nav-number">2.1</span> <span class="nav-text">✅ 如何确保“几乎 100%”不丢？—— 5 层防护详解</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#生产环境中生产者的标准答案"> <span class="nav-number">2.2</span> <span class="nav-text">生产环境中生产者的标准答案</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#调用示例"> <span class="nav-number">2.3</span> <span class="nav-text">调用示例</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#消息持久化"> <span class="nav-number">2.4</span> <span class="nav-text">消息持久化</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#幂等处理"> <span class="nav-number">2.5</span> <span class="nav-text">幂等处理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#️-rabbitmq-消费者防重复消费与幂等处理完整方案"> <span class="nav-number">3</span> <span class="nav-text">🛡️ RabbitMQ 消费者防重复消费与幂等处理完整方案</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一为什么必须处理重复消费"> <span class="nav-number">3.1</span> <span class="nav-text">一、为什么必须处理重复消费？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#二幂等性消费者的生命线"> <span class="nav-number">3.2</span> <span class="nav-text">二、幂等性：消费者的生命线</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#-幂等不是可选项而是生产环境的必选项"> <span class="nav-number">3.2.1</span> <span class="nav-text">✅ 幂等不是“可选项”，而是生产环境的必选项。</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#三五大幂等策略按推荐度排序"> <span class="nav-number">3.3</span> <span class="nav-text">三、五大幂等策略（按推荐度排序）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#四消费者开发十大关键实践整合可靠性与可维护性"> <span class="nav-number">3.4</span> <span class="nav-text">四、消费者开发十大关键实践（整合可靠性与可维护性）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#五完整处理流程以-php-为例"> <span class="nav-number">3.5</span> <span class="nav-text">五、完整处理流程（以 PHP 为例）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#六总结构建零资损消费者体系的四大支柱"> <span class="nav-number">3.6</span> <span class="nav-text">六、总结：构建“零资损”消费者体系的四大支柱</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-最终建议"> <span class="nav-number">3.7</span> <span class="nav-text">✅ 最终建议</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一五大核心模块系统骨架"> <span class="nav-number">3.8</span> <span class="nav-text">一、五大核心模块（系统骨架）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-使用方式"> <span class="nav-number">3.9</span> <span class="nav-text">🚀 使用方式</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息队列"> <span class="nav-number">1</span> <span class="nav-text">消息队列</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#问题"> <span class="nav-number">2</span> <span class="nav-text">问题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#消息的生命周期"> <span class="nav-number">3</span> <span class="nav-text">消息的生命周期</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#队列的分类"> <span class="nav-number">4</span> <span class="nav-text">队列的分类</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#普通队列"> <span class="nav-number">4.1</span> <span class="nav-text">普通队列</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#死信队列"> <span class="nav-number">4.2</span> <span class="nav-text">死信队列</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#延时队列"> <span class="nav-number">4.3</span> <span class="nav-text">延时队列</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#优先级队列"> <span class="nav-number">4.4</span> <span class="nav-text">优先级队列</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#生产者"> <span class="nav-number">5</span> <span class="nav-text">生产者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-如何确保几乎-100不丢-5-层防护详解"> <span class="nav-number">5.1</span> <span class="nav-text">✅ 如何确保“几乎 100%”不丢？—— 5 层防护详解</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#生产环境中生产者的标准答案"> <span class="nav-number">5.2</span> <span class="nav-text">生产环境中生产者的标准答案</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#调用示例"> <span class="nav-number">5.3</span> <span class="nav-text">调用示例</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#消息持久化"> <span class="nav-number">5.4</span> <span class="nav-text">消息持久化</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#幂等处理"> <span class="nav-number">5.5</span> <span class="nav-text">幂等处理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#️-rabbitmq-消费者防重复消费与幂等处理完整方案"> <span class="nav-number">6</span> <span class="nav-text">🛡️ RabbitMQ 消费者防重复消费与幂等处理完整方案</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一为什么必须处理重复消费"> <span class="nav-number">6.1</span> <span class="nav-text">一、为什么必须处理重复消费？</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#二幂等性消费者的生命线"> <span class="nav-number">6.2</span> <span class="nav-text">二、幂等性：消费者的生命线</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#-幂等不是可选项而是生产环境的必选项"> <span class="nav-number">6.2.1</span> <span class="nav-text">✅ 幂等不是“可选项”，而是生产环境的必选项。</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#三五大幂等策略按推荐度排序"> <span class="nav-number">6.3</span> <span class="nav-text">三、五大幂等策略（按推荐度排序）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#四消费者开发十大关键实践整合可靠性与可维护性"> <span class="nav-number">6.4</span> <span class="nav-text">四、消费者开发十大关键实践（整合可靠性与可维护性）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#五完整处理流程以-php-为例"> <span class="nav-number">6.5</span> <span class="nav-text">五、完整处理流程（以 PHP 为例）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#六总结构建零资损消费者体系的四大支柱"> <span class="nav-number">6.6</span> <span class="nav-text">六、总结：构建“零资损”消费者体系的四大支柱</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-最终建议"> <span class="nav-number">6.7</span> <span class="nav-text">✅ 最终建议</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#一五大核心模块系统骨架"> <span class="nav-number">6.8</span> <span class="nav-text">一、五大核心模块（系统骨架）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#-使用方式"> <span class="nav-number">6.9</span> <span class="nav-text">🚀 使用方式</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
